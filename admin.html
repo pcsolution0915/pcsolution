@@ -28,14 +28,14 @@ header {
 }
 
 main {
-  max-width: 500px;
-  margin: 50px auto;
+  max-width: 700px;
+  margin: 35px auto;
   padding: 20px;
 }
 
 .box {
   background: white;
-  padding: 30px;
+  padding: 28px;
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0,0,0,.08);
 }
@@ -46,12 +46,13 @@ h2 {
 
 label {
   display: block;
-  margin-top: 18px;
+  margin-top: 16px;
   margin-bottom: 7px;
   font-weight: bold;
 }
 
-input {
+input,
+textarea {
   width: 100%;
   padding: 13px;
   border: 1px solid #d0d7e2;
@@ -59,15 +60,20 @@ input {
   font-size: 15px;
 }
 
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
 button {
   width: 100%;
-  margin-top: 25px;
-  padding: 14px;
+  margin-top: 20px;
+  padding: 15px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 9px;
   background: #1769e0;
   color: white;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -76,18 +82,48 @@ button:hover {
   background: #1257bb;
 }
 
-#message {
-  margin-top: 18px;
-  text-align: center;
-  font-weight: bold;
+button:disabled {
+  background: #9aa7b8;
+  cursor: not-allowed;
+}
+
+#login {
+  display: none;
 }
 
 #admin {
   display: none;
 }
 
+#message {
+  margin-top: 18px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+#preview {
+  display: none;
+  width: 220px;
+  max-height: 220px;
+  object-fit: contain;
+  margin: 15px auto;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
 .logout {
   background: #555;
+}
+
+.logout:hover {
+  background: #333;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #e5e9ef;
+  margin: 25px 0;
 }
 </style>
 </head>
@@ -101,7 +137,7 @@ button:hover {
 
 <main>
 
-  <!-- 로그인 화면 -->
+  <!-- 로그인 -->
   <div class="box" id="login">
 
     <h2>관리자 로그인</h2>
@@ -122,23 +158,134 @@ button:hover {
       autocomplete="current-password"
     >
 
-    <button onclick="login()">
+    <button id="loginButton" onclick="login()">
       로그인
     </button>
 
-    <div id="message"></div>
+    <div id="loginMessage"></div>
 
   </div>
 
 
-  <!-- 로그인 후 관리자 화면 -->
+  <!-- 관리자 -->
   <div class="box" id="admin">
 
-    <h2>관리자 메뉴</h2>
+    <h2>상품 등록</h2>
 
-    <p>관리자 로그인 성공! 🎉</p>
+    <label>상품 사진</label>
+    <input
+      type="file"
+      id="image"
+      accept="image/*"
+    >
 
-    <button onclick="logout()" class="logout">
+    <img id="preview" alt="상품 미리보기">
+
+
+    <label>상품명</label>
+    <input
+      type="text"
+      id="name"
+      placeholder="예: 게이밍 PC"
+    >
+
+
+    <label>가격</label>
+    <input
+      type="text"
+      id="price"
+      placeholder="예: 1299000"
+    >
+
+
+    <label>CPU</label>
+    <input
+      type="text"
+      id="cpu"
+      placeholder="예: Ryzen 5 7600"
+    >
+
+
+    <label>그래픽카드</label>
+    <input
+      type="text"
+      id="gpu"
+      placeholder="예: RTX 5060"
+    >
+
+
+    <label>RAM</label>
+    <input
+      type="text"
+      id="ram"
+      placeholder="예: DDR5 32GB"
+    >
+
+
+    <label>SSD</label>
+    <input
+      type="text"
+      id="ssd"
+      placeholder="예: NVMe 1TB"
+    >
+
+
+    <label>메인보드</label>
+    <input
+      type="text"
+      id="main_board"
+      placeholder="예: B650M"
+    >
+
+
+    <label>파워</label>
+    <input
+      type="text"
+      id="power"
+      placeholder="예: 750W"
+    >
+
+
+    <label>모니터</label>
+    <input
+      type="text"
+      id="monitor"
+      placeholder="예: 27인치 QHD"
+    >
+
+
+    <label>HDD</label>
+    <input
+      type="text"
+      id="hdd"
+      placeholder="선택사항"
+    >
+
+
+    <label>키보드 / 마우스</label>
+    <input
+      type="text"
+      id="keyboard_mouse"
+      placeholder="예: 게이밍 키보드 + 마우스"
+    >
+
+
+    <label>상품 설명</label>
+    <textarea
+      id="description"
+      placeholder="상품에 대한 설명을 입력하세요."
+    ></textarea>
+
+
+    <button id="saveButton" onclick="saveProduct()">
+      상품 등록
+    </button>
+
+    <div id="message"></div>
+
+    <hr>
+
+    <button class="logout" onclick="logout()">
       로그아웃
     </button>
 
@@ -149,8 +296,13 @@ button:hover {
 
 <script>
 
+/* =========================
+   Supabase 연결
+========================= */
+
 const SUPABASE_URL =
   "https://znsgehjaspiqluopovyv.supabase.co";
+
 
 const SUPABASE_KEY =
   "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
@@ -163,6 +315,10 @@ const supabaseClient =
   );
 
 
+/* =========================
+   로그인
+========================= */
+
 async function login() {
 
   const email =
@@ -172,7 +328,10 @@ async function login() {
     document.getElementById("password").value;
 
   const message =
-    document.getElementById("message");
+    document.getElementById("loginMessage");
+
+  const button =
+    document.getElementById("loginButton");
 
 
   if (!email || !password) {
@@ -186,10 +345,10 @@ async function login() {
   }
 
 
-  message.textContent =
-    "로그인 중...";
+  button.disabled = true;
 
-  message.style.color = "#17243a";
+  button.textContent =
+    "로그인 중...";
 
 
   const { data, error } =
@@ -208,6 +367,11 @@ async function login() {
 
     message.style.color = "red";
 
+    button.disabled = false;
+
+    button.textContent =
+      "로그인";
+
     return;
   }
 
@@ -218,6 +382,17 @@ async function login() {
   message.style.color = "green";
 
 
+  showAdmin();
+
+}
+
+
+/* =========================
+   관리자 화면
+========================= */
+
+function showAdmin() {
+
   document.getElementById("login").style.display =
     "none";
 
@@ -225,6 +400,10 @@ async function login() {
     "block";
 }
 
+
+/* =========================
+   로그아웃
+========================= */
 
 async function logout() {
 
@@ -242,10 +421,15 @@ async function logout() {
   document.getElementById("password").value =
     "";
 
-  document.getElementById("message").textContent =
+  document.getElementById("loginMessage").textContent =
     "";
+
 }
 
+
+/* =========================
+   세션 확인
+========================= */
 
 async function checkSession() {
 
@@ -255,14 +439,356 @@ async function checkSession() {
 
   if (data.session) {
 
-    document.getElementById("login").style.display =
-      "none";
+    showAdmin();
 
-    document.getElementById("admin").style.display =
+  } else {
+
+    document.getElementById("login").style.display =
       "block";
+
   }
 }
- checkSession();
+
+
+/* =========================
+   이미지 미리보기
+========================= */
+
+document
+  .getElementById("image")
+  .addEventListener("change", function(event) {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) return;
+
+
+    const preview =
+      document.getElementById("preview");
+
+
+    preview.src =
+      URL.createObjectURL(file);
+
+    preview.style.display =
+      "block";
+  });
+
+
+/* =========================
+   상품 등록
+========================= */
+
+async function saveProduct() {
+
+  const message =
+    document.getElementById("message");
+
+  const button =
+    document.getElementById("saveButton");
+
+
+  message.textContent =
+    "";
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "등록 중...";
+
+
+  try {
+
+    /* 로그인 확인 */
+
+    const {
+      data: sessionData
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (!sessionData.session) {
+
+      throw new Error(
+        "로그인이 필요합니다."
+      );
+
+    }
+
+
+    /* 입력값 */
+
+    const imageFile =
+      document.getElementById("image").files[0];
+
+    const name =
+      document.getElementById("name").value.trim();
+
+    const price =
+      document.getElementById("price").value.trim();
+
+    const cpu =
+      document.getElementById("cpu").value.trim();
+
+    const gpu =
+      document.getElementById("gpu").value.trim();
+
+    const ram =
+      document.getElementById("ram").value.trim();
+
+    const ssd =
+      document.getElementById("ssd").value.trim();
+
+    const mainBoard =
+      document.getElementById("main_board").value.trim();
+
+    const power =
+      document.getElementById("power").value.trim();
+
+    const monitor =
+      document.getElementById("monitor").value.trim();
+
+    const hdd =
+      document.getElementById("hdd").value.trim();
+
+    const keyboardMouse =
+      document
+        .getElementById("keyboard_mouse")
+        .value
+        .trim();
+
+    const description =
+      document
+        .getElementById("description")
+        .value
+        .trim();
+
+
+    /* 상품명 확인 */
+
+    if (!name) {
+
+      throw new Error(
+        "상품명을 입력해주세요."
+      );
+
+    }
+
+
+    /* =========================
+       이미지 업로드
+    ========================= */
+
+    let imageUrl = null;
+
+
+    if (imageFile) {
+
+      const fileExtension =
+        imageFile.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const fileName =
+        Date.now() +
+        "-" +
+        Math.random()
+          .toString(36)
+          .substring(2) +
+        "." +
+        fileExtension;
+
+
+      const filePath =
+        fileName;
+
+
+      const {
+        error: uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from("product-images")
+          .upload(
+            filePath,
+            imageFile,
+            {
+              cacheControl: "3600",
+              upsert: false
+            }
+          );
+
+
+      if (uploadError) {
+
+        throw new Error(
+          "사진 업로드 실패: " +
+          uploadError.message
+        );
+
+      }
+
+
+      /* 공개 URL */
+
+      const {
+        data: publicUrlData
+      } =
+        supabaseClient
+          .storage
+          .from("product-images")
+          .getPublicUrl(filePath);
+
+
+      imageUrl =
+        publicUrlData.publicUrl;
+
+    }
+
+
+    /* =========================
+       products 저장
+    ========================= */
+
+    const productData = {
+
+      name: name,
+
+      price: price,
+
+      cpu: cpu,
+
+      gpu: gpu,
+
+      ram: ram,
+
+      ssd: ssd,
+
+      "main board":
+        mainBoard,
+
+      power: power,
+
+      monitor: monitor,
+
+      hdd: hdd,
+
+      "keyboard mouse":
+        keyboardMouse,
+
+      description:
+        description,
+
+      image_url:
+        imageUrl
+
+    };
+
+
+    const {
+      error: insertError
+    } =
+      await supabaseClient
+        .from("pcsolution")
+        .insert([productData]);
+
+
+    if (insertError) {
+
+      throw new Error(
+        "상품 저장 실패: " +
+        insertError.message
+      );
+
+    }
+
+
+    /* =========================
+       성공
+    ========================= */
+
+    message.textContent =
+      "🎉 상품 등록 완료!";
+
+    message.style.color =
+      "green";
+
+
+    /* 입력값 초기화 */
+
+    document.getElementById("image").value =
+      "";
+
+    document.getElementById("preview").style.display =
+      "none";
+
+    document.getElementById("name").value =
+      "";
+
+    document.getElementById("price").value =
+      "";
+
+    document.getElementById("cpu").value =
+      "";
+
+    document.getElementById("gpu").value =
+      "";
+
+    document.getElementById("ram").value =
+      "";
+
+    document.getElementById("ssd").value =
+      "";
+
+    document.getElementById("main_board").value =
+      "";
+
+    document.getElementById("power").value =
+      "";
+
+    document.getElementById("monitor").value =
+      "";
+
+    document.getElementById("hdd").value =
+      "";
+
+    document.getElementById("keyboard_mouse").value =
+      "";
+
+    document.getElementById("description").value =
+      "";
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "❌ " + error.message;
+
+    message.style.color =
+      "red";
+
+  }
+
+
+  button.disabled =
+    false;
+
+  button.textContent =
+    "상품 등록";
+}
+
+
+/* =========================
+   시작
+========================= */
+
+checkSession();
 
 </script>
 
