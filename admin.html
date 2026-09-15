@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피씨솔루션 관리자</title>
 
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #17243a;
+  }
+
+  header {
+    background: #17243a;
+    color: white;
+    padding: 22px;
+    text-align: center;
+  }
+
+  main {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+  }
+
+  .box {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 7px;
+    font-weight: bold;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d0d7e2;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    border: 0;
+    border-radius: 9px;
+    background: #1769e0;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #1257bb;
+  }
+
+  #preview {
+    display: none;
+    width: 180px;
+    margin: 15px auto;
+    border-radius: 10px;
+  }
+
+  #message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>PC SOLUTION</h1>
+  <div>상품 관리자</div>
+</header>
+
+<main>
+
+  <div class="box">
+
+    <h2>상품 등록</h2>
+
+    <label>상품 사진</label>
+    <input type="file" id="image" accept="image/*">
+
+    <img id="preview" alt="상품 미리보기">
+
+    <label>상품명</label>
+    <input type="text" id="name" placeholder="예: 게이밍 PC">
+
+    <label>가격</label>
+    <input type="text" id="price" placeholder="예: 1299000원">
+
+    <label>CPU</label>
+    <input type="text" id="cpu" placeholder="예: Intel Core i5">
+
+    <label>그래픽카드</label>
+    <input type="text" id="gpu" placeholder="예: RTX 5060">
+
+    <label>RAM</label>
+    <input type="text" id="ram" placeholder="예: DDR5 32GB">
+
+    <label>SSD</label>
+    <input type="text" id="ssd" placeholder="예: NVMe 1TB">
+
+    <label>메인보드</label>
+    <input type="text" id="motherboard">
+
+    <label>파워</label>
+    <input type="text" id="power">
+
+    <label>모니터</label>
+    <input type="text" id="monitor">
+
+    <label>HDD</label>
+    <input type="text" id="hdd">
+
+    <label>키보드 / 마우스</label>
+    <input type="text" id="keyboard_mouse">
+
+    <label>상품 설명</label>
+    <textarea id="description"
+      placeholder="상품에 대한 설명을 입력하세요."></textarea>
+
+    <button type="button" onclick="testSave()">
+      상품 등록 테스트
+    </button>
+
+    <div id="message"></div>
+
+  </div>
+
+</main>
+
+<script>
+function testSave() {
+  const name = document.getElementById("name").value.trim();
+
+  if (!name) {
+    document.getElementById("message").textContent =
+      "상품명을 먼저 입력해주세요.";
+    return;
+  }
+
+  document.getElementById("message").textContent =
+    "관리자 화면 연결 테스트 성공!";
+}
+
+document.getElementById("image").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const preview = document.getElementById("preview");
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+});
+</script>
+
+</body>
+</html>
