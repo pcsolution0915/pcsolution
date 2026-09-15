@@ -3,94 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>피씨솔루션 관리자</title>
+
+<title>PC SOLUTION 관리자</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
+* {
+  box-sizing: border-box;
+}
 
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f7fb;
-    color: #17243a;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #17243a;
+}
 
-  header {
-    background: #17243a;
-    color: white;
-    padding: 22px;
-    text-align: center;
-  }
+header {
+  background: #17243a;
+  color: white;
+  padding: 22px;
+  text-align: center;
+}
 
-  main {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 20px;
-  }
+main {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+}
 
-  .box {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,.08);
-  }
+.box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.08);
+}
 
-  h2 {
-    margin-top: 0;
-  }
+h2 {
+  margin-top: 0;
+}
 
-  label {
-    display: block;
-    margin-top: 16px;
-    margin-bottom: 7px;
-    font-weight: bold;
-  }
+label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
 
-  input,
-  textarea {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #d0d7e2;
-    border-radius: 8px;
-    font-size: 15px;
-  }
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #d0d7e2;
+  border-radius: 8px;
+  font-size: 15px;
+}
 
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #1769e0;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-  button {
-    width: 100%;
-    margin-top: 25px;
-    padding: 15px;
-    border: 0;
-    border-radius: 9px;
-    background: #1769e0;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+button:hover {
+  background: #1257bb;
+}
 
-  button:hover {
-    background: #1257bb;
-  }
+#message {
+  margin-top: 18px;
+  text-align: center;
+  font-weight: bold;
+}
 
-  #preview {
-    display: none;
-    width: 180px;
-    margin: 15px auto;
-    border-radius: 10px;
-  }
+#admin {
+  display: none;
+}
 
-  #message {
-    margin-top: 20px;
-    text-align: center;
-    font-weight: bold;
-  }
+.logout {
+  background: #555;
+}
 </style>
 </head>
 
@@ -98,91 +96,174 @@
 
 <header>
   <h1>PC SOLUTION</h1>
-  <div>상품 관리자</div>
+  <div>관리자 페이지</div>
 </header>
 
 <main>
 
-  <div class="box">
+  <!-- 로그인 화면 -->
+  <div class="box" id="login">
 
-    <h2>상품 등록</h2>
+    <h2>관리자 로그인</h2>
 
-    <label>상품 사진</label>
-    <input type="file" id="image" accept="image/*">
+    <label>이메일</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="관리자 이메일"
+      autocomplete="username"
+    >
 
-    <img id="preview" alt="상품 미리보기">
+    <label>비밀번호</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="비밀번호"
+      autocomplete="current-password"
+    >
 
-    <label>상품명</label>
-    <input type="text" id="name" placeholder="예: 게이밍 PC">
-
-    <label>가격</label>
-    <input type="text" id="price" placeholder="예: 1299000원">
-
-    <label>CPU</label>
-    <input type="text" id="cpu" placeholder="예: Intel Core i5">
-
-    <label>그래픽카드</label>
-    <input type="text" id="gpu" placeholder="예: RTX 5060">
-
-    <label>RAM</label>
-    <input type="text" id="ram" placeholder="예: DDR5 32GB">
-
-    <label>SSD</label>
-    <input type="text" id="ssd" placeholder="예: NVMe 1TB">
-
-    <label>메인보드</label>
-    <input type="text" id="motherboard">
-
-    <label>파워</label>
-    <input type="text" id="power">
-
-    <label>모니터</label>
-    <input type="text" id="monitor">
-
-    <label>HDD</label>
-    <input type="text" id="hdd">
-
-    <label>키보드 / 마우스</label>
-    <input type="text" id="keyboard_mouse">
-
-    <label>상품 설명</label>
-    <textarea id="description"
-      placeholder="상품에 대한 설명을 입력하세요."></textarea>
-
-    <button type="button" onclick="testSave()">
-      상품 등록 테스트
+    <button onclick="login()">
+      로그인
     </button>
 
     <div id="message"></div>
 
   </div>
 
+
+  <!-- 로그인 후 관리자 화면 -->
+  <div class="box" id="admin">
+
+    <h2>관리자 메뉴</h2>
+
+    <p>관리자 로그인 성공! 🎉</p>
+
+    <button onclick="logout()" class="logout">
+      로그아웃
+    </button>
+
+  </div>
+
 </main>
 
-<script>
-function testSave() {
-  const name = document.getElementById("name").value.trim();
 
-  if (!name) {
-    document.getElementById("message").textContent =
-      "상품명을 먼저 입력해주세요.";
+<script>
+
+const SUPABASE_URL =
+  "https://znsgehjaspiqluopovyv.supabase.co";
+
+const SUPABASE_KEY =
+  "api sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+async function login() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const message =
+    document.getElementById("message");
+
+
+  if (!email || !password) {
+
+    message.textContent =
+      "이메일과 비밀번호를 입력해주세요.";
+
+    message.style.color = "red";
+
     return;
   }
 
-  document.getElementById("message").textContent =
-    "관리자 화면 연결 테스트 성공!";
+
+  message.textContent =
+    "로그인 중...";
+
+  message.style.color = "#17243a";
+
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+
+      email: email,
+      password: password
+
+    });
+
+
+  if (error) {
+
+    message.textContent =
+      "로그인 실패: " + error.message;
+
+    message.style.color = "red";
+
+    return;
+  }
+
+
+  message.textContent =
+    "로그인 성공!";
+
+  message.style.color = "green";
+
+
+  document.getElementById("login").style.display =
+    "none";
+
+  document.getElementById("admin").style.display =
+    "block";
 }
 
-document.getElementById("image").addEventListener("change", function(event) {
-  const file = event.target.files[0];
 
-  if (!file) return;
+async function logout() {
 
-  const preview = document.getElementById("preview");
+  await supabaseClient.auth.signOut();
 
-  preview.src = URL.createObjectURL(file);
-  preview.style.display = "block";
-});
+  document.getElementById("admin").style.display =
+    "none";
+
+  document.getElementById("login").style.display =
+    "block";
+
+  document.getElementById("email").value =
+    "";
+
+  document.getElementById("password").value =
+    "";
+
+  document.getElementById("message").textContent =
+    "";
+}
+
+
+async function checkSession() {
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+
+  if (data.session) {
+
+    document.getElementById("login").style.display =
+      "none";
+
+    document.getElementById("admin").style.display =
+      "block";
+  }
+}
+ checkSession();
+
 </script>
 
 </body>
