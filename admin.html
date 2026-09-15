@@ -285,6 +285,12 @@ hr {
 
     <hr>
 
+<h2>등록된 상품</h2>
+
+<div id="productList">
+  상품을 불러오는 중...
+</div>
+    <hr>
     <button class="logout" onclick="logout()">
       로그아웃
     </button>
@@ -787,8 +793,131 @@ async function saveProduct() {
 /* =========================
    시작
 ========================= */
+async function loadProducts() {
 
-checkSession();
+  const productList =
+    document.getElementById("productList");
+
+  productList.innerHTML =
+    "상품을 불러오는 중...";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("pcsolution")
+      .select("*")
+      .order("id", { ascending: false });
+
+
+  if (error) {
+
+    productList.innerHTML =
+      "❌ 상품 불러오기 실패: " +
+      error.message;
+
+    return;
+  }
+
+
+  if (!data || data.length === 0) {
+
+    productList.innerHTML =
+      "등록된 상품이 없습니다.";
+
+    return;
+  }
+
+
+  productList.innerHTML = "";
+
+
+  data.forEach(product => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.border =
+      "1px solid #ddd";
+
+    card.style.borderRadius =
+      "12px";
+
+    card.style.padding =
+      "15px";
+
+    card.style.marginBottom =
+      "15px";
+
+    card.style.background =
+      "#fafafa";
+
+
+    let imageHTML = "";
+
+
+    if (product.image_url) {
+
+      imageHTML =
+        `<img
+          src="${product.image_url}"
+          style="
+            width:160px;
+            height:120px;
+            object-fit:cover;
+            border-radius:8px;
+            margin-bottom:10px;
+          "
+        >`;
+
+    }
+
+
+    card.innerHTML = `
+
+      ${imageHTML}
+
+      <h3>
+        ${product.name || "상품명 없음"}
+      </h3>
+
+      <p>
+        💰 가격:
+        ${product.price || "-"}
+      </p>
+
+      <p>
+        🧠 CPU:
+        ${product.cpu || "-"}
+      </p>
+
+      <p>
+        🎮 그래픽카드:
+        ${product.gpu || "-"}
+      </p>
+
+      <p>
+        💾 RAM:
+        ${product.ram || "-"}
+      </p>
+
+      <p>
+        💽 SSD:
+        ${product.ssd || "-"}
+      </p>
+
+    `;
+
+
+    productList.appendChild(card);
+
+  });
+
+}
+checkSession().then(() => {
+  loadProducts();
+});
 
 </script>
 
