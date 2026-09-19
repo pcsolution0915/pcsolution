@@ -277,10 +277,19 @@ hr {
     ></textarea>
 
 
-    <button id="saveButton" onclick="saveProduct()">
-      상품 등록
-    </button>
+   <button id="saveButton" onclick="saveProduct()">
+  상품 등록
+</button>
 
+<button
+  id="cancelEditButton"
+  class="logout"
+  onclick="cancelEdit()"
+  style="display:none;"
+>
+  수정 취소
+</button>
+  
     <div id="message"></div>
 
     <hr>
@@ -319,7 +328,12 @@ const supabaseClient =
     SUPABASE_URL,
     SUPABASE_KEY
   );
+/* =========================
+   수정 중인 상품 ID
+========================= */
 
+let editingProductId = null;
+let editingImageUrl = null;
 
 /* =========================
    로그인
