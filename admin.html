@@ -336,6 +336,90 @@ let editingProductId = null;
 let editingImageUrl = null;
 
 /* =========================
+   상품 수정 화면에 불러오기
+========================= */
+
+function editProduct(product) {
+
+  editingProductId = product.id;
+
+  editingImageUrl = product.image_url || null;
+
+  document.getElementById("name").value =
+    product.name || "";
+
+  document.getElementById("price").value =
+    product.price || "";
+
+  document.getElementById("cpu").value =
+    product.cpu || "";
+
+  document.getElementById("gpu").value =
+    product.gpu || "";
+
+  document.getElementById("ram").value =
+    product.ram || "";
+
+  document.getElementById("ssd").value =
+    product.ssd || "";
+
+  document.getElementById("main_board").value =
+    product["main board"] || "";
+
+  document.getElementById("power").value =
+    product.power || "";
+
+  document.getElementById("monitor").value =
+    product.monitor || "";
+
+  document.getElementById("hdd").value =
+    product.hdd || "";
+
+  document.getElementById("keyboard_mouse").value =
+    product["keyboard mouse"] || "";
+
+  document.getElementById("description").value =
+    product.description || "";
+
+  const preview =
+    document.getElementById("preview");
+
+  if (editingImageUrl) {
+
+    preview.src = editingImageUrl;
+
+    preview.style.display = "block";
+
+  } else {
+
+    preview.removeAttribute("src");
+
+    preview.style.display = "none";
+
+  }
+
+  document.getElementById("image").value = "";
+
+  document.getElementById("saveButton").textContent =
+    "상품 수정 저장";
+
+  document.getElementById("cancelEditButton").style.display =
+    "block";
+
+  document.getElementById("message").textContent =
+    "상품 수정 중입니다.";
+
+  document.getElementById("message").style.color =
+    "#1769e0";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+ 
+  /* =========================
    로그인
 ========================= */
 
