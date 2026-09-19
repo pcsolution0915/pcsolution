@@ -933,6 +933,22 @@ async function loadProducts() {
 
   data.forEach(product => {
 
+    // 상품 수정 버튼
+
+    const editButton =
+      document.createElement("button");
+
+    editButton.textContent =
+      "✏️ 상품 수정";
+
+    editButton.style.marginTop =
+      "10px";
+
+    editButton.onclick = function() {
+
+      editProduct(product);
+
+    };
     const card =
       document.createElement("div");
 
@@ -1007,7 +1023,7 @@ async function loadProducts() {
 
     `;
 
-
+card.appendChild(editButton);
     productList.appendChild(card);
 
   });
