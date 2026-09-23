@@ -1,248 +1,651 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
 
-<title>PC SOLUTION 관리자</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>PC SOLUTION 관리자</title>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #17243a;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header {
-  background: #17243a;
-  color: white;
-  padding: 22px;
-  text-align: center;
-}
+    body {
+      margin: 0;
+      padding: 25px 15px 50px;
+      background: #f4f7fb;
+      font-family: Arial, sans-serif;
+      color: #172033;
+    }
 
-header h1 {
-  margin: 0 0 8px;
-}
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
 
-main {
-  max-width: 750px;
-  margin: 30px auto;
-  padding: 15px;
-}
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(0,0,0,.07);
+      margin-bottom: 22px;
+    }
 
-.box {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.08);
-  margin-bottom: 20px;
-}
+    h1, h2, h3 {
+      margin-top: 0;
+    }
 
-h2 {
-  margin-top: 0;
-}
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
 
-label {
-  display: block;
-  margin-top: 16px;
-  margin-bottom: 7px;
-  font-weight: bold;
-}
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      font-size: 15px;
+      background: #fff;
+      color: #172033;
+    }
 
-input,
-textarea {
-  display: block;
-  width: 100%;
-  padding: 13px;
-  border: 1px solid #d0d7e2;
-  border-radius: 8px;
-  font-size: 15px;
-  background: white;
-}
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
 
-textarea {
-  min-height: 110px;
-  resize: vertical;
-}
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 17px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-button {
-  width: 100%;
-  margin-top: 18px;
-  padding: 14px;
-  border: 0;
-  border-radius: 9px;
-  background: #1769e0;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
 
-button:hover {
-  background: #1257bb;
-}
+    .hidden {
+      display: none !important;
+    }
 
-button:disabled {
-  background: #9aa7b8;
-  cursor: not-allowed;
-}
+    .login-button,
+    .save-button {
+      background: #1769e0;
+      color: #fff;
+    }
 
-#login,
-#admin {
-  display: none;
-}
+    .login-button {
+      width: 100%;
+      margin-top: 20px;
+    }
 
-#message,
-#loginMessage {
-  margin-top: 15px;
-  text-align: center;
-  font-weight: bold;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
+    .update-button {
+      background: #f59e0b;
+      color: #fff;
+    }
 
-#preview {
-  display: none;
-  width: 220px;
-  max-width: 100%;
-  max-height: 220px;
-  object-fit: contain;
-  margin: 15px auto;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-}
+    .cancel-button {
+      background: #64748b;
+      color: #fff;
+      margin-left: 8px;
+    }
 
-.logout {
-  background: #555;
-}
+    .delete-button {
+      background: #dc2626;
+      color: #fff;
+    }
 
-.logout:hover {
-  background: #333;
-}
+    .logout-button {
+      background: #17243a;
+      color: #fff;
+    }
 
-.cancel {
-  background: #777;
-}
+    .mail-button {
+      background: #7c3aed;
+      color: #fff;
+    }
 
-.cancel:hover {
-  background: #555;
-}
+    .phone-button {
+      background: #16a34a;
+      color: #fff;
+    }
 
-hr {
-  border: 0;
-  border-top: 1px solid #e5e9ef;
-  margin: 25px 0;
-}
+    .memo-button {
+      background: #0f766e;
+      color: #fff;
+    }
 
-.product-card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-  background: #fafafa;
-  overflow-wrap: anywhere;
-}
+    .refresh-button {
+      background: #0f766e;
+      color: #fff;
+    }
 
-.product-card img {
-  display: block;
-  width: 160px;
-  height: 120px;
-  object-fit: contain;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  background: white;
-}
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 9px;
+      overflow-wrap: anywhere;
+    }
 
-.product-card h3 {
-  margin: 10px 0;
-}
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
 
-.product-card p {
-  margin: 7px 0;
-  line-height: 1.5;
-}
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
 
-.product-card button {
-  margin-top: 10px;
-}
+    /* =====================================
+       관리자 상단
+    ===================================== */
 
-.product-card .edit-button {
-  background: #1769e0;
-}
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
 
-.small-note {
-  color: #687589;
-  font-size: 13px;
-  line-height: 1.5;
-}
+    .admin-title {
+      margin: 0;
+    }
 
-@media (max-width: 500px) {
-  main {
-    margin: 15px auto;
-    padding: 10px;
-  }
+    .admin-subtitle {
+      margin: 7px 0 0;
+      color: #667085;
+      font-size: 14px;
+    }
 
-  .box {
-    padding: 18px;
-  }
-}
-</style>
+    /* =====================================
+       상품
+    ===================================== */
+
+    .product-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 15px;
+      background: #fff;
+    }
+
+    .product-item img {
+      width: 180px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .product-name {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      color: #1769e0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    /* =====================================
+       상담 관리
+    ===================================== */
+
+    .quote-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .quote-count {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .filter-box {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .quote-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 15px;
+      background: #fff;
+      transition: .2s;
+    }
+
+    .quote-item:hover {
+      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+    }
+
+    .quote-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .customer-name {
+      margin: 0 0 7px;
+      font-size: 20px;
+    }
+
+    .phone-link {
+      color: #1769e0;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .status-접수 {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .status-상담중 {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-견적작성 {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .status-견적완료 {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-구매완료 {
+      background: #cffafe;
+      color: #155e75;
+    }
+
+    .info-box {
+      margin-top: 18px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 11px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .info-label {
+      color: #667085;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .detail-box {
+      margin-top: 18px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 15px;
+    }
+
+    .detail-box summary {
+      cursor: pointer;
+      color: #1769e0;
+      font-weight: bold;
+      padding: 7px 0;
+    }
+
+    .detail-content {
+      margin-top: 15px;
+      padding: 18px;
+      background: #f8fafc;
+      border-radius: 10px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .status-area {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .memo-area {
+      margin-top: 18px;
+      padding: 16px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 11px;
+    }
+
+    .memo-area textarea {
+      min-height: 90px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    /* =====================================
+       상담 통계
+    ===================================== */
+
+    .quote-stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .quote-stat {
+      min-width: 0;
+      padding: 18px 12px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .quote-stat-label {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 10px;
+      white-space: nowrap;
+    }
+
+    .quote-stat-number {
+      font-size: 27px;
+      font-weight: bold;
+      color: #172033;
+    }
+
+    /* 전체 상담 */
+    .quote-stat.total {
+      background: #f8fafc;
+      border-color: #e5e7eb;
+    }
+
+    .quote-stat.total .quote-stat-number {
+      color: #172033;
+    }
+
+    /* 신규 접수 */
+    .quote-stat.new {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .quote-stat.new .quote-stat-number {
+      color: #2563eb;
+    }
+
+    /* 상담 진행 중 */
+    .quote-stat.progress {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .quote-stat.progress .quote-stat-number {
+      color: #d97706;
+    }
+
+    /* 견적 완료 */
+    .quote-stat.complete {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .quote-stat.complete .quote-stat-number {
+      color: #16a34a;
+    }
+
+    /* 구매 완료 */
+    .quote-stat.purchased {
+      background: #ecfeff;
+      border-color: #a5f3fc;
+    }
+
+    .quote-stat.purchased .quote-stat-number {
+      color: #0891b2;
+    }
+
+    /* =====================================
+       모바일
+    ===================================== */
+
+    @media(max-width: 800px) {
+
+      .quote-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+    }
+
+    @media(max-width: 600px) {
+
+      body {
+        padding: 15px 10px 40px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .filter-box {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .quote-stat {
+        padding: 15px 10px;
+      }
+
+      .quote-stat-number {
+        font-size: 24px;
+      }
+
+      .product-item img {
+        width: 100%;
+        height: 200px;
+      }
+
+      .cancel-button {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>PC SOLUTION</h1>
-  <div>관리자 페이지</div>
-</header>
+<div class="container">
 
-<main>
+  <!-- =====================================
+       로그인
+  ====================================== -->
 
-  <!-- 관리자 로그인 -->
+  <div id="loginSection" class="card">
 
-  <section class="box" id="login">
+    <h1>🔐 PC SOLUTION 관리자</h1>
 
-    <h2>관리자 로그인</h2>
+    <p style="color:#667085;">
+      관리자 계정으로 로그인해주세요.
+    </p>
 
     <label for="email">이메일</label>
+
     <input
       type="email"
       id="email"
+      value="ssamddak7@naver.com"
       placeholder="관리자 이메일"
       autocomplete="username"
     >
 
     <label for="password">비밀번호</label>
+
     <input
       type="password"
       id="password"
       placeholder="비밀번호"
       autocomplete="current-password"
+      onkeydown="if(event.key === 'Enter') login()"
     >
 
-    <button type="button" id="loginButton">
-      로그인
+    <button
+      id="loginButton"
+      class="login-button"
+      type="button"
+      onclick="login()"
+    >
+      🔐 로그인
     </button>
 
-    <div id="loginMessage" role="status"></div>
+    <div id="loginMessage" class="message"></div>
 
-  </section>
+  </div>
 
 
-  <!-- 관리자 화면 -->
+  <!-- =====================================
+       관리자 영역
+  ====================================== -->
 
-  <section class="box" id="admin">
+  <div id="adminSection" class="hidden">
 
-    <h2 id="formTitle">상품 등록</h2>
+    <!-- 관리자 상단 -->
 
-    <form id="productForm">
+    <div class="card">
+
+      <div class="admin-header">
+
+        <div>
+
+          <h1 class="admin-title">
+            🖥️ PC SOLUTION 관리자
+          </h1>
+
+          <p class="admin-subtitle">
+            상품 · PC 컨설팅 신청을 관리합니다.
+          </p>
+
+        </div>
+
+        <button
+          class="logout-button"
+          type="button"
+          onclick="logout()"
+        >
+          로그아웃
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         상품 등록 및 수정
+    ====================================== -->
+
+    <div class="card">
+
+      <h2 id="formTitle">➕ 상품 등록</h2>
+
+      <input type="hidden" id="editId">
+
+      <label for="name">상품명</label>
+      <input type="text" id="name" placeholder="예: 게이밍 PC">
+
+      <label for="price">가격</label>
+      <input type="text" id="price" placeholder="예: 1299000">
+
+      <label for="cpu">CPU</label>
+      <input type="text" id="cpu" placeholder="예: Ryzen 5 7600">
+
+      <label for="gpu">그래픽카드</label>
+      <input type="text" id="gpu" placeholder="예: RTX 5060">
+
+      <label for="ram">RAM</label>
+      <input type="text" id="ram" placeholder="예: DDR5 32GB">
+
+      <label for="ssd">SSD</label>
+      <input type="text" id="ssd" placeholder="예: NVMe 1TB">
+
+      <label for="main_board">메인보드</label>
+      <input type="text" id="main_board" placeholder="예: B650M">
+
+      <label for="power">파워</label>
+      <input type="text" id="power" placeholder="예: 750W">
+
+      <label for="monitor">모니터</label>
+      <input type="text" id="monitor" placeholder="예: 27인치 QHD">
+
+      <label for="hdd">HDD</label>
+      <input type="text" id="hdd" placeholder="선택사항">
+
+      <label for="keyboard_mouse">키보드 / 마우스</label>
+
+      <input
+        type="text"
+        id="keyboard_mouse"
+        placeholder="예: 게이밍 키보드 + 마우스"
+      >
+
+      <label for="description">상품 설명</label>
+
+      <textarea
+        id="description"
+        placeholder="상품의 특징이나 추천 용도를 입력하세요."
+      ></textarea>
 
       <label for="image">상품 사진</label>
 
@@ -252,151 +655,291 @@ hr {
         accept="image/*"
       >
 
-      <img id="preview" alt="상품 사진 미리보기">
+      <div
+        id="currentImageArea"
+        class="hidden"
+        style="margin-top:15px;"
+      >
 
-      <div class="small-note">
-        상품 수정 시 사진을 새로 선택하지 않으면 기존 사진을 유지합니다.
+        <p style="font-weight:bold;">
+          현재 상품 사진
+        </p>
+
+        <img
+          id="currentImage"
+          alt="현재 상품 사진"
+          style="
+            width:180px;
+            height:130px;
+            object-fit:cover;
+            border-radius:10px;
+          "
+        >
+
+        <p style="color:#667085;font-size:13px;">
+          새 사진을 선택하지 않으면 기존 사진이 유지됩니다.
+        </p>
+
+      </div>
+
+      <div style="margin-top:25px;">
+
+        <button
+          id="saveButton"
+          class="save-button"
+          type="button"
+          onclick="saveProduct()"
+        >
+          ➕ 상품 등록
+        </button>
+
+        <button
+          id="cancelButton"
+          class="cancel-button hidden"
+          type="button"
+          onclick="cancelEdit()"
+        >
+          ❌ 수정 취소
+        </button>
+
+      </div>
+
+      <div id="formMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- =====================================
+         상품 목록
+    ====================================== -->
+
+    <div class="card">
+
+      <h2>📦 등록된 상품</h2>
+
+      <div id="productList">
+        상품을 불러오는 중입니다...
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         상담 관리
+    ====================================== -->
+
+    <div class="card">
+
+      <div class="quote-header">
+
+        <div>
+
+          <h2 style="margin-bottom:5px;">
+            📋 PC 컨설팅 신청 관리
+          </h2>
+
+          <div id="quoteCount" class="quote-count">
+            상담 신청을 불러오는 중입니다...
+          </div>
+
+        </div>
+
+        <div
+          class="action-row"
+          style="margin-top:0;"
+        >
+
+          <button
+            class="refresh-button"
+            type="button"
+            onclick="loadQuoteRequests()"
+          >
+            🔄 새로고침
+          </button>
+
+          <button
+            class="mail-button"
+            type="button"
+            onclick="notifyNewQuote()"
+          >
+            📧 관리자 알림
+          </button>
+
+        </div>
+
       </div>
 
 
-      <label for="name">상품명</label>
-      <input
-        type="text"
-        id="name"
-        placeholder="예: 게이밍 PC"
-        required
-      >
+      <!-- =====================================
+           상담 통계
+           
+           중요:
+           5개의 카드가 각각 독립되어 있음
+      ====================================== -->
+
+      <div class="quote-stats">
+
+        <!-- 전체 상담 -->
+
+        <div class="quote-stat total">
+
+          <div class="quote-stat-label">
+            전체 상담
+          </div>
+
+          <div
+            class="quote-stat-number"
+            id="statTotal"
+          >
+            0
+          </div>
+
+        </div>
 
 
-      <label for="price">가격</label>
-      <input
-        type="text"
-        id="price"
-        placeholder="예: 1299000"
-      >
+        <!-- 신규 접수 -->
+
+        <div class="quote-stat new">
+
+          <div class="quote-stat-label">
+            신규 접수
+          </div>
+
+          <div
+            class="quote-stat-number"
+            id="statNew"
+          >
+            0
+          </div>
+
+        </div>
 
 
-      <label for="cpu">CPU</label>
-      <input
-        type="text"
-        id="cpu"
-        placeholder="예: Ryzen 5 7600"
-      >
+        <!-- 상담 진행 중 -->
+
+        <div class="quote-stat progress">
+
+          <div class="quote-stat-label">
+            상담 진행 중
+          </div>
+
+          <div
+            class="quote-stat-number"
+            id="statProgress"
+          >
+            0
+          </div>
+
+        </div>
 
 
-      <label for="gpu">그래픽카드</label>
-      <input
-        type="text"
-        id="gpu"
-        placeholder="예: RTX 5060"
-      >
+        <!-- 견적 완료 -->
+
+        <div class="quote-stat complete">
+
+          <div class="quote-stat-label">
+            견적 완료
+          </div>
+
+          <div
+            class="quote-stat-number"
+            id="statComplete"
+          >
+            0
+          </div>
+
+        </div>
 
 
-      <label for="ram">RAM</label>
-      <input
-        type="text"
-        id="ram"
-        placeholder="예: DDR5 32GB"
-      >
+        <!-- 구매 완료 -->
+
+        <div class="quote-stat purchased">
+
+          <div class="quote-stat-label">
+            구매 완료
+          </div>
+
+          <div
+            class="quote-stat-number"
+            id="statPurchased"
+          >
+            0
+          </div>
+
+        </div>
+
+      </div>
 
 
-      <label for="ssd">SSD</label>
-      <input
-        type="text"
-        id="ssd"
-        placeholder="예: NVMe 1TB"
-      >
+      <!-- =====================================
+           검색 및 상태 필터
+      ====================================== -->
+
+      <div class="filter-box">
+
+        <input
+          type="search"
+          id="quoteSearch"
+          placeholder="🔍 이름, 전화번호, 사용목적 검색"
+          oninput="filterQuoteRequests()"
+        >
+
+        <select
+          id="quoteStatusFilter"
+          onchange="filterQuoteRequests()"
+        >
+
+          <option value="">
+            전체 상태
+          </option>
+
+          <option value="접수">
+            📥 접수
+          </option>
+
+          <option value="상담중">
+            💬 상담중
+          </option>
+
+          <option value="견적작성">
+            🛠️ 견적작성
+          </option>
+
+          <option value="견적완료">
+            🧾 견적완료
+          </option>
+
+          <option value="구매완료">
+            🛒 구매완료
+          </option>
+
+        </select>
+
+      </div>
 
 
-      <label for="main_board">메인보드</label>
-      <input
-        type="text"
-        id="main_board"
-        placeholder="예: B650M"
-      >
+      <!-- =====================================
+           상담 신청 목록
+      ====================================== -->
 
+      <div id="quoteRequestList">
 
-      <label for="power">파워</label>
-      <input
-        type="text"
-        id="power"
-        placeholder="예: 750W"
-      >
+        상담 신청을 불러오는 중입니다...
 
+      </div>
 
-      <label for="monitor">모니터</label>
-      <input
-        type="text"
-        id="monitor"
-        placeholder="예: 27인치 QHD"
-      >
-
-
-      <label for="hdd">HDD</label>
-      <input
-        type="text"
-        id="hdd"
-        placeholder="선택사항"
-      >
-
-
-      <label for="keyboard_mouse">키보드 / 마우스</label>
-      <input
-        type="text"
-        id="keyboard_mouse"
-        placeholder="예: 게이밍 키보드 + 마우스"
-      >
-
-
-      <label for="description">상품 설명</label>
-      <textarea
-        id="description"
-        placeholder="상품에 대한 설명을 입력하세요."
-      ></textarea>
-
-
-      <button type="submit" id="saveButton">
-        상품 등록
-      </button>
-
-      <button
-        type="button"
-        id="cancelEditButton"
-        class="cancel"
-        style="display:none;"
-      >
-        수정 취소
-      </button>
-
-    </form>
-
-    <div id="message" role="status"></div>
-
-    <hr>
-
-    <h2>등록된 상품</h2>
-
-    <div id="productList">
-      상품 목록을 확인하는 중...
     </div>
 
-    <hr>
+  </div>
 
-    <button type="button" id="logoutButton" class="logout">
-      로그아웃
-    </button>
-
-  </section>
-
-</main>
+</div>
 
 
 <script>
-"use strict";
 
-/* ========================================
-   Supabase 연결
-======================================== */
+/* =====================================
+   Supabase 설정
+===================================== */
 
 const SUPABASE_URL =
   "https://znsgehjaspiqluopovyv.supabase.co";
@@ -404,138 +947,134 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-/* ========================================
-   HTML 요소
-======================================== */
+/* =====================================
+   전역 변수
+===================================== */
 
-const loginSection =
-  document.getElementById("login");
+let allProducts = [];
+let editingProduct = null;
+let allQuoteRequests = [];
 
-const adminSection =
-  document.getElementById("admin");
-
-const loginButton =
-  document.getElementById("loginButton");
-
-const logoutButton =
-  document.getElementById("logoutButton");
-
-const loginMessage =
-  document.getElementById("loginMessage");
-
-const message =
-  document.getElementById("message");
-
-const productForm =
-  document.getElementById("productForm");
-
-const saveButton =
-  document.getElementById("saveButton");
-
-const cancelEditButton =
-  document.getElementById("cancelEditButton");
-
-const productList =
-  document.getElementById("productList");
-
-const imageInput =
-  document.getElementById("image");
-
-const preview =
-  document.getElementById("preview");
+let quoteRequestLoadError = false;
 
 
-/* ========================================
-   상품 수정 상태
-======================================== */
-
-let editingProductId = null;
-
-let editingImageUrl = null;
-
-let isSaving = false;
-
-let isLoadingProducts = false;
-
-
-/* ========================================
+/* =====================================
    메시지 표시
-======================================== */
+===================================== */
 
-function showMessage(text, color = "#17243a") {
-  message.textContent = text;
-  message.style.color = color;
-}
+function showMessage(
+  elementId,
+  message,
+  type = "success"
+) {
 
-function showLoginMessage(text, color = "red") {
-  loginMessage.textContent = text;
-  loginMessage.style.color = color;
-}
+  const element =
+    document.getElementById(elementId);
 
+  if (!element) return;
 
-/* ========================================
-   입력값 안전하게 가져오기
-======================================== */
+  element.textContent = message;
 
-function getValue(id) {
-  return document.getElementById(id).value.trim();
-}
+  element.className =
+    "message " + type;
 
+  element.style.display =
+    "block";
 
-/* ========================================
-   로그인 화면 표시
-======================================== */
-
-function showLogin() {
-  loginSection.style.display = "block";
-  adminSection.style.display = "none";
 }
 
 
-/* ========================================
-   관리자 화면 표시
-======================================== */
+function hideMessage(elementId) {
 
-async function showAdmin() {
-  loginSection.style.display = "none";
-  adminSection.style.display = "block";
+  const element =
+    document.getElementById(elementId);
 
-  await loadProducts();
+  if (!element) return;
+
+  element.style.display =
+    "none";
+
 }
 
 
-/* ========================================
+/* =====================================
+   HTML 보호
+===================================== */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================
+   줄바꿈 처리
+===================================== */
+
+function formatText(value) {
+
+  return escapeHTML(value || "-")
+    .replace(/\n/g, "<br>");
+
+}
+
+
+/* =====================================
    로그인
-======================================== */
+===================================== */
 
 async function login() {
 
-  const email = getValue("email");
+  hideMessage("loginMessage");
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("password").value;
+    document
+      .getElementById("password")
+      .value;
+
+  const loginButton =
+    document.getElementById("loginButton");
 
   if (!email || !password) {
-    showLoginMessage(
-      "이메일과 비밀번호를 입력해주세요."
+
+    showMessage(
+      "loginMessage",
+      "이메일과 비밀번호를 입력해주세요.",
+      "error"
     );
+
     return;
+
   }
 
   loginButton.disabled = true;
   loginButton.textContent = "로그인 중...";
 
-  showLoginMessage("");
-
   try {
 
-    const { error } =
+    const {
+      data,
+      error
+    } =
       await supabaseClient.auth.signInWithPassword({
         email,
         password
@@ -545,88 +1084,102 @@ async function login() {
       throw error;
     }
 
-    showLoginMessage(
-      "로그인 성공!",
-      "green"
-    );
+    document
+      .getElementById("loginSection")
+      .classList
+      .add("hidden");
 
-    await showAdmin();
+    document
+      .getElementById("adminSection")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("password")
+      .value = "";
+
+    await loadProducts();
+    await loadQuoteRequests();
 
   } catch (error) {
 
-    console.error("로그인 오류:", error);
+    console.error(
+      "로그인 오류:",
+      error
+    );
 
-    showLoginMessage(
-      "로그인 실패: " + error.message
+    showMessage(
+      "loginMessage",
+      "로그인 실패: " +
+      (error.message || "알 수 없는 오류"),
+      "error"
     );
 
   } finally {
 
     loginButton.disabled = false;
-    loginButton.textContent = "로그인";
+
+    loginButton.textContent =
+      "🔐 로그인";
 
   }
+
 }
 
-loginButton.addEventListener("click", login);
 
-
-/* ========================================
+/* =====================================
    로그아웃
-======================================== */
+===================================== */
 
 async function logout() {
 
-  logoutButton.disabled = true;
-
   try {
 
-    const { error } =
-      await supabaseClient.auth.signOut();
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .signOut();
 
     if (error) {
       throw error;
     }
 
-    resetForm();
-
-    document.getElementById("email").value = "";
-    document.getElementById("password").value = "";
-
-    showLoginMessage("");
-    showMessage("");
-
-    showLogin();
+    location.reload();
 
   } catch (error) {
 
-    console.error("로그아웃 오류:", error);
-
-    showMessage(
-      "로그아웃 실패: " + error.message,
-      "red"
+    console.error(
+      "로그아웃 오류:",
+      error
     );
 
-  } finally {
-
-    logoutButton.disabled = false;
+    alert(
+      "로그아웃 실패: " +
+      error.message
+    );
 
   }
+
 }
 
-logoutButton.addEventListener("click", logout);
 
-
-/* ========================================
+/* =====================================
    세션 확인
-======================================== */
+===================================== */
 
 async function checkSession() {
 
   try {
 
-    const { data, error } =
-      await supabaseClient.auth.getSession();
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
 
     if (error) {
       throw error;
@@ -634,207 +1187,128 @@ async function checkSession() {
 
     if (data.session) {
 
-      await showAdmin();
+      document
+        .getElementById("loginSection")
+        .classList
+        .add("hidden");
 
-    } else {
+      document
+        .getElementById("adminSection")
+        .classList
+        .remove("hidden");
 
-      showLogin();
+      await loadProducts();
+      await loadQuoteRequests();
 
     }
 
   } catch (error) {
 
-    console.error("세션 확인 오류:", error);
-
-    showLogin();
-
-    showLoginMessage(
-      "로그인 상태를 확인하지 못했습니다."
+    console.error(
+      "세션 확인 오류:",
+      error
     );
-
-  }
-}
-
-
-/* ========================================
-   로그인 상태 변경 감지
-======================================== */
-
-supabaseClient.auth.onAuthStateChange(
-  (event, session) => {
-
-    if (event === "SIGNED_OUT" || !session) {
-
-      adminSection.style.display = "none";
-      loginSection.style.display = "block";
-
-    }
-
-  }
-);
-
-
-/* ========================================
-   이미지 미리보기
-======================================== */
-
-imageInput.addEventListener("change", function() {
-
-  const file = imageInput.files[0];
-
-  if (!file) {
-
-    if (editingImageUrl) {
-
-      preview.src = editingImageUrl;
-      preview.style.display = "block";
-
-    } else {
-
-      preview.removeAttribute("src");
-      preview.style.display = "none";
-
-    }
-
-    return;
-  }
-
-  if (!file.type.startsWith("image/")) {
 
     showMessage(
-      "이미지 파일만 선택할 수 있습니다.",
-      "red"
+      "loginMessage",
+      "세션 확인 실패: " +
+      error.message,
+      "error"
     );
 
-    imageInput.value = "";
-    return;
-
   }
-
-  const objectUrl = URL.createObjectURL(file);
-
-  preview.src = objectUrl;
-  preview.style.display = "block";
-
-});
-
-
-/* ========================================
-   수정 폼에 상품 정보 넣기
-======================================== */
-
-function editProduct(product) {
-
-  editingProductId = product.id;
-
-  editingImageUrl = product.image_url || null;
-
-  document.getElementById("name").value =
-    product.name || "";
-
-  document.getElementById("price").value =
-    product.price || "";
-
-  document.getElementById("cpu").value =
-    product.cpu || "";
-
-  document.getElementById("gpu").value =
-    product.gpu || "";
-
-  document.getElementById("ram").value =
-    product.ram || "";
-
-  document.getElementById("ssd").value =
-    product.ssd || "";
-
-  document.getElementById("main_board").value =
-    product["main board"] || "";
-
-  document.getElementById("power").value =
-    product.power || "";
-
-  document.getElementById("monitor").value =
-    product.monitor || "";
-
-  document.getElementById("hdd").value =
-    product.hdd || "";
-
-  document.getElementById("keyboard_mouse").value =
-    product["keyboard mouse"] || "";
-
-  document.getElementById("description").value =
-    product.description || "";
-
-  imageInput.value = "";
-
-  if (editingImageUrl) {
-
-    preview.src = editingImageUrl;
-    preview.style.display = "block";
-
-  } else {
-
-    preview.removeAttribute("src");
-    preview.style.display = "none";
-
-  }
-
-  document.getElementById("formTitle").textContent =
-    "상품 수정";
-
-  saveButton.textContent =
-    "상품 수정 저장";
-
-  cancelEditButton.style.display =
-    "block";
-
-  showMessage(
-    "상품 수정 중입니다. 내용을 변경한 후 저장해주세요.",
-    "#1769e0"
-  );
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
 
 }
 
 
-/* ========================================
-   수정 취소
-======================================== */
+/* =====================================
+   상품 입력값
+===================================== */
 
-function resetForm() {
+function getFormData() {
 
-  productForm.reset();
+  return {
 
-  editingProductId = null;
+    name:
+      document
+        .getElementById("name")
+        .value
+        .trim(),
 
-  editingImageUrl = null;
+    price:
+      document
+        .getElementById("price")
+        .value
+        .trim(),
 
-  preview.removeAttribute("src");
-  preview.style.display = "none";
+    cpu:
+      document
+        .getElementById("cpu")
+        .value
+        .trim(),
 
-  document.getElementById("formTitle").textContent =
-    "상품 등록";
+    gpu:
+      document
+        .getElementById("gpu")
+        .value
+        .trim(),
 
-  saveButton.textContent =
-    "상품 등록";
+    ram:
+      document
+        .getElementById("ram")
+        .value
+        .trim(),
 
-  cancelEditButton.style.display =
-    "none";
+    ssd:
+      document
+        .getElementById("ssd")
+        .value
+        .trim(),
 
-  showMessage("");
+    mainBoard:
+      document
+        .getElementById("main_board")
+        .value
+        .trim(),
+
+    power:
+      document
+        .getElementById("power")
+        .value
+        .trim(),
+
+    monitor:
+      document
+        .getElementById("monitor")
+        .value
+        .trim(),
+
+    hdd:
+      document
+        .getElementById("hdd")
+        .value
+        .trim(),
+
+    keyboardMouse:
+      document
+        .getElementById("keyboard_mouse")
+        .value
+        .trim(),
+
+    description:
+      document
+        .getElementById("description")
+        .value
+        .trim()
+
+  };
 
 }
 
-cancelEditButton.addEventListener("click", resetForm);
 
-
-/* ========================================
+/* =====================================
    이미지 업로드
-======================================== */
+===================================== */
 
 async function uploadImage(file) {
 
@@ -842,26 +1316,24 @@ async function uploadImage(file) {
     return null;
   }
 
-  if (!file.type.startsWith("image/")) {
-    throw new Error("이미지 파일만 업로드할 수 있습니다.");
-  }
-
   const extension =
-    file.name.split(".").pop().toLowerCase();
-
-  const safeExtension =
-    /^[a-z0-9]+$/.test(extension)
-      ? extension
-      : "jpg";
+    file.name
+      .split(".")
+      .pop()
+      .toLowerCase();
 
   const fileName =
     Date.now() +
     "-" +
-    Math.random().toString(36).substring(2) +
+    Math.random()
+      .toString(36)
+      .substring(2) +
     "." +
-    safeExtension;
+    extension;
 
-  const { error } =
+  const {
+    error
+  } =
     await supabaseClient
       .storage
       .from("product-images")
@@ -875,12 +1347,17 @@ async function uploadImage(file) {
       );
 
   if (error) {
+
     throw new Error(
-      "사진 업로드 실패: " + error.message
+      "사진 업로드 실패: " +
+      error.message
     );
+
   }
 
-  const { data } =
+  const {
+    data
+  } =
     supabaseClient
       .storage
       .from("product-images")
@@ -891,179 +1368,113 @@ async function uploadImage(file) {
 }
 
 
-/* ========================================
-   상품 저장
-   신규 등록 / 기존 상품 수정
-======================================== */
+/* =====================================
+   상품 데이터 생성
+===================================== */
 
-async function saveProduct(event) {
+function makeProductData(
+  form,
+  imageUrl
+) {
 
-  event.preventDefault();
+  return {
 
-  if (isSaving) {
+    name: form.name,
+
+    price: form.price,
+
+    cpu: form.cpu,
+
+    gpu: form.gpu,
+
+    ram: form.ram,
+
+    ssd: form.ssd,
+
+    "main board":
+      form.mainBoard,
+
+    power:
+      form.power,
+
+    monitor:
+      form.monitor,
+
+    hdd:
+      form.hdd,
+
+    "keyboard mouse":
+      form.keyboardMouse,
+
+    description:
+      form.description,
+
+    image_url:
+      imageUrl
+
+  };
+
+}
+
+
+/* =====================================
+   상품 등록
+===================================== */
+
+async function insertProduct() {
+
+  const form =
+    getFormData();
+
+  if (!form.name) {
+
+    showMessage(
+      "formMessage",
+      "상품명을 입력해주세요.",
+      "error"
+    );
+
     return;
+
   }
 
-  isSaving = true;
-
-  saveButton.disabled = true;
-  cancelEditButton.disabled = true;
-
-  saveButton.textContent = "저장 중...";
-
-  showMessage("");
+  const imageFile =
+    document
+      .getElementById("image")
+      .files[0];
 
   try {
 
-    /* 로그인 상태 확인 */
-
-    const { data: sessionData, error: sessionError } =
-      await supabaseClient.auth.getSession();
-
-    if (sessionError) {
-      throw sessionError;
-    }
-
-    if (!sessionData.session) {
-
-      throw new Error(
-        "로그인이 필요합니다. 다시 로그인해주세요."
-      );
-
-    }
-
-
-    /* 상품 정보 가져오기 */
-
-    const name = getValue("name");
-
-    if (!name) {
-      throw new Error("상품명을 입력해주세요.");
-    }
-
-    const price = getValue("price");
-
-    const cpu = getValue("cpu");
-
-    const gpu = getValue("gpu");
-
-    const ram = getValue("ram");
-
-    const ssd = getValue("ssd");
-
-    const mainBoard = getValue("main_board");
-
-    const power = getValue("power");
-
-    const monitor = getValue("monitor");
-
-    const hdd = getValue("hdd");
-
-    const keyboardMouse = getValue("keyboard_mouse");
-
-    const description = getValue("description");
-
-    const imageFile = imageInput.files[0];
-
-
-    /* 사진 처리
-       새 사진이 있으면 업로드
-       없으면 기존 사진 유지
-    */
-
-    let imageUrl = editingImageUrl;
+    let imageUrl = null;
 
     if (imageFile) {
 
-      imageUrl = await uploadImage(imageFile);
+      imageUrl =
+        await uploadImage(imageFile);
 
     }
 
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("pcsolution")
+        .insert(
+          makeProductData(
+            form,
+            imageUrl
+          )
+        );
 
-    /* 데이터 구성 */
-
-    const productData = {
-
-      name: name,
-
-      price: price,
-
-      cpu: cpu,
-
-      gpu: gpu,
-
-      ram: ram,
-
-      ssd: ssd,
-
-      "main board": mainBoard,
-
-      power: power,
-
-      monitor: monitor,
-
-      hdd: hdd,
-
-      "keyboard mouse": keyboardMouse,
-
-      description: description,
-
-      image_url: imageUrl
-
-    };
-
-
-    /* 신규 등록 또는 수정 */
-
-    let saveError = null;
-
-    if (editingProductId !== null) {
-
-      /* 기존 상품 수정 */
-
-      const result =
-        await supabaseClient
-          .from("pcsolution")
-          .update(productData)
-          .eq("id", editingProductId);
-
-      saveError = result.error;
-
-    } else {
-
-      /* 신규 상품 등록 */
-
-      const result =
-        await supabaseClient
-          .from("pcsolution")
-          .insert([productData]);
-
-      saveError = result.error;
-
+    if (error) {
+      throw error;
     }
 
-    if (saveError) {
-      throw saveError;
-    }
-
-
-    /* 성공 처리 */
-
-    if (editingProductId !== null) {
-
-      showMessage(
-        "상품 수정이 완료되었습니다!",
-        "green"
-      );
-
-    } else {
-
-      showMessage(
-        "상품 등록이 완료되었습니다!",
-        "green"
-      );
-
-    }
+    showMessage(
+      "formMessage",
+      "✅ 상품 등록 성공!",
+      "success"
+    );
 
     resetForm();
 
@@ -1071,234 +1482,1890 @@ async function saveProduct(event) {
 
   } catch (error) {
 
-    console.error("상품 저장 오류:", error);
-
-    showMessage(
-      "저장 실패: " + error.message,
-      "red"
+    console.error(
+      "상품 등록 오류:",
+      error
     );
 
-  } finally {
-
-    isSaving = false;
-
-    saveButton.disabled = false;
-    cancelEditButton.disabled = false;
-
-    saveButton.textContent =
-      editingProductId !== null
-        ? "상품 수정 저장"
-        : "상품 등록";
+    showMessage(
+      "formMessage",
+      "상품 등록 실패: " +
+      error.message,
+      "error"
+    );
 
   }
 
 }
 
-productForm.addEventListener("submit", saveProduct);
 
+/* =====================================
+   상품 수정
+===================================== */
 
-/* ========================================
-   상품 목록 불러오기
-======================================== */
+async function updateProduct() {
 
-async function loadProducts() {
-
-  if (isLoadingProducts) {
+  if (!editingProduct) {
     return;
   }
 
-  isLoadingProducts = true;
+  const form =
+    getFormData();
 
-  productList.textContent =
-    "상품을 불러오는 중...";
+  if (!form.name) {
+
+    showMessage(
+      "formMessage",
+      "상품명을 입력해주세요.",
+      "error"
+    );
+
+    return;
+
+  }
+
+  const imageFile =
+    document
+      .getElementById("image")
+      .files[0];
 
   try {
 
-    /* 로그인 확인 */
+    let imageUrl =
+      editingProduct.image_url || null;
 
-    const { data: sessionData, error: sessionError } =
-      await supabaseClient.auth.getSession();
+    if (imageFile) {
 
-    if (sessionError) {
-      throw sessionError;
-    }
-
-    if (!sessionData.session) {
-
-      productList.textContent =
-        "로그인이 필요합니다.";
-
-      return;
+      imageUrl =
+        await uploadImage(imageFile);
 
     }
 
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("pcsolution")
+        .update(
+          makeProductData(
+            form,
+            imageUrl
+          )
+        )
+        .eq(
+          "id",
+          editingProduct.id
+        );
 
-    /* 데이터 가져오기 */
+    if (error) {
+      throw error;
+    }
 
-    const { data, error } =
+    editingProduct = null;
+
+    showMessage(
+      "formMessage",
+      "✅ 상품 수정 성공!",
+      "success"
+    );
+
+    resetForm();
+
+    await loadProducts();
+
+  } catch (error) {
+
+    console.error(
+      "상품 수정 오류:",
+      error
+    );
+
+    showMessage(
+      "formMessage",
+      "상품 수정 실패: " +
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   상품 저장
+===================================== */
+
+async function saveProduct() {
+
+  hideMessage("formMessage");
+
+  if (editingProduct) {
+
+    await updateProduct();
+
+  } else {
+
+    await insertProduct();
+
+  }
+
+}
+
+
+/* =====================================
+   상품 수정 시작
+===================================== */
+
+function editProduct(id) {
+
+  const product =
+    allProducts.find(
+      item =>
+        Number(item.id) === Number(id)
+    );
+
+  if (!product) {
+
+    alert(
+      "상품을 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+  editingProduct =
+    product;
+
+  document
+    .getElementById("editId")
+    .value =
+      product.id;
+
+  document
+    .getElementById("name")
+    .value =
+      product.name || "";
+
+  document
+    .getElementById("price")
+    .value =
+      product.price || "";
+
+  document
+    .getElementById("cpu")
+    .value =
+      product.cpu || "";
+
+  document
+    .getElementById("gpu")
+    .value =
+      product.gpu || "";
+
+  document
+    .getElementById("ram")
+    .value =
+      product.ram || "";
+
+  document
+    .getElementById("ssd")
+    .value =
+      product.ssd || "";
+
+  document
+    .getElementById("main_board")
+    .value =
+      product["main board"] || "";
+
+  document
+    .getElementById("power")
+    .value =
+      product.power || "";
+
+  document
+    .getElementById("monitor")
+    .value =
+      product.monitor || "";
+
+  document
+    .getElementById("hdd")
+    .value =
+      product.hdd || "";
+
+  document
+    .getElementById("keyboard_mouse")
+    .value =
+      product["keyboard mouse"] || "";
+
+  document
+    .getElementById("description")
+    .value =
+      product.description || "";
+
+  document
+    .getElementById("image")
+    .value = "";
+
+  const imageArea =
+    document
+      .getElementById("currentImageArea");
+
+  const currentImage =
+    document
+      .getElementById("currentImage");
+
+  if (product.image_url) {
+
+    currentImage.src =
+      product.image_url;
+
+    imageArea
+      .classList
+      .remove("hidden");
+
+  } else {
+
+    imageArea
+      .classList
+      .add("hidden");
+
+  }
+
+  const saveButton =
+    document
+      .getElementById("saveButton");
+
+  saveButton.textContent =
+    "💾 수정 저장";
+
+  saveButton.className =
+    "update-button";
+
+  document
+    .getElementById("cancelButton")
+    .classList
+    .remove("hidden");
+
+  document
+    .getElementById("formTitle")
+    .textContent =
+      "✏️ 상품 수정";
+
+  document
+    .getElementById("formTitle")
+    .scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+}
+
+
+/* =====================================
+   수정 취소
+===================================== */
+
+function cancelEdit() {
+
+  editingProduct = null;
+
+  resetForm();
+
+  showMessage(
+    "formMessage",
+    "↩️ 수정이 취소되었습니다.",
+    "success"
+  );
+
+}
+
+
+/* =====================================
+   폼 초기화
+===================================== */
+
+function resetForm() {
+
+  const ids = [
+
+    "editId",
+    "name",
+    "price",
+    "cpu",
+    "gpu",
+    "ram",
+    "ssd",
+    "main_board",
+    "power",
+    "monitor",
+    "hdd",
+    "keyboard_mouse",
+    "description",
+    "image"
+
+  ];
+
+  ids.forEach(id => {
+
+    const element =
+      document.getElementById(id);
+
+    if (element) {
+
+      element.value = "";
+
+    }
+
+  });
+
+  document
+    .getElementById("currentImageArea")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("formTitle")
+    .textContent =
+      "➕ 상품 등록";
+
+  const saveButton =
+    document
+      .getElementById("saveButton");
+
+  saveButton.textContent =
+    "➕ 상품 등록";
+
+  saveButton.className =
+    "save-button";
+
+  document
+    .getElementById("cancelButton")
+    .classList
+    .add("hidden");
+
+}
+
+
+/* =====================================
+   상품 삭제
+===================================== */
+
+async function deleteProduct(id) {
+
+  const product =
+    allProducts.find(
+      item =>
+        Number(item.id) === Number(id)
+    );
+
+  if (!product) {
+
+    alert(
+      "상품을 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+  if (!confirm(
+    `"${product.name}" 상품을 삭제하시겠습니까?`
+  )) {
+
+    return;
+
+  }
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("pcsolution")
+        .delete()
+        .eq(
+          "id",
+          product.id
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    if (
+      editingProduct &&
+      Number(editingProduct.id) ===
+      Number(product.id)
+    ) {
+
+      editingProduct = null;
+
+      resetForm();
+
+    }
+
+    showMessage(
+      "formMessage",
+      "🗑️ 상품 삭제 성공!",
+      "success"
+    );
+
+    await loadProducts();
+
+  } catch (error) {
+
+    console.error(
+      "상품 삭제 오류:",
+      error
+    );
+
+    alert(
+      "상품 삭제 실패: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   상품 목록 불러오기
+===================================== */
+
+async function loadProducts() {
+
+  const productList =
+    document
+      .getElementById("productList");
+
+  productList.textContent =
+    "상품을 불러오는 중입니다...";
+
+  try {
+
+    const {
+      data,
+      error
+    } =
       await supabaseClient
         .from("pcsolution")
         .select("*")
-        .order("id", { ascending: false });
+        .order(
+          "id",
+          {
+            ascending: false
+          }
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    allProducts =
+      data || [];
+
+    renderProductList();
+
+  } catch (error) {
+
+    console.error(
+      "상품 목록 오류:",
+      error
+    );
+
+    productList.innerHTML =
+      `
+        <p style="color:#dc2626;">
+          상품을 불러오지 못했습니다.<br>
+          ${escapeHTML(error.message)}
+        </p>
+      `;
+
+  }
+
+}
+
+
+/* =====================================
+   상품 목록 출력
+===================================== */
+
+function renderProductList() {
+
+  const productList =
+    document
+      .getElementById("productList");
+
+  if (!allProducts.length) {
+
+    productList.innerHTML =
+      `
+        <p style="color:#667085;">
+          등록된 상품이 없습니다.
+        </p>
+      `;
+
+    return;
+
+  }
+
+  productList.innerHTML =
+    allProducts
+      .map(product => {
+
+        const id =
+          Number(product.id);
+
+        const price =
+          product.price !== null &&
+          product.price !== undefined &&
+          product.price !== ""
+            ? Number(
+                product.price
+              ).toLocaleString(
+                "ko-KR"
+              ) + "원"
+            : "";
+
+        return `
+
+          <div class="product-item">
+
+            ${
+              product.image_url
+                ? `
+                  <img
+                    src="${escapeHTML(product.image_url)}"
+                    alt="${escapeHTML(product.name)}"
+                  >
+                `
+                : ""
+            }
+
+            <div class="product-name">
+              ${escapeHTML(product.name)}
+            </div>
+
+            <div class="product-price">
+              ${escapeHTML(price)}
+            </div>
+
+            <p>
+              CPU :
+              ${escapeHTML(product.cpu || "-")}
+            </p>
+
+            <p>
+              그래픽카드 :
+              ${escapeHTML(product.gpu || "-")}
+            </p>
+
+            <p>
+              RAM :
+              ${escapeHTML(product.ram || "-")}
+            </p>
+
+            <p>
+              SSD :
+              ${escapeHTML(product.ssd || "-")}
+            </p>
+
+            <p>
+              메인보드 :
+              ${escapeHTML(
+                product["main board"] || "-"
+              )}
+            </p>
+
+            <p>
+              파워 :
+              ${escapeHTML(product.power || "-")}
+            </p>
+
+            <p>
+              모니터 :
+              ${escapeHTML(product.monitor || "-")}
+            </p>
+
+            <p>
+              HDD :
+              ${escapeHTML(product.hdd || "-")}
+            </p>
+
+            <p>
+              키보드/마우스 :
+              ${escapeHTML(
+                product["keyboard mouse"] || "-"
+              )}
+            </p>
+
+            ${
+              product.description
+                ? `
+                  <p style="
+                    color:#667085;
+                    line-height:1.6;
+                  ">
+                    ${formatText(
+                      product.description
+                    )}
+                  </p>
+                `
+                : ""
+            }
+
+            <div class="product-actions">
+
+              <button
+                class="update-button"
+                type="button"
+                onclick="editProduct(${id})"
+              >
+                ✏️ 수정
+              </button>
+
+              <button
+                class="delete-button"
+                type="button"
+                onclick="deleteProduct(${id})"
+              >
+                🗑️ 삭제
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+}
+
+
+/* =====================================
+   상담 신청 불러오기
+===================================== */
+
+async function loadQuoteRequests() {
+
+  const list =
+    document
+      .getElementById("quoteRequestList");
+
+  const count =
+    document
+      .getElementById("quoteCount");
+
+  list.textContent =
+    "상담 신청을 불러오는 중입니다...";
+
+  count.textContent =
+    "상담 신청을 불러오는 중입니다...";
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("quote_requests")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    allQuoteRequests =
+      data || [];
+
+    quoteRequestLoadError =
+      false;
+
+    filterQuoteRequests();
+
+  } catch (error) {
+
+    quoteRequestLoadError =
+      true;
+
+    console.error(
+      "상담 신청 목록 오류:",
+      error
+    );
+
+    allQuoteRequests =
+      [];
+
+    updateQuoteStats();
+
+    count.textContent =
+      "상담 신청 목록을 불러오지 못했습니다.";
+
+    list.innerHTML =
+      `
+        <div style="
+          padding:25px;
+          background:#fee2e2;
+          color:#991b1b;
+          border-radius:10px;
+          line-height:1.7;
+        ">
+
+          <strong>
+            상담 신청을 불러오지 못했습니다.
+          </strong>
+
+          <br><br>
+
+          ${escapeHTML(error.message)}
+
+          <br><br>
+
+          Supabase의 quote_requests 테이블과
+          조회 권한을 확인해주세요.
+
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =====================================
+   상담 통계 업데이트
+===================================== */
+
+function updateQuoteStats() {
+
+  const total =
+    allQuoteRequests.length;
+
+
+  const newCount =
+    allQuoteRequests.filter(
+      request =>
+        (request.status || "접수") ===
+        "접수"
+    ).length;
+
+
+  const progressCount =
+    allQuoteRequests.filter(
+      request =>
+        [
+          "상담중",
+          "견적작성"
+        ].includes(
+          request.status || "접수"
+        )
+    ).length;
+
+
+  const completeCount =
+    allQuoteRequests.filter(
+      request =>
+        (request.status || "접수") ===
+        "견적완료"
+    ).length;
+
+
+  const purchasedCount =
+    allQuoteRequests.filter(
+      request =>
+        (request.status || "접수") ===
+        "구매완료"
+    ).length;
+
+
+  /* 전체 상담 */
+
+  const statTotal =
+    document.getElementById(
+      "statTotal"
+    );
+
+  if (statTotal) {
+    statTotal.textContent =
+      total;
+  }
+
+
+  /* 신규 접수 */
+
+  const statNew =
+    document.getElementById(
+      "statNew"
+    );
+
+  if (statNew) {
+    statNew.textContent =
+      newCount;
+  }
+
+
+  /* 상담 진행 중 */
+
+  const statProgress =
+    document.getElementById(
+      "statProgress"
+    );
+
+  if (statProgress) {
+    statProgress.textContent =
+      progressCount;
+  }
+
+
+  /* 견적 완료 */
+
+  const statComplete =
+    document.getElementById(
+      "statComplete"
+    );
+
+  if (statComplete) {
+    statComplete.textContent =
+      completeCount;
+  }
+
+
+  /* 구매 완료 */
+
+  const statPurchased =
+    document.getElementById(
+      "statPurchased"
+    );
+
+  if (statPurchased) {
+    statPurchased.textContent =
+      purchasedCount;
+  }
+
+}
+
+
+/* =====================================
+   상담 검색 / 필터
+===================================== */
+
+function filterQuoteRequests() {
+
+  const search =
+    document
+      .getElementById("quoteSearch")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const statusFilter =
+    document
+      .getElementById(
+        "quoteStatusFilter"
+      )
+      .value;
+
+
+  const filtered =
+    allQuoteRequests.filter(
+      request => {
+
+        const searchable = [
+
+          request.customer_name,
+          request.phone,
+          request.purpose,
+          request.preferred_cpu,
+          request.preferred_gpu,
+          request.preferred_ram,
+          request.preferred_ssd,
+          request.additional_request,
+          request.notes,
+          request.budget
+
+        ]
+        .filter(
+          value =>
+            value !== null &&
+            value !== undefined
+        )
+        .join(" ")
+        .toLowerCase();
+
+
+        const searchMatch =
+          !search ||
+          searchable.includes(
+            search
+          );
+
+
+        const status =
+          request.status ||
+          "접수";
+
+
+        const statusMatch =
+          !statusFilter ||
+          status === statusFilter;
+
+
+        return (
+          searchMatch &&
+          statusMatch
+        );
+
+      }
+    );
+
+
+  document
+    .getElementById("quoteCount")
+    .textContent =
+      `전체 ${allQuoteRequests.length}건 · 현재 ${filtered.length}건`;
+
+
+  updateQuoteStats();
+
+  renderQuoteRequests(
+    filtered
+  );
+
+}
+
+
+/* =====================================
+   상담 목록 출력
+===================================== */
+
+function renderQuoteRequests(
+  requests
+) {
+
+  const list =
+    document
+      .getElementById(
+        "quoteRequestList"
+      );
+
+
+  if (!requests.length) {
+
+    list.innerHTML =
+      `
+        <div style="
+          text-align:center;
+          padding:40px 15px;
+          color:#667085;
+        ">
+
+          ${
+            allQuoteRequests.length
+              ? "검색 조건에 맞는 상담 신청이 없습니다."
+              : "등록된 상담 신청이 없습니다."
+          }
+
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  list.innerHTML =
+    requests
+      .map(request => {
+
+        const id =
+          Number(request.id);
+
+
+        const name =
+          escapeHTML(
+            request.customer_name ||
+            "-"
+          );
+
+
+        const phone =
+          escapeHTML(
+            request.phone ||
+            "-"
+          );
+
+
+        const purpose =
+          escapeHTML(
+            request.purpose ||
+            "-"
+          );
+
+
+        const budget =
+          request.budget !== null &&
+          request.budget !== undefined &&
+          request.budget !== ""
+            ? Number(
+                request.budget
+              ).toLocaleString(
+                "ko-KR"
+              ) + "원"
+            : "-";
+
+
+        const cpu =
+          escapeHTML(
+            request.preferred_cpu ||
+            "-"
+          );
+
+
+        const gpu =
+          escapeHTML(
+            request.preferred_gpu ||
+            "-"
+          );
+
+
+        const ram =
+          escapeHTML(
+            request.preferred_ram ||
+            "-"
+          );
+
+
+        const ssd =
+          escapeHTML(
+            request.preferred_ssd ||
+            "-"
+          );
+
+
+        const additional =
+          formatText(
+            request.additional_request
+          );
+
+
+        const notes =
+          escapeHTML(
+            request.notes ||
+            ""
+          );
+
+
+        const createdAt =
+          request.created_at
+            ? new Date(
+                request.created_at
+              ).toLocaleString(
+                "ko-KR"
+              )
+            : "-";
+
+
+        const status =
+          request.status ||
+          "접수";
+
+
+        const monitor =
+          request.monitor_needed === true
+            ? "필요함"
+            : request.monitor_needed === false
+              ? "필요 없음"
+              : "상담 후 확인";
+
+
+        return `
+
+          <div
+            class="quote-item"
+            id="quote-${id}"
+          >
+
+            <div class="quote-top">
+
+              <div>
+
+                <h3 class="customer-name">
+                  👤 ${name}
+                </h3>
+
+                <a
+                  class="phone-link"
+                  href="tel:${escapeHTML(
+                    request.phone || ""
+                  )}"
+                >
+                  📞 ${phone}
+                </a>
+
+              </div>
+
+
+              <span
+                class="status-badge status-${escapeHTML(status)}"
+              >
+                ${escapeHTML(status)}
+              </span>
+
+            </div>
+
+
+            <!-- 기본 정보 -->
+
+            <div class="info-box">
+
+              <div class="info-grid">
+
+                <div>
+
+                  <div class="info-label">
+                    사용 목적
+                  </div>
+
+                  <strong>
+                    ${purpose}
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <div class="info-label">
+                    예상 예산
+                  </div>
+
+                  <strong style="color:#1769e0;">
+                    ${escapeHTML(budget)}
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <div class="info-label">
+                    신청일
+                  </div>
+
+                  <strong>
+                    ${escapeHTML(createdAt)}
+                  </strong>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- 상담 상세 -->
+
+            <details class="detail-box">
+
+              <summary>
+                🔍 상담 상세보기
+              </summary>
+
+              <div class="detail-content">
+
+                <p>
+                  <strong>
+                    👤 고객 이름
+                  </strong>
+                  <br>
+                  ${name}
+                </p>
+
+
+                <p>
+                  <strong>
+                    📞 연락처
+                  </strong>
+                  <br>
+
+                  <a
+                    class="phone-link"
+                    href="tel:${escapeHTML(
+                      request.phone || ""
+                    )}"
+                  >
+                    ${phone}
+                  </a>
+
+                </p>
+
+
+                <p>
+                  <strong>
+                    💻 PC 사용 목적
+                  </strong>
+                  <br>
+                  ${purpose}
+                </p>
+
+
+                <p>
+                  <strong>
+                    💰 예상 예산
+                  </strong>
+                  <br>
+                  ${escapeHTML(budget)}
+                </p>
+
+
+                <p>
+                  <strong>
+                    🧩 희망 CPU
+                  </strong>
+                  <br>
+                  ${cpu}
+                </p>
+
+
+                <p>
+                  <strong>
+                    🎮 희망 그래픽카드
+                  </strong>
+                  <br>
+                  ${gpu}
+                </p>
+
+
+                <p>
+                  <strong>
+                    🧠 희망 RAM
+                  </strong>
+                  <br>
+                  ${ram}
+                </p>
+
+
+                <p>
+                  <strong>
+                    💾 희망 SSD
+                  </strong>
+                  <br>
+                  ${ssd}
+                </p>
+
+
+                <p>
+                  <strong>
+                    🖥️ 모니터
+                  </strong>
+                  <br>
+                  ${escapeHTML(monitor)}
+                </p>
+
+
+                <p>
+                  <strong>
+                    📝 추가 요청사항
+                  </strong>
+                  <br>
+                  ${additional}
+                </p>
+
+
+                <p>
+                  <strong>
+                    📅 신청 날짜
+                  </strong>
+                  <br>
+                  ${escapeHTML(createdAt)}
+                </p>
+
+              </div>
+
+            </details>
+
+
+            <!-- 상담 상태 -->
+
+            <div class="status-area">
+
+              <label for="status-${id}">
+                📋 상담 진행 상태
+              </label>
+
+
+              <select
+                id="status-${id}"
+                onchange="updateQuoteStatus(
+                  ${id},
+                  this.value
+                )"
+              >
+
+                <option
+                  value="접수"
+                  ${
+                    status === "접수"
+                      ? "selected"
+                      : ""
+                  }
+                >
+                  📥 접수
+                </option>
+
+
+                <option
+                  value="상담중"
+                  ${
+                    status === "상담중"
+                      ? "selected"
+                      : ""
+                  }
+                >
+                  💬 상담중
+                </option>
+
+
+                <option
+                  value="견적작성"
+                  ${
+                    status === "견적작성"
+                      ? "selected"
+                      : ""
+                  }
+                >
+                  🛠️ 견적작성
+                </option>
+
+
+                <option
+                  value="견적완료"
+                  ${
+                    status === "견적완료"
+                      ? "selected"
+                      : ""
+                  }
+                >
+                  🧾 견적완료
+                </option>
+
+
+                <option
+                  value="구매완료"
+                  ${
+                    status === "구매완료"
+                      ? "selected"
+                      : ""
+                  }
+                >
+                  🛒 구매완료
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- 관리자 메모 -->
+
+            <div class="memo-area">
+
+              <label
+                for="memo-${id}"
+                style="margin-top:0;"
+              >
+                📝 관리자 메모
+              </label>
+
+
+              <textarea
+                id="memo-${id}"
+                placeholder="고객과 통화한 내용, 견적 내용, 다음 연락 일정 등을 적어두세요."
+              >${notes}</textarea>
+
+
+              <button
+                class="memo-button"
+                style="margin-top:8px;"
+                type="button"
+                onclick="saveQuoteMemo(${id})"
+              >
+                💾 메모 저장
+              </button>
+
+            </div>
+
+
+            <!-- 상담 버튼 -->
+
+            <div class="action-row">
+
+              <a
+                href="tel:${escapeHTML(
+                  request.phone || ""
+                )}"
+                style="text-decoration:none;"
+              >
+
+                <button
+                  class="phone-button"
+                  type="button"
+                >
+                  📞 전화
+                </button>
+
+              </a>
+
+
+              <button
+                class="mail-button"
+                type="button"
+                onclick="sendQuoteMail(${id})"
+              >
+                📧 알림
+              </button>
+
+
+              <button
+                class="delete-button"
+                type="button"
+                onclick="deleteQuoteRequest(${id})"
+              >
+                🗑️ 상담 삭제
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+}
+
+
+/* =====================================
+   상담 상태 변경
+===================================== */
+
+async function updateQuoteStatus(
+  id,
+  status
+) {
+
+  const request =
+    allQuoteRequests.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  if (!request) {
+
+    alert(
+      "상담 신청을 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("quote_requests")
+        .update({
+
+          status:
+            status,
+
+          updated_at:
+            new Date().toISOString()
+
+        })
+        .eq(
+          "id",
+          id
+        );
+
 
     if (error) {
       throw error;
     }
 
 
-    if (!data || data.length === 0) {
+    request.status =
+      status;
 
-      productList.textContent =
-        "등록된 상품이 없습니다.";
 
-      return;
+    updateQuoteStats();
+
+
+    const card =
+      document.getElementById(
+        `quote-${id}`
+      );
+
+
+    if (card) {
+
+      const badge =
+        card.querySelector(
+          ".status-badge"
+        );
+
+
+      if (badge) {
+
+        badge.textContent =
+          status;
+
+        badge.className =
+          "status-badge status-" +
+          status;
+
+      }
 
     }
 
 
-    /* 목록 초기화 */
+    /*
+      현재 필터와 다른 상태로 변경된 경우
+      목록을 다시 그려서 자연스럽게 제거
+    */
 
-    productList.replaceChildren();
-
-
-    /* 상품 카드 생성 */
-
-    data.forEach(function(product) {
-
-      const card =
-        document.createElement("div");
-
-      card.className = "product-card";
-
-
-      /* 상품 사진 */
-
-      if (product.image_url) {
-
-        const img =
-          document.createElement("img");
-
-        img.src = product.image_url;
-
-        img.alt = product.name || "상품 사진";
-
-        img.loading = "lazy";
-
-        card.appendChild(img);
-
-      }
-
-
-      /* 상품명 */
-
-      const title =
-        document.createElement("h3");
-
-      title.textContent =
-        product.name || "상품명 없음";
-
-      card.appendChild(title);
-
-
-      /* 상품 정보 */
-
-      const fields = [
-
-        ["💰 가격", product.price],
-
-        ["🧠 CPU", product.cpu],
-
-        ["🎮 그래픽카드", product.gpu],
-
-        ["💾 RAM", product.ram],
-
-        ["💽 SSD", product.ssd],
-
-        ["🖥️ 메인보드", product["main board"]],
-
-        ["⚡ 파워", product.power],
-
-        ["🖥️ 모니터", product.monitor],
-
-        ["💿 HDD", product.hdd],
-
-        ["⌨️ 키보드 / 마우스", product["keyboard mouse"]],
-
-        ["📝 상품 설명", product.description]
-
-      ];
-
-
-      fields.forEach(function(field) {
-
-        const paragraph =
-          document.createElement("p");
-
-        const label =
-          document.createElement("strong");
-
-        label.textContent =
-          field[0] + ": ";
-
-        const value =
-          document.createElement("span");
-
-        value.textContent =
-          field[1] || "-";
-
-        paragraph.appendChild(label);
-        paragraph.appendChild(value);
-
-        card.appendChild(paragraph);
-
-      });
-
-
-      /* 수정 버튼 */
-
-      const editButton =
-        document.createElement("button");
-
-      editButton.type = "button";
-
-      editButton.className = "edit-button";
-
-      editButton.textContent = "✏️ 상품 수정";
-
-      editButton.addEventListener("click", function() {
-
-        editProduct(product);
-
-      });
-
-      card.appendChild(editButton);
-
-
-      productList.appendChild(card);
-
-    });
+    filterQuoteRequests();
 
   } catch (error) {
 
-    console.error("상품 목록 오류:", error);
+    console.error(
+      "상태 변경 오류:",
+      error
+    );
 
-    productList.textContent =
-      "상품 불러오기 실패: " + error.message;
-
-  } finally {
-
-    isLoadingProducts = false;
+    alert(
+      "상태 변경 실패!\n\n" +
+      error.message
+    );
 
   }
 
 }
 
 
-/* ========================================
-   페이지 시작
-======================================== */
+/* =====================================
+   관리자 메모 저장
+===================================== */
 
-checkSession();
+async function saveQuoteMemo(id) {
+
+  const textarea =
+    document.getElementById(
+      `memo-${id}`
+    );
+
+
+  if (!textarea) {
+    return;
+  }
+
+
+  const notes =
+    textarea.value;
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("quote_requests")
+        .update({
+
+          notes:
+            notes,
+
+          updated_at:
+            new Date().toISOString()
+
+        })
+        .eq(
+          "id",
+          id
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const request =
+      allQuoteRequests.find(
+        item =>
+          Number(item.id) ===
+          Number(id)
+      );
+
+
+    if (request) {
+
+      request.notes =
+        notes;
+
+    }
+
+
+    alert(
+      "✅ 메모가 저장되었습니다."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "메모 저장 오류:",
+      error
+    );
+
+    alert(
+      "메모 저장 실패!\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   상담 삭제
+===================================== */
+
+async function deleteQuoteRequest(
+  id
+) {
+
+  const request =
+    allQuoteRequests.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  if (!request) {
+
+    alert(
+      "상담 신청을 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const name =
+    request.customer_name ||
+    "고객";
+
+
+  const confirmed =
+    confirm(
+      `"${name}"님의 상담 신청을 삭제하시겠습니까?\n\n삭제 후 복구할 수 없습니다.`
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("quote_requests")
+        .delete()
+        .eq(
+          "id",
+          id
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    allQuoteRequests =
+      allQuoteRequests.filter(
+        item =>
+          Number(item.id) !==
+          Number(id)
+      );
+
+
+    filterQuoteRequests();
+
+  } catch (error) {
+
+    console.error(
+      "상담 삭제 오류:",
+      error
+    );
+
+    alert(
+      "상담 삭제 실패!\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   개별 상담 이메일 알림
+===================================== */
+
+function sendQuoteMail(id) {
+
+  const request =
+    allQuoteRequests.find(
+      item =>
+        Number(item.id) ===
+        Number(id)
+    );
+
+
+  if (!request) {
+
+    alert(
+      "상담 신청을 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const customer =
+    request.customer_name ||
+    "-";
+
+
+  const phone =
+    request.phone ||
+    "-";
+
+
+  const purpose =
+    request.purpose ||
+    "-";
+
+
+  const status =
+    request.status ||
+    "접수";
+
+
+  const subject =
+    encodeURIComponent(
+      `[PC SOLUTION] 상담 신청 - ${customer}`
+    );
+
+
+  const body =
+    encodeURIComponent(
+`
+PC SOLUTION 상담 신청
+
+고객명 : ${customer}
+연락처 : ${phone}
+사용목적 : ${purpose}
+상태 : ${status}
+
+관리자 페이지에서 상세 내용을 확인해주세요.
+`
+    );
+
+
+  const adminEmail =
+    "ssamddak7@naver.com";
+
+
+  window.location.href =
+    `mailto:${adminEmail}?subject=${subject}&body=${body}`;
+
+}
+
+
+/* =====================================
+   신규 상담 관리자 알림
+===================================== */
+
+function notifyNewQuote() {
+
+  const newQuotes =
+    allQuoteRequests.filter(
+      request =>
+        (request.status || "접수") ===
+        "접수"
+    );
+
+
+  if (!newQuotes.length) {
+
+    alert(
+      "현재 '접수' 상태인 새로운 상담 신청이 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  sendQuoteMail(
+    Number(newQuotes[0].id)
+  );
+
+}
+
+
+/* =====================================
+   페이지 시작
+===================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    checkSession();
+
+  }
+);
 
 </script>
 
