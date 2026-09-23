@@ -27,17 +27,22 @@ header {
   text-align: center;
 }
 
+header h1 {
+  margin: 0 0 8px;
+}
+
 main {
-  max-width: 700px;
-  margin: 35px auto;
-  padding: 20px;
+  max-width: 750px;
+  margin: 30px auto;
+  padding: 15px;
 }
 
 .box {
   background: white;
-  padding: 28px;
+  padding: 25px;
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0,0,0,.08);
+  margin-bottom: 20px;
 }
 
 h2 {
@@ -53,11 +58,13 @@ label {
 
 input,
 textarea {
+  display: block;
   width: 100%;
   padding: 13px;
   border: 1px solid #d0d7e2;
   border-radius: 8px;
   font-size: 15px;
+  background: white;
 }
 
 textarea {
@@ -67,13 +74,13 @@ textarea {
 
 button {
   width: 100%;
-  margin-top: 20px;
-  padding: 15px;
+  margin-top: 18px;
+  padding: 14px;
   border: 0;
   border-radius: 9px;
   background: #1769e0;
   color: white;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -87,24 +94,24 @@ button:disabled {
   cursor: not-allowed;
 }
 
-#login {
-  display: none;
-}
-
+#login,
 #admin {
   display: none;
 }
 
-#message {
-  margin-top: 18px;
+#message,
+#loginMessage {
+  margin-top: 15px;
   text-align: center;
   font-weight: bold;
-  line-height: 1.5;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 #preview {
   display: none;
   width: 220px;
+  max-width: 100%;
   max-height: 220px;
   object-fit: contain;
   margin: 15px auto;
@@ -120,10 +127,71 @@ button:disabled {
   background: #333;
 }
 
+.cancel {
+  background: #777;
+}
+
+.cancel:hover {
+  background: #555;
+}
+
 hr {
   border: 0;
   border-top: 1px solid #e5e9ef;
   margin: 25px 0;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background: #fafafa;
+  overflow-wrap: anywhere;
+}
+
+.product-card img {
+  display: block;
+  width: 160px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: white;
+}
+
+.product-card h3 {
+  margin: 10px 0;
+}
+
+.product-card p {
+  margin: 7px 0;
+  line-height: 1.5;
+}
+
+.product-card button {
+  margin-top: 10px;
+}
+
+.product-card .edit-button {
+  background: #1769e0;
+}
+
+.small-note {
+  color: #687589;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 500px) {
+  main {
+    margin: 15px auto;
+    padding: 10px;
+  }
+
+  .box {
+    padding: 18px;
+  }
 }
 </style>
 </head>
@@ -137,12 +205,13 @@ hr {
 
 <main>
 
-  <!-- 로그인 -->
-  <div class="box" id="login">
+  <!-- 관리자 로그인 -->
+
+  <section class="box" id="login">
 
     <h2>관리자 로그인</h2>
 
-    <label>이메일</label>
+    <label for="email">이메일</label>
     <input
       type="email"
       id="email"
@@ -150,7 +219,7 @@ hr {
       autocomplete="username"
     >
 
-    <label>비밀번호</label>
+    <label for="password">비밀번호</label>
     <input
       type="password"
       id="password"
@@ -158,186 +227,501 @@ hr {
       autocomplete="current-password"
     >
 
-    <button id="loginButton" onclick="login()">
+    <button type="button" id="loginButton">
       로그인
     </button>
 
-    <div id="loginMessage"></div>
+    <div id="loginMessage" role="status"></div>
 
-  </div>
-
-
-  <!-- 관리자 -->
-  <div class="box" id="admin">
-
-    <h2>상품 등록</h2>
-
-    <label>상품 사진</label>
-    <input
-      type="file"
-      id="image"
-      accept="image/*"
-    >
-
-    <img id="preview" alt="상품 미리보기">
+  </section>
 
 
-    <label>상품명</label>
-    <input
-      type="text"
-      id="name"
-      placeholder="예: 게이밍 PC"
-    >
+  <!-- 관리자 화면 -->
+
+  <section class="box" id="admin">
+
+    <h2 id="formTitle">상품 등록</h2>
+
+    <form id="productForm">
+
+      <label for="image">상품 사진</label>
+
+      <input
+        type="file"
+        id="image"
+        accept="image/*"
+      >
+
+      <img id="preview" alt="상품 사진 미리보기">
+
+      <div class="small-note">
+        상품 수정 시 사진을 새로 선택하지 않으면 기존 사진을 유지합니다.
+      </div>
 
 
-    <label>가격</label>
-    <input
-      type="text"
-      id="price"
-      placeholder="예: 1299000"
-    >
+      <label for="name">상품명</label>
+      <input
+        type="text"
+        id="name"
+        placeholder="예: 게이밍 PC"
+        required
+      >
 
 
-    <label>CPU</label>
-    <input
-      type="text"
-      id="cpu"
-      placeholder="예: Ryzen 5 7600"
-    >
+      <label for="price">가격</label>
+      <input
+        type="text"
+        id="price"
+        placeholder="예: 1299000"
+      >
 
 
-    <label>그래픽카드</label>
-    <input
-      type="text"
-      id="gpu"
-      placeholder="예: RTX 5060"
-    >
+      <label for="cpu">CPU</label>
+      <input
+        type="text"
+        id="cpu"
+        placeholder="예: Ryzen 5 7600"
+      >
 
 
-    <label>RAM</label>
-    <input
-      type="text"
-      id="ram"
-      placeholder="예: DDR5 32GB"
-    >
+      <label for="gpu">그래픽카드</label>
+      <input
+        type="text"
+        id="gpu"
+        placeholder="예: RTX 5060"
+      >
 
 
-    <label>SSD</label>
-    <input
-      type="text"
-      id="ssd"
-      placeholder="예: NVMe 1TB"
-    >
+      <label for="ram">RAM</label>
+      <input
+        type="text"
+        id="ram"
+        placeholder="예: DDR5 32GB"
+      >
 
 
-    <label>메인보드</label>
-    <input
-      type="text"
-      id="main_board"
-      placeholder="예: B650M"
-    >
+      <label for="ssd">SSD</label>
+      <input
+        type="text"
+        id="ssd"
+        placeholder="예: NVMe 1TB"
+      >
 
 
-    <label>파워</label>
-    <input
-      type="text"
-      id="power"
-      placeholder="예: 750W"
-    >
+      <label for="main_board">메인보드</label>
+      <input
+        type="text"
+        id="main_board"
+        placeholder="예: B650M"
+      >
 
 
-    <label>모니터</label>
-    <input
-      type="text"
-      id="monitor"
-      placeholder="예: 27인치 QHD"
-    >
+      <label for="power">파워</label>
+      <input
+        type="text"
+        id="power"
+        placeholder="예: 750W"
+      >
 
 
-    <label>HDD</label>
-    <input
-      type="text"
-      id="hdd"
-      placeholder="선택사항"
-    >
+      <label for="monitor">모니터</label>
+      <input
+        type="text"
+        id="monitor"
+        placeholder="예: 27인치 QHD"
+      >
 
 
-    <label>키보드 / 마우스</label>
-    <input
-      type="text"
-      id="keyboard_mouse"
-      placeholder="예: 게이밍 키보드 + 마우스"
-    >
+      <label for="hdd">HDD</label>
+      <input
+        type="text"
+        id="hdd"
+        placeholder="선택사항"
+      >
 
 
-    <label>상품 설명</label>
-    <textarea
-      id="description"
-      placeholder="상품에 대한 설명을 입력하세요."
-    ></textarea>
+      <label for="keyboard_mouse">키보드 / 마우스</label>
+      <input
+        type="text"
+        id="keyboard_mouse"
+        placeholder="예: 게이밍 키보드 + 마우스"
+      >
 
 
-   <button id="saveButton" onclick="saveProduct()">
-  상품 등록
-</button>
+      <label for="description">상품 설명</label>
+      <textarea
+        id="description"
+        placeholder="상품에 대한 설명을 입력하세요."
+      ></textarea>
 
-<button
-  id="cancelEditButton"
-  class="logout"
-  onclick="cancelEdit()"
-  style="display:none;"
->
-  수정 취소
-</button>
-  
-    <div id="message"></div>
+
+      <button type="submit" id="saveButton">
+        상품 등록
+      </button>
+
+      <button
+        type="button"
+        id="cancelEditButton"
+        class="cancel"
+        style="display:none;"
+      >
+        수정 취소
+      </button>
+
+    </form>
+
+    <div id="message" role="status"></div>
 
     <hr>
 
-<h2>등록된 상품</h2>
+    <h2>등록된 상품</h2>
 
-<div id="productList">
-  상품을 불러오는 중...
-</div>
+    <div id="productList">
+      상품 목록을 확인하는 중...
+    </div>
+
     <hr>
-    <button class="logout" onclick="logout()">
+
+    <button type="button" id="logoutButton" class="logout">
       로그아웃
     </button>
 
-  </div>
+  </section>
 
 </main>
 
 
 <script>
+"use strict";
 
-/* =========================
+/* ========================================
    Supabase 연결
-========================= */
+======================================== */
 
 const SUPABASE_URL =
   "https://znsgehjaspiqluopovyv.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
 
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-/* =========================
-   수정 중인 상품 ID
-========================= */
+
+/* ========================================
+   HTML 요소
+======================================== */
+
+const loginSection =
+  document.getElementById("login");
+
+const adminSection =
+  document.getElementById("admin");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const loginMessage =
+  document.getElementById("loginMessage");
+
+const message =
+  document.getElementById("message");
+
+const productForm =
+  document.getElementById("productForm");
+
+const saveButton =
+  document.getElementById("saveButton");
+
+const cancelEditButton =
+  document.getElementById("cancelEditButton");
+
+const productList =
+  document.getElementById("productList");
+
+const imageInput =
+  document.getElementById("image");
+
+const preview =
+  document.getElementById("preview");
+
+
+/* ========================================
+   상품 수정 상태
+======================================== */
 
 let editingProductId = null;
+
 let editingImageUrl = null;
 
-/* =========================
-   상품 수정 화면에 불러오기
-========================= */
+let isSaving = false;
+
+let isLoadingProducts = false;
+
+
+/* ========================================
+   메시지 표시
+======================================== */
+
+function showMessage(text, color = "#17243a") {
+  message.textContent = text;
+  message.style.color = color;
+}
+
+function showLoginMessage(text, color = "red") {
+  loginMessage.textContent = text;
+  loginMessage.style.color = color;
+}
+
+
+/* ========================================
+   입력값 안전하게 가져오기
+======================================== */
+
+function getValue(id) {
+  return document.getElementById(id).value.trim();
+}
+
+
+/* ========================================
+   로그인 화면 표시
+======================================== */
+
+function showLogin() {
+  loginSection.style.display = "block";
+  adminSection.style.display = "none";
+}
+
+
+/* ========================================
+   관리자 화면 표시
+======================================== */
+
+async function showAdmin() {
+  loginSection.style.display = "none";
+  adminSection.style.display = "block";
+
+  await loadProducts();
+}
+
+
+/* ========================================
+   로그인
+======================================== */
+
+async function login() {
+
+  const email = getValue("email");
+
+  const password =
+    document.getElementById("password").value;
+
+  if (!email || !password) {
+    showLoginMessage(
+      "이메일과 비밀번호를 입력해주세요."
+    );
+    return;
+  }
+
+  loginButton.disabled = true;
+  loginButton.textContent = "로그인 중...";
+
+  showLoginMessage("");
+
+  try {
+
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    showLoginMessage(
+      "로그인 성공!",
+      "green"
+    );
+
+    await showAdmin();
+
+  } catch (error) {
+
+    console.error("로그인 오류:", error);
+
+    showLoginMessage(
+      "로그인 실패: " + error.message
+    );
+
+  } finally {
+
+    loginButton.disabled = false;
+    loginButton.textContent = "로그인";
+
+  }
+}
+
+loginButton.addEventListener("click", login);
+
+
+/* ========================================
+   로그아웃
+======================================== */
+
+async function logout() {
+
+  logoutButton.disabled = true;
+
+  try {
+
+    const { error } =
+      await supabaseClient.auth.signOut();
+
+    if (error) {
+      throw error;
+    }
+
+    resetForm();
+
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+
+    showLoginMessage("");
+    showMessage("");
+
+    showLogin();
+
+  } catch (error) {
+
+    console.error("로그아웃 오류:", error);
+
+    showMessage(
+      "로그아웃 실패: " + error.message,
+      "red"
+    );
+
+  } finally {
+
+    logoutButton.disabled = false;
+
+  }
+}
+
+logoutButton.addEventListener("click", logout);
+
+
+/* ========================================
+   세션 확인
+======================================== */
+
+async function checkSession() {
+
+  try {
+
+    const { data, error } =
+      await supabaseClient.auth.getSession();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data.session) {
+
+      await showAdmin();
+
+    } else {
+
+      showLogin();
+
+    }
+
+  } catch (error) {
+
+    console.error("세션 확인 오류:", error);
+
+    showLogin();
+
+    showLoginMessage(
+      "로그인 상태를 확인하지 못했습니다."
+    );
+
+  }
+}
+
+
+/* ========================================
+   로그인 상태 변경 감지
+======================================== */
+
+supabaseClient.auth.onAuthStateChange(
+  (event, session) => {
+
+    if (event === "SIGNED_OUT" || !session) {
+
+      adminSection.style.display = "none";
+      loginSection.style.display = "block";
+
+    }
+
+  }
+);
+
+
+/* ========================================
+   이미지 미리보기
+======================================== */
+
+imageInput.addEventListener("change", function() {
+
+  const file = imageInput.files[0];
+
+  if (!file) {
+
+    if (editingImageUrl) {
+
+      preview.src = editingImageUrl;
+      preview.style.display = "block";
+
+    } else {
+
+      preview.removeAttribute("src");
+      preview.style.display = "none";
+
+    }
+
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+
+    showMessage(
+      "이미지 파일만 선택할 수 있습니다.",
+      "red"
+    );
+
+    imageInput.value = "";
+    return;
+
+  }
+
+  const objectUrl = URL.createObjectURL(file);
+
+  preview.src = objectUrl;
+  preview.style.display = "block";
+
+});
+
+
+/* ========================================
+   수정 폼에 상품 정보 넣기
+======================================== */
 
 function editProduct(product) {
 
@@ -381,36 +765,33 @@ function editProduct(product) {
   document.getElementById("description").value =
     product.description || "";
 
-  const preview =
-    document.getElementById("preview");
+  imageInput.value = "";
 
   if (editingImageUrl) {
 
     preview.src = editingImageUrl;
-
     preview.style.display = "block";
 
   } else {
 
     preview.removeAttribute("src");
-
     preview.style.display = "none";
 
   }
 
-  document.getElementById("image").value = "";
+  document.getElementById("formTitle").textContent =
+    "상품 수정";
 
-  document.getElementById("saveButton").textContent =
+  saveButton.textContent =
     "상품 수정 저장";
 
-  document.getElementById("cancelEditButton").style.display =
+  cancelEditButton.style.display =
     "block";
 
-  document.getElementById("message").textContent =
-    "상품 수정 중입니다.";
-
-  document.getElementById("message").style.color =
-    "#1769e0";
+  showMessage(
+    "상품 수정 중입니다. 내용을 변경한 후 저장해주세요.",
+    "#1769e0"
+  );
 
   window.scrollTo({
     top: 0,
@@ -418,345 +799,188 @@ function editProduct(product) {
   });
 
 }
- 
-  /* =========================
-   로그인
-========================= */
-
-async function login() {
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-  const message =
-    document.getElementById("loginMessage");
-
-  const button =
-    document.getElementById("loginButton");
 
 
-  if (!email || !password) {
+/* ========================================
+   수정 취소
+======================================== */
 
-    message.textContent =
-      "이메일과 비밀번호를 입력해주세요.";
+function resetForm() {
 
-    message.style.color = "red";
+  productForm.reset();
 
-    return;
+  editingProductId = null;
+
+  editingImageUrl = null;
+
+  preview.removeAttribute("src");
+  preview.style.display = "none";
+
+  document.getElementById("formTitle").textContent =
+    "상품 등록";
+
+  saveButton.textContent =
+    "상품 등록";
+
+  cancelEditButton.style.display =
+    "none";
+
+  showMessage("");
+
+}
+
+cancelEditButton.addEventListener("click", resetForm);
+
+
+/* ========================================
+   이미지 업로드
+======================================== */
+
+async function uploadImage(file) {
+
+  if (!file) {
+    return null;
   }
 
+  if (!file.type.startsWith("image/")) {
+    throw new Error("이미지 파일만 업로드할 수 있습니다.");
+  }
 
-  button.disabled = true;
+  const extension =
+    file.name.split(".").pop().toLowerCase();
 
-  button.textContent =
-    "로그인 중...";
+  const safeExtension =
+    /^[a-z0-9]+$/.test(extension)
+      ? extension
+      : "jpg";
 
+  const fileName =
+    Date.now() +
+    "-" +
+    Math.random().toString(36).substring(2) +
+    "." +
+    safeExtension;
 
-  const { data, error } =
-    await supabaseClient.auth.signInWithPassword({
-
-      email: email,
-      password: password
-
-    });
-
+  const { error } =
+    await supabaseClient
+      .storage
+      .from("product-images")
+      .upload(
+        fileName,
+        file,
+        {
+          cacheControl: "3600",
+          upsert: false
+        }
+      );
 
   if (error) {
+    throw new Error(
+      "사진 업로드 실패: " + error.message
+    );
+  }
 
-    message.textContent =
-      "로그인 실패: " + error.message;
+  const { data } =
+    supabaseClient
+      .storage
+      .from("product-images")
+      .getPublicUrl(fileName);
 
-    message.style.color = "red";
+  return data.publicUrl;
 
-    button.disabled = false;
+}
 
-    button.textContent =
-      "로그인";
 
+/* ========================================
+   상품 저장
+   신규 등록 / 기존 상품 수정
+======================================== */
+
+async function saveProduct(event) {
+
+  event.preventDefault();
+
+  if (isSaving) {
     return;
   }
 
+  isSaving = true;
 
-  message.textContent =
-    "로그인 성공!";
+  saveButton.disabled = true;
+  cancelEditButton.disabled = true;
 
-  message.style.color = "green";
+  saveButton.textContent = "저장 중...";
 
-
-  showAdmin();
-
-}
-
-
-/* =========================
-   관리자 화면
-========================= */
-
-function showAdmin() {
-
-  document.getElementById("login").style.display =
-    "none";
-
-  document.getElementById("admin").style.display =
-    "block";
-}
-
-
-/* =========================
-   로그아웃
-========================= */
-
-async function logout() {
-
-  await supabaseClient.auth.signOut();
-
-  document.getElementById("admin").style.display =
-    "none";
-
-  document.getElementById("login").style.display =
-    "block";
-
-  document.getElementById("email").value =
-    "";
-
-  document.getElementById("password").value =
-    "";
-
-  document.getElementById("loginMessage").textContent =
-    "";
-
-}
-
-
-/* =========================
-   세션 확인
-========================= */
-
-async function checkSession() {
-
-  const { data } =
-    await supabaseClient.auth.getSession();
-
-
-  if (data.session) {
-
-    showAdmin();
-
-  } else {
-
-    document.getElementById("login").style.display =
-      "block";
-
-  }
-}
-
-
-/* =========================
-   이미지 미리보기
-========================= */
-
-document
-  .getElementById("image")
-  .addEventListener("change", function(event) {
-
-    const file =
-      event.target.files[0];
-
-    if (!file) return;
-
-
-    const preview =
-      document.getElementById("preview");
-
-
-    preview.src =
-      URL.createObjectURL(file);
-
-    preview.style.display =
-      "block";
-  });
-
-
-/* =========================
-   상품 등록
-========================= */
-
-async function saveProduct() {
-
-  const message =
-    document.getElementById("message");
-
-  const button =
-    document.getElementById("saveButton");
-
-
-  message.textContent =
-    "";
-
-  button.disabled =
-    true;
-
-  button.textContent =
-    "등록 중...";
-
+  showMessage("");
 
   try {
 
-    /* 로그인 확인 */
+    /* 로그인 상태 확인 */
 
-    const {
-      data: sessionData
-    } =
+    const { data: sessionData, error: sessionError } =
       await supabaseClient.auth.getSession();
 
+    if (sessionError) {
+      throw sessionError;
+    }
 
     if (!sessionData.session) {
 
       throw new Error(
-        "로그인이 필요합니다."
+        "로그인이 필요합니다. 다시 로그인해주세요."
       );
 
     }
 
 
-    /* 입력값 */
+    /* 상품 정보 가져오기 */
 
-    const imageFile =
-      document.getElementById("image").files[0];
-
-    const name =
-      document.getElementById("name").value.trim();
-
-    const price =
-      document.getElementById("price").value.trim();
-
-    const cpu =
-      document.getElementById("cpu").value.trim();
-
-    const gpu =
-      document.getElementById("gpu").value.trim();
-
-    const ram =
-      document.getElementById("ram").value.trim();
-
-    const ssd =
-      document.getElementById("ssd").value.trim();
-
-    const mainBoard =
-      document.getElementById("main_board").value.trim();
-
-    const power =
-      document.getElementById("power").value.trim();
-
-    const monitor =
-      document.getElementById("monitor").value.trim();
-
-    const hdd =
-      document.getElementById("hdd").value.trim();
-
-    const keyboardMouse =
-      document
-        .getElementById("keyboard_mouse")
-        .value
-        .trim();
-
-    const description =
-      document
-        .getElementById("description")
-        .value
-        .trim();
-
-
-    /* 상품명 확인 */
+    const name = getValue("name");
 
     if (!name) {
-
-      throw new Error(
-        "상품명을 입력해주세요."
-      );
-
+      throw new Error("상품명을 입력해주세요.");
     }
 
+    const price = getValue("price");
 
-    /* =========================
-       이미지 업로드
-    ========================= */
+    const cpu = getValue("cpu");
 
-    let imageUrl = null;
+    const gpu = getValue("gpu");
 
+    const ram = getValue("ram");
+
+    const ssd = getValue("ssd");
+
+    const mainBoard = getValue("main_board");
+
+    const power = getValue("power");
+
+    const monitor = getValue("monitor");
+
+    const hdd = getValue("hdd");
+
+    const keyboardMouse = getValue("keyboard_mouse");
+
+    const description = getValue("description");
+
+    const imageFile = imageInput.files[0];
+
+
+    /* 사진 처리
+       새 사진이 있으면 업로드
+       없으면 기존 사진 유지
+    */
+
+    let imageUrl = editingImageUrl;
 
     if (imageFile) {
 
-      const fileExtension =
-        imageFile.name
-          .split(".")
-          .pop()
-          .toLowerCase();
-
-
-      const fileName =
-        Date.now() +
-        "-" +
-        Math.random()
-          .toString(36)
-          .substring(2) +
-        "." +
-        fileExtension;
-
-
-      const filePath =
-        fileName;
-
-
-      const {
-        error: uploadError
-      } =
-        await supabaseClient
-          .storage
-          .from("product-images")
-          .upload(
-            filePath,
-            imageFile,
-            {
-              cacheControl: "3600",
-              upsert: false
-            }
-          );
-
-
-      if (uploadError) {
-
-        throw new Error(
-          "사진 업로드 실패: " +
-          uploadError.message
-        );
-
-      }
-
-
-      /* 공개 URL */
-
-      const {
-        data: publicUrlData
-      } =
-        supabaseClient
-          .storage
-          .from("product-images")
-          .getPublicUrl(filePath);
-
-
-      imageUrl =
-        publicUrlData.publicUrl;
+      imageUrl = await uploadImage(imageFile);
 
     }
 
 
-    /* =========================
-       products 저장
-    ========================= */
+    /* 데이터 구성 */
 
     const productData = {
 
@@ -772,8 +996,7 @@ async function saveProduct() {
 
       ssd: ssd,
 
-      "main board":
-        mainBoard,
+      "main board": mainBoard,
 
       power: power,
 
@@ -781,257 +1004,301 @@ async function saveProduct() {
 
       hdd: hdd,
 
-      "keyboard mouse":
-        keyboardMouse,
+      "keyboard mouse": keyboardMouse,
 
-      description:
-        description,
+      description: description,
 
-      image_url:
-        imageUrl
+      image_url: imageUrl
 
     };
 
 
-    const {
-      error: insertError
-    } =
-      await supabaseClient
-        .from("pcsolution")
-        .insert([productData]);
+    /* 신규 등록 또는 수정 */
+
+    let saveError = null;
+
+    if (editingProductId !== null) {
+
+      /* 기존 상품 수정 */
+
+      const result =
+        await supabaseClient
+          .from("pcsolution")
+          .update(productData)
+          .eq("id", editingProductId);
+
+      saveError = result.error;
+
+    } else {
+
+      /* 신규 상품 등록 */
+
+      const result =
+        await supabaseClient
+          .from("pcsolution")
+          .insert([productData]);
+
+      saveError = result.error;
+
+    }
+
+    if (saveError) {
+      throw saveError;
+    }
 
 
-    if (insertError) {
+    /* 성공 처리 */
 
-      throw new Error(
-        "상품 저장 실패: " +
-        insertError.message
+    if (editingProductId !== null) {
+
+      showMessage(
+        "상품 수정이 완료되었습니다!",
+        "green"
+      );
+
+    } else {
+
+      showMessage(
+        "상품 등록이 완료되었습니다!",
+        "green"
       );
 
     }
 
+    resetForm();
 
-    /* =========================
-       성공
-    ========================= */
-
-    message.textContent =
-      "🎉 상품 등록 완료!";
-
-    message.style.color =
-      "green";
-
-
-    /* 입력값 초기화 */
-
-    document.getElementById("image").value =
-      "";
-
-    document.getElementById("preview").style.display =
-      "none";
-
-    document.getElementById("name").value =
-      "";
-
-    document.getElementById("price").value =
-      "";
-
-    document.getElementById("cpu").value =
-      "";
-
-    document.getElementById("gpu").value =
-      "";
-
-    document.getElementById("ram").value =
-      "";
-
-    document.getElementById("ssd").value =
-      "";
-
-    document.getElementById("main_board").value =
-      "";
-
-    document.getElementById("power").value =
-      "";
-
-    document.getElementById("monitor").value =
-      "";
-
-    document.getElementById("hdd").value =
-      "";
-
-    document.getElementById("keyboard_mouse").value =
-      "";
-
-    document.getElementById("description").value =
-      "";
-
+    await loadProducts();
 
   } catch (error) {
 
-    console.error(error);
+    console.error("상품 저장 오류:", error);
 
-    message.textContent =
-      "❌ " + error.message;
+    showMessage(
+      "저장 실패: " + error.message,
+      "red"
+    );
 
-    message.style.color =
-      "red";
+  } finally {
+
+    isSaving = false;
+
+    saveButton.disabled = false;
+    cancelEditButton.disabled = false;
+
+    saveButton.textContent =
+      editingProductId !== null
+        ? "상품 수정 저장"
+        : "상품 등록";
 
   }
 
-
-  button.disabled =
-    false;
-
-  button.textContent =
-    "상품 등록";
 }
 
+productForm.addEventListener("submit", saveProduct);
 
-/* =========================
-   시작
-========================= */
+
+/* ========================================
+   상품 목록 불러오기
+======================================== */
+
 async function loadProducts() {
 
-  const productList =
-    document.getElementById("productList");
+  if (isLoadingProducts) {
+    return;
+  }
 
-  productList.innerHTML =
+  isLoadingProducts = true;
+
+  productList.textContent =
     "상품을 불러오는 중...";
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("pcsolution")
-      .select("*")
-      .order("id", { ascending: false });
+  try {
 
+    /* 로그인 확인 */
 
-  if (error) {
+    const { data: sessionData, error: sessionError } =
+      await supabaseClient.auth.getSession();
 
-    productList.innerHTML =
-      "❌ 상품 불러오기 실패: " +
-      error.message;
+    if (sessionError) {
+      throw sessionError;
+    }
 
-    return;
-  }
+    if (!sessionData.session) {
 
+      productList.textContent =
+        "로그인이 필요합니다.";
 
-  if (!data || data.length === 0) {
-
-    productList.innerHTML =
-      "등록된 상품이 없습니다.";
-
-    return;
-  }
-
-
-  productList.innerHTML = "";
-
-
-  data.forEach(product => {
-
-    // 상품 수정 버튼
-
-    const editButton =
-      document.createElement("button");
-
-    editButton.textContent =
-      "✏️ 상품 수정";
-
-    editButton.style.marginTop =
-      "10px";
-
-    editButton.onclick = function() {
-
-      editProduct(product);
-
-    };
-    const card =
-      document.createElement("div");
-
-    card.style.border =
-      "1px solid #ddd";
-
-    card.style.borderRadius =
-      "12px";
-
-    card.style.padding =
-      "15px";
-
-    card.style.marginBottom =
-      "15px";
-
-    card.style.background =
-      "#fafafa";
-
-
-    let imageHTML = "";
-
-
-    if (product.image_url) {
-
-      imageHTML =
-        `<img
-          src="${product.image_url}"
-          style="
-            width:160px;
-            height:120px;
-            object-fit:cover;
-            border-radius:8px;
-            margin-bottom:10px;
-          "
-        >`;
+      return;
 
     }
 
 
-    card.innerHTML = `
+    /* 데이터 가져오기 */
 
-      ${imageHTML}
+    const { data, error } =
+      await supabaseClient
+        .from("pcsolution")
+        .select("*")
+        .order("id", { ascending: false });
 
-      <h3>
-        ${product.name || "상품명 없음"}
-      </h3>
+    if (error) {
+      throw error;
+    }
 
-      <p>
-        💰 가격:
-        ${product.price || "-"}
-      </p>
 
-      <p>
-        🧠 CPU:
-        ${product.cpu || "-"}
-      </p>
+    if (!data || data.length === 0) {
 
-      <p>
-        🎮 그래픽카드:
-        ${product.gpu || "-"}
-      </p>
+      productList.textContent =
+        "등록된 상품이 없습니다.";
 
-      <p>
-        💾 RAM:
-        ${product.ram || "-"}
-      </p>
+      return;
 
-      <p>
-        💽 SSD:
-        ${product.ssd || "-"}
-      </p>
+    }
 
-    `;
 
-card.appendChild(editButton);
-    productList.appendChild(card);
+    /* 목록 초기화 */
 
-  });
+    productList.replaceChildren();
+
+
+    /* 상품 카드 생성 */
+
+    data.forEach(function(product) {
+
+      const card =
+        document.createElement("div");
+
+      card.className = "product-card";
+
+
+      /* 상품 사진 */
+
+      if (product.image_url) {
+
+        const img =
+          document.createElement("img");
+
+        img.src = product.image_url;
+
+        img.alt = product.name || "상품 사진";
+
+        img.loading = "lazy";
+
+        card.appendChild(img);
+
+      }
+
+
+      /* 상품명 */
+
+      const title =
+        document.createElement("h3");
+
+      title.textContent =
+        product.name || "상품명 없음";
+
+      card.appendChild(title);
+
+
+      /* 상품 정보 */
+
+      const fields = [
+
+        ["💰 가격", product.price],
+
+        ["🧠 CPU", product.cpu],
+
+        ["🎮 그래픽카드", product.gpu],
+
+        ["💾 RAM", product.ram],
+
+        ["💽 SSD", product.ssd],
+
+        ["🖥️ 메인보드", product["main board"]],
+
+        ["⚡ 파워", product.power],
+
+        ["🖥️ 모니터", product.monitor],
+
+        ["💿 HDD", product.hdd],
+
+        ["⌨️ 키보드 / 마우스", product["keyboard mouse"]],
+
+        ["📝 상품 설명", product.description]
+
+      ];
+
+
+      fields.forEach(function(field) {
+
+        const paragraph =
+          document.createElement("p");
+
+        const label =
+          document.createElement("strong");
+
+        label.textContent =
+          field[0] + ": ";
+
+        const value =
+          document.createElement("span");
+
+        value.textContent =
+          field[1] || "-";
+
+        paragraph.appendChild(label);
+        paragraph.appendChild(value);
+
+        card.appendChild(paragraph);
+
+      });
+
+
+      /* 수정 버튼 */
+
+      const editButton =
+        document.createElement("button");
+
+      editButton.type = "button";
+
+      editButton.className = "edit-button";
+
+      editButton.textContent = "✏️ 상품 수정";
+
+      editButton.addEventListener("click", function() {
+
+        editProduct(product);
+
+      });
+
+      card.appendChild(editButton);
+
+
+      productList.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error("상품 목록 오류:", error);
+
+    productList.textContent =
+      "상품 불러오기 실패: " + error.message;
+
+  } finally {
+
+    isLoadingProducts = false;
+
+  }
 
 }
-checkSession().then(() => {
-  loadProducts();
-});
+
+
+/* ========================================
+   페이지 시작
+======================================== */
+
+checkSession();
 
 </script>
 
