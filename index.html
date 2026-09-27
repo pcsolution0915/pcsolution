@@ -1463,25 +1463,13 @@ async function loadConsultationStatus() {
 
   try {
 
-    const {
-      data,
-      error
-    } = await supabaseClient
-
-      .from("quote_requests")
-
-      .select(
-        "id, customer_name, created_at, status"
-      )
-
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      )
-
-      .limit(50);
+   const {
+  data,
+  error
+} = await supabaseClient
+  .rpc(
+    "get_public_consultation_status"
+  );
 
     if (error) {
       throw error;
