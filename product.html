@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>PC SOLUTION 상품 상세</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+  "https://znsgehjaspiqluopovyv.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    Arial,
+    "Malgun Gothic",
+    sans-serif;
+
+  color: #172033;
+  background: #f4f7fb;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+
+/* ==========================================
+   상단
+========================================== */
+
+.header {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 20px;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: #1769e0;
+}
+
+.home-button {
+  padding: 10px 17px;
+  background: #17243a;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+/* ==========================================
+   전체 영역
+========================================== */
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+
+/* ==========================================
+   로딩
+========================================== */
+
+.loading {
+  background: white;
+  padding: 80px 20px;
+  border-radius: 18px;
+  text-align: center;
+  color: #667085;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.06);
+}
+
+
+/* ==========================================
+   상품 상세
+========================================== */
+
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 45px;
+
+  background: white;
+
+  padding: 40px;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.07);
+}
+
+
+/* ==========================================
+   이미지
+========================================== */
+
+.image-area {
+  min-width: 0;
+}
+
+.product-image-box {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #f8fafc;
+
+  border: 1px solid #eef0f3;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+.no-image {
+  color: #98a2b3;
+  font-size: 15px;
+}
+
+
+/* ==========================================
+   상품 정보
+========================================== */
+
+.info-area {
+  min-width: 0;
+}
+
+.product-label {
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  padding: 7px 11px;
+
+  background: #eef6ff;
+
+  color: #1769e0;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+}
+
+.product-name {
+  margin: 0;
+
+  font-size: 30px;
+
+  line-height: 1.35;
+
+  word-break: break-word;
+}
+
+.product-description {
+  margin-top: 15px;
+
+  color: #667085;
+
+  line-height: 1.8;
+
+  white-space: pre-line;
+
+  word-break: break-word;
+}
+
+
+/* ==========================================
+   가격
+========================================== */
+
+.price-box {
+  margin-top: 25px;
+
+  padding: 22px;
+
+  background: #f8fafc;
+
+  border-radius: 14px;
+}
+
+.price-label {
+  color: #667085;
+  font-size: 14px;
+}
+
+.product-price {
+  margin-top: 5px;
+
+  color: #1769e0;
+
+  font-size: 30px;
+
+  font-weight: bold;
+
+  word-break: break-word;
+}
+
+
+/* ==========================================
+   사양
+========================================== */
+
+.spec-title {
+  margin-top: 30px;
+  margin-bottom: 12px;
+
+  font-size: 19px;
+}
+
+.spec-list {
+  border-top: 1px solid #e5e7eb;
+}
+
+.spec-row {
+  display: grid;
+
+  grid-template-columns:
+    120px 1fr;
+
+  gap: 15px;
+
+  padding: 13px 0;
+
+  border-bottom:
+    1px solid #eef0f3;
+}
+
+.spec-name {
+  color: #667085;
+  font-weight: bold;
+}
+
+.spec-value {
+  color: #172033;
+  word-break: break-word;
+}
+
+
+/* ==========================================
+   버튼
+========================================== */
+
+.button-area {
+  margin-top: 30px;
+
+  display: grid;
+
+  gap: 10px;
+}
+
+.consult-button {
+  display: block;
+
+  padding: 16px;
+
+  text-align: center;
+
+  background: #1769e0;
+
+  color: white;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  font-weight: bold;
+}
+
+.kakao-button {
+  display: block;
+
+  padding: 16px;
+
+  text-align: center;
+
+  background: #FEE500;
+
+  color: #191919;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+
+  font-weight: bold;
+}
+
+.back-button {
+  display: block;
+
+  padding: 14px;
+
+  text-align: center;
+
+  background: #f2f4f7;
+
+  color: #475467;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  font-weight: bold;
+}
+
+
+/* ==========================================
+   안내
+========================================== */
+
+.notice {
+  margin-top: 25px;
+
+  padding: 18px;
+
+  background: #fff7ed;
+
+  border: 1px solid #fed7aa;
+
+  border-radius: 12px;
+
+  color: #9a3412;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* ==========================================
+   오류
+========================================== */
+
+.error-box {
+  background: white;
+
+  padding: 60px 20px;
+
+  border-radius: 18px;
+
+  text-align: center;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.06);
+}
+
+.error-box h2 {
+  color: #172033;
+}
+
+.error-box p {
+  color: #667085;
+  line-height: 1.7;
+}
+
+
+/* ==========================================
+   하단
+========================================== */
+
+.footer {
+  margin-top: 60px;
+
+  padding: 30px 20px;
+
+  text-align: center;
+
+  background: #0d1522;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+}
+
+.footer strong {
+  color: white;
+}
+
+
+/* ==========================================
+   모바일
+========================================== */
+
+@media(max-width: 800px) {
+
+  .product-detail {
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+
+    padding: 25px;
+  }
+
+  .product-name {
+    font-size: 25px;
+  }
+
+  .product-price {
+    font-size: 26px;
+  }
+
+}
+
+
+@media(max-width: 500px) {
+
+  .header {
+    padding: 15px;
+  }
+
+  .logo {
+    font-size: 21px;
+  }
+
+  .container {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  .product-detail {
+    padding: 18px;
+    border-radius: 15px;
+  }
+
+  .spec-row {
+    grid-template-columns:
+      90px 1fr;
+
+    gap: 10px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header class="header">
+
+  <div class="header-inner">
+
+    <div class="logo">
+      PC SOLUTION
+    </div>
+
+    <a
+      href="index.html"
+      class="home-button"
+    >
+      🏠 메인으로
+    </a>
+
+  </div>
+
+</header>
+
+
+
+<!-- ==========================================
+     상품 상세
+========================================== -->
+
+<main class="container">
+
+  <div
+    id="productDetail"
+    class="loading"
+  >
+    상품 정보를 불러오는 중입니다...
+  </div>
+
+</main>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer class="footer">
+
+  <strong>
+    PC SOLUTION
+  </strong>
+
+  <br><br>
+
+  조립PC · 게이밍PC · 사무용PC · PC부품 · A/S
+
+</footer>
+
+
+
+<script>
+
+/* ==========================================
+   HTML 보호
+========================================== */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* ==========================================
+   이미지 주소 확인
+========================================== */
+
+function safeImageUrl(value) {
+
+  if (!value) {
+    return "";
+  }
+
+  try {
+
+    const url =
+      new URL(
+        value,
+        window.location.href
+      );
+
+    if (
+      url.protocol !== "http:" &&
+      url.protocol !== "https:"
+    ) {
+
+      return "";
+
+    }
+
+    return url.href;
+
+  } catch (_) {
+
+    return "";
+
+  }
+
+}
+
+
+/* ==========================================
+   가격
+========================================== */
+
+function formatPrice(value) {
+
+  const price =
+    Number(value);
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    !Number.isFinite(price) ||
+    price <= 0
+  ) {
+
+    return "가격 문의";
+
+  }
+
+  return (
+    price.toLocaleString("ko-KR") +
+    "원"
+  );
+
+}
+
+
+/* ==========================================
+   사양 한 줄
+========================================== */
+
+function specRow(
+  label,
+  value
+) {
+
+  const displayValue =
+
+    value === null ||
+    value === undefined ||
+    String(value).trim() === ""
+
+      ? "-"
+
+      : String(value);
+
+  return `
+
+    <div class="spec-row">
+
+      <div class="spec-name">
+        ${escapeHTML(label)}
+      </div>
+
+      <div class="spec-value">
+        ${escapeHTML(displayValue)}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==========================================
+   상품 출력
+========================================== */
+
+function renderProduct(product) {
+
+  const container =
+    document.getElementById(
+      "productDetail"
+    );
+
+
+  const imageUrl =
+    safeImageUrl(
+      product.image_url
+    );
+
+
+  const imageHTML =
+
+    imageUrl
+
+      ? `
+
+        <img
+          src="${escapeHTML(imageUrl)}"
+          alt="${escapeHTML(
+            product.name || "상품 사진"
+          )}"
+          class="product-image"
+        >
+
+      `
+
+      : `
+
+        <div class="no-image">
+          상품 이미지 준비중
+        </div>
+
+      `;
+
+
+  const description =
+
+    product.description
+
+      ? `
+
+        <div class="product-description">
+
+          ${escapeHTML(
+            product.description
+          )}
+
+        </div>
+
+      `
+
+      : "";
+
+
+  container.className =
+    "product-detail";
+
+
+  container.innerHTML = `
+
+    <!-- 상품 사진 -->
+
+    <div class="image-area">
+
+      <div class="product-image-box">
+
+        ${imageHTML}
+
+      </div>
+
+    </div>
+
+
+    <!-- 상품 정보 -->
+
+    <div class="info-area">
+
+      <div class="product-label">
+        🖥️ PC SOLUTION 추천 PC
+      </div>
+
+
+      <h1 class="product-name">
+
+        ${escapeHTML(
+          product.name ||
+          "상품명 없음"
+        )}
+
+      </h1>
+
+
+      ${description}
+
+
+      <div class="price-box">
+
+        <div class="price-label">
+          판매가
+        </div>
+
+        <div class="product-price">
+
+          ${escapeHTML(
+            formatPrice(
+              product.price
+            )
+          )}
+
+        </div>
+
+      </div>
+
+
+      <h2 class="spec-title">
+        💻 주요 사양
+      </h2>
+
+
+      <div class="spec-list">
+
+        ${specRow(
+          "CPU",
+          product.cpu
+        )}
+
+        ${specRow(
+          "그래픽카드",
+          product.gpu
+        )}
+
+        ${specRow(
+          "RAM",
+          product.ram
+        )}
+
+        ${specRow(
+          "SSD",
+          product.ssd
+        )}
+
+        ${specRow(
+          "메인보드",
+          product["main board"]
+        )}
+
+        ${specRow(
+          "파워",
+          product.power
+        )}
+
+        ${specRow(
+          "모니터",
+          product.monitor
+        )}
+
+        ${specRow(
+          "HDD",
+          product.hdd
+        )}
+
+        ${specRow(
+          "키보드/마우스",
+          product["keyboard mouse"]
+        )}
+
+      </div>
+
+
+      <div class="button-area">
+
+        <a
+          href="consulting.html"
+          class="consult-button"
+        >
+          🛠️ 이 구성으로 PC 컨설팅 신청
+        </a>
+
+
+        <a
+          href="https://open.kakao.com/o/gYVLkHNi"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="kakao-button"
+        >
+          💬 카카오톡으로 문의하기
+        </a>
+
+
+        <a
+          href="index.html"
+          class="back-button"
+        >
+          ← 상품 목록으로 돌아가기
+        </a>
+
+      </div>
+
+
+      <div class="notice">
+
+        ※ 부품 가격 및 재고 상황에 따라
+        실제 판매 가격과 일부 부품은
+        변경될 수 있습니다.
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  /*
+    브라우저 제목도 상품명으로 변경
+  */
+
+  if (product.name) {
+
+    document.title =
+      product.name +
+      " | PC SOLUTION";
+
+  }
+
+}
+
+
+/* ==========================================
+   오류 화면
+========================================== */
+
+function showError(
+  title,
+  message
+) {
+
+  const container =
+    document.getElementById(
+      "productDetail"
+    );
+
+
+  container.className =
+    "error-box";
+
+
+  container.innerHTML = `
+
+    <h2>
+      ${escapeHTML(title)}
+    </h2>
+
+    <p>
+      ${escapeHTML(message)}
+    </p>
+
+    <a
+      href="index.html"
+      class="back-button"
+      style="
+        max-width:250px;
+        margin:25px auto 0;
+      "
+    >
+      ← 메인으로 돌아가기
+    </a>
+
+  `;
+
+}
+
+
+/* ==========================================
+   상품 불러오기
+========================================== */
+
+async function loadProduct() {
+
+  /*
+    주소에서 상품번호 확인
+
+    예:
+    product.html?id=12
+  */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const rawId =
+    params.get("id");
+
+
+  const productId =
+    Number(rawId);
+
+
+  if (
+    !rawId ||
+    !Number.isSafeInteger(
+      productId
+    ) ||
+    productId <= 0
+  ) {
+
+    showError(
+      "상품을 선택해주세요.",
+      "상품번호가 올바르지 않습니다."
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+
+      .from("pcsolution")
+
+      .select("*")
+
+      .eq(
+        "id",
+        productId
+      )
+
+      .maybeSingle();
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (!data) {
+
+      showError(
+        "상품을 찾을 수 없습니다.",
+        "삭제되었거나 존재하지 않는 상품입니다."
+      );
+
+      return;
+
+    }
+
+
+    renderProduct(
+      data
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "상품 상세 불러오기 오류:",
+      error
+    );
+
+
+    showError(
+      "상품 정보를 불러오지 못했습니다.",
+      "잠시 후 다시 시도해주세요."
+    );
+
+  }
+
+}
+
+
+/* ==========================================
+   시작
+========================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadProduct();
+
+  }
+);
+
+</script>
+
+
+</body>
+</html>
