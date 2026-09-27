@@ -1314,67 +1314,66 @@ async function submitQuoteRequest() {
        Supabase 저장
     ================================================== */
 
-    const {
-      data: savedQuote,
-      error
-    } = await supabaseClient
+   const {
+  data,
+  error
+} = await supabaseClient
+  .rpc(
+    "create_public_quote_request",
+    {
+      p_customer_name:
+        customerName,
 
-      .from("quote_requests")
+      p_phone:
+        phone,
 
-      .insert({
+      p_purpose:
+        purpose,
 
-        customer_name:
-          customerName,
+      p_budget:
+        budget,
 
-        phone:
-          phone,
+      p_preferred_cpu:
+        preferredCpu,
 
-        purpose:
-          purpose,
+      p_preferred_gpu:
+        preferredGpu,
 
-        budget:
-          budget,
+      p_preferred_ram:
+        preferredRam,
 
-        preferred_cpu:
-          preferredCpu,
+      p_preferred_ssd:
+        preferredSsd,
 
-        preferred_gpu:
-          preferredGpu,
+      p_monitor_needed:
+        monitorNeeded,
 
-        preferred_ram:
-          preferredRam,
-
-        preferred_ssd:
-          preferredSsd,
-
-        monitor_needed:
-          monitorNeeded,
-
-        additional_request:
-          additionalRequest,
-
-        notes:
-          additionalRequest,
-
-        status:
-          "접수"
-
-      })
-
-     .select("id, public_code")
-
-     .single();
- 
-
-
-    if (error) {
-
-      throw error;
-
+      p_additional_request:
+        additionalRequest
     }
+  );
 
 
+if (error) {
+  throw error;
+}
 
+
+if (
+  !data ||
+  data.length === 0
+) {
+
+  throw new Error(
+    "상담 신청 결과를 받지 못했습니다."
+  );
+
+}
+
+
+const savedQuote =
+  data[0]; 
+  
     const quoteRequestId =
       savedQuote.id;
 
