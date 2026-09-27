@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>PC SOLUTION 맞춤 견적 조회</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 25px 15px 50px;
+      background: #f4f7fb;
+      color: #172033;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      margin: auto;
+    }
+
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(0,0,0,.07);
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .subtitle {
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: #1769e0;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      padding: 14px;
+      border-radius: 10px;
+      margin-top: 15px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+     /* =====================================
+   PDF 견적서 출력 버튼
+===================================== */
+
+.pdf-button-area {
+  display: block;
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+#pdfButton {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#pdfButton:hover {
+  background: #15803d;
+}
+
+    .quote-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 30px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .quote-number {
+      color: #1769e0;
+      font-size: 20px;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    .parts {
+      margin-top: 20px;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .part {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .part:last-child {
+      border-bottom: 0;
+    }
+
+    .part-name {
+      color: #64748b;
+      font-weight: bold;
+      min-width: 90px;
+    }
+
+    .part-value {
+      text-align: right;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .total-box {
+      margin-top: 20px;
+      padding: 22px;
+      background: #eff6ff;
+      border-radius: 12px;
+      text-align: right;
+    }
+
+    .total-label {
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .total-price {
+      color: #1d4ed8;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .description {
+      margin-top: 20px;
+      padding: 18px;
+      background: #f8fafc;
+      border-radius: 12px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .updated {
+      margin-top: 18px;
+      color: #64748b;
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .notice {
+      margin-top: 20px;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    @media(max-width: 500px) {
+
+      .card {
+        padding: 18px;
+      }
+
+      .part {
+        gap: 12px;
+      }
+
+      .part-name {
+        min-width: 75px;
+      }
+
+      .total-price {
+        font-size: 25px;
+      }
+
+    }
+
+/* =====================================
+   PC SOLUTION PDF 인쇄 전용 디자인
+===================================== */
+
+@page {
+  size: A4 portrait;
+  margin: 12mm;
+}
+
+@media print {
+
+  @media print {
+
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #resultSection,
+  #resultSection * {
+    visibility: visible !important;
+  }
+
+  #resultSection {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+    background: #ffffff !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #resultSection .part {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  #resultSection .total-box {
+    background: #eff6ff !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  #resultSection h2 {
+    color: #172033 !important;
+  }
+
+  #resultSection .quote-number {
+    color: #1769e0 !important;
+  }
+
+  #resultSection .total-price {
+    color: #1d4ed8 !important;
+  }
+
+  a[href]::after {
+    content: none !important;
+  }
+
+}
+
+  </style>
+
+</head>
+
+<body>
+  <main class="container">
+
+    <!-- 조회 영역 -->
+
+    <section class="card">
+
+      <h1>🖥️ PC SOLUTION</h1>
+
+      <h2>맞춤 견적 조회</h2>
+
+      <p class="subtitle">
+        상담 신청 후 발급받은 상담번호를 입력하면
+        작성된 맞춤 견적을 확인할 수 있습니다.
+      </p>
+
+      <form id="lookupForm">
+
+        <label for="quoteNumber">
+          상담번호
+        </label>
+
+        <input
+          type="text"
+          id="quoteNumber"
+          placeholder="예: PCS-7F3A91C2D4"
+          autocomplete="off"
+          required
+        >
+
+        <button
+          id="lookupButton"
+          type="submit"
+        >
+          🔍 견적 조회하기
+        </button>
+
+      </form>
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </section>
+
+
+  <!-- =====================================
+     고객 맞춤 견적서
+===================================== -->
+
+<section
+  id="resultSection"
+  class="card hidden"
+>
+
+  <!-- 견적서 상단 -->
+
+  <div class="quote-header">
+
+    <div>
+
+      <h2>
+        🖥️ PC SOLUTION 맞춤 견적서
+      </h2>
+
+      <div
+        id="resultQuoteNumber"
+        class="quote-number"
+      ></div>
+
+    </div>
+
+    <span
+      id="resultStatus"
+      class="status"
+    ></span>
+
+  </div>
+
+
+  <!-- 고객 정보 -->
+
+  <div class="customer-info-box">
+
+    <div>
+      고객명
+      <strong id="customerName"></strong>
+    </div>
+
+    <div>
+      견적 작성일
+      <strong id="estimateDate">-</strong>
+    </div>
+
+  </div>
+
+
+  <!-- =====================================
+       견적 품목표
+  ====================================== -->
+
+  <div class="estimate-table-wrap">
+
+    <table class="estimate-table">
+
+      <thead>
+
+        <tr>
+          <th>품목</th>
+          <th>제조사</th>
+          <th>모델명</th>
+          <th>세부 스펙</th>
+          <th>수량</th>
+          <th>단가</th>
+          <th>공급가</th>
+        </tr>
+
+      </thead>
+
+
+      <tbody id="customerEstimateBody">
+
+        <tr data-part="cpu">
+          <th>CPU</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="main_board">
+          <th>메인보드</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="ram">
+          <th>RAM</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="ssd">
+          <th>SSD</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="gpu">
+          <th>그래픽카드</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="power">
+          <th>파워</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="case">
+          <th>케이스</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="cooler">
+          <th>쿨러</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="monitor">
+          <th>모니터</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+
+        <tr data-part="etc">
+          <th>기타</th>
+          <td class="maker"></td>
+          <td class="model"></td>
+          <td class="spec"></td>
+          <td class="qty"></td>
+          <td class="price"></td>
+          <td class="supply"></td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- 총 견적금액 -->
+
+  <div class="total-box">
+
+    <div class="total-label">
+      총 견적금액
+    </div>
+
+    <div
+      id="totalPrice"
+      class="total-price"
+    >
+      0원
+    </div>
+
+  </div>
+
+
+  <!-- 견적 설명 -->
+
+  <div
+    id="descriptionBox"
+    class="description hidden"
+  ></div>
+
+
+  <!-- 수정일 -->
+
+  <div
+    id="updatedAt"
+    class="updated"
+  ></div>
+
+
+  <p class="notice">
+    ※ 견적 구성 및 금액은 상담 과정에서 변경될 수 있습니다.<br>
+    ※ 구매 및 재고 여부는 PC SOLUTION에 별도로 문의해주세요.
+  </p>
+
+</section>  
+<!-- PDF 저장 / 인쇄 -->
+
+<section
+  id="pdfButtonArea"
+  class="card hidden"
+  style="margin-top:20px;"
+>
+
+  <button
+    id="pdfButton"
+    type="button"
+    onclick="window.print()"
+  >
+    📄 견적서 PDF 저장 / 인쇄
+  </button>
+
+</section>
+
+</main>
+
+
+  <script>
+
+    /* =====================================
+       Supabase 설정
+    ===================================== */
+
+    const SUPABASE_URL =
+      "https://znsgehjaspiqluopovyv.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* =====================================
+       공통 함수
+    ===================================== */
+
+    function escapeHTML(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function setText(id, value) {
+
+      const element =
+        document.getElementById(id);
+
+      element.textContent =
+        value === null ||
+        value === undefined ||
+        value === ""
+          ? "-"
+          : String(value);
+
+    }
+
+
+    function showMessage(text, type = "error") {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
+    }
+
+
+    function hideMessage() {
+
+      const message =
+        document.getElementById("message");
+
+      message.className = "message";
+
+      message.textContent = "";
+
+    }
+
+
+    function formatPrice(value) {
+
+      const price = Number(value);
+
+      if (!Number.isFinite(price)) {
+        return "금액 확인 필요";
+      }
+
+      return price.toLocaleString("ko-KR") + "원";
+
+    }
+
+
+    function formatDate(value) {
+
+      if (!value) {
+        return "";
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "";
+      }
+
+      return date.toLocaleString("ko-KR");
+
+    }
+
+
+    /* =====================================
+       견적 결과 초기화
+    ===================================== */
+
+   function clearResult() {
+
+  document
+    .getElementById("resultSection")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("pdfButtonArea")
+    .classList
+    .add("hidden");
+
+}
+
+/* =====================================
+   견적 표시
+===================================== */
+
+function renderEstimate(data) {
+
+  if (!data || !data.estimate) {
+
+    clearResult();
+
+    showMessage(
+      "아직 작성된 견적이 없습니다. 상담 진행 상황을 확인해주세요."
+    );
+
+    return;
+
+  }
+
+
+  const estimate =
+    data.estimate;
+
+
+  /* =====================================
+     기본 정보
+  ===================================== */
+
+  setText(
+    "resultQuoteNumber",
+    data.quote_number ||
+    data.public_code ||
+    "-"
+  );
+
+
+  setText(
+    "resultStatus",
+    data.status || "견적작성"
+  );
+
+
+  setText(
+    "customerName",
+    data.customer_name || "-"
+  );
+
+
+  /* 견적 작성일 */
+
+  const estimateDate =
+    document.getElementById(
+      "estimateDate"
+    );
+
+  if (estimateDate) {
+
+    estimateDate.textContent =
+      estimate.updated_at
+        ? formatDate(estimate.updated_at)
+        : "-";
+
+  }
+
+
+  /* =====================================
+     부품 견적표 표시
+  ===================================== */
+
+  document
+    .querySelectorAll(
+      "#customerEstimateBody tr"
+    )
+    .forEach(function(row) {
+
+      const part =
+        row.dataset.part;
+
+
+      if (!part) {
+        return;
+      }
+
+
+      const maker =
+        estimate[
+          part + "_maker"
+        ] || "";
+
+
+      const model =
+        estimate[
+          part + "_model"
+        ] ||
+
+        estimate[
+          part
+        ] ||
+
+        "";
+
+
+      const spec =
+        estimate[
+          part + "_spec"
+        ] || "";
+
+
+      const qty =
+        Number(
+          estimate[
+            part + "_qty"
+          ]
+        ) || 0;
+
+
+      const price =
+        Number(
+          estimate[
+            part + "_price"
+          ]
+        ) || 0;
+
+
+      const supply =
+        qty * price;
+
+
+      const makerCell =
+        row.querySelector(
+          ".maker"
+        );
+
+      const modelCell =
+        row.querySelector(
+          ".model"
+        );
+
+      const specCell =
+        row.querySelector(
+          ".spec"
+        );
+
+      const qtyCell =
+        row.querySelector(
+          ".qty"
+        );
+
+      const priceCell =
+        row.querySelector(
+          ".price"
+        );
+
+      const supplyCell =
+        row.querySelector(
+          ".supply"
+        );
+
+
+      if (makerCell) {
+        makerCell.textContent =
+          maker || "-";
+      }
+
+
+      if (modelCell) {
+        modelCell.textContent =
+          model || "-";
+      }
+
+
+      if (specCell) {
+        specCell.textContent =
+          spec || "-";
+      }
+
+
+      if (qtyCell) {
+
+        qtyCell.textContent =
+          qty > 0
+            ? qty
+            : "-";
+
+      }
+
+
+      if (priceCell) {
+
+        priceCell.textContent =
+          price > 0
+            ? price.toLocaleString(
+                "ko-KR"
+              ) + "원"
+            : "-";
+
+      }
+
+
+      if (supplyCell) {
+
+        supplyCell.textContent =
+          supply > 0
+            ? supply.toLocaleString(
+                "ko-KR"
+              ) + "원"
+            : "-";
+
+      }
+
+    });
+
+
+  /* =====================================
+     총 견적금액
+  ===================================== */
+
+  setText(
+    "totalPrice",
+    formatPrice(
+      estimate.total_price
+    )
+  );
+
+
+  /* =====================================
+     견적 설명
+  ===================================== */
+
+  const descriptionBox =
+    document.getElementById(
+      "descriptionBox"
+    );
+
+
+  if (estimate.description) {
+
+    descriptionBox.textContent =
+      estimate.description;
+
+    descriptionBox
+      .classList
+      .remove("hidden");
+
+  } else {
+
+    descriptionBox.textContent = "";
+
+    descriptionBox
+      .classList
+      .add("hidden");
+
+  }
+
+
+  /* =====================================
+     최근 수정
+  ===================================== */
+
+  setText(
+    "updatedAt",
+    estimate.updated_at
+      ? "최근 견적 수정 : " +
+        formatDate(
+          estimate.updated_at
+        )
+      : ""
+  );
+
+
+  /* =====================================
+     결과 표시
+  ===================================== */
+
+  document
+    .getElementById(
+      "resultSection"
+    )
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById(
+      "pdfButtonArea"
+    )
+    .classList
+    .remove("hidden");
+
+}
+  
+
+
+    /* =====================================
+       상담번호로 견적 조회
+    ===================================== */
+
+    async function lookupQuote(publicCode) {
+
+      const button =
+        document.getElementById(
+          "lookupButton"
+        );
+
+      button.disabled = true;
+
+      button.textContent =
+        "조회 중...";
+
+
+      clearResult();
+
+      hideMessage();
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .rpc(
+              "get_customer_quote",
+              {
+                p_public_code: publicCode
+              }
+            );
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        if (!data) {
+
+          showMessage(
+            "상담번호를 찾을 수 없습니다. 번호를 다시 확인해주세요."
+          );
+
+          return;
+
+        }
+
+
+        renderEstimate(data);
+
+
+      } catch (error) {
+
+        console.error(
+          "견적 조회 오류:",
+          error
+        );
+
+
+        showMessage(
+          "견적 조회 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+        );
+
+      } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          "🔍 견적 조회하기";
+
+      }
+
+    }
+
+
+    /* =====================================
+       검색 폼
+    ===================================== */
+
+    document
+      .getElementById("lookupForm")
+      .addEventListener(
+        "submit",
+        function(event) {
+
+          event.preventDefault();
+
+
+          const publicCode =
+            document
+              .getElementById("quoteNumber")
+              .value
+              .trim()
+              .toUpperCase();
+
+
+          if (!publicCode) {
+
+            showMessage(
+              "상담번호를 입력해주세요."
+            );
+
+            return;
+
+          }
+
+
+          lookupQuote(publicCode);
+
+        }
+      );
+
+  </script>
+
+</body>
+</html>
