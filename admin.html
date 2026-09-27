@@ -3,13 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>PC SOLUTION 관리자</title>
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -38,7 +35,9 @@
       margin-bottom: 22px;
     }
 
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
       margin-top: 0;
     }
 
@@ -126,11 +125,7 @@
       color: #fff;
     }
 
-    .memo-button {
-      background: #0f766e;
-      color: #fff;
-    }
-
+    .memo-button,
     .refresh-button {
       background: #0f766e;
       color: #fff;
@@ -177,142 +172,111 @@
     }
 
     /* =====================================
-       상품
+       관리자 상품 바둑판 목록
     ===================================== */
 
-  /* =====================================
-   관리자 상품 바둑판 목록
-===================================== */
+    #productList {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
 
-#productList {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
+    .product-item {
+      min-width: 0;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      transition: transform .2s, box-shadow .2s;
+    }
 
-.product-item {
-  min-width: 0;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #fff;
-  transition: transform .2s, box-shadow .2s;
-}
+    .product-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
 
-.product-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.08);
-}
+    .admin-product-image-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #f8fafc;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.admin-product-image-box {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #f8fafc;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .admin-product-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
 
-.admin-product-image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
+    .admin-no-image {
+      color: #94a3b8;
+      font-size: 13px;
+    }
 
-.admin-no-image {
-  color: #94a3b8;
-  font-size: 13px;
-}
-
-.admin-product-body {
-  padding: 14px;
-}
-
-.product-name {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.product-price {
-  color: #1769e0;
-  font-size: 19px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.admin-product-spec {
-  margin: 5px 0;
-  color: #667085;
-  font-size: 12px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.product-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
-  margin-top: 14px;
-}
-
-.product-actions button {
-  width: 100%;
-  padding: 10px 5px;
-  font-size: 13px;
-}
-
-@media(max-width: 900px) {
-
-  #productList {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-}
-
-@media(max-width: 700px) {
-
-  #productList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-}
-
-@media(max-width: 380px) {
-
-  #productList {
-    grid-template-columns: 1fr;
-  }
-
-}
+    .admin-product-body {
+      padding: 14px;
+    }
 
     .product-name {
-      font-size: 19px;
+      font-size: 16px;
       font-weight: bold;
       margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .product-price {
       color: #1769e0;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .admin-product-spec {
+      margin: 5px 0;
+      color: #667085;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .product-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .product-actions button {
+      width: 100%;
+      padding: 10px 5px;
+      font-size: 13px;
+    }
+
+    @media(max-width: 900px) {
+      #productList {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media(max-width: 700px) {
+      #productList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+    }
+
+    @media(max-width: 380px) {
+      #productList {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* =====================================
@@ -339,17 +303,26 @@
       margin-top: 18px;
     }
 
+    #quoteRequestList {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
     .quote-item {
+      min-width: 0;
+      padding: 18px;
       border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 20px;
-      margin-top: 15px;
+      border-radius: 15px;
       background: #fff;
-      transition: .2s;
+      transition: transform .2s, box-shadow .2s;
     }
 
     .quote-item:hover {
-      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
     }
 
     .quote-top {
@@ -361,8 +334,8 @@
     }
 
     .customer-name {
-      margin: 0 0 7px;
-      font-size: 20px;
+      font-size: 18px;
+      margin: 0 0 6px;
     }
 
     .phone-link {
@@ -405,16 +378,16 @@
     }
 
     .info-box {
-      margin-top: 18px;
-      padding: 16px;
+      margin-top: 14px;
+      padding: 13px;
       background: #f8fafc;
       border-radius: 11px;
     }
 
     .info-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .info-label {
@@ -424,9 +397,9 @@
     }
 
     .detail-box {
-      margin-top: 18px;
+      margin-top: 14px;
       border-top: 1px solid #e5e7eb;
-      padding-top: 15px;
+      padding-top: 12px;
     }
 
     .detail-box summary {
@@ -438,29 +411,30 @@
 
     .detail-content {
       margin-top: 15px;
-      padding: 18px;
+      padding: 13px;
       background: #f8fafc;
       border-radius: 10px;
       line-height: 1.8;
       overflow-wrap: anywhere;
+      font-size: 13px;
     }
 
     .status-area {
-      margin-top: 20px;
-      padding-top: 18px;
+      margin-top: 14px;
+      padding-top: 14px;
       border-top: 1px solid #e5e7eb;
     }
 
     .memo-area {
-      margin-top: 18px;
-      padding: 16px;
+      margin-top: 14px;
+      padding: 13px;
       background: #fff7ed;
       border: 1px solid #fed7aa;
       border-radius: 11px;
     }
 
     .memo-area textarea {
-      min-height: 90px;
+      min-height: 75px;
     }
 
     .action-row {
@@ -470,134 +444,36 @@
       margin-top: 15px;
     }
 
-/* =====================================
-   상담 신청 바둑판 카드
-===================================== */
+    .quote-item .action-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
 
-#quoteRequestList {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 20px;
-  align-items: start;
-}
+    .quote-item .action-row button {
+      width: 100%;
+      min-width: 0;
+      padding: 10px 6px;
+      font-size: 12px;
+    }
 
-.quote-item {
-  min-width: 0;
-  margin-top: 0;
-  padding: 18px;
-  border: 1px solid #e5e7eb;
-  border-radius: 15px;
-  background: #fff;
-  transition: transform .2s, box-shadow .2s;
-}
+    .quote-item .action-row a {
+      display: block;
+      width: 100%;
+    }
 
-.quote-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.08);
-}
+    @media(max-width: 900px) {
+      #quoteRequestList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
-
-/* 고객명 */
-
-.customer-name {
-  font-size: 18px;
-  margin: 0 0 6px;
-}
-
-
-/* 상담 기본정보 */
-
-.info-box {
-  margin-top: 14px;
-  padding: 13px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-
-/* 상세보기 */
-
-.detail-box {
-  margin-top: 14px;
-  padding-top: 12px;
-}
-
-.detail-content {
-  padding: 13px;
-  font-size: 13px;
-}
-
-
-/* 상태 */
-
-.status-area {
-  margin-top: 14px;
-  padding-top: 14px;
-}
-
-
-/* 메모 */
-
-.memo-area {
-  margin-top: 14px;
-  padding: 13px;
-}
-
-.memo-area textarea {
-  min-height: 75px;
-}
-
-
-/* 상담 카드 안 버튼 */
-
-.quote-item .action-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
-}
-
-.quote-item .action-row button {
-  width: 100%;
-  min-width: 0;
-  padding: 10px 6px;
-  font-size: 12px;
-}
-
-
-/* 전화 버튼을 감싸는 a */
-
-.quote-item .action-row a {
-  display: block;
-  width: 100%;
-}
-
-
-/* 태블릿 */
-
-@media(max-width: 900px) {
-
-  #quoteRequestList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-}
-
-
-/* 모바일 */
-
-@media(max-width: 600px) {
-
-  #quoteRequestList {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-}
+    @media(max-width: 600px) {
+      #quoteRequestList {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+    }
 
     /* =====================================
        상담 통계
@@ -632,17 +508,6 @@
       color: #172033;
     }
 
-    /* 전체 상담 */
-    .quote-stat.total {
-      background: #f8fafc;
-      border-color: #e5e7eb;
-    }
-
-    .quote-stat.total .quote-stat-number {
-      color: #172033;
-    }
-
-    /* 신규 접수 */
     .quote-stat.new {
       background: #eff6ff;
       border-color: #bfdbfe;
@@ -652,7 +517,6 @@
       color: #2563eb;
     }
 
-    /* 상담 진행 중 */
     .quote-stat.progress {
       background: #fffbeb;
       border-color: #fde68a;
@@ -662,7 +526,6 @@
       color: #d97706;
     }
 
-    /* 견적 완료 */
     .quote-stat.complete {
       background: #f0fdf4;
       border-color: #bbf7d0;
@@ -672,7 +535,6 @@
       color: #16a34a;
     }
 
-    /* 구매 완료 */
     .quote-stat.purchased {
       background: #ecfeff;
       border-color: #a5f3fc;
@@ -682,20 +544,13 @@
       color: #0891b2;
     }
 
-    /* =====================================
-       모바일
-    ===================================== */
-
     @media(max-width: 800px) {
-
       .quote-stats {
         grid-template-columns: repeat(3, 1fr);
       }
-
     }
 
     @media(max-width: 600px) {
-
       body {
         padding: 15px 10px 40px;
       }
@@ -712,680 +567,497 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .quote-stat {
-        padding: 15px 10px;
-      }
-
-      .quote-stat-number {
-        font-size: 24px;
-      }
-
       .cancel-button {
         margin-left: 0;
-        margin-top: 8px;
+      }
+    }
+
+    /* =====================================
+       모달 공통
+    ===================================== */
+
+    .quote-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(15, 23, 42, .72);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .quote-modal.hidden {
+      display: none !important;
+    }
+
+    .quote-modal-box {
+      width: 100%;
+      max-width: 1250px;
+      background: #fff;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      margin: 20px auto;
+      overflow-x: auto;
+    }
+
+    .quote-modal-box.estimate-sheet {
+      width: 100%;
+      max-width: 1180px;
+      margin: 20px auto;
+      padding: 28px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+
+    .quote-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .quote-modal-close {
+      background: #64748b;
+      color: #fff;
+    }
+
+    /* =====================================
+       견적서
+    ===================================== */
+
+    .estimate-title-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 65px;
+      border: 2px solid #172033;
+    }
+
+    .estimate-main-title {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .estimate-main-title span {
+      font-weight: 400;
+    }
+
+    .estimate-title-row .quote-modal-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      padding: 9px 14px;
+    }
+
+    .estimate-info-table {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      border-left: 2px solid #172033;
+      border-right: 2px solid #172033;
+      border-bottom: 2px solid #172033;
+    }
+
+    .estimate-customer {
+      min-height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-right: 2px solid #172033;
+    }
+
+    .estimate-customer-name {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .estimate-customer-text {
+      color: #475569;
+      font-size: 14px;
+    }
+
+    .estimate-company {
+      display: grid;
+    }
+
+    .estimate-company > div {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      border-bottom: 1px solid #172033;
+    }
+
+    .estimate-company > div:last-child {
+      border-bottom: 0;
+    }
+
+    .estimate-company strong,
+    .estimate-company span {
+      padding: 10px;
+    }
+
+    .estimate-company strong {
+      text-align: center;
+      background: #f8fafc;
+      border-right: 1px solid #172033;
+    }
+
+    .estimate-guide {
+      padding: 14px 18px;
+      border-left: 2px solid #172033;
+      border-right: 2px solid #172033;
+      border-bottom: 2px solid #172033;
+      line-height: 1.55;
+    }
+
+    .estimate-guide > strong {
+      display: block;
+      text-align: center;
+      font-size: 17px;
+      margin-bottom: 8px;
+      color: #dc2626;
+    }
+
+    .estimate-guide p {
+      margin: 5px 0;
+      font-weight: 600;
+    }
+
+    .danawa-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 16px 0;
+      padding: 14px 18px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+    }
+
+    .danawa-button {
+      display: inline-block;
+      padding: 11px 18px;
+      background: #1769e0;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .estimate-table-wrap,
+    .supplier-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .estimate-table,
+    .supplier-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      border: 2px solid #172033;
+    }
+
+    .estimate-table th,
+    .estimate-table td,
+    .supplier-table th,
+    .supplier-table td {
+      border: 1px solid #172033;
+      padding: 5px;
+      vertical-align: middle;
+    }
+
+    .estimate-table thead th,
+    .supplier-table thead th {
+      height: 48px;
+      background: #f8fafc;
+      color: #dc2626;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .supplier-table thead th {
+      background: #172033;
+      color: #fff;
+    }
+
+    .estimate-table .part-col,
+    .supplier-table .part-col {
+      width: 105px;
+    }
+
+    .estimate-table .spec-col,
+    .supplier-table .spec-col {
+      width: 250px;
+    }
+
+    .estimate-table .qty-col,
+    .supplier-table .qty-col {
+      width: 70px;
+    }
+
+    .estimate-table .price-col {
+      width: 120px;
+    }
+
+    .estimate-table .supply-col {
+      width: 125px;
+    }
+
+    .estimate-table input,
+    .estimate-table textarea,
+    .supplier-table input,
+    .supplier-table textarea {
+      width: 100%;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    .estimate-table textarea,
+    .supplier-table textarea {
+      min-height: 70px;
+      resize: vertical;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .estimate-table input:focus,
+    .estimate-table textarea:focus,
+    .supplier-table input:focus,
+    .supplier-table textarea:focus {
+      outline: 2px solid #3b82f6;
+      background: #eff6ff;
+    }
+
+    .estimate-table tbody th,
+    .supplier-table tbody th {
+      background: #f8fafc;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .part-search-link {
+      color: #172033;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .part-search-link:hover {
+      color: #1769e0;
+      text-decoration: underline;
+    }
+
+    .supply-price {
+      color: #dc2626;
+      font-weight: 800;
+      text-align: right;
+      white-space: nowrap;
+      padding-right: 10px !important;
+    }
+
+    .estimate-summary {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      border-left: 2px solid #172033;
+      border-right: 2px solid #172033;
+      border-bottom: 2px solid #172033;
+      font-size: 18px;
+    }
+
+    .estimate-summary > div {
+      padding: 14px;
+    }
+
+    .estimate-summary > div:first-child {
+      text-align: center;
+      border-right: 1px solid #172033;
+      background: #f8fafc;
+    }
+
+    .estimate-total-price {
+      text-align: right;
+      color: #dc2626;
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .estimate-description {
+      margin-top: 18px;
+    }
+
+    .estimate-description textarea {
+      min-height: 100px;
+    }
+
+    .estimate-footer {
+      margin-top: 15px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .estimate-footer p:first-child {
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    .estimate-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 180px;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .estimate-actions button {
+      width: 100%;
+    }
+
+    @media(max-width: 800px) {
+      .quote-modal {
+        padding: 10px;
       }
 
+      .quote-modal-box.estimate-sheet {
+        padding: 12px;
+        margin: 5px auto;
+      }
+
+      .estimate-main-title {
+        font-size: 23px;
+      }
+
+      .estimate-info-table {
+        grid-template-columns: 1fr;
+      }
+
+      .estimate-customer {
+        border-right: 0;
+        border-bottom: 2px solid #172033;
+      }
+
+      .danawa-area {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .danawa-button {
+        text-align: center;
+      }
+
+      .estimate-table,
+      .supplier-table {
+        min-width: 1000px;
+      }
+
+      .estimate-actions {
+        grid-template-columns: 1fr;
+      }
     }
- 
-/* =====================================
-   맞춤 견적 작성 모달
-===================================== */
 
-.quote-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, .6);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 25px;
-  z-index: 9999;
-  overflow-y: auto;
-}
-
-.quote-modal.hidden {
-  display: none;
-}
-
-.quote-modal-box {
-  width: 100%;
-  max-width: 1250px;
-  background: #fff;
-  border-radius: 18px;
-  padding: 30px;
-  box-shadow: 0 20px 60px rgba(0,0,0,.2);
-  margin: 20px auto;
-  overflow-x: auto;
-}
-.quote-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.quote-modal-close {
-  background: #64748b;
-  color: #fff;
-}
-
-.quote-form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.quote-form-full {
-  grid-column: 1 / -1;
-}
-
-.quote-total {
-  margin-top: 18px;
-  padding: 18px;
-  background: #eff6ff;
-  border-radius: 12px;
-  color: #1d4ed8;
-  font-size: 22px;
-  font-weight: bold;
-  text-align: right;
-}
-
-@media(max-width:600px) {
-  .quote-form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quote-form-full {
-    grid-column: auto;
-  }
-}
- 
-/* =====================================
-   PC SOLUTION 견적서 디자인
-===================================== */
-
-.quote-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(15, 23, 42, .72);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 25px;
-  overflow-y: auto;
-}
-
-.quote-modal.hidden {
-  display: none !important;
-}
-
-
-/* 견적서 본체 */
-
-.quote-modal-box.estimate-sheet {
-  width: 100%;
-  max-width: 1180px;
-  max-height: none;
-  overflow: visible;
-
-  margin: 20px auto;
-  padding: 28px;
-
-  background: #fff;
-  border-radius: 12px;
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.25);
-}
-
-
-/* =====================================
-   제목
-===================================== */
-
-.estimate-title-row {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 65px;
-
-  border: 2px solid #172033;
-}
-
-.estimate-main-title {
-  margin: 0;
-
-  font-size: 32px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.estimate-main-title span {
-  font-weight: 400;
-}
-
-.estimate-title-row .quote-modal-close {
-  position: absolute;
-
-  right: 10px;
-  top: 10px;
-
-  background: #64748b;
-  color: #fff;
-
-  padding: 9px 14px;
-}
-
-
-/* =====================================
-   고객 / 회사 정보
-===================================== */
-
-.estimate-info-table {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-
-  border-left: 2px solid #172033;
-  border-right: 2px solid #172033;
-  border-bottom: 2px solid #172033;
-}
-
-.estimate-customer {
-  min-height: 130px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  border-right: 2px solid #172033;
-}
-
-.estimate-customer-name {
-  font-size: 23px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-.estimate-customer-text {
-  color: #475569;
-  font-size: 14px;
-}
-
-.estimate-company {
-  display: grid;
-}
-
-.estimate-company > div {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-
-  border-bottom: 1px solid #172033;
-}
-
-.estimate-company > div:last-child {
-  border-bottom: 0;
-}
-
-.estimate-company strong,
-.estimate-company span {
-  padding: 10px;
-}
-
-.estimate-company strong {
-  text-align: center;
-
-  background: #f8fafc;
-
-  border-right: 1px solid #172033;
-}
-
-
-/* =====================================
-   안내
-===================================== */
-
-.estimate-guide {
-  padding: 14px 18px;
-
-  border-left: 2px solid #172033;
-  border-right: 2px solid #172033;
-  border-bottom: 2px solid #172033;
-
-  line-height: 1.55;
-}
-
-.estimate-guide > strong {
-  display: block;
-
-  text-align: center;
-
-  font-size: 17px;
-  margin-bottom: 8px;
-
-  color: #dc2626;
-}
-
-.estimate-guide p {
-  margin: 5px 0;
-  font-weight: 600;
-}
-
-
-/* =====================================
-   다나와
-===================================== */
-
-.danawa-area {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-
-  margin: 16px 0;
-
-  padding: 14px 18px;
-
-  background: #eff6ff;
-
-  border: 1px solid #bfdbfe;
-  border-radius: 10px;
-}
-
-.danawa-button {
-  display: inline-block;
-
-  padding: 11px 18px;
-
-  background: #1769e0;
-  color: #fff;
-
-  border-radius: 8px;
-
-  text-decoration: none;
-  font-weight: bold;
-}
-
-
-/* =====================================
-   견적표
-===================================== */
-
-.estimate-table-wrap {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.estimate-table {
-  width: 100%;
-
-  border-collapse: collapse;
-  table-layout: fixed;
-
-  border: 2px solid #172033;
-}
-
-.estimate-table th,
-.estimate-table td {
-  border: 1px solid #172033;
-
-  padding: 5px;
-
-  vertical-align: middle;
-}
-
-.estimate-table thead th {
-  height: 48px;
-
-  background: #f8fafc;
-
-  color: #dc2626;
-
-  font-size: 14px;
-  text-align: center;
-}
-
-.estimate-table .part-col {
-  width: 105px;
-}
-
-.estimate-table .spec-col {
-  width: 250px;
-}
-
-.estimate-table .qty-col {
-  width: 70px;
-}
-
-.estimate-table .price-col {
-  width: 120px;
-}
-
-.estimate-table .supply-col {
-  width: 125px;
-}
-
-
-/* 입력칸 */
-
-.estimate-table input,
-.estimate-table textarea {
-  width: 100%;
-
-  margin: 0;
-
-  border: 0;
-  border-radius: 0;
-
-  background: transparent;
-
-  font-size: 13px;
-
-  padding: 8px;
-}
-
-.estimate-table input:focus,
-.estimate-table textarea:focus {
-  outline: 2px solid #3b82f6;
-  background: #eff6ff;
-}
-
-.estimate-table textarea {
-  min-height: 70px;
-
-  resize: vertical;
-
-  line-height: 1.45;
-}
-
-
-/* 부품명 */
-
-.estimate-table tbody th {
-  background: #f8fafc;
-
-  text-align: center;
-
-  font-size: 14px;
-}
-
-.part-search-link {
-  color: #172033;
-
-  text-decoration: none;
-
-  font-weight: 800;
-}
-
-.part-search-link:hover {
-  color: #1769e0;
-  text-decoration: underline;
-}
-
-
-/* 공급가 */
-
-.supply-price {
-  color: #dc2626;
-
-  font-weight: 800;
-
-  text-align: right;
-
-  white-space: nowrap;
-
-  padding-right: 10px !important;
-}
-
-
-/* =====================================
-   합계
-===================================== */
-
-.estimate-summary {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-
-  border-left: 2px solid #172033;
-  border-right: 2px solid #172033;
-  border-bottom: 2px solid #172033;
-
-  font-size: 18px;
-}
-
-.estimate-summary > div {
-  padding: 14px;
-}
-
-.estimate-summary > div:first-child {
-  text-align: center;
-
-  border-right: 1px solid #172033;
-
-  background: #f8fafc;
-}
-
-.estimate-total-price {
-  text-align: right;
-
-  color: #dc2626;
-
-  font-size: 23px;
-  font-weight: 800;
-}
-
-
-/* =====================================
-   견적 설명
-===================================== */
-
-.estimate-description {
-  margin-top: 18px;
-}
-
-.estimate-description label {
-  font-weight: 800;
-}
-
-.estimate-description textarea {
-  min-height: 100px;
-}
-
-
-/* =====================================
-   하단 안내
-===================================== */
-
-.estimate-footer {
-  margin-top: 15px;
-
-  text-align: center;
-
-  line-height: 1.7;
-}
-
-.estimate-footer p:first-child {
-  color: #dc2626;
-  font-weight: bold;
-}
-
-
-/* =====================================
-   버튼
-===================================== */
-
-.estimate-actions {
-  display: grid;
-  grid-template-columns: 1fr 180px;
-
-  gap: 10px;
-
-  margin-top: 20px;
-}
-
-.estimate-actions button {
-  width: 100%;
-}
-
-
-/* =====================================
-   모바일
-===================================== */
-
-@media(max-width: 800px) {
-
-  .quote-modal {
-    padding: 10px;
-  }
-
-  .quote-modal-box.estimate-sheet {
-    padding: 12px;
-    margin: 5px auto;
-  }
-
-  .estimate-main-title {
-    font-size: 23px;
-  }
-
-  .estimate-info-table {
-    grid-template-columns: 1fr;
-  }
-
-  .estimate-customer {
-    border-right: 0;
-    border-bottom: 2px solid #172033;
-  }
-
-  .danawa-area {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .danawa-button {
-    text-align: center;
-  }
-
-  .estimate-table {
-    min-width: 1000px;
-  }
-
-  .estimate-actions {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-/* =====================================
-   모바일 상담 버튼 보정
-===================================== */
-
-@media (max-width: 600px) {
-
-  .quote-item .action-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    width: 100% !important;
-  }
-
-  .quote-item .action-row .save-button {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    grid-column: 1 / -1;
-    width: 100% !important;
-    padding: 13px 8px !important;
-    font-size: 14px !important;
-  }
-
-  .quote-item .action-row a {
-    display: block !important;
-    width: 100% !important;
-  }
-
-  .quote-item .action-row button {
-    width: 100% !important;
-  }
-
-}
-
-/* =====================================
-   맞춤 견적 모바일 화면 보정
-===================================== */
-
-@media (max-width: 600px) {
-
-  .quote-modal {
-    padding: 8px;
-  }
-
-  .quote-modal-box,
-  .quote-modal-box.estimate-sheet {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    margin: 5px auto;
-    padding: 12px;
-    border-radius: 10px;
-    box-sizing: border-box;
-    overflow-x: auto;
-  }
-
-  .estimate-main-title {
-    font-size: 22px;
-  }
-
-  .estimate-title-row {
-    min-height: 55px;
-    padding-right: 55px;
-  }
-
-  .estimate-title-row .quote-modal-close {
-    right: 6px;
-    top: 6px;
-    padding: 7px 9px;
-    font-size: 12px;
-  }
-
-  .estimate-info-table {
-    grid-template-columns: 1fr;
-  }
-
-  .estimate-customer {
-    min-height: 90px;
-    border-right: 0;
-    border-bottom: 2px solid #172033;
-  }
-
-  .estimate-customer-name {
-    font-size: 18px;
-  }
-
-  .quote-total {
-    font-size: 18px;
-    padding: 14px;
-  }
-
-}
-
-</style>
+    @media(max-width: 600px) {
+      .quote-modal {
+        padding: 8px;
+      }
+
+      .quote-modal-box,
+      .quote-modal-box.estimate-sheet {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin: 5px auto;
+        padding: 12px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        overflow-x: auto;
+      }
+
+      .estimate-main-title {
+        font-size: 22px;
+      }
+
+      .estimate-title-row {
+        min-height: 55px;
+        padding-right: 55px;
+      }
+
+      .estimate-title-row .quote-modal-close {
+        right: 6px;
+        top: 6px;
+        padding: 7px 9px;
+        font-size: 12px;
+      }
+
+      .estimate-customer {
+        min-height: 90px;
+      }
+
+      .estimate-customer-name {
+        font-size: 18px;
+      }
+
+      .quote-item .action-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+      }
+
+      .quote-item .action-row .save-button {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      #supplierQuoteModal,
+      #supplierQuoteModal * {
+        visibility: visible;
+      }
+
+      #supplierQuoteModal {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        padding: 0;
+        overflow: visible;
+      }
+
+      #supplierQuoteModal .quote-modal-box {
+        box-shadow: none;
+        margin: 0;
+        max-width: none;
+        padding: 10px;
+      }
+
+      #supplierQuoteModal .quote-modal-close,
+      #supplierQuoteModal .supplier-screen-actions {
+        display: none !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <!-- =====================================
-       로그인
-  ====================================== -->
-
   <div id="loginSection" class="card">
-
     <h1>🔐 PC SOLUTION 관리자</h1>
 
     <p style="color:#667085;">
@@ -1393,7 +1065,6 @@
     </p>
 
     <label for="email">이메일</label>
-
     <input
       type="email"
       id="email"
@@ -1403,7 +1074,6 @@
     >
 
     <label for="password">비밀번호</label>
-
     <input
       type="password"
       id="password"
@@ -1422,50 +1092,41 @@
     </button>
 
     <div id="loginMessage" class="message"></div>
-
   </div>
-
-
-  <!-- =====================================
-       관리자 영역
-  ====================================== -->
 
   <div id="adminSection" class="hidden">
 
-    <!-- 관리자 상단 -->
-
     <div class="card">
-
       <div class="admin-header">
 
         <div>
-
-          <h1 class="admin-title">
-            🖥️ PC SOLUTION 관리자
-          </h1>
+          <h1 class="admin-title">🖥️ PC SOLUTION 관리자</h1>
 
           <p class="admin-subtitle">
             상품 · PC 컨설팅 신청을 관리합니다.
           </p>
-
         </div>
 
-        <button
-          class="logout-button"
-          type="button"
-          onclick="logout()"
-        >
-          로그아웃
-        </button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button
+            class="save-button"
+            type="button"
+            onclick="openSupplierQuote()"
+          >
+            📋 컴오아시스 견적 요청서
+          </button>
+
+          <button
+            class="logout-button"
+            type="button"
+            onclick="logout()"
+          >
+            로그아웃
+          </button>
+        </div>
 
       </div>
-
     </div>
-
-
-    <!-- =====================================
-         상품 등록 및 수정
-    ====================================== -->
 
     <div class="card">
 
@@ -1480,125 +1141,117 @@
       <input type="text" id="price" placeholder="예: 1299000">
 
       <label for="cpu">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=CPU"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    CPU 🔍
-  </a>
-</label>
-<input type="text" id="cpu" placeholder="예: Ryzen 5 7600">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=CPU"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          CPU 🔍
+        </a>
+      </label>
+      <input type="text" id="cpu" placeholder="예: Ryzen 5 7600">
 
+      <label for="gpu">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=그래픽카드"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          그래픽카드 🔍
+        </a>
+      </label>
+      <input type="text" id="gpu" placeholder="예: RTX 5060">
 
-<label for="gpu">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=그래픽카드"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    그래픽카드 🔍
-  </a>
-</label>
-<input type="text" id="gpu" placeholder="예: RTX 5060">
+      <label for="ram">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=RAM"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          RAM 🔍
+        </a>
+      </label>
+      <input type="text" id="ram" placeholder="예: DDR5 32GB">
 
+      <label for="ssd">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=SSD"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          SSD 🔍
+        </a>
+      </label>
+      <input type="text" id="ssd" placeholder="예: NVMe 1TB">
 
-<label for="ram">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=RAM"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    RAM 🔍
-  </a>
-</label>
-<input type="text" id="ram" placeholder="예: DDR5 32GB">
+      <label for="main_board">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=메인보드"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          메인보드 🔍
+        </a>
+      </label>
+      <input type="text" id="main_board" placeholder="예: B650M">
 
+      <label for="power">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=PC파워"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          파워 🔍
+        </a>
+      </label>
+      <input type="text" id="power" placeholder="예: 750W">
 
-<label for="ssd">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=SSD"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    SSD 🔍
-  </a>
-</label>
-<input type="text" id="ssd" placeholder="예: NVMe 1TB">
+      <label for="monitor">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=모니터"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          모니터 🔍
+        </a>
+      </label>
+      <input type="text" id="monitor" placeholder="예: 27인치 QHD">
 
+      <label for="hdd">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=HDD"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          HDD 🔍
+        </a>
+      </label>
+      <input type="text" id="hdd" placeholder="선택사항">
 
-<label for="main_board">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=메인보드"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    메인보드 🔍
-  </a>
-</label>
-<input type="text" id="main_board" placeholder="예: B650M">
+      <label for="keyboard_mouse">
+        <a
+          href="https://search.danawa.com/dsearch.php?query=키보드 마우스"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="part-search-link"
+        >
+          키보드 / 마우스 🔍
+        </a>
+      </label>
 
-
-<label for="power">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=PC파워"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    파워 🔍
-  </a>
-</label>
-<input type="text" id="power" placeholder="예: 750W">
-
-
-<label for="monitor">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=모니터"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    모니터 🔍
-  </a>
-</label>
-<input type="text" id="monitor" placeholder="예: 27인치 QHD">
-
-
-<label for="hdd">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=HDD"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    HDD 🔍
-  </a>
-</label>
-<input type="text" id="hdd" placeholder="선택사항">
-
-
-<label for="keyboard_mouse">
-  <a
-    href="https://search.danawa.com/dsearch.php?query=키보드 마우스"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="part-search-link"
-  >
-    키보드 / 마우스 🔍
-  </a>
-</label>
-
-<input
-  type="text"
-  id="keyboard_mouse"
-  placeholder="예: 게이밍 키보드 + 마우스"
->
+      <input
+        type="text"
+        id="keyboard_mouse"
+        placeholder="예: 게이밍 키보드 + 마우스"
+      >
 
       <label for="description">상품 설명</label>
 
@@ -1620,10 +1273,7 @@
         class="hidden"
         style="margin-top:15px;"
       >
-
-        <p style="font-weight:bold;">
-          현재 상품 사진
-        </p>
+        <p style="font-weight:bold;">현재 상품 사진</p>
 
         <img
           id="currentImage"
@@ -1639,11 +1289,9 @@
         <p style="color:#667085;font-size:13px;">
           새 사진을 선택하지 않으면 기존 사진이 유지됩니다.
         </p>
-
       </div>
 
       <div style="margin-top:25px;">
-
         <button
           id="saveButton"
           class="save-button"
@@ -1661,39 +1309,25 @@
         >
           ❌ 수정 취소
         </button>
-
       </div>
 
       <div id="formMessage" class="message"></div>
 
     </div>
 
-
-    <!-- =====================================
-         상품 목록
-    ====================================== -->
-
     <div class="card">
-
       <h2>📦 등록된 상품</h2>
 
       <div id="productList">
         상품을 불러오는 중입니다...
       </div>
-
     </div>
-
-
-    <!-- =====================================
-         상담 관리
-    ====================================== -->
 
     <div class="card">
 
       <div class="quote-header">
 
         <div>
-
           <h2 style="margin-bottom:5px;">
             📋 PC 컨설팅 신청 관리
           </h2>
@@ -1701,14 +1335,9 @@
           <div id="quoteCount" class="quote-count">
             상담 신청을 불러오는 중입니다...
           </div>
-
         </div>
 
-        <div
-          class="action-row"
-          style="margin-top:0;"
-        >
-
+        <div class="action-row" style="margin-top:0;">
           <button
             class="refresh-button"
             type="button"
@@ -1724,116 +1353,38 @@
           >
             📧 관리자 알림
           </button>
-
         </div>
 
       </div>
-
-
-      <!-- =====================================
-           상담 통계
-           
-           중요:
-           5개의 카드가 각각 독립되어 있음
-      ====================================== -->
 
       <div class="quote-stats">
 
-        <!-- 전체 상담 -->
-
         <div class="quote-stat total">
-
-          <div class="quote-stat-label">
-            전체 상담
-          </div>
-
-          <div
-            class="quote-stat-number"
-            id="statTotal"
-          >
-            0
-          </div>
-
+          <div class="quote-stat-label">전체 상담</div>
+          <div class="quote-stat-number" id="statTotal">0</div>
         </div>
-
-
-        <!-- 신규 접수 -->
 
         <div class="quote-stat new">
-
-          <div class="quote-stat-label">
-            신규 접수
-          </div>
-
-          <div
-            class="quote-stat-number"
-            id="statNew"
-          >
-            0
-          </div>
-
+          <div class="quote-stat-label">신규 접수</div>
+          <div class="quote-stat-number" id="statNew">0</div>
         </div>
-
-
-        <!-- 상담 진행 중 -->
 
         <div class="quote-stat progress">
-
-          <div class="quote-stat-label">
-            상담 진행 중
-          </div>
-
-          <div
-            class="quote-stat-number"
-            id="statProgress"
-          >
-            0
-          </div>
-
+          <div class="quote-stat-label">상담 진행 중</div>
+          <div class="quote-stat-number" id="statProgress">0</div>
         </div>
-
-
-        <!-- 견적 완료 -->
 
         <div class="quote-stat complete">
-
-          <div class="quote-stat-label">
-            견적 완료
-          </div>
-
-          <div
-            class="quote-stat-number"
-            id="statComplete"
-          >
-            0
-          </div>
-
+          <div class="quote-stat-label">견적 완료</div>
+          <div class="quote-stat-number" id="statComplete">0</div>
         </div>
 
-
-        <!-- 구매 완료 -->
-
         <div class="quote-stat purchased">
-
-          <div class="quote-stat-label">
-            구매 완료
-          </div>
-
-          <div
-            class="quote-stat-number"
-            id="statPurchased"
-          >
-            0
-          </div>
-
+          <div class="quote-stat-label">구매 완료</div>
+          <div class="quote-stat-number" id="statPurchased">0</div>
         </div>
 
       </div>
-
-
-      <!-- =====================================
-           검색 및 상태 필터
-      ====================================== -->
 
       <div class="filter-box">
 
@@ -1848,44 +1399,18 @@
           id="quoteStatusFilter"
           onchange="filterQuoteRequests()"
         >
-
-          <option value="">
-            전체 상태
-          </option>
-
-          <option value="접수">
-            📥 접수
-          </option>
-
-          <option value="상담중">
-            💬 상담중
-          </option>
-
-          <option value="견적작성">
-            🛠️ 견적작성
-          </option>
-
-          <option value="견적완료">
-            🧾 견적완료
-          </option>
-
-          <option value="구매완료">
-            🛒 구매완료
-          </option>
-
+          <option value="">전체 상태</option>
+          <option value="접수">📥 접수</option>
+          <option value="상담중">💬 상담중</option>
+          <option value="견적작성">🛠️ 견적작성</option>
+          <option value="견적완료">🧾 견적완료</option>
+          <option value="구매완료">🛒 구매완료</option>
         </select>
 
       </div>
 
-
-      <!-- =====================================
-           상담 신청 목록
-      ====================================== -->
-
       <div id="quoteRequestList">
-
         상담 신청을 불러오는 중입니다...
-
       </div>
 
     </div>
@@ -1893,15 +1418,296 @@
   </div>
 
 </div>
+
 <!-- =====================================
-     맞춤 견적 작성 모달
+     컴오아시스 견적 요청서
+===================================== -->
+
+<div id="supplierQuoteModal" class="quote-modal hidden">
+
+  <div class="quote-modal-box estimate-sheet">
+
+    <div class="quote-modal-header">
+
+      <div>
+        <h2 style="margin:0;">
+          📋 컴오아시스 견적 요청서
+        </h2>
+
+        <p style="margin:6px 0 0;color:#667085;">
+          수신 : 컴오아시스
+        </p>
+      </div>
+
+      <button
+        class="quote-modal-close"
+        type="button"
+        onclick="closeSupplierQuote()"
+      >
+        ✕ 닫기
+      </button>
+
+    </div>
+
+    <div style="
+      padding:15px;
+      margin-bottom:18px;
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      line-height:1.8;
+    ">
+      <strong>수신 :</strong> 컴오아시스
+      <br>
+      <strong>발신 :</strong> PC SOLUTION
+      <br>
+      <strong>요청일 :</strong>
+      <span id="supplierQuoteDate"></span>
+    </div>
+
+    <div class="supplier-table-wrap">
+
+      <table class="supplier-table">
+
+        <thead>
+          <tr>
+            <th class="part-col">품목</th>
+            <th>제조사</th>
+            <th>모델명</th>
+            <th class="spec-col">세부사양</th>
+            <th class="qty-col">수량</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=CPU"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                CPU 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierCpuMaker" placeholder="AMD"></td>
+            <td><input id="supplierCpuModel" placeholder="Ryzen 5 7600"></td>
+            <td><textarea id="supplierCpuSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierCpuQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=메인보드"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                메인보드 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierMainBoardMaker" placeholder="MSI"></td>
+            <td><input id="supplierMainBoardModel" placeholder="B650M"></td>
+            <td><textarea id="supplierMainBoardSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierMainBoardQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=RAM"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                메모리 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierRamMaker" placeholder="삼성전자"></td>
+            <td><input id="supplierRamModel" placeholder="DDR5 16GB"></td>
+            <td><textarea id="supplierRamSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierRamQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=SSD"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                SSD 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierSsdMaker" placeholder="삼성전자"></td>
+            <td><input id="supplierSsdModel" placeholder="NVMe 1TB"></td>
+            <td><textarea id="supplierSsdSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierSsdQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=그래픽카드"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                그래픽카드 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierGpuMaker" placeholder="MSI"></td>
+            <td><input id="supplierGpuModel" placeholder="RTX 5060"></td>
+            <td><textarea id="supplierGpuSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierGpuQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=PC파워"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                파워 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierPowerMaker" placeholder="제조사"></td>
+            <td><input id="supplierPowerModel" placeholder="750W"></td>
+            <td><textarea id="supplierPowerSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierPowerQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=PC케이스"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                케이스 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierCaseMaker" placeholder="제조사"></td>
+            <td><input id="supplierCaseModel" placeholder="미들타워"></td>
+            <td><textarea id="supplierCaseSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierCaseQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=CPU쿨러"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                쿨러 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierCoolerMaker" placeholder="제조사"></td>
+            <td><input id="supplierCoolerModel" placeholder="CPU 쿨러"></td>
+            <td><textarea id="supplierCoolerSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierCoolerQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>
+              <a
+                href="https://search.danawa.com/dsearch.php?query=모니터"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="part-search-link"
+              >
+                모니터 🔍
+              </a>
+            </th>
+
+            <td><input id="supplierMonitorMaker" placeholder="제조사"></td>
+            <td><input id="supplierMonitorModel" placeholder="27인치 QHD"></td>
+            <td><textarea id="supplierMonitorSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="supplierMonitorQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>기타</th>
+
+            <td><input id="supplierEtcMaker" placeholder="제조사"></td>
+            <td><input id="supplierEtcModel" placeholder="기타 부품"></td>
+            <td><textarea id="supplierEtcSpec" placeholder="세부 내용"></textarea></td>
+            <td><input id="supplierEtcQty" type="number" value="1" min="0"></td>
+          </tr>
+
+          <tr>
+            <th>공임</th>
+
+            <td><input id="supplierLaborMaker" value="-" placeholder="-"></td>
+            <td><input id="supplierLaborModel" placeholder="조립 및 세팅"></td>
+            <td><textarea id="supplierLaborSpec" placeholder="조립 / 테스트 / 세팅 등"></textarea></td>
+            <td><input id="supplierLaborQty" type="number" value="1" min="0"></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <label for="supplierRequest" style="margin-top:20px;">
+      📝 요청사항
+    </label>
+
+    <textarea
+      id="supplierRequest"
+      style="min-height:100px;"
+    >상기 품목의 재고 여부, 공급단가 및 출고 가능일 회신 부탁드립니다.</textarea>
+
+    <div
+      class="supplier-screen-actions"
+      style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;"
+    >
+      <button
+        class="save-button"
+        type="button"
+        onclick="printSupplierQuote()"
+      >
+        🖨️ 인쇄 / PDF 저장
+      </button>
+
+      <button
+        class="cancel-button"
+        type="button"
+        onclick="closeSupplierQuote()"
+      >
+        ✕ 닫기
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =====================================
+     맞춤 견적 작성
 ===================================== -->
 
 <div id="quoteModal" class="quote-modal hidden">
 
   <div class="quote-modal-box estimate-sheet">
-
-    <!-- 상단 제목 -->
 
     <div class="estimate-title-row">
 
@@ -1919,9 +1725,6 @@
 
     </div>
 
-
-    <!-- 고객 / 업체 정보 -->
-
     <div class="estimate-info-table">
 
       <div class="estimate-customer">
@@ -1938,7 +1741,6 @@
         </div>
 
       </div>
-
 
       <div class="estimate-company">
 
@@ -1961,14 +1763,9 @@
 
     </div>
 
-
-    <!-- 안내문 -->
-
     <div class="estimate-guide">
 
-      <strong>
-        PC 신규 견적
-      </strong>
+      <strong>PC 신규 견적</strong>
 
       <p>
         1. 고객님의 사용 목적과 예산에 맞춰 구성한 PC 견적입니다.
@@ -1984,14 +1781,9 @@
 
     </div>
 
-
-    <!-- 다나와 -->
-
     <div class="danawa-area">
 
-      <strong>
-        💻 부품 검색
-      </strong>
+      <strong>💻 부품 검색</strong>
 
       <a
         href="https://shop.danawa.com/virtualestimate/?controller=estimateMain&methods=index&marketPlaceSeq=16&logger_kw=dnw_top_esti"
@@ -2004,67 +1796,30 @@
 
     </div>
 
-
-    <!-- 상담 ID -->
-
     <input
       type="hidden"
       id="estimateQuoteRequestId"
     >
-
-
-    <!-- =====================================
-         부품 견적표
-    ====================================== -->
 
     <div class="estimate-table-wrap">
 
       <table class="estimate-table">
 
         <thead>
-
           <tr>
-
-            <th class="part-col">
-              부품명
-            </th>
-
-            <th>
-              제조사
-            </th>
-
-            <th>
-              모델명
-            </th>
-
-            <th class="spec-col">
-              세부스펙
-            </th>
-
-            <th class="qty-col">
-              수량
-            </th>
-
-            <th class="price-col">
-              단가
-            </th>
-
-            <th class="supply-col">
-              공급가
-            </th>
-
+            <th class="part-col">부품명</th>
+            <th>제조사</th>
+            <th>모델명</th>
+            <th class="spec-col">세부스펙</th>
+            <th class="qty-col">수량</th>
+            <th class="price-col">단가</th>
+            <th class="supply-col">공급가</th>
           </tr>
-
         </thead>
-
 
         <tbody>
 
-
-          <!-- CPU -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=CPU"
@@ -2076,59 +1831,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateCpuMaker"
-                placeholder="AMD"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateCpu"
-                placeholder="Ryzen 5 7600"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateCpuSpec"
-                placeholder="세부 스펙을 붙여넣으세요."
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateCpuQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateCpuPrice"
-                type="number"
-                min="0"
-                placeholder="0"
-              >
-            </td>
-
-            <td
-              id="estimateCpuSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateCpuMaker" placeholder="AMD"></td>
+            <td><input id="estimateCpuModel" placeholder="Ryzen 5 7600"></td>
+            <td><textarea id="estimateCpuSpec" placeholder="세부 스펙을 붙여넣으세요."></textarea></td>
+            <td><input id="estimateCpuQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateCpuPrice" type="number" min="0" placeholder="0"></td>
+            <td id="estimateCpuSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 메인보드 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=메인보드"
@@ -2140,58 +1851,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateMainBoardMaker"
-                placeholder="MSI"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateMainBoard"
-                placeholder="B650M"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateMainBoardSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateMainBoardQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateMainBoardPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateMainBoardSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateMainBoardMaker" placeholder="MSI"></td>
+            <td><input id="estimateMainBoardModel" placeholder="B650M"></td>
+            <td><textarea id="estimateMainBoardSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateMainBoardQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateMainBoardPrice" type="number" min="0"></td>
+            <td id="estimateMainBoardSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 메모리 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=RAM"
@@ -2203,58 +1871,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateRamMaker"
-                placeholder="삼성전자"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateRam"
-                placeholder="DDR5 16GB"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateRamSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateRamQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateRamPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateRamSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateRamMaker" placeholder="삼성전자"></td>
+            <td><input id="estimateRamModel" placeholder="DDR5 16GB"></td>
+            <td><textarea id="estimateRamSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateRamQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateRamPrice" type="number" min="0"></td>
+            <td id="estimateRamSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- SSD -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=SSD"
@@ -2266,58 +1891,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateSsdMaker"
-                placeholder="삼성전자"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateSsd"
-                placeholder="NVMe 1TB"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateSsdSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateSsdQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateSsdPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateSsdSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateSsdMaker" placeholder="삼성전자"></td>
+            <td><input id="estimateSsdModel" placeholder="NVMe 1TB"></td>
+            <td><textarea id="estimateSsdSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateSsdQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateSsdPrice" type="number" min="0"></td>
+            <td id="estimateSsdSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 그래픽카드 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=그래픽카드"
@@ -2329,58 +1911,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateGpuMaker"
-                placeholder="MSI"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateGpu"
-                placeholder="RTX 5060"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateGpuSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateGpuQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateGpuPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateGpuSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateGpuMaker" placeholder="MSI"></td>
+            <td><input id="estimateGpuModel" placeholder="RTX 5060"></td>
+            <td><textarea id="estimateGpuSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateGpuQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateGpuPrice" type="number" min="0"></td>
+            <td id="estimateGpuSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 파워 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=PC파워"
@@ -2392,58 +1931,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimatePowerMaker"
-                placeholder="제조사"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimatePower"
-                placeholder="750W"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimatePowerSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimatePowerQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimatePowerPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimatePowerSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimatePowerMaker" placeholder="제조사"></td>
+            <td><input id="estimatePowerModel" placeholder="750W"></td>
+            <td><textarea id="estimatePowerSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimatePowerQty" type="number" value="1" min="0"></td>
+            <td><input id="estimatePowerPrice" type="number" min="0"></td>
+            <td id="estimatePowerSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 케이스 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=PC케이스"
@@ -2455,58 +1951,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateCaseMaker"
-                placeholder="제조사"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateCase"
-                placeholder="미들타워"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateCaseSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateCaseQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateCasePrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateCaseSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateCaseMaker" placeholder="제조사"></td>
+            <td><input id="estimateCaseModel" placeholder="미들타워"></td>
+            <td><textarea id="estimateCaseSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateCaseQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateCasePrice" type="number" min="0"></td>
+            <td id="estimateCaseSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 쿨러 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=CPU쿨러"
@@ -2518,58 +1971,15 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateCoolerMaker"
-                placeholder="제조사"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateCooler"
-                placeholder="CPU 쿨러"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateCoolerSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateCoolerQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateCoolerPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateCoolerSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateCoolerMaker" placeholder="제조사"></td>
+            <td><input id="estimateCoolerModel" placeholder="CPU 쿨러"></td>
+            <td><textarea id="estimateCoolerSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateCoolerQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateCoolerPrice" type="number" min="0"></td>
+            <td id="estimateCoolerSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 모니터 -->
-
           <tr>
-
             <th>
               <a
                 href="https://search.danawa.com/dsearch.php?query=모니터"
@@ -2581,164 +1991,34 @@
               </a>
             </th>
 
-            <td>
-              <input
-                id="estimateMonitorMaker"
-                placeholder="제조사"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateMonitor"
-                placeholder="27인치 QHD"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateMonitorSpec"
-                placeholder="세부 스펙"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateMonitorQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateMonitorPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateMonitorSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateMonitorMaker" placeholder="제조사"></td>
+            <td><input id="estimateMonitorModel" placeholder="27인치 QHD"></td>
+            <td><textarea id="estimateMonitorSpec" placeholder="세부 스펙"></textarea></td>
+            <td><input id="estimateMonitorQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateMonitorPrice" type="number" min="0"></td>
+            <td id="estimateMonitorSupply" class="supply-price">0원</td>
           </tr>
 
-
-          <!-- 기타 -->
-
           <tr>
+            <th>기타</th>
 
-            <th>
-              기타
-            </th>
-
-            <td>
-              <input
-                id="estimateEtcMaker"
-                placeholder="제조사"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateEtc"
-                placeholder="기타 부품"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateEtcSpec"
-                placeholder="세부 내용"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateEtcQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateEtcPrice"
-                type="number"
-                min="0"
-              >
-            </td>
-
-            <td
-              id="estimateEtcSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateEtcMaker" placeholder="제조사"></td>
+            <td><input id="estimateEtcModel" placeholder="기타 부품"></td>
+            <td><textarea id="estimateEtcSpec" placeholder="세부 내용"></textarea></td>
+            <td><input id="estimateEtcQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateEtcPrice" type="number" min="0"></td>
+            <td id="estimateEtcSupply" class="supply-price">0원</td>
           </tr>
 
-          <!-- 공임 -->
-
           <tr>
+            <th>공임</th>
 
-            <th>
-              공임
-            </th>
-
-            <td>
-              <input
-                id="estimateLaborMaker"
-                placeholder="-"
-                value="-"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateLabor"
-                placeholder="조립 및 세팅"
-              >
-            </td>
-
-            <td>
-              <textarea
-                id="estimateLaborSpec"
-                placeholder="조립 / 테스트 / 세팅 등"
-              ></textarea>
-            </td>
-
-            <td>
-              <input
-                id="estimateLaborQty"
-                type="number"
-                value="1"
-                min="0"
-              >
-            </td>
-
-            <td>
-              <input
-                id="estimateLaborPrice"
-                type="number"
-                min="0"
-                placeholder="0"
-              >
-            </td>
-
-            <td
-              id="estimateLaborSupply"
-              class="supply-price"
-            >
-              0원
-            </td>
-
+            <td><input id="estimateLaborMaker" placeholder="-" value="-"></td>
+            <td><input id="estimateLaborModel" placeholder="조립 및 세팅"></td>
+            <td><textarea id="estimateLaborSpec" placeholder="조립 / 테스트 / 세팅 등"></textarea></td>
+            <td><input id="estimateLaborQty" type="number" value="1" min="0"></td>
+            <td><input id="estimateLaborPrice" type="number" min="0" placeholder="0"></td>
+            <td id="estimateLaborSupply" class="supply-price">0원</td>
           </tr>
 
         </tbody>
@@ -2746,11 +2026,6 @@
       </table>
 
     </div>
-
-
-    <!-- =====================================
-         합계
-    ====================================== -->
 
     <div class="estimate-summary">
 
@@ -2767,17 +2042,11 @@
 
     </div>
 
-
-    <!-- 기존 JS 호환용 -->
-
     <input
-      type="hidden"
       id="estimateTotalPrice"
+      type="hidden"
       value="0"
     >
-
-
-    <!-- 설명 -->
 
     <div class="estimate-description">
 
@@ -2791,9 +2060,6 @@
       ></textarea>
 
     </div>
-
-
-    <!-- 하단 -->
 
     <div class="estimate-footer">
 
@@ -2809,9 +2075,6 @@
 
     </div>
 
-
-    <!-- 버튼 -->
-
     <div class="action-row estimate-actions">
 
       <button
@@ -2820,6 +2083,14 @@
         onclick="saveQuoteEstimate()"
       >
         💾 견적 저장
+      </button>
+
+      <button
+        class="mail-button"
+        type="button"
+        onclick="copyEstimateToSupplierQuote()"
+      >
+        📋 컴오아시스 견적 요청
       </button>
 
       <button
@@ -2835,6 +2106,7 @@
   </div>
 
 </div>
+
 <script>
 
 /* =====================================
@@ -2861,12 +2133,30 @@ const supabaseClient =
 let allProducts = [];
 let editingProduct = null;
 let allQuoteRequests = [];
-
 let quoteRequestLoadError = false;
 
 
 /* =====================================
-   메시지 표시
+   견적 부품 목록
+===================================== */
+
+const estimateParts = [
+  "Cpu",
+  "MainBoard",
+  "Ram",
+  "Ssd",
+  "Gpu",
+  "Power",
+  "Case",
+  "Cooler",
+  "Monitor",
+  "Etc",
+  "Labor"
+];
+
+
+/* =====================================
+   메시지
 ===================================== */
 
 function showMessage(
@@ -2881,12 +2171,8 @@ function showMessage(
   if (!element) return;
 
   element.textContent = message;
-
-  element.className =
-    "message " + type;
-
-  element.style.display =
-    "block";
+  element.className = "message " + type;
+  element.style.display = "block";
 
 }
 
@@ -2898,8 +2184,7 @@ function hideMessage(elementId) {
 
   if (!element) return;
 
-  element.style.display =
-    "none";
+  element.style.display = "none";
 
 }
 
@@ -2919,10 +2204,6 @@ function escapeHTML(value) {
 
 }
 
-
-/* =====================================
-   줄바꿈 처리
-===================================== */
 
 function formatText(value) {
 
@@ -2972,7 +2253,6 @@ async function login() {
   try {
 
     const {
-      data,
       error
     } =
       await supabaseClient.auth.signInWithPassword({
@@ -3018,9 +2298,7 @@ async function login() {
   } finally {
 
     loginButton.disabled = false;
-
-    loginButton.textContent =
-      "🔐 로그인";
+    loginButton.textContent = "🔐 로그인";
 
   }
 
@@ -3066,7 +2344,7 @@ async function logout() {
 
 
 /* =====================================
-   세션 확인
+   세션
 ===================================== */
 
 async function checkSession() {
@@ -3122,7 +2400,7 @@ async function checkSession() {
 
 
 /* =====================================
-   상품 입력값
+   상품 입력
 ===================================== */
 
 function getFormData() {
@@ -3130,76 +2408,40 @@ function getFormData() {
   return {
 
     name:
-      document
-        .getElementById("name")
-        .value
-        .trim(),
+      document.getElementById("name").value.trim(),
 
     price:
-      document
-        .getElementById("price")
-        .value
-        .trim(),
+      document.getElementById("price").value.trim(),
 
     cpu:
-      document
-        .getElementById("cpu")
-        .value
-        .trim(),
+      document.getElementById("cpu").value.trim(),
 
     gpu:
-      document
-        .getElementById("gpu")
-        .value
-        .trim(),
+      document.getElementById("gpu").value.trim(),
 
     ram:
-      document
-        .getElementById("ram")
-        .value
-        .trim(),
+      document.getElementById("ram").value.trim(),
 
     ssd:
-      document
-        .getElementById("ssd")
-        .value
-        .trim(),
+      document.getElementById("ssd").value.trim(),
 
     mainBoard:
-      document
-        .getElementById("main_board")
-        .value
-        .trim(),
+      document.getElementById("main_board").value.trim(),
 
     power:
-      document
-        .getElementById("power")
-        .value
-        .trim(),
+      document.getElementById("power").value.trim(),
 
     monitor:
-      document
-        .getElementById("monitor")
-        .value
-        .trim(),
+      document.getElementById("monitor").value.trim(),
 
     hdd:
-      document
-        .getElementById("hdd")
-        .value
-        .trim(),
+      document.getElementById("hdd").value.trim(),
 
     keyboardMouse:
-      document
-        .getElementById("keyboard_mouse")
-        .value
-        .trim(),
+      document.getElementById("keyboard_mouse").value.trim(),
 
     description:
-      document
-        .getElementById("description")
-        .value
-        .trim()
+      document.getElementById("description").value.trim()
 
   };
 
@@ -3269,7 +2511,7 @@ async function uploadImage(file) {
 
 
 /* =====================================
-   상품 데이터 생성
+   상품 데이터
 ===================================== */
 
 function makeProductData(
@@ -3280,37 +2522,18 @@ function makeProductData(
   return {
 
     name: form.name,
-
     price: form.price,
-
     cpu: form.cpu,
-
     gpu: form.gpu,
-
     ram: form.ram,
-
     ssd: form.ssd,
-
-    "main board":
-      form.mainBoard,
-
-    power:
-      form.power,
-
-    monitor:
-      form.monitor,
-
-    hdd:
-      form.hdd,
-
-    "keyboard mouse":
-      form.keyboardMouse,
-
-    description:
-      form.description,
-
-    image_url:
-      imageUrl
+    "main board": form.mainBoard,
+    power: form.power,
+    monitor: form.monitor,
+    hdd: form.hdd,
+    "keyboard mouse": form.keyboardMouse,
+    description: form.description,
+    image_url: imageUrl
 
   };
 
@@ -3348,10 +2571,8 @@ async function insertProduct() {
     let imageUrl = null;
 
     if (imageFile) {
-
       imageUrl =
         await uploadImage(imageFile);
-
     }
 
     const {
@@ -3435,10 +2656,8 @@ async function updateProduct() {
       editingProduct.image_url || null;
 
     if (imageFile) {
-
       imageUrl =
         await uploadImage(imageFile);
-
     }
 
     const {
@@ -3501,13 +2720,9 @@ async function saveProduct() {
   hideMessage("formMessage");
 
   if (editingProduct) {
-
     await updateProduct();
-
   } else {
-
     await insertProduct();
-
   }
 
 }
@@ -3535,85 +2750,58 @@ function editProduct(id) {
 
   }
 
-  editingProduct =
-    product;
+  editingProduct = product;
 
-  document
-    .getElementById("editId")
-    .value =
-      product.id;
+  document.getElementById("editId").value =
+    product.id;
 
-  document
-    .getElementById("name")
-    .value =
-      product.name || "";
+  document.getElementById("name").value =
+    product.name || "";
 
-  document
-    .getElementById("price")
-    .value =
-      product.price || "";
+  document.getElementById("price").value =
+    product.price || "";
 
-  document
-    .getElementById("cpu")
-    .value =
-      product.cpu || "";
+  document.getElementById("cpu").value =
+    product.cpu || "";
 
-  document
-    .getElementById("gpu")
-    .value =
-      product.gpu || "";
+  document.getElementById("gpu").value =
+    product.gpu || "";
 
-  document
-    .getElementById("ram")
-    .value =
-      product.ram || "";
+  document.getElementById("ram").value =
+    product.ram || "";
 
-  document
-    .getElementById("ssd")
-    .value =
-      product.ssd || "";
+  document.getElementById("ssd").value =
+    product.ssd || "";
 
-  document
-    .getElementById("main_board")
-    .value =
-      product["main board"] || "";
+  document.getElementById("main_board").value =
+    product["main board"] || "";
 
-  document
-    .getElementById("power")
-    .value =
-      product.power || "";
+  document.getElementById("power").value =
+    product.power || "";
 
-  document
-    .getElementById("monitor")
-    .value =
-      product.monitor || "";
+  document.getElementById("monitor").value =
+    product.monitor || "";
 
-  document
-    .getElementById("hdd")
-    .value =
-      product.hdd || "";
+  document.getElementById("hdd").value =
+    product.hdd || "";
 
-  document
-    .getElementById("keyboard_mouse")
-    .value =
-      product["keyboard mouse"] || "";
+  document.getElementById("keyboard_mouse").value =
+    product["keyboard mouse"] || "";
 
-  document
-    .getElementById("description")
-    .value =
-      product.description || "";
+  document.getElementById("description").value =
+    product.description || "";
 
-  document
-    .getElementById("image")
-    .value = "";
+  document.getElementById("image").value = "";
 
   const imageArea =
-    document
-      .getElementById("currentImageArea");
+    document.getElementById(
+      "currentImageArea"
+    );
 
   const currentImage =
-    document
-      .getElementById("currentImage");
+    document.getElementById(
+      "currentImage"
+    );
 
   if (product.image_url) {
 
@@ -3633,8 +2821,9 @@ function editProduct(id) {
   }
 
   const saveButton =
-    document
-      .getElementById("saveButton");
+    document.getElementById(
+      "saveButton"
+    );
 
   saveButton.textContent =
     "💾 수정 저장";
@@ -3682,13 +2871,12 @@ function cancelEdit() {
 
 
 /* =====================================
-   폼 초기화
+   상품 폼 초기화
 ===================================== */
 
 function resetForm() {
 
   const ids = [
-
     "editId",
     "name",
     "price",
@@ -3703,7 +2891,6 @@ function resetForm() {
     "keyboard_mouse",
     "description",
     "image"
-
   ];
 
   ids.forEach(id => {
@@ -3712,9 +2899,7 @@ function resetForm() {
       document.getElementById(id);
 
     if (element) {
-
       element.value = "";
-
     }
 
   });
@@ -3730,8 +2915,9 @@ function resetForm() {
       "➕ 상품 등록";
 
   const saveButton =
-    document
-      .getElementById("saveButton");
+    document.getElementById(
+      "saveButton"
+    );
 
   saveButton.textContent =
     "➕ 상품 등록";
@@ -3772,9 +2958,7 @@ async function deleteProduct(id) {
   if (!confirm(
     `"${product.name}" 상품을 삭제하시겠습니까?`
   )) {
-
     return;
-
   }
 
   try {
@@ -3801,7 +2985,6 @@ async function deleteProduct(id) {
     ) {
 
       editingProduct = null;
-
       resetForm();
 
     }
@@ -3832,14 +3015,15 @@ async function deleteProduct(id) {
 
 
 /* =====================================
-   상품 목록 불러오기
+   상품 목록
 ===================================== */
 
 async function loadProducts() {
 
   const productList =
-    document
-      .getElementById("productList");
+    document.getElementById(
+      "productList"
+    );
 
   productList.textContent =
     "상품을 불러오는 중입니다...";
@@ -3890,13 +3074,15 @@ async function loadProducts() {
 
 
 /* =====================================
-   상품 목록 출력
+   상품 출력
 ===================================== */
 
 function renderProductList() {
 
   const productList =
-    document.getElementById("productList");
+    document.getElementById(
+      "productList"
+    );
 
   if (!allProducts.length) {
 
@@ -3912,7 +3098,6 @@ function renderProductList() {
     return;
   }
 
-
   productList.innerHTML =
     allProducts
       .map(product => {
@@ -3920,39 +3105,29 @@ function renderProductList() {
         const id =
           Number(product.id);
 
-
         const numericPrice =
           Number(product.price);
-
 
         const price =
           Number.isFinite(numericPrice) &&
           numericPrice > 0
-
             ? numericPrice.toLocaleString("ko-KR") + "원"
-
             : "가격 문의";
-
 
         return `
 
           <div class="product-item">
 
-
-            <!-- 상품 이미지 -->
-
             <div class="admin-product-image-box">
 
               ${
                 product.image_url
-
                   ? `
                     <img
                       src="${escapeHTML(product.image_url)}"
                       alt="${escapeHTML(product.name || "")}"
                     >
                   `
-
                   : `
                     <div class="admin-no-image">
                       상품 이미지 준비중
@@ -3962,11 +3137,7 @@ function renderProductList() {
 
             </div>
 
-
-            <!-- 상품 정보 -->
-
             <div class="admin-product-body">
-
 
               <div
                 class="product-name"
@@ -3975,49 +3146,25 @@ function renderProductList() {
                 ${escapeHTML(product.name || "-")}
               </div>
 
-
               <div class="product-price">
                 ${escapeHTML(price)}
               </div>
 
-
-              <p
-                class="admin-product-spec"
-                title="${escapeHTML(product.cpu || "-")}"
-              >
-                CPU :
-                ${escapeHTML(product.cpu || "-")}
+              <p class="admin-product-spec">
+                CPU : ${escapeHTML(product.cpu || "-")}
               </p>
 
-
-              <p
-                class="admin-product-spec"
-                title="${escapeHTML(product.gpu || "-")}"
-              >
-                GPU :
-                ${escapeHTML(product.gpu || "-")}
+              <p class="admin-product-spec">
+                GPU : ${escapeHTML(product.gpu || "-")}
               </p>
 
-
-              <p
-                class="admin-product-spec"
-                title="${escapeHTML(product.ram || "-")}"
-              >
-                RAM :
-                ${escapeHTML(product.ram || "-")}
+              <p class="admin-product-spec">
+                RAM : ${escapeHTML(product.ram || "-")}
               </p>
 
-
-              <p
-                class="admin-product-spec"
-                title="${escapeHTML(product.ssd || "-")}"
-              >
-                SSD :
-                ${escapeHTML(product.ssd || "-")}
+              <p class="admin-product-spec">
+                SSD : ${escapeHTML(product.ssd || "-")}
               </p>
-
-
-              <!-- 관리자 버튼 -->
 
               <div class="product-actions">
 
@@ -4029,7 +3176,6 @@ function renderProductList() {
                   ✏️ 수정
                 </button>
 
-
                 <button
                   class="delete-button"
                   type="button"
@@ -4040,32 +3186,32 @@ function renderProductList() {
 
               </div>
 
-
             </div>
 
           </div>
-
         `;
 
       })
-
       .join("");
 
 }
 
+
 /* =====================================
-   상담 신청 불러오기
+   상담 신청
 ===================================== */
 
 async function loadQuoteRequests() {
 
   const list =
-    document
-      .getElementById("quoteRequestList");
+    document.getElementById(
+      "quoteRequestList"
+    );
 
   const count =
-    document
-      .getElementById("quoteCount");
+    document.getElementById(
+      "quoteCount"
+    );
 
   list.textContent =
     "상담 신청을 불러오는 중입니다...";
@@ -4111,8 +3257,7 @@ async function loadQuoteRequests() {
       error
     );
 
-    allQuoteRequests =
-      [];
+    allQuoteRequests = [];
 
     updateQuoteStats();
 
@@ -4122,13 +3267,13 @@ async function loadQuoteRequests() {
     list.innerHTML =
       `
         <div style="
+          grid-column:1/-1;
           padding:25px;
           background:#fee2e2;
           color:#991b1b;
           border-radius:10px;
           line-height:1.7;
         ">
-
           <strong>
             상담 신청을 불러오지 못했습니다.
           </strong>
@@ -4141,7 +3286,6 @@ async function loadQuoteRequests() {
 
           Supabase의 quote_requests 테이블과
           조회 권한을 확인해주세요.
-
         </div>
       `;
 
@@ -4151,7 +3295,7 @@ async function loadQuoteRequests() {
 
 
 /* =====================================
-   상담 통계 업데이트
+   상담 통계
 ===================================== */
 
 function updateQuoteStats() {
@@ -4159,14 +3303,12 @@ function updateQuoteStats() {
   const total =
     allQuoteRequests.length;
 
-
   const newCount =
     allQuoteRequests.filter(
       request =>
         (request.status || "접수") ===
         "접수"
     ).length;
-
 
   const progressCount =
     allQuoteRequests.filter(
@@ -4179,14 +3321,12 @@ function updateQuoteStats() {
         )
     ).length;
 
-
   const completeCount =
     allQuoteRequests.filter(
       request =>
         (request.status || "접수") ===
         "견적완료"
     ).length;
-
 
   const purchasedCount =
     allQuoteRequests.filter(
@@ -4195,76 +3335,26 @@ function updateQuoteStats() {
         "구매완료"
     ).length;
 
+  document.getElementById("statTotal").textContent =
+    total;
 
-  /* 전체 상담 */
+  document.getElementById("statNew").textContent =
+    newCount;
 
-  const statTotal =
-    document.getElementById(
-      "statTotal"
-    );
+  document.getElementById("statProgress").textContent =
+    progressCount;
 
-  if (statTotal) {
-    statTotal.textContent =
-      total;
-  }
+  document.getElementById("statComplete").textContent =
+    completeCount;
 
-
-  /* 신규 접수 */
-
-  const statNew =
-    document.getElementById(
-      "statNew"
-    );
-
-  if (statNew) {
-    statNew.textContent =
-      newCount;
-  }
-
-
-  /* 상담 진행 중 */
-
-  const statProgress =
-    document.getElementById(
-      "statProgress"
-    );
-
-  if (statProgress) {
-    statProgress.textContent =
-      progressCount;
-  }
-
-
-  /* 견적 완료 */
-
-  const statComplete =
-    document.getElementById(
-      "statComplete"
-    );
-
-  if (statComplete) {
-    statComplete.textContent =
-      completeCount;
-  }
-
-
-  /* 구매 완료 */
-
-  const statPurchased =
-    document.getElementById(
-      "statPurchased"
-    );
-
-  if (statPurchased) {
-    statPurchased.textContent =
-      purchasedCount;
-  }
+  document.getElementById("statPurchased").textContent =
+    purchasedCount;
 
 }
 
 
 /* =====================================
-   상담 검색 / 필터
+   상담 필터
 ===================================== */
 
 function filterQuoteRequests() {
@@ -4278,18 +3368,14 @@ function filterQuoteRequests() {
 
   const statusFilter =
     document
-      .getElementById(
-        "quoteStatusFilter"
-      )
+      .getElementById("quoteStatusFilter")
       .value;
-
 
   const filtered =
     allQuoteRequests.filter(
       request => {
 
         const searchable = [
-
           request.customer_name,
           request.phone,
           request.purpose,
@@ -4300,33 +3386,25 @@ function filterQuoteRequests() {
           request.additional_request,
           request.notes,
           request.budget
-
         ]
-        .filter(
-          value =>
-            value !== null &&
-            value !== undefined
-        )
-        .join(" ")
-        .toLowerCase();
-
+          .filter(
+            value =>
+              value !== null &&
+              value !== undefined
+          )
+          .join(" ")
+          .toLowerCase();
 
         const searchMatch =
           !search ||
-          searchable.includes(
-            search
-          );
-
+          searchable.includes(search);
 
         const status =
-          request.status ||
-          "접수";
-
+          request.status || "접수";
 
         const statusMatch =
           !statusFilter ||
           status === statusFilter;
-
 
         return (
           searchMatch &&
@@ -4336,18 +3414,14 @@ function filterQuoteRequests() {
       }
     );
 
-
   document
     .getElementById("quoteCount")
     .textContent =
       `전체 ${allQuoteRequests.length}건 · 현재 ${filtered.length}건`;
 
-
   updateQuoteStats();
 
-  renderQuoteRequests(
-    filtered
-  );
+  renderQuoteRequests(filtered);
 
 }
 
@@ -4356,16 +3430,12 @@ function filterQuoteRequests() {
    상담 목록 출력
 ===================================== */
 
-function renderQuoteRequests(
-  requests
-) {
+function renderQuoteRequests(requests) {
 
   const list =
-    document
-      .getElementById(
-        "quoteRequestList"
-      );
-
+    document.getElementById(
+      "quoteRequestList"
+    );
 
   if (!requests.length) {
 
@@ -4377,20 +3447,16 @@ function renderQuoteRequests(
           padding:40px 15px;
           color:#667085;
         ">
-
           ${
             allQuoteRequests.length
               ? "검색 조건에 맞는 상담 신청이 없습니다."
               : "등록된 상담 신청이 없습니다."
           }
-
         </div>
       `;
 
     return;
-
   }
-
 
   list.innerHTML =
     requests
@@ -4399,95 +3465,71 @@ function renderQuoteRequests(
         const id =
           Number(request.id);
 
-
         const name =
           escapeHTML(
-            request.customer_name ||
-            "-"
+            request.customer_name || "-"
           );
-
 
         const phone =
           escapeHTML(
-            request.phone ||
-            "-"
+            request.phone || "-"
           );
-
 
         const purpose =
           escapeHTML(
-            request.purpose ||
-            "-"
+            request.purpose || "-"
           );
 
+        const budgetNumber =
+          Number(request.budget);
 
         const budget =
           request.budget !== null &&
           request.budget !== undefined &&
-          request.budget !== ""
-            ? Number(
-                request.budget
-              ).toLocaleString(
-                "ko-KR"
-              ) + "원"
+          request.budget !== "" &&
+          Number.isFinite(budgetNumber)
+            ? budgetNumber.toLocaleString("ko-KR") + "원"
             : "-";
-
 
         const cpu =
           escapeHTML(
-            request.preferred_cpu ||
-            "-"
+            request.preferred_cpu || "-"
           );
-
 
         const gpu =
           escapeHTML(
-            request.preferred_gpu ||
-            "-"
+            request.preferred_gpu || "-"
           );
-
 
         const ram =
           escapeHTML(
-            request.preferred_ram ||
-            "-"
+            request.preferred_ram || "-"
           );
-
 
         const ssd =
           escapeHTML(
-            request.preferred_ssd ||
-            "-"
+            request.preferred_ssd || "-"
           );
-
 
         const additional =
           formatText(
             request.additional_request
           );
 
-
         const notes =
           escapeHTML(
-            request.notes ||
-            ""
+            request.notes || ""
           );
-
 
         const createdAt =
           request.created_at
             ? new Date(
                 request.created_at
-              ).toLocaleString(
-                "ko-KR"
-              )
+              ).toLocaleString("ko-KR")
             : "-";
 
-
         const status =
-          request.status ||
-          "접수";
-
+          request.status || "접수";
 
         const monitor =
           request.monitor_needed === true
@@ -4495,7 +3537,6 @@ function renderQuoteRequests(
             : request.monitor_needed === false
               ? "필요 없음"
               : "상담 후 확인";
-
 
         return `
 
@@ -4508,23 +3549,21 @@ function renderQuoteRequests(
 
               <div>
 
-               <h3 class="customer-name">
-              👤 ${name}
-              </h3>
+                <h3 class="customer-name">
+                  👤 ${name}
+                </h3>
 
-              <p style="
-              margin:8px 0;
-              color:#1769e0;
-             font-weight:bold;
-             ">
-
-  상담번호 :
-
-  ${escapeHTML(
-    request.public_code || "번호 없음"
-  )}
-
-</p>
+                <p style="
+                  margin:8px 0;
+                  color:#1769e0;
+                  font-weight:bold;
+                ">
+                  상담번호 :
+                  ${escapeHTML(
+                    request.public_code ||
+                    "번호 없음"
+                  )}
+                </p>
 
                 <a
                   class="phone-link"
@@ -4537,7 +3576,6 @@ function renderQuoteRequests(
 
               </div>
 
-
               <span
                 class="status-badge status-${escapeHTML(status)}"
               >
@@ -4546,31 +3584,23 @@ function renderQuoteRequests(
 
             </div>
 
+            <div class="info-box">
 
-            <!-- 기본 정보 -->
+              <div class="info-grid">
 
-<div class="info-box">
+                <div>
+                  <div class="info-label">
+                    신청일
+                  </div>
 
-  <div class="info-grid">
+                  <strong>
+                    ${escapeHTML(createdAt)}
+                  </strong>
+                </div>
 
-    <div>
+              </div>
 
-      <div class="info-label">
-        신청일
-      </div>
-
-      <strong>
-        ${escapeHTML(createdAt)}
-      </strong>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-            <!-- 상담 상세 -->
+            </div>
 
             <details class="detail-box">
 
@@ -4581,19 +3611,12 @@ function renderQuoteRequests(
               <div class="detail-content">
 
                 <p>
-                  <strong>
-                    👤 고객 이름
-                  </strong>
-                  <br>
+                  <strong>👤 고객 이름</strong><br>
                   ${name}
                 </p>
 
-
                 <p>
-                  <strong>
-                    📞 연락처
-                  </strong>
-                  <br>
+                  <strong>📞 연락처</strong><br>
 
                   <a
                     class="phone-link"
@@ -4603,87 +3626,50 @@ function renderQuoteRequests(
                   >
                     ${phone}
                   </a>
-
                 </p>
 
-
                 <p>
-                  <strong>
-                    💻 PC 사용 목적
-                  </strong>
-                  <br>
+                  <strong>💻 PC 사용 목적</strong><br>
                   ${purpose}
                 </p>
 
-
                 <p>
-                  <strong>
-                    💰 예상 예산
-                  </strong>
-                  <br>
+                  <strong>💰 예상 예산</strong><br>
                   ${escapeHTML(budget)}
                 </p>
 
-
                 <p>
-                  <strong>
-                    🧩 희망 CPU
-                  </strong>
-                  <br>
+                  <strong>🧩 희망 CPU</strong><br>
                   ${cpu}
                 </p>
 
-
                 <p>
-                  <strong>
-                    🎮 희망 그래픽카드
-                  </strong>
-                  <br>
+                  <strong>🎮 희망 그래픽카드</strong><br>
                   ${gpu}
                 </p>
 
-
                 <p>
-                  <strong>
-                    🧠 희망 RAM
-                  </strong>
-                  <br>
+                  <strong>🧠 희망 RAM</strong><br>
                   ${ram}
                 </p>
 
-
                 <p>
-                  <strong>
-                    💾 희망 SSD
-                  </strong>
-                  <br>
+                  <strong>💾 희망 SSD</strong><br>
                   ${ssd}
                 </p>
 
-
                 <p>
-                  <strong>
-                    🖥️ 모니터
-                  </strong>
-                  <br>
+                  <strong>🖥️ 모니터</strong><br>
                   ${escapeHTML(monitor)}
                 </p>
 
-
                 <p>
-                  <strong>
-                    📝 추가 요청사항
-                  </strong>
-                  <br>
+                  <strong>📝 추가 요청사항</strong><br>
                   ${additional}
                 </p>
 
-
                 <p>
-                  <strong>
-                    📅 신청 날짜
-                  </strong>
-                  <br>
+                  <strong>📅 신청 날짜</strong><br>
                   ${escapeHTML(createdAt)}
                 </p>
 
@@ -4691,79 +3677,48 @@ function renderQuoteRequests(
 
             </details>
 
-
-            <!-- 상담 상태 -->
-
             <div class="status-area">
 
               <label for="status-${id}">
                 📋 상담 진행 상태
               </label>
 
-
               <select
                 id="status-${id}"
-                onchange="updateQuoteStatus(
-                  ${id},
-                  this.value
-                )"
+                onchange="updateQuoteStatus(${id}, this.value)"
               >
 
                 <option
                   value="접수"
-                  ${
-                    status === "접수"
-                      ? "selected"
-                      : ""
-                  }
+                  ${status === "접수" ? "selected" : ""}
                 >
                   📥 접수
                 </option>
 
-
                 <option
                   value="상담중"
-                  ${
-                    status === "상담중"
-                      ? "selected"
-                      : ""
-                  }
+                  ${status === "상담중" ? "selected" : ""}
                 >
                   💬 상담중
                 </option>
 
-
                 <option
                   value="견적작성"
-                  ${
-                    status === "견적작성"
-                      ? "selected"
-                      : ""
-                  }
+                  ${status === "견적작성" ? "selected" : ""}
                 >
                   🛠️ 견적작성
                 </option>
 
-
                 <option
                   value="견적완료"
-                  ${
-                    status === "견적완료"
-                      ? "selected"
-                      : ""
-                  }
+                  ${status === "견적완료" ? "selected" : ""}
                 >
                   🧾 견적완료
                 </option>
 
-
                 <option
                   value="구매완료"
-                  ${
-                    status === "구매완료"
-                      ? "selected"
-                      : ""
-                  }
+                  ${status === "구매완료" ? "selected" : ""}
                 >
                   🛒 구매완료
                 </option>
@@ -4771,9 +3726,6 @@ function renderQuoteRequests(
               </select>
 
             </div>
-
-
-            <!-- 관리자 메모 -->
 
             <div class="memo-area">
 
@@ -4784,12 +3736,10 @@ function renderQuoteRequests(
                 📝 관리자 메모
               </label>
 
-
               <textarea
                 id="memo-${id}"
                 placeholder="고객과 통화한 내용, 견적 내용, 다음 연락 일정 등을 적어두세요."
               >${notes}</textarea>
-
 
               <button
                 class="memo-button"
@@ -4802,57 +3752,50 @@ function renderQuoteRequests(
 
             </div>
 
+            <div class="action-row">
 
-            <!-- 상담 버튼 -->
+              <button
+                class="save-button"
+                type="button"
+                onclick="openQuoteEditor(${id})"
+              >
+                🛠️ 맞춤 견적 작성
+              </button>
 
-<div class="action-row">
+              <a
+                href="tel:${escapeHTML(
+                  request.phone || ""
+                )}"
+                style="text-decoration:none;"
+              >
+                <button
+                  class="phone-button"
+                  type="button"
+                >
+                  📞 전화
+                </button>
+              </a>
 
-  <button
-    class="save-button"
-    type="button"
-    onclick="openQuoteEditor(${id})"
-  >
-    🛠️ 맞춤 견적 작성
-  </button>
+              <button
+                class="mail-button"
+                type="button"
+                onclick="sendQuoteMail(${id})"
+              >
+                📧 알림
+              </button>
 
+              <button
+                class="delete-button"
+                type="button"
+                onclick="deleteQuoteRequest(${id})"
+              >
+                🗑️ 상담 삭제
+              </button>
 
-  <a
-    href="tel:${escapeHTML(
-      request.phone || ""
-    )}"
-    style="text-decoration:none;"
-  >
-    <button
-      class="phone-button"
-      type="button"
-    >
-      📞 전화
-    </button>
-  </a>
+            </div>
 
-
-  <button
-    class="mail-button"
-    type="button"
-    onclick="sendQuoteMail(${id})"
-  >
-    📧 알림
-  </button>
-
-
-  <button
-    class="delete-button"
-    type="button"
-    onclick="deleteQuoteRequest(${id})"
-  >
-    🗑️ 상담 삭제
-  </button>
-
-</div>
-
-</div>
-
-`;
+          </div>
+        `;
 
       })
       .join("");
@@ -4861,7 +3804,7 @@ function renderQuoteRequests(
 
 
 /* =====================================
-   상담 상태 변경
+   상담 상태
 ===================================== */
 
 async function updateQuoteStatus(
@@ -4876,7 +3819,6 @@ async function updateQuoteStatus(
         Number(id)
     );
 
-
   if (!request) {
 
     alert(
@@ -4887,7 +3829,6 @@ async function updateQuoteStatus(
 
   }
 
-
   try {
 
     const {
@@ -4896,64 +3837,21 @@ async function updateQuoteStatus(
       await supabaseClient
         .from("quote_requests")
         .update({
-
-          status:
-            status,
-
+          status,
           updated_at:
             new Date().toISOString()
-
         })
         .eq(
           "id",
           id
         );
 
-
     if (error) {
       throw error;
     }
 
-
     request.status =
       status;
-
-
-    updateQuoteStats();
-
-
-    const card =
-      document.getElementById(
-        `quote-${id}`
-      );
-
-
-    if (card) {
-
-      const badge =
-        card.querySelector(
-          ".status-badge"
-        );
-
-
-      if (badge) {
-
-        badge.textContent =
-          status;
-
-        badge.className =
-          "status-badge status-" +
-          status;
-
-      }
-
-    }
-
-
-    /*
-      현재 필터와 다른 상태로 변경된 경우
-      목록을 다시 그려서 자연스럽게 제거
-    */
 
     filterQuoteRequests();
 
@@ -4975,7 +3873,7 @@ async function updateQuoteStatus(
 
 
 /* =====================================
-   관리자 메모 저장
+   메모
 ===================================== */
 
 async function saveQuoteMemo(id) {
@@ -4985,15 +3883,12 @@ async function saveQuoteMemo(id) {
       `memo-${id}`
     );
 
-
   if (!textarea) {
     return;
   }
 
-
   const notes =
     textarea.value;
-
 
   try {
 
@@ -5003,24 +3898,18 @@ async function saveQuoteMemo(id) {
       await supabaseClient
         .from("quote_requests")
         .update({
-
-          notes:
-            notes,
-
+          notes,
           updated_at:
             new Date().toISOString()
-
         })
         .eq(
           "id",
           id
         );
 
-
     if (error) {
       throw error;
     }
-
 
     const request =
       allQuoteRequests.find(
@@ -5029,14 +3918,9 @@ async function saveQuoteMemo(id) {
           Number(id)
       );
 
-
     if (request) {
-
-      request.notes =
-        notes;
-
+      request.notes = notes;
     }
-
 
     alert(
       "✅ 메모가 저장되었습니다."
@@ -5063,9 +3947,7 @@ async function saveQuoteMemo(id) {
    상담 삭제
 ===================================== */
 
-async function deleteQuoteRequest(
-  id
-) {
+async function deleteQuoteRequest(id) {
 
   const request =
     allQuoteRequests.find(
@@ -5073,7 +3955,6 @@ async function deleteQuoteRequest(
         Number(item.id) ===
         Number(id)
     );
-
 
   if (!request) {
 
@@ -5085,22 +3966,15 @@ async function deleteQuoteRequest(
 
   }
 
-
   const name =
     request.customer_name ||
     "고객";
 
-
-  const confirmed =
-    confirm(
-      `"${name}"님의 상담 신청을 삭제하시겠습니까?\n\n삭제 후 복구할 수 없습니다.`
-    );
-
-
-  if (!confirmed) {
+  if (!confirm(
+    `"${name}"님의 상담 신청을 삭제하시겠습니까?\n\n삭제 후 복구할 수 없습니다.`
+  )) {
     return;
   }
-
 
   try {
 
@@ -5115,11 +3989,9 @@ async function deleteQuoteRequest(
           id
         );
 
-
     if (error) {
       throw error;
     }
-
 
     allQuoteRequests =
       allQuoteRequests.filter(
@@ -5127,7 +3999,6 @@ async function deleteQuoteRequest(
           Number(item.id) !==
           Number(id)
       );
-
 
     filterQuoteRequests();
 
@@ -5149,7 +4020,7 @@ async function deleteQuoteRequest(
 
 
 /* =====================================
-   개별 상담 이메일 알림
+   이메일
 ===================================== */
 
 function sendQuoteMail(id) {
@@ -5161,7 +4032,6 @@ function sendQuoteMail(id) {
         Number(id)
     );
 
-
   if (!request) {
 
     alert(
@@ -5172,60 +4042,265 @@ function sendQuoteMail(id) {
 
   }
 
-
   const customer =
-    request.customer_name ||
-    "-";
-
+    request.customer_name || "-";
 
   const phone =
-    request.phone ||
-    "-";
-
+    request.phone || "-";
 
   const purpose =
-    request.purpose ||
-    "-";
-
+    request.purpose || "-";
 
   const status =
-    request.status ||
-    "접수";
-
+    request.status || "접수";
 
   const subject =
     encodeURIComponent(
       `[PC SOLUTION] 상담 신청 - ${customer}`
     );
 
-
   const body =
     encodeURIComponent(
-`
-PC SOLUTION 상담 신청
+`PC SOLUTION 상담 신청
 
 고객명 : ${customer}
 연락처 : ${phone}
 사용목적 : ${purpose}
 상태 : ${status}
 
-관리자 페이지에서 상세 내용을 확인해주세요.
-`
+관리자 페이지에서 상세 내용을 확인해주세요.`
     );
-
 
   const adminEmail =
     "ssamddak7@naver.com";
-
 
   window.location.href =
     `mailto:${adminEmail}?subject=${subject}&body=${body}`;
 
 }
 
+
 /* =====================================
-   맞춤 견적 작성 열기
-   기존 견적 자동 불러오기
+   견적 값 유틸
+===================================== */
+
+function setEstimateValue(
+  elementId,
+  value
+) {
+
+  const element =
+    document.getElementById(
+      elementId
+    );
+
+  if (element) {
+    element.value =
+      value ?? "";
+  }
+
+}
+
+
+function getEstimateValue(id) {
+
+  const element =
+    document.getElementById(id);
+
+  return element
+    ? String(element.value ?? "").trim()
+    : "";
+
+}
+
+
+function estimateNumber(value) {
+
+  const number =
+    Number(
+      String(value ?? "")
+        .replace(/,/g, "")
+        .trim()
+    );
+
+  return Number.isFinite(number)
+    ? number
+    : 0;
+
+}
+
+
+function getEstimateNumber(id) {
+
+  return estimateNumber(
+    getEstimateValue(id)
+  );
+
+}
+
+
+/* =====================================
+   견적 초기화
+===================================== */
+
+function resetEstimateForm() {
+
+  estimateParts.forEach(part => {
+
+    setEstimateValue(
+      "estimate" + part + "Maker",
+      part === "Labor" ? "-" : ""
+    );
+
+    setEstimateValue(
+      "estimate" + part + "Model",
+      ""
+    );
+
+    setEstimateValue(
+      "estimate" + part + "Spec",
+      ""
+    );
+
+    setEstimateValue(
+      "estimate" + part + "Qty",
+      1
+    );
+
+    setEstimateValue(
+      "estimate" + part + "Price",
+      ""
+    );
+
+    const supply =
+      document.getElementById(
+        "estimate" + part + "Supply"
+      );
+
+    if (supply) {
+      supply.textContent = "0원";
+    }
+
+  });
+
+  setEstimateValue(
+    "estimateDescription",
+    ""
+  );
+
+  setEstimateValue(
+    "estimateTotalPrice",
+    0
+  );
+
+  updateEstimateTotal();
+
+}
+
+
+/* =====================================
+   견적 계산
+===================================== */
+
+function calculatePartSupply(part) {
+
+  const qtyElement =
+    document.getElementById(
+      "estimate" + part + "Qty"
+    );
+
+  const priceElement =
+    document.getElementById(
+      "estimate" + part + "Price"
+    );
+
+  const supplyElement =
+    document.getElementById(
+      "estimate" + part + "Supply"
+    );
+
+  if (
+    !qtyElement ||
+    !priceElement ||
+    !supplyElement
+  ) {
+    return 0;
+  }
+
+  let qty =
+    estimateNumber(
+      qtyElement.value
+    );
+
+  const price =
+    estimateNumber(
+      priceElement.value
+    );
+
+  if (
+    qtyElement.value === "" ||
+    qty < 0
+  ) {
+
+    qty = 1;
+    qtyElement.value = 1;
+
+  }
+
+  const supply =
+    Math.round(
+      qty * price
+    );
+
+  supplyElement.textContent =
+    supply.toLocaleString("ko-KR") +
+    "원";
+
+  return supply;
+
+}
+
+
+function updateEstimateTotal() {
+
+  let total = 0;
+
+  estimateParts.forEach(
+    function(part) {
+
+      total +=
+        calculatePartSupply(part);
+
+    }
+  );
+
+  const totalInput =
+    document.getElementById(
+      "estimateTotalPrice"
+    );
+
+  if (totalInput) {
+    totalInput.value = total;
+  }
+
+  const totalDisplay =
+    document.getElementById(
+      "estimateTotalDisplay"
+    );
+
+  if (totalDisplay) {
+
+    totalDisplay.textContent =
+      total.toLocaleString("ko-KR") +
+      "원";
+
+  }
+
+}
+
+
+/* =====================================
+   맞춤 견적 열기
 ===================================== */
 
 async function openQuoteEditor(id) {
@@ -5233,9 +4308,9 @@ async function openQuoteEditor(id) {
   const request =
     allQuoteRequests.find(
       item =>
-        Number(item.id) === Number(id)
+        Number(item.id) ===
+        Number(id)
     );
-
 
   if (!request) {
 
@@ -5247,21 +4322,12 @@ async function openQuoteEditor(id) {
 
   }
 
-
-  /* =====================================
-     상담 ID 저장
-  ===================================== */
-
   document
     .getElementById(
       "estimateQuoteRequestId"
     )
-    .value = id;
-
-
-  /* =====================================
-     고객 정보
-  ===================================== */
+    .value =
+      id;
 
   document
     .getElementById(
@@ -5270,147 +4336,7 @@ async function openQuoteEditor(id) {
     .textContent =
       `${request.customer_name || "-"} / ${request.phone || "-"}`;
 
-
-  /* =====================================
-     입력칸에 값 넣는 함수
-  ===================================== */
-
-  function setEstimateValue(
-    elementId,
-    value
-  ) {
-
-    const element =
-      document.getElementById(
-        elementId
-      );
-
-    if (element) {
-
-      element.value =
-        value ?? "";
-
-    }
-
-  }
-
-
-  /* =====================================
-     우선 전체 초기화
-  ===================================== */
-
-  const fields = [
-
-    "estimateCpuMaker",
-    "estimateCpuModel",
-    "estimateCpuSpec",
-    "estimateCpuQty",
-    "estimateCpuPrice",
-
-    "estimateMainBoardMaker",
-    "estimateMainBoardModel",
-    "estimateMainBoardSpec",
-    "estimateMainBoardQty",
-    "estimateMainBoardPrice",
-
-    "estimateRamMaker",
-    "estimateRamModel",
-    "estimateRamSpec",
-    "estimateRamQty",
-    "estimateRamPrice",
-
-    "estimateSsdMaker",
-    "estimateSsdModel",
-    "estimateSsdSpec",
-    "estimateSsdQty",
-    "estimateSsdPrice",
-
-    "estimateGpuMaker",
-    "estimateGpuModel",
-    "estimateGpuSpec",
-    "estimateGpuQty",
-    "estimateGpuPrice",
-
-    "estimatePowerMaker",
-    "estimatePowerModel",
-    "estimatePowerSpec",
-    "estimatePowerQty",
-    "estimatePowerPrice",
-
-    "estimateCaseMaker",
-    "estimateCaseModel",
-    "estimateCaseSpec",
-    "estimateCaseQty",
-    "estimateCasePrice",
-
-    "estimateCoolerMaker",
-    "estimateCoolerModel",
-    "estimateCoolerSpec",
-    "estimateCoolerQty",
-    "estimateCoolerPrice",
-
-    "estimateMonitorMaker",
-    "estimateMonitorModel",
-    "estimateMonitorSpec",
-    "estimateMonitorQty",
-    "estimateMonitorPrice",
-
-    "estimateEtcMaker",
-    "estimateEtcModel",
-    "estimateEtcSpec",
-    "estimateEtcQty",
-    "estimateEtcPrice",
-
-    "estimateLaborMaker",
-    "estimateLaborModel",
-    "estimateLaborSpec",
-    "estimateLaborQty",
-    "estimateLaborPrice",
-
-    "estimateTotalPrice",
-    "estimateDescription"
-
-  ];
-
-
-  fields.forEach(function(id) {
-
-    setEstimateValue(
-      id,
-      ""
-    );
-
-  });
-
-
-  /* 수량 기본값 1 */
-
-  [
-    "estimateCpuQty",
-    "estimateMainBoardQty",
-    "estimateRamQty",
-    "estimateSsdQty",
-    "estimateGpuQty",
-    "estimatePowerQty",
-    "estimateCaseQty",
-    "estimateCoolerQty",
-    "estimateMonitorQty",
-    "estimateEtcQty",
-    "estimateLaborQty"
-
-  ].forEach(function(id) {
-
-    setEstimateValue(
-      id,
-      1
-    );
-
-  });
-
-
-  /* =====================================
-     기존 견적 불러오기
-  ===================================== */
+  resetEstimateForm();
 
   try {
 
@@ -5419,38 +4345,23 @@ async function openQuoteEditor(id) {
       error
     } =
       await supabaseClient
-
-        .from(
-          "quote_estimates"
-        )
-
+        .from("quote_estimates")
         .select("*")
-
         .eq(
           "quote_request_id",
           Number(id)
         )
-
         .order(
           "id",
           {
             ascending: false
           }
         )
-
         .limit(1);
 
-
     if (error) {
-
       throw error;
-
     }
-
-
-    /* =====================================
-       기존 견적이 있을 경우
-    ===================================== */
 
     if (
       data &&
@@ -5459,9 +4370,6 @@ async function openQuoteEditor(id) {
 
       const estimate =
         data[0];
-
-
-      /* CPU */
 
       setEstimateValue(
         "estimateCpuMaker",
@@ -5481,7 +4389,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateCpuQty",
-        estimate.cpu_qty || 1
+        estimate.cpu_qty ?? 1
       );
 
       setEstimateValue(
@@ -5489,8 +4397,6 @@ async function openQuoteEditor(id) {
         estimate.cpu_price
       );
 
-
-      /* 메인보드 */
 
       setEstimateValue(
         "estimateMainBoardMaker",
@@ -5510,7 +4416,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateMainBoardQty",
-        estimate.main_board_qty || 1
+        estimate.main_board_qty ?? 1
       );
 
       setEstimateValue(
@@ -5518,8 +4424,6 @@ async function openQuoteEditor(id) {
         estimate.main_board_price
       );
 
-
-      /* RAM */
 
       setEstimateValue(
         "estimateRamMaker",
@@ -5539,7 +4443,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateRamQty",
-        estimate.ram_qty || 1
+        estimate.ram_qty ?? 1
       );
 
       setEstimateValue(
@@ -5547,8 +4451,6 @@ async function openQuoteEditor(id) {
         estimate.ram_price
       );
 
-
-      /* SSD */
 
       setEstimateValue(
         "estimateSsdMaker",
@@ -5568,7 +4470,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateSsdQty",
-        estimate.ssd_qty || 1
+        estimate.ssd_qty ?? 1
       );
 
       setEstimateValue(
@@ -5576,8 +4478,6 @@ async function openQuoteEditor(id) {
         estimate.ssd_price
       );
 
-
-      /* 그래픽카드 */
 
       setEstimateValue(
         "estimateGpuMaker",
@@ -5597,7 +4497,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateGpuQty",
-        estimate.gpu_qty || 1
+        estimate.gpu_qty ?? 1
       );
 
       setEstimateValue(
@@ -5605,8 +4505,6 @@ async function openQuoteEditor(id) {
         estimate.gpu_price
       );
 
-
-      /* 파워 */
 
       setEstimateValue(
         "estimatePowerMaker",
@@ -5626,7 +4524,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimatePowerQty",
-        estimate.power_qty || 1
+        estimate.power_qty ?? 1
       );
 
       setEstimateValue(
@@ -5634,8 +4532,6 @@ async function openQuoteEditor(id) {
         estimate.power_price
       );
 
-
-      /* 케이스 */
 
       setEstimateValue(
         "estimateCaseMaker",
@@ -5655,7 +4551,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateCaseQty",
-        estimate.case_qty || 1
+        estimate.case_qty ?? 1
       );
 
       setEstimateValue(
@@ -5663,8 +4559,6 @@ async function openQuoteEditor(id) {
         estimate.case_price
       );
 
-
-      /* 쿨러 */
 
       setEstimateValue(
         "estimateCoolerMaker",
@@ -5684,7 +4578,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateCoolerQty",
-        estimate.cooler_qty || 1
+        estimate.cooler_qty ?? 1
       );
 
       setEstimateValue(
@@ -5692,8 +4586,6 @@ async function openQuoteEditor(id) {
         estimate.cooler_price
       );
 
-
-      /* 모니터 */
 
       setEstimateValue(
         "estimateMonitorMaker",
@@ -5713,7 +4605,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateMonitorQty",
-        estimate.monitor_qty || 1
+        estimate.monitor_qty ?? 1
       );
 
       setEstimateValue(
@@ -5721,8 +4613,6 @@ async function openQuoteEditor(id) {
         estimate.monitor_price
       );
 
-
-      /* 기타 */
 
       setEstimateValue(
         "estimateEtcMaker",
@@ -5742,7 +4632,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateEtcQty",
-        estimate.etc_qty || 1
+        estimate.etc_qty ?? 1
       );
 
       setEstimateValue(
@@ -5750,11 +4640,10 @@ async function openQuoteEditor(id) {
         estimate.etc_price
       );
 
-      /* 공임 */
 
       setEstimateValue(
         "estimateLaborMaker",
-        estimate.labor_maker
+        estimate.labor_maker || "-"
       );
 
       setEstimateValue(
@@ -5770,7 +4659,7 @@ async function openQuoteEditor(id) {
 
       setEstimateValue(
         "estimateLaborQty",
-        estimate.labor_qty || 1
+        estimate.labor_qty ?? 1
       );
 
       setEstimateValue(
@@ -5778,15 +4667,6 @@ async function openQuoteEditor(id) {
         estimate.labor_price
       );
 
-      /* 총액 */
-
-      setEstimateValue(
-        "estimateTotalPrice",
-        estimate.total_price || 0
-      );
-
-
-      /* 설명 */
 
       setEstimateValue(
         "estimateDescription",
@@ -5795,14 +4675,12 @@ async function openQuoteEditor(id) {
 
     }
 
-
   } catch (error) {
 
     console.error(
       "기존 견적 불러오기 오류:",
       error
     );
-
 
     alert(
       "기존 견적을 불러오지 못했습니다.\n\n" +
@@ -5813,219 +4691,18 @@ async function openQuoteEditor(id) {
 
   }
 
-
-  /* =====================================
-     견적 금액 다시 계산
-  ===================================== */
-
- updateEstimateTotal();
-
-  /* =====================================
-     모달 열기
-  ===================================== */
+  updateEstimateTotal();
 
   document
-    .getElementById(
-      "quoteModal"
-    )
+    .getElementById("quoteModal")
     .classList
-    .remove(
-      "hidden"
-    );
-
-}
-
-/* =====================================
-   견적 금액 자동 계산
-===================================== */
-
-const estimateParts = [
-  "Cpu",
-  "MainBoard",
-  "Ram",
-  "Ssd",
-  "Gpu",
-  "Power",
-  "Case",
-  "Cooler",
-  "Monitor",
-  "Etc",
-  "Labor"
-];
-
-
-
-/* 숫자 안전 변환 */
-
-function estimateNumber(value) {
-
-  const number =
-    Number(
-      String(value ?? "")
-        .replace(/,/g, "")
-        .trim()
-    );
-
-  return Number.isFinite(number)
-    ? number
-    : 0;
-
-}
-
-
-/* 한 부품 공급가 계산 */
-
-function calculatePartSupply(part) {
-
-  const qtyElement =
-    document.getElementById(
-      "estimate" + part + "Qty"
-    );
-
-  const priceElement =
-    document.getElementById(
-      "estimate" + part + "Price"
-    );
-
-  const supplyElement =
-    document.getElementById(
-      "estimate" + part + "Supply"
-    );
-
-
-  if (
-    !qtyElement ||
-    !priceElement ||
-    !supplyElement
-  ) {
-    return 0;
-  }
-
-
-  let qty =
-    estimateNumber(
-      qtyElement.value
-    );
-
-
-  const price =
-    estimateNumber(
-      priceElement.value
-    );
-
-
-  /* 수량이 비어 있으면 기본 1 */
-
-  if (
-    qtyElement.value === "" ||
-    qty < 0
-  ) {
-
-    qty = 1;
-
-    qtyElement.value = 1;
-
-  }
-
-
-  const supply =
-    Math.round(
-      qty * price
-    );
-
-
-  supplyElement.textContent =
-    supply.toLocaleString("ko-KR") +
-    "원";
-
-
-  return supply;
-
-}
-
-
-/* 전체 견적 계산 */
-
-function updateEstimateTotal() {
-
-  let total = 0;
-
-
-  estimateParts.forEach(
-    function(part) {
-
-      total +=
-        calculatePartSupply(part);
-
-    }
-  );
-
-
-  /* 기존 저장 코드와 연결되는 hidden input */
-
-  const totalInput =
-    document.getElementById(
-      "estimateTotalPrice"
-    );
-
-
-  if (totalInput) {
-
-    totalInput.value =
-      total;
-
-  }
-
-
-  /* 화면 총액 */
-
-  const totalDisplay =
-    document.getElementById(
-      "estimateTotalDisplay"
-    );
-
-
-  if (totalDisplay) {
-
-    totalDisplay.textContent =
-      "총 견적금액 " +
-      total.toLocaleString("ko-KR") +
-      "원";
-
-  }
+    .remove("hidden");
 
 }
 
 
 /* =====================================
-   단가 / 수량 변경 시 자동 계산
-===================================== */
-
-document.addEventListener(
-  "input",
-  function(event) {
-
-    const id =
-      event.target.id || "";
-
-
-    if (
-      id.startsWith("estimate") &&
-      (
-        id.endsWith("Qty") ||
-        id.endsWith("Price")
-      )
-    ) {
-
-      updateEstimateTotal();
-
-    }
-
-  }
-);
-
-/* =====================================
-   맞춤 견적 작성 닫기
+   견적 닫기
 ===================================== */
 
 function closeQuoteEditor() {
@@ -6037,13 +4714,285 @@ function closeQuoteEditor() {
 
 }
 
+
 /* =====================================
-   맞춤 견적 저장
-   기존 견적 있으면 수정
-   없으면 새로 등록
+   컴오아시스 요청서 열기
+===================================== */
+
+function openSupplierQuote() {
+
+  const modal =
+    document.getElementById(
+      "supplierQuoteModal"
+    );
+
+  if (!modal) {
+
+    alert(
+      "컴오아시스 견적 요청서 화면을 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+  const dateElement =
+    document.getElementById(
+      "supplierQuoteDate"
+    );
+
+  if (dateElement) {
+
+    const today =
+      new Date();
+
+    dateElement.textContent =
+      today.toLocaleString(
+        "ko-KR",
+        {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+  }
+
+  modal.classList.remove(
+    "hidden"
+  );
+
+}
+
+/* =====================================
+   컴오아시스 요청서 닫기
+===================================== */
+
+function closeSupplierQuote() {
+
+  const supplierModal =
+    document.getElementById(
+      "supplierQuoteModal"
+    );
+
+  if (supplierModal) {
+
+    supplierModal.classList.add(
+      "hidden"
+    );
+
+  }
+
+
+  /* =====================================
+     작성 중이던 고객 견적서 복귀
+     입력값은 초기화하지 않으므로 그대로 유지됨
+  ===================================== */
+
+  const quoteModal =
+    document.getElementById(
+      "quoteModal"
+    );
+
+  const quoteRequestId =
+    document.getElementById(
+      "estimateQuoteRequestId"
+    );
+
+
+  if (
+    quoteModal &&
+    quoteRequestId &&
+    quoteRequestId.value
+  ) {
+
+    quoteModal.classList.remove(
+      "hidden"
+    );
+
+  }
+
+}
+
+/* =====================================
+   고객 견적 → 컴오아시스 자동 복사
+===================================== */
+
+function copyEstimateToSupplierQuote() {
+
+  const parts = [
+    "Cpu",
+    "MainBoard",
+    "Ram",
+    "Ssd",
+    "Gpu",
+    "Power",
+    "Case",
+    "Cooler",
+    "Monitor",
+    "Etc",
+    "Labor"
+  ];
+
+  function copyValue(
+    sourceId,
+    targetId,
+    defaultValue = ""
+  ) {
+
+    const source =
+      document.getElementById(
+        sourceId
+      );
+
+    const target =
+      document.getElementById(
+        targetId
+      );
+
+    if (!target) {
+
+      console.error(
+        "컴오아시스 입력칸 없음:",
+        targetId
+      );
+
+      return;
+
+    }
+
+    if (!source) {
+
+      console.error(
+        "맞춤견적 입력칸 없음:",
+        sourceId
+      );
+
+      target.value =
+        defaultValue;
+
+      return;
+
+    }
+
+    const value =
+      String(
+        source.value ?? ""
+      );
+
+    target.value =
+      value !== ""
+        ? value
+        : defaultValue;
+
+  }
+
+
+  parts.forEach(function(part) {
+
+    copyValue(
+      "estimate" + part + "Maker",
+      "supplier" + part + "Maker",
+      part === "Labor" ? "-" : ""
+    );
+
+    copyValue(
+      "estimate" + part + "Model",
+      "supplier" + part + "Model"
+    );
+
+    copyValue(
+      "estimate" + part + "Spec",
+      "supplier" + part + "Spec"
+    );
+
+    copyValue(
+      "estimate" + part + "Qty",
+      "supplier" + part + "Qty",
+      "1"
+    );
+
+  });
+
+
+  const request =
+    allQuoteRequests.find(
+      item =>
+        Number(item.id) ===
+        Number(
+          document.getElementById(
+            "estimateQuoteRequestId"
+          ).value
+        )
+    );
+
+
+  const supplierRequest =
+    document.getElementById(
+      "supplierRequest"
+    );
+
+
+  if (
+    supplierRequest &&
+    request
+  ) {
+
+    const customerName =
+      request.customer_name || "-";
+
+    const publicCode =
+      request.public_code || "-";
+
+
+    supplierRequest.value =
+`상기 품목의 재고 여부, 공급단가 및 출고 가능일 회신 부탁드립니다.
+
+PC SOLUTION 내부 참고
+상담번호 : ${publicCode}
+고객명 : ${customerName}`;
+
+  }
+
+  /* =====================================
+     고객 견적창은 값은 그대로 유지하고
+     화면에서만 숨김
+  ===================================== */
+
+  document
+    .getElementById("quoteModal")
+    .classList
+    .add("hidden");
+
+
+  /* =====================================
+     컴오아시스 견적 요청서 열기
+  ===================================== */
+
+  openSupplierQuote();
+
+}
+
+  /* =====================================
+   컴오아시스 인쇄
+===================================== */
+
+function printSupplierQuote() {
+
+  window.print();
+
+}
+
+
+/* =====================================
+   견적 저장
 ===================================== */
 
 async function saveQuoteEstimate() {
+
+  updateEstimateTotal();
 
   const quoteRequestId =
     Number(
@@ -6054,309 +5003,377 @@ async function saveQuoteEstimate() {
 
   if (!quoteRequestId) {
 
-    alert("상담 신청 정보가 없습니다.");
+    alert(
+      "상담 신청 정보가 없습니다."
+    );
 
     return;
 
   }
 
-/* =====================================
-   견적표 입력값 가져오기
-===================================== */
-
-function getEstimateValue(id) {
-
-  const element =
-    document.getElementById(id);
-
-  return element
-    ? element.value.trim()
-    : "";
-
-}
-
-
-function getEstimateNumber(id) {
-
-  const value =
-    getEstimateValue(id)
-      .replace(/,/g, "");
-
-  const number =
-    Number(value);
-
-  return Number.isFinite(number)
-    ? number
-    : 0;
-
-}
-
-
-/* =====================================
-   DB 저장 데이터
-===================================== */
-
-const estimate = {
-
-  quote_request_id:
-    quoteRequestId,
-
-
-  /* CPU */
-
-  cpu:
-    getEstimateValue("estimateCpuModel"),
-
-  cpu_maker:
-    getEstimateValue("estimateCpuMaker"),
-
-  cpu_model:
-    getEstimateValue("estimateCpuModel"),
-
-  cpu_spec:
-    getEstimateValue("estimateCpuSpec"),
-
-  cpu_qty:
-    getEstimateNumber("estimateCpuQty"),
-
-  cpu_price:
-    getEstimateNumber("estimateCpuPrice"),
-
-
-  /* 메인보드 */
-
-  main_board:
-    getEstimateValue("estimateMainBoardModel"),
-
-  main_board_maker:
-    getEstimateValue("estimateMainBoardMaker"),
-
-  main_board_model:
-    getEstimateValue("estimateMainBoardModel"),
-
-  main_board_spec:
-    getEstimateValue("estimateMainBoardSpec"),
-
-  main_board_qty:
-    getEstimateNumber("estimateMainBoardQty"),
-
-  main_board_price:
-    getEstimateNumber("estimateMainBoardPrice"),
-
-
-  /* RAM */
-
-  ram:
-    getEstimateValue("estimateRamModel"),
-
-  ram_maker:
-    getEstimateValue("estimateRamMaker"),
-
-  ram_model:
-    getEstimateValue("estimateRamModel"),
-
-  ram_spec:
-    getEstimateValue("estimateRamSpec"),
-
-  ram_qty:
-    getEstimateNumber("estimateRamQty"),
-
-  ram_price:
-    getEstimateNumber("estimateRamPrice"),
-
-
-  /* SSD */
-
-  ssd:
-    getEstimateValue("estimateSsdModel"),
-
-  ssd_maker:
-    getEstimateValue("estimateSsdMaker"),
-
-  ssd_model:
-    getEstimateValue("estimateSsdModel"),
-
-  ssd_spec:
-    getEstimateValue("estimateSsdSpec"),
-
-  ssd_qty:
-    getEstimateNumber("estimateSsdQty"),
-
-  ssd_price:
-    getEstimateNumber("estimateSsdPrice"),
-
-
-  /* 그래픽카드 */
-
-  gpu:
-    getEstimateValue("estimateGpuModel"),
-
-  gpu_maker:
-    getEstimateValue("estimateGpuMaker"),
-
-  gpu_model:
-    getEstimateValue("estimateGpuModel"),
-
-  gpu_spec:
-    getEstimateValue("estimateGpuSpec"),
-
-  gpu_qty:
-    getEstimateNumber("estimateGpuQty"),
-
-  gpu_price:
-    getEstimateNumber("estimateGpuPrice"),
-
-
-  /* 파워 */
-
-  power:
-    getEstimateValue("estimatePowerModel"),
-
-  power_maker:
-    getEstimateValue("estimatePowerMaker"),
-
-  power_model:
-    getEstimateValue("estimatePowerModel"),
-
-  power_spec:
-    getEstimateValue("estimatePowerSpec"),
-
-  power_qty:
-    getEstimateNumber("estimatePowerQty"),
-
-  power_price:
-    getEstimateNumber("estimatePowerPrice"),
-
-
-  /* 케이스 */
-
-  case:
-    getEstimateValue("estimateCaseModel"),
-
-  case_maker:
-    getEstimateValue("estimateCaseMaker"),
-
-  case_model:
-    getEstimateValue("estimateCaseModel"),
-
-  case_spec:
-    getEstimateValue("estimateCaseSpec"),
-
-  case_qty:
-    getEstimateNumber("estimateCaseQty"),
-
-  case_price:
-    getEstimateNumber("estimateCasePrice"),
-
-
-  /* 쿨러 */
-
-  cooler:
-    getEstimateValue("estimateCoolerModel"),
-
-  cooler_maker:
-    getEstimateValue("estimateCoolerMaker"),
-
-  cooler_model:
-    getEstimateValue("estimateCoolerModel"),
-
-  cooler_spec:
-    getEstimateValue("estimateCoolerSpec"),
-
-  cooler_qty:
-    getEstimateNumber("estimateCoolerQty"),
-
-  cooler_price:
-    getEstimateNumber("estimateCoolerPrice"),
-
-
-  /* 모니터 */
-
-  monitor:
-    getEstimateValue("estimateMonitorModel"),
-
-  monitor_maker:
-    getEstimateValue("estimateMonitorMaker"),
-
-  monitor_model:
-    getEstimateValue("estimateMonitorModel"),
-
-  monitor_spec:
-    getEstimateValue("estimateMonitorSpec"),
-
-  monitor_qty:
-    getEstimateNumber("estimateMonitorQty"),
-
-  monitor_price:
-    getEstimateNumber("estimateMonitorPrice"),
-
-
-  /* 기타 */
-
-  etc:
-    getEstimateValue("estimateEtcModel"),
-
-  etc_maker:
-    getEstimateValue("estimateEtcMaker"),
-
-  etc_model:
-    getEstimateValue("estimateEtcModel"),
-
-  etc_spec:
-    getEstimateValue("estimateEtcSpec"),
-
-  etc_qty:
-    getEstimateNumber("estimateEtcQty"),
-
-  etc_price:
-    getEstimateNumber("estimateEtcPrice"),
-
-  /* 공임 */
-
-  labor:
-    getEstimateValue("estimateLaborModel"),
-
-  labor_maker:
-    getEstimateValue("estimateLaborMaker"),
-
-  labor_model:
-    getEstimateValue("estimateLaborModel"),
-
-  labor_spec:
-    getEstimateValue("estimateLaborSpec"),
-
-  labor_qty:
-    getEstimateNumber("estimateLaborQty"),
-
-  labor_price:
-    getEstimateNumber("estimateLaborPrice"),
-
-
-  /* 총액 */
-
-  total_price:
-    getEstimateNumber("estimateTotalPrice"),
-
-
-  /* 설명 */
-
-  description:
-    getEstimateValue(
-      "estimateDescription"
-    ),
-
-
-  updated_at:
-    new Date().toISOString()
-
-};
-
+  const estimate = {
+
+    quote_request_id:
+      quoteRequestId,
+
+
+    cpu:
+      getEstimateValue(
+        "estimateCpuModel"
+      ),
+
+    cpu_maker:
+      getEstimateValue(
+        "estimateCpuMaker"
+      ),
+
+    cpu_model:
+      getEstimateValue(
+        "estimateCpuModel"
+      ),
+
+    cpu_spec:
+      getEstimateValue(
+        "estimateCpuSpec"
+      ),
+
+    cpu_qty:
+      getEstimateNumber(
+        "estimateCpuQty"
+      ),
+
+    cpu_price:
+      getEstimateNumber(
+        "estimateCpuPrice"
+      ),
+
+
+    main_board:
+      getEstimateValue(
+        "estimateMainBoardModel"
+      ),
+
+    main_board_maker:
+      getEstimateValue(
+        "estimateMainBoardMaker"
+      ),
+
+    main_board_model:
+      getEstimateValue(
+        "estimateMainBoardModel"
+      ),
+
+    main_board_spec:
+      getEstimateValue(
+        "estimateMainBoardSpec"
+      ),
+
+    main_board_qty:
+      getEstimateNumber(
+        "estimateMainBoardQty"
+      ),
+
+    main_board_price:
+      getEstimateNumber(
+        "estimateMainBoardPrice"
+      ),
+
+
+    ram:
+      getEstimateValue(
+        "estimateRamModel"
+      ),
+
+    ram_maker:
+      getEstimateValue(
+        "estimateRamMaker"
+      ),
+
+    ram_model:
+      getEstimateValue(
+        "estimateRamModel"
+      ),
+
+    ram_spec:
+      getEstimateValue(
+        "estimateRamSpec"
+      ),
+
+    ram_qty:
+      getEstimateNumber(
+        "estimateRamQty"
+      ),
+
+    ram_price:
+      getEstimateNumber(
+        "estimateRamPrice"
+      ),
+
+
+    ssd:
+      getEstimateValue(
+        "estimateSsdModel"
+      ),
+
+    ssd_maker:
+      getEstimateValue(
+        "estimateSsdMaker"
+      ),
+
+    ssd_model:
+      getEstimateValue(
+        "estimateSsdModel"
+      ),
+
+    ssd_spec:
+      getEstimateValue(
+        "estimateSsdSpec"
+      ),
+
+    ssd_qty:
+      getEstimateNumber(
+        "estimateSsdQty"
+      ),
+
+    ssd_price:
+      getEstimateNumber(
+        "estimateSsdPrice"
+      ),
+
+
+    gpu:
+      getEstimateValue(
+        "estimateGpuModel"
+      ),
+
+    gpu_maker:
+      getEstimateValue(
+        "estimateGpuMaker"
+      ),
+
+    gpu_model:
+      getEstimateValue(
+        "estimateGpuModel"
+      ),
+
+    gpu_spec:
+      getEstimateValue(
+        "estimateGpuSpec"
+      ),
+
+    gpu_qty:
+      getEstimateNumber(
+        "estimateGpuQty"
+      ),
+
+    gpu_price:
+      getEstimateNumber(
+        "estimateGpuPrice"
+      ),
+
+
+    power:
+      getEstimateValue(
+        "estimatePowerModel"
+      ),
+
+    power_maker:
+      getEstimateValue(
+        "estimatePowerMaker"
+      ),
+
+    power_model:
+      getEstimateValue(
+        "estimatePowerModel"
+      ),
+
+    power_spec:
+      getEstimateValue(
+        "estimatePowerSpec"
+      ),
+
+    power_qty:
+      getEstimateNumber(
+        "estimatePowerQty"
+      ),
+
+    power_price:
+      getEstimateNumber(
+        "estimatePowerPrice"
+      ),
+
+
+    case:
+      getEstimateValue(
+        "estimateCaseModel"
+      ),
+
+    case_maker:
+      getEstimateValue(
+        "estimateCaseMaker"
+      ),
+
+    case_model:
+      getEstimateValue(
+        "estimateCaseModel"
+      ),
+
+    case_spec:
+      getEstimateValue(
+        "estimateCaseSpec"
+      ),
+
+    case_qty:
+      getEstimateNumber(
+        "estimateCaseQty"
+      ),
+
+    case_price:
+      getEstimateNumber(
+        "estimateCasePrice"
+      ),
+
+
+    cooler:
+      getEstimateValue(
+        "estimateCoolerModel"
+      ),
+
+    cooler_maker:
+      getEstimateValue(
+        "estimateCoolerMaker"
+      ),
+
+    cooler_model:
+      getEstimateValue(
+        "estimateCoolerModel"
+      ),
+
+    cooler_spec:
+      getEstimateValue(
+        "estimateCoolerSpec"
+      ),
+
+    cooler_qty:
+      getEstimateNumber(
+        "estimateCoolerQty"
+      ),
+
+    cooler_price:
+      getEstimateNumber(
+        "estimateCoolerPrice"
+      ),
+
+
+    monitor:
+      getEstimateValue(
+        "estimateMonitorModel"
+      ),
+
+    monitor_maker:
+      getEstimateValue(
+        "estimateMonitorMaker"
+      ),
+
+    monitor_model:
+      getEstimateValue(
+        "estimateMonitorModel"
+      ),
+
+    monitor_spec:
+      getEstimateValue(
+        "estimateMonitorSpec"
+      ),
+
+    monitor_qty:
+      getEstimateNumber(
+        "estimateMonitorQty"
+      ),
+
+    monitor_price:
+      getEstimateNumber(
+        "estimateMonitorPrice"
+      ),
+
+
+    etc:
+      getEstimateValue(
+        "estimateEtcModel"
+      ),
+
+    etc_maker:
+      getEstimateValue(
+        "estimateEtcMaker"
+      ),
+
+    etc_model:
+      getEstimateValue(
+        "estimateEtcModel"
+      ),
+
+    etc_spec:
+      getEstimateValue(
+        "estimateEtcSpec"
+      ),
+
+    etc_qty:
+      getEstimateNumber(
+        "estimateEtcQty"
+      ),
+
+    etc_price:
+      getEstimateNumber(
+        "estimateEtcPrice"
+      ),
+
+
+    labor:
+      getEstimateValue(
+        "estimateLaborModel"
+      ),
+
+    labor_maker:
+      getEstimateValue(
+        "estimateLaborMaker"
+      ),
+
+    labor_model:
+      getEstimateValue(
+        "estimateLaborModel"
+      ),
+
+    labor_spec:
+      getEstimateValue(
+        "estimateLaborSpec"
+      ),
+
+    labor_qty:
+      getEstimateNumber(
+        "estimateLaborQty"
+      ),
+
+    labor_price:
+      getEstimateNumber(
+        "estimateLaborPrice"
+      ),
+
+
+    total_price:
+      getEstimateNumber(
+        "estimateTotalPrice"
+      ),
+
+    description:
+      getEstimateValue(
+        "estimateDescription"
+      ),
+
+    updated_at:
+      new Date().toISOString()
+
+  };
 
   try {
-
-    /* =====================================
-       기존 견적 확인
-    ===================================== */
 
     const {
       data: existingEstimates,
@@ -6377,15 +5394,9 @@ const estimate = {
         )
         .limit(1);
 
-
     if (findError) {
       throw findError;
     }
-
-
-    /* =====================================
-       기존 견적이 있으면 UPDATE
-    ===================================== */
 
     if (
       existingEstimates &&
@@ -6395,65 +5406,35 @@ const estimate = {
       const estimateId =
         existingEstimates[0].id;
 
-
       const {
         error: updateError
       } =
         await supabaseClient
           .from("quote_estimates")
-          .update(
-            estimate
-          )
+          .update(estimate)
           .eq(
             "id",
             estimateId
           );
 
-
       if (updateError) {
         throw updateError;
       }
 
-
-      console.log(
-        "기존 견적 수정 완료:",
-        estimateId
-      );
-
-    }
-
-    /* =====================================
-       기존 견적이 없으면 INSERT
-    ===================================== */
-
-    else {
+    } else {
 
       const {
         error: insertError
       } =
         await supabaseClient
           .from("quote_estimates")
-          .insert(
-            estimate
-          );
-
+          .insert(estimate);
 
       if (insertError) {
         throw insertError;
       }
 
-
-      console.log(
-        "새 견적 등록 완료:",
-        quoteRequestId
-      );
-
     }
-
-
-    /* =====================================
-       상담 상태 → 견적작성
-    ===================================== */
 
     const {
       error: statusError
@@ -6461,28 +5442,20 @@ const estimate = {
       await supabaseClient
         .from("quote_requests")
         .update({
-
           status:
             "견적작성",
 
           updated_at:
             new Date().toISOString()
-
         })
         .eq(
           "id",
           quoteRequestId
         );
 
-
     if (statusError) {
       throw statusError;
     }
-
-
-    /* =====================================
-       화면 데이터 업데이트
-    ===================================== */
 
     const request =
       allQuoteRequests.find(
@@ -6491,24 +5464,18 @@ const estimate = {
           quoteRequestId
       );
 
-
     if (request) {
-
       request.status =
         "견적작성";
-
     }
-
 
     closeQuoteEditor();
 
     filterQuoteRequests();
 
-
     alert(
       "✅ 맞춤 견적이 저장되었습니다."
     );
-
 
   } catch (error) {
 
@@ -6526,7 +5493,6 @@ const estimate = {
 
 }
 
-    
 
 /* =====================================
    신규 상담 관리자 알림
@@ -6541,7 +5507,6 @@ function notifyNewQuote() {
         "접수"
     );
 
-
   if (!newQuotes.length) {
 
     alert(
@@ -6552,12 +5517,38 @@ function notifyNewQuote() {
 
   }
 
-
   sendQuoteMail(
     Number(newQuotes[0].id)
   );
 
 }
+
+
+/* =====================================
+   견적 수량/가격 자동 계산
+===================================== */
+
+document.addEventListener(
+  "input",
+  function(event) {
+
+    const id =
+      event.target.id || "";
+
+    if (
+      id.startsWith("estimate") &&
+      (
+        id.endsWith("Qty") ||
+        id.endsWith("Price")
+      )
+    ) {
+
+      updateEstimateTotal();
+
+    }
+
+  }
+);
 
 
 /* =====================================
@@ -6574,5 +5565,6 @@ document.addEventListener(
 );
 
 </script>
+
 </body>
 </html>
