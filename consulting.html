@@ -1523,23 +1523,26 @@ escapeHTML(
 
   }
 
-  catch (error) {
+ catch (error) {
 
+  console.error(
+    "견적 신청 오류:",
+    error
+  );
 
-    console.error(
-      "견적 신청 오류:",
-      error
+  message.style.color =
+    "#d92d20";
+
+  message.textContent =
+    "신청 저장 실패: " +
+    (
+      error?.message ||
+      error?.details ||
+      error?.hint ||
+      JSON.stringify(error)
     );
 
-
-    message.style.color =
-      "#d92d20";
-
-
-    message.textContent =
-      "신청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.";
-
-  }
+}
 
   finally {
 
