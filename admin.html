@@ -2540,7 +2540,7 @@ async function login() {
 
     await loadProducts();
     await loadQuoteRequests();
-
+    await restoreAdminView();
   } catch (error) {
 
     console.error(
@@ -2637,7 +2637,7 @@ async function checkSession() {
 
       await loadProducts();
       await loadQuoteRequests();
-
+      await restoreAdminView();
     }
 
   } catch (error) {
@@ -4599,6 +4599,178 @@ function clearEstimateDraft() {
 }
 
 /* =====================================
+   관리자 작업 화면 위치 저장
+===================================== */
+
+const ADMIN_VIEW_KEY =
+  "pcsolution_admin_view";
+
+
+function saveAdminView(
+  view,
+  quoteRequestId = ""
+) {
+
+  try {
+
+    localStorage.setItem(
+      ADMIN_VIEW_KEY,
+      JSON.stringify({
+        view,
+        quoteRequestId:
+          String(quoteRequestId || ""),
+        savedAt:
+          Date.now()
+      })
+    );
+
+  } catch (error) {
+
+    console.error(
+      "관리자 화면 위치 저장 오류:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   관리자 작업 화면 위치 불러오기
+===================================== */
+
+function getAdminView() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        ADMIN_VIEW_KEY
+      );
+
+    if (!saved) {
+      return null;
+    }
+
+    return JSON.parse(saved);
+
+  } catch (error) {
+
+    console.error(
+      "관리자 화면 위치 복구 오류:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =====================================
+   관리자 작업 화면 위치 삭제
+===================================== */
+
+function clearAdminView() {
+
+  try {
+
+    localStorage.removeItem(
+      ADMIN_VIEW_KEY
+    );
+
+  } catch (error) {
+
+    console.error(
+      "관리자 화면 위치 삭제 오류:",
+      error
+    );
+
+  }
+
+}
+
+/* =====================================
+   관리자 작업 화면 자동 복구
+===================================== */
+
+async function restoreAdminView() {
+
+  const saved =
+    getAdminView();
+
+  if (!saved) {
+    return;
+  }
+
+
+  /* 너무 오래된 작업은 복구하지 않음
+     현재 기준 12시간
+  */
+
+  if (
+    saved.savedAt &&
+    Date.now() - saved.savedAt >
+    12 * 60 * 60 * 1000
+  ) {
+
+    clearAdminView();
+    return;
+
+  }
+
+
+  /* =====================================
+     고객 맞춤 견적서 복구
+  ===================================== */
+
+  if (
+    saved.view ===
+      "quoteEditor" &&
+    saved.quoteRequestId
+  ) {
+
+    const requestExists =
+      allQuoteRequests.some(
+        item =>
+          Number(item.id) ===
+          Number(saved.quoteRequestId)
+      );
+
+
+    if (requestExists) {
+
+      await openQuoteEditor(
+        Number(
+          saved.quoteRequestId
+        )
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  /* =====================================
+     컴오아시스 요청서 복구
+  ===================================== */
+
+  if (
+    saved.view ===
+    "supplierQuote"
+  ) {
+
+    openSupplierQuote();
+
+  }
+
+}
+
+/* =====================================
    견적 초기화
 ===================================== */
 
@@ -4763,6 +4935,11 @@ function updateEstimateTotal() {
 ===================================== */
 
 async function openQuoteEditor(id) {
+
+saveAdminView(
+    "quoteEditor",
+    id
+  );
 
   const request =
     allQuoteRequests.find(
@@ -5184,6 +5361,8 @@ document
 
 function closeQuoteEditor() {
 
+  clearAdminView();
+
   document
     .getElementById("quoteModal")
     .classList
@@ -5191,12 +5370,15 @@ function closeQuoteEditor() {
 
 }
 
-
 /* =====================================
    컴오아시스 요청서 열기
 ===================================== */
 
 function openSupplierQuote() {
+
+saveAdminView(
+    "supplierQuote"
+  );
 
   const modal =
     document.getElementById(
@@ -5447,6 +5629,13 @@ PC SOLUTION 내부 참고
   /* =====================================
      컴오아시스 견적 요청서 열기
   ===================================== */
+
+saveAdminView(
+  "supplierQuote",
+  document.getElementById(
+    "estimateQuoteRequestId"
+  ).value
+);
 
   openSupplierQuote();
 
