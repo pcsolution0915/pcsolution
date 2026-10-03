@@ -1653,83 +1653,77 @@
 
 </div>    
 
-    <div class="card">
+<div class="card">
 
-      <div class="quote-header">
+  <div class="quote-header">
 
-        <div>
-          <h2 style="margin-bottom:5px;">
-            📋 PC 컨설팅 신청 관리
-          </h2>
+    <div>
+      <h2 style="margin-bottom:5px;">
+        📋 PC 컨설팅 신청 관리
+      </h2>
 
-          <div id="quoteCount" class="quote-count">
-            상담 신청을 불러오는 중입니다...
-          </div>
-        </div>
-
-          <button
-  class="delete-button"
-  type="button"
-  onclick="deleteSelectedQuoteRequests()"
->
-  🗑️ 선택삭제
-</button>
-
-<div class="quote-toolbar">
-
-  <div class="quote-select-actions">
-
-    <button
-      class="select-button"
-      type="button"
-      onclick="selectAllQuotes()"
-    >
-      ☑ 전체선택
-    </button>
-
-    <button
-      class="unselect-button"
-      type="button"
-      onclick="unselectAllQuotes()"
-    >
-      ☐ 선택해제
-    </button>
-
-    <button
-      class="delete-button"
-      type="button"
-      onclick="deleteSelectedQuotes()"
-    >
-      🗑 선택삭제
-    </button>
-
-  </div>
-
-  <div class="quote-admin-actions">
-
-    <button
-      class="refresh-button"
-      type="button"
-      onclick="loadQuoteRequests()"
-    >
-      🔄 새로고침
-    </button>
-
-    <button
-      class="mail-button"
-      type="button"
-      onclick="notifyNewQuote()"
-    >
-      📧 관리자 알림
-    </button>
-
-  </div>
-
-</div>        
-
+      <div id="quoteCount" class="quote-count">
+        상담 신청을 불러오는 중입니다...
       </div>
+    </div>
 
-      <div class="quote-stats">
+  </div>
+
+
+  <div class="quote-toolbar">
+
+    <div class="quote-select-actions">
+
+      <button
+        class="select-button"
+        type="button"
+        onclick="selectAllQuotes()"
+      >
+        ☑ 전체선택
+      </button>
+
+      <button
+        class="unselect-button"
+        type="button"
+        onclick="unselectAllQuotes()"
+      >
+        ☐ 선택해제
+      </button>
+
+      <button
+        class="delete-button"
+        type="button"
+        onclick="deleteSelectedQuoteRequests()"
+      >
+        🗑 선택삭제
+      </button>
+
+    </div>
+
+
+    <div class="quote-admin-actions">
+
+      <button
+        class="refresh-button"
+        type="button"
+        onclick="loadQuoteRequests()"
+      >
+        🔄 새로고침
+      </button>
+
+      <button
+        class="mail-button"
+        type="button"
+        onclick="notifyNewQuote()"
+      >
+        📧 관리자 알림
+      </button>
+
+    </div>
+
+  </div>
+
+       <div class="quote-stats">
 
         <div class="quote-stat total">
           <div class="quote-stat-label">전체 상담</div>
@@ -4606,33 +4600,44 @@ async function deleteQuoteRequest(id) {
 }
 
 /* =====================================
+   상담 전체선택 / 선택해제
+===================================== */
+
+function selectAllQuotes() {
+  document
+    .querySelectorAll(".quote-select")
+    .forEach(checkbox => {
+      checkbox.checked = true;
+    });
+}
+
+function unselectAllQuotes() {
+  document
+    .querySelectorAll(".quote-select")
+    .forEach(checkbox => {
+      checkbox.checked = false;
+    });
+}
+
+
+/* =====================================
    선택 상담 삭제
 ===================================== */
 
 async function deleteSelectedQuoteRequests() {
 
-  const checked =
-    Array.from(
-      document.querySelectorAll(
-        ".quote-select:checked"
-      )
-    );
+  const checked = Array.from(
+    document.querySelectorAll(".quote-select:checked")
+  );
 
   if (!checked.length) {
-
-    alert(
-      "삭제할 상담 고객을 먼저 선택해주세요."
-    );
-
+    alert("삭제할 상담 고객을 먼저 선택해주세요.");
     return;
-
   }
 
-  const ids =
-    checked.map(
-      checkbox =>
-        Number(checkbox.value)
-    );
+  const ids = checked.map(
+    checkbox => Number(checkbox.value)
+  );
 
   if (!confirm(
     `선택한 상담 고객 ${ids.length}건을 정말 삭제하시겠습니까?\n\n연결된 견적서도 함께 삭제되며 복구할 수 없습니다.`
@@ -4643,49 +4648,32 @@ async function deleteSelectedQuoteRequests() {
   try {
 
     /* 연결된 견적 먼저 삭제 */
-
-    const {
-      error: estimateError
-    } =
+    const { error: estimateError } =
       await supabaseClient
         .from("quote_estimates")
         .delete()
-        .in(
-          "quote_request_id",
-          ids
-        );
+        .in("quote_request_id", ids);
 
     if (estimateError) {
       throw estimateError;
     }
 
-
     /* 상담 신청 삭제 */
-
-    const {
-      error: quoteError
-    } =
+    const { error: quoteError } =
       await supabaseClient
         .from("quote_requests")
         .delete()
-        .in(
-          "id",
-          ids
-        );
+        .in("id", ids);
 
     if (quoteError) {
       throw quoteError;
     }
 
-
     /* 화면 데이터에서도 제거 */
-
     allQuoteRequests =
       allQuoteRequests.filter(
         request =>
-          !ids.includes(
-            Number(request.id)
-          )
+          !ids.includes(Number(request.id))
       );
 
     filterQuoteRequests();
@@ -4707,8 +4695,8 @@ async function deleteSelectedQuoteRequests() {
     );
 
   }
-
 }
+
 
 /* =====================================
    이메일
