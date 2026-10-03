@@ -296,6 +296,54 @@
       font-size: 14px;
     }
 
+.quote-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.quote-select-actions,
+.quote-admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.select-button {
+  background: #2563eb;
+  color: #fff;
+}
+
+.unselect-button {
+  background: #64748b;
+  color: #fff;
+}
+
+@media(max-width: 700px) {
+  .quote-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quote-select-actions,
+  .quote-admin-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quote-select-actions .delete-button {
+    grid-column: 1 / -1;
+  }
+
+  .quote-toolbar button {
+    width: 100%;
+  }
+}
+
     .filter-box {
       display: grid;
       grid-template-columns: 1fr 180px;
@@ -1619,23 +1667,65 @@
           </div>
         </div>
 
-        <div class="action-row" style="margin-top:0;">
           <button
-            class="refresh-button"
-            type="button"
-            onclick="loadQuoteRequests()"
-          >
-            🔄 새로고침
-          </button>
+  class="delete-button"
+  type="button"
+  onclick="deleteSelectedQuoteRequests()"
+>
+  🗑️ 선택삭제
+</button>
 
-          <button
-            class="mail-button"
-            type="button"
-            onclick="notifyNewQuote()"
-          >
-            📧 관리자 알림
-          </button>
-        </div>
+<div class="quote-toolbar">
+
+  <div class="quote-select-actions">
+
+    <button
+      class="select-button"
+      type="button"
+      onclick="selectAllQuotes()"
+    >
+      ☑ 전체선택
+    </button>
+
+    <button
+      class="unselect-button"
+      type="button"
+      onclick="unselectAllQuotes()"
+    >
+      ☐ 선택해제
+    </button>
+
+    <button
+      class="delete-button"
+      type="button"
+      onclick="deleteSelectedQuotes()"
+    >
+      🗑 선택삭제
+    </button>
+
+  </div>
+
+  <div class="quote-admin-actions">
+
+    <button
+      class="refresh-button"
+      type="button"
+      onclick="loadQuoteRequests()"
+    >
+      🔄 새로고침
+    </button>
+
+    <button
+      class="mail-button"
+      type="button"
+      onclick="notifyNewQuote()"
+    >
+      📧 관리자 알림
+    </button>
+
+  </div>
+
+</div>        
 
       </div>
 
@@ -3928,12 +4018,44 @@ function renderQuoteRequests(requests) {
         return `
 
           <div
-            class="quote-item"
-            id="quote-${id}"
-          >
+  class="quote-item"
+  id="quote-${id}"
+>
 
-            <div class="quote-top">
+  <div style="
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px solid #e5e7eb;
+  ">
 
+    <label style="
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:7px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:bold;
+    ">
+
+      <input
+        type="checkbox"
+        class="quote-select"
+        value="${id}"
+        style="
+          width:18px;
+          height:18px;
+          margin:0;
+        "
+      >
+
+      선택
+
+    </label>
+
+  </div>
+
+  <div class="quote-top">
               <div>
 
                 <h3 class="customer-name">
@@ -4330,6 +4452,39 @@ async function saveQuoteMemo(id) {
 }
 
 /* =====================================
+   상담 전체 선택 / 선택 해제
+===================================== */
+
+function selectAllQuotes() {
+
+  document
+    .querySelectorAll(
+      ".quote-select-checkbox"
+    )
+    .forEach(function(checkbox) {
+
+      checkbox.checked = true;
+
+    });
+
+}
+
+
+function unselectAllQuotes() {
+
+  document
+    .querySelectorAll(
+      ".quote-select-checkbox"
+    )
+    .forEach(function(checkbox) {
+
+      checkbox.checked = false;
+
+    });
+
+}
+
+/* =====================================
    상담 삭제
 ===================================== */
 
@@ -4445,6 +4600,111 @@ async function deleteQuoteRequest(id) {
 
     /* DB 상태 기준으로 다시 표시 */
     await loadQuoteRequests();
+
+  }
+
+}
+
+/* =====================================
+   선택 상담 삭제
+===================================== */
+
+async function deleteSelectedQuoteRequests() {
+
+  const checked =
+    Array.from(
+      document.querySelectorAll(
+        ".quote-select:checked"
+      )
+    );
+
+  if (!checked.length) {
+
+    alert(
+      "삭제할 상담 고객을 먼저 선택해주세요."
+    );
+
+    return;
+
+  }
+
+  const ids =
+    checked.map(
+      checkbox =>
+        Number(checkbox.value)
+    );
+
+  if (!confirm(
+    `선택한 상담 고객 ${ids.length}건을 정말 삭제하시겠습니까?\n\n연결된 견적서도 함께 삭제되며 복구할 수 없습니다.`
+  )) {
+    return;
+  }
+
+  try {
+
+    /* 연결된 견적 먼저 삭제 */
+
+    const {
+      error: estimateError
+    } =
+      await supabaseClient
+        .from("quote_estimates")
+        .delete()
+        .in(
+          "quote_request_id",
+          ids
+        );
+
+    if (estimateError) {
+      throw estimateError;
+    }
+
+
+    /* 상담 신청 삭제 */
+
+    const {
+      error: quoteError
+    } =
+      await supabaseClient
+        .from("quote_requests")
+        .delete()
+        .in(
+          "id",
+          ids
+        );
+
+    if (quoteError) {
+      throw quoteError;
+    }
+
+
+    /* 화면 데이터에서도 제거 */
+
+    allQuoteRequests =
+      allQuoteRequests.filter(
+        request =>
+          !ids.includes(
+            Number(request.id)
+          )
+      );
+
+    filterQuoteRequests();
+
+    alert(
+      `✅ 선택한 상담 고객 ${ids.length}건을 삭제했습니다.`
+    );
+
+  } catch (error) {
+
+    console.error(
+      "선택 상담 삭제 오류:",
+      error
+    );
+
+    alert(
+      "선택 상담 삭제 실패!\n\n" +
+      error.message
+    );
 
   }
 
