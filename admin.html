@@ -1020,37 +1020,52 @@
       }
     }
 
-   @page {
+  @page {
   size: A4 portrait;
   margin: 7mm;
 }
 
 @media print {
 
+  /* =====================================
+     기본 인쇄 설정
+  ===================================== */
+
   html,
   body {
-    width: 210mm;
-    height: 297mm;
     margin: 0 !important;
     padding: 0 !important;
     background: #fff !important;
   }
 
-  body * {
-    visibility: hidden !important;
+
+  /* =====================================
+     관리자 본 화면 완전히 제거
+     visibility가 아니라 display:none
+  ===================================== */
+
+  body > .container {
+    display: none !important;
   }
 
-  #supplierQuoteModal,
-  #supplierQuoteModal * {
-    visibility: visible !important;
+
+  /* =====================================
+     고객 견적 모달 제거
+  ===================================== */
+
+  #quoteModal {
+    display: none !important;
   }
+
+
+  /* =====================================
+     컴오아시스 견적서만 출력
+  ===================================== */
 
   #supplierQuoteModal {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    right: auto !important;
-    bottom: auto !important;
+    display: block !important;
+
+    position: static !important;
 
     width: 100% !important;
     height: auto !important;
@@ -1059,11 +1074,16 @@
     padding: 0 !important;
 
     background: #fff !important;
+
     overflow: visible !important;
   }
 
+
   #supplierQuoteModal .quote-modal-box,
   #supplierQuoteModal .quote-modal-box.estimate-sheet {
+
+    display: block !important;
+
     width: 100% !important;
     max-width: none !important;
     min-width: 0 !important;
@@ -1073,204 +1093,222 @@
 
     border: 0 !important;
     border-radius: 0 !important;
+
     box-shadow: none !important;
 
     overflow: visible !important;
   }
 
-  /* 화면용 상단 제목 영역 */
-  #supplierQuoteModal .quote-modal-header {
-    margin: 0 0 3mm 0 !important;
-    padding: 0 !important;
-  }
 
-  #supplierQuoteModal .quote-modal-header h2 {
-    font-size: 16pt !important;
-    margin: 0 !important;
-  }
+  /* =====================================
+     닫기 / 인쇄 버튼 제거
+  ===================================== */
 
-  #supplierQuoteModal .quote-modal-header p {
-    font-size: 9pt !important;
-    margin: 1mm 0 0 !important;
-  }
-
-  /* 닫기 / 인쇄 버튼 제거 */
   #supplierQuoteModal .quote-modal-close,
   #supplierQuoteModal .supplier-screen-actions {
     display: none !important;
   }
 
-  /* 발신/수신/날짜 영역 압축 */
+
+  /* =====================================
+     상단 제목
+  ===================================== */
+
+  #supplierQuoteModal .quote-modal-header {
+    margin: 0 0 2mm 0 !important;
+  }
+
+  #supplierQuoteModal .quote-modal-header h2 {
+    margin: 0 !important;
+    font-size: 15pt !important;
+  }
+
+  #supplierQuoteModal .quote-modal-header p {
+    margin: 1mm 0 0 !important;
+    font-size: 8pt !important;
+  }
+
+
+  /* =====================================
+     수신 / 발신 / 날짜
+  ===================================== */
+
   #supplierQuoteModal .quote-modal-header + div {
-    padding: 2.5mm 3mm !important;
-    margin: 0 0 3mm 0 !important;
+
+    margin: 0 0 2mm 0 !important;
+    padding: 2mm !important;
 
     border-radius: 0 !important;
 
-    font-size: 9pt !important;
-    line-height: 1.35 !important;
-
-    background: #fff !important;
+    font-size: 8pt !important;
+    line-height: 1.3 !important;
   }
 
-  /* 테이블 */
+
+  /* =====================================
+     테이블
+  ===================================== */
+
   #supplierQuoteModal .supplier-table-wrap {
     width: 100% !important;
     overflow: visible !important;
   }
 
   #supplierQuoteModal .supplier-table {
+
     width: 100% !important;
     min-width: 0 !important;
 
     table-layout: fixed !important;
     border-collapse: collapse !important;
 
-    font-size: 8pt !important;
+    font-size: 7.5pt !important;
   }
+
 
   #supplierQuoteModal .supplier-table th,
   #supplierQuoteModal .supplier-table td {
-    padding: 1mm !important;
-    height: 10mm !important;
 
-    border: 1px solid #222 !important;
+    height: 9mm !important;
+
+    padding: 0.8mm !important;
+
+    border: 1px solid #000 !important;
 
     vertical-align: middle !important;
   }
 
+
   #supplierQuoteModal .supplier-table thead th {
-    height: 8mm !important;
-    padding: 1mm !important;
+
+    height: 7mm !important;
+
+    padding: 0.8mm !important;
 
     background: #172033 !important;
     color: #fff !important;
 
-    font-size: 8pt !important;
+    font-size: 7.5pt !important;
 
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  /* 품목 */
-  #supplierQuoteModal .supplier-table .part-col {
-    width: 19mm !important;
+
+  /* =====================================
+     열 너비
+  ===================================== */
+
+  #supplierQuoteModal .part-col {
+    width: 18mm !important;
   }
 
-  /* 세부사양 */
-  #supplierQuoteModal .supplier-table .spec-col {
-    width: 52mm !important;
+  #supplierQuoteModal .spec-col {
+    width: 50mm !important;
   }
 
-  /* 수량 */
-  #supplierQuoteModal .supplier-table .qty-col {
-    width: 13mm !important;
+  #supplierQuoteModal .qty-col {
+    width: 12mm !important;
   }
 
-  /* 입력창 인쇄 최적화 */
-  #supplierQuoteModal .supplier-table input,
-  #supplierQuoteModal .supplier-table textarea {
-    width: 100% !important;
+
+  /* =====================================
+     입력창
+  ===================================== */
+
+  #supplierQuoteModal input,
+  #supplierQuoteModal textarea {
 
     margin: 0 !important;
     padding: 0 !important;
 
     border: 0 !important;
-    outline: 0 !important;
+    border-radius: 0 !important;
 
     background: transparent !important;
     color: #000 !important;
 
-    font-family: Arial, sans-serif !important;
-    font-size: 7.5pt !important;
-    line-height: 1.15 !important;
-
     box-shadow: none !important;
+    outline: none !important;
+
+    font-size: 7pt !important;
+    line-height: 1.15 !important;
   }
+
 
   #supplierQuoteModal .supplier-table input {
-    height: 6mm !important;
+    height: 5mm !important;
   }
 
+
   #supplierQuoteModal .supplier-table textarea {
+
     min-height: 0 !important;
-    height: 8mm !important;
+    height: 7mm !important;
 
     resize: none !important;
     overflow: hidden !important;
-
-    white-space: pre-wrap !important;
-    word-break: break-word !important;
   }
 
-  /* 다나와 검색 아이콘은 인쇄할 때 제거 */
+
+  /* =====================================
+     품목 링크
+  ===================================== */
+
   #supplierQuoteModal .part-search-link {
+
     color: #000 !important;
+
     text-decoration: none !important;
-    font-size: 0 !important;
+
+    font-size: 7.5pt !important;
   }
 
-  #supplierQuoteModal .part-search-link::first-letter {
-    font-size: 0 !important;
-  }
 
-  /* 품목명은 링크 텍스트 자체를 다시 표시 */
-  #supplierQuoteModal .supplier-table th {
-    font-size: 8pt !important;
-  }
+  /* =====================================
+     요청사항
+  ===================================== */
 
-  #supplierQuoteModal a {
-    color: #000 !important;
-    text-decoration: none !important;
-  }
-
-  /*
-    위에서 링크 font-size를 0으로 만들면 품목명까지
-    없어질 수 있으므로 링크는 정상 크기로 복구.
-    검색 이모지는 인쇄상 큰 문제가 없어서 그대로 둠.
-  */
-  #supplierQuoteModal .part-search-link {
-    font-size: 8pt !important;
-  }
-
-  /* 요청사항 */
   #supplierQuoteModal label[for="supplierRequest"] {
-    margin: 3mm 0 1mm !important;
-    font-size: 9pt !important;
+
+    margin: 2mm 0 1mm !important;
+
+    font-size: 8pt !important;
   }
+
 
   #supplierQuoteModal #supplierRequest {
+
+    display: block !important;
+
     width: 100% !important;
 
     min-height: 0 !important;
-    height: 19mm !important;
+    height: 17mm !important;
 
-    margin: 0 !important;
-    padding: 2mm !important;
+    padding: 1.5mm !important;
 
-    border: 1px solid #222 !important;
-    border-radius: 0 !important;
+    border: 1px solid #000 !important;
+
+    font-size: 7.5pt !important;
+    line-height: 1.25 !important;
 
     resize: none !important;
     overflow: hidden !important;
 
-    font-size: 8pt !important;
-    line-height: 1.3 !important;
-
-    color: #000 !important;
     background: #fff !important;
   }
 
-  /* 페이지 분할 방지 */
-  #supplierQuoteModal,
-  #supplierQuoteModal .quote-modal-box,
-  #supplierQuoteModal .supplier-table,
-  #supplierQuoteModal .supplier-table tbody,
-  #supplierQuoteModal .supplier-table tr,
-  #supplierQuoteModal #supplierRequest {
+
+  /* =====================================
+     행 중간 페이지 분할 방지
+  ===================================== */
+
+  #supplierQuoteModal tr {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
+
 }
   </style>
 </head>
