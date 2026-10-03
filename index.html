@@ -3242,52 +3242,47 @@ async function copyHomepageLink() {
 
 }
 
-
 async function shareHomepage() {
 
   const shareData = {
-
-    title:
-      "PC SOLUTION",
-
-    text:
-      "조립PC · 게이밍PC · 사무용PC 맞춤 견적 상담 - PC SOLUTION",
-
-    url:
-      HOMEPAGE_URL
-
+    title: "PC SOLUTION",
+    text: "조립PC · 게이밍PC · 사무용PC 맞춤 견적 상담",
+    url: HOMEPAGE_URL
   };
 
+  try {
 
-  if (navigator.share) {
-
-    try {
+    if (navigator.share) {
 
       await navigator.share(
         shareData
       );
 
-    } catch (error) {
-
-      if (
-        error.name !== "AbortError"
-      ) {
-
-        console.error(
-          "공유 오류:",
-          error
-        );
-
-      }
-
+      return;
     }
 
-    return;
+    alert(
+      "현재 브라우저에서는 공유 기능을 지원하지 않습니다.\n크롬 또는 삼성 인터넷에서 열어주세요."
+    );
+
+  } catch (error) {
+
+    if (
+      error.name === "AbortError"
+    ) {
+      return;
+    }
+
+    console.error(
+      "공유 오류:",
+      error
+    );
+
+    alert(
+      "공유창을 열지 못했습니다.\n크롬 또는 삼성 인터넷에서 다시 시도해주세요."
+    );
 
   }
-
-
-  await copyHomepageLink();
 
 }
 
