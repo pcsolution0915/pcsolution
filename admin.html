@@ -1575,13 +1575,35 @@
 
     </div>
 
-    <div class="card">
-      <h2>📦 등록된 상품</h2>
+<div class="card">
 
-      <div id="productList">
-        상품을 불러오는 중입니다...
-      </div>
-    </div>
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  ">
+
+    <h2 style="margin:0;">
+      📦 등록된 상품
+    </h2>
+
+    <button
+      class="delete-button"
+      type="button"
+      onclick="deleteSelectedProducts()"
+    >
+      🗑️ 선택삭제
+    </button>
+
+  </div>
+
+  <div id="productList">
+    상품을 불러오는 중입니다...
+  </div>
+
+</div>    
 
     <div class="card">
 
@@ -3273,6 +3295,79 @@ async function deleteProduct(id) {
 
 }
 
+/* =====================================
+   선택 상품 삭제
+===================================== */
+
+async function deleteSelectedProducts() {
+
+  const checked =
+    Array.from(
+      document.querySelectorAll(
+        ".product-select:checked"
+      )
+    );
+
+  if (!checked.length) {
+
+    alert(
+      "삭제할 상품을 먼저 선택해주세요."
+    );
+
+    return;
+
+  }
+
+  const ids =
+    checked.map(
+      checkbox =>
+        Number(checkbox.value)
+    );
+
+  if (!confirm(
+    `선택한 상품 ${ids.length}개를 정말 삭제하시겠습니까?\n\n삭제 후 복구할 수 없습니다.`
+  )) {
+    return;
+  }
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("pcsolution")
+        .delete()
+        .in(
+          "id",
+          ids
+        );
+
+    if (error) {
+      throw error;
+    }
+
+    await loadProducts();
+
+    alert(
+      `✅ 선택한 상품 ${ids.length}개를 삭제했습니다.`
+    );
+
+  } catch (error) {
+
+    console.error(
+      "선택 상품 삭제 오류:",
+      error
+    );
+
+    alert(
+      "선택 상품 삭제 실패!\n\n" +
+      error.message
+    );
+
+  }
+
+}
 
 /* =====================================
    상품 목록
@@ -3376,9 +3471,41 @@ function renderProductList() {
 
         return `
 
-          <div class="product-item">
+         <div class="product-item">
 
-            <div class="admin-product-image-box">
+  <div style="
+    padding:10px 12px;
+    background:#f8fafc;
+    border-bottom:1px solid #e5e7eb;
+  ">
+
+    <label style="
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:7px;
+      cursor:pointer;
+      font-size:13px;
+    ">
+
+      <input
+        type="checkbox"
+        class="product-select"
+        value="${id}"
+        style="
+          width:18px;
+          height:18px;
+          margin:0;
+        "
+      >
+
+      선택
+
+    </label>
+
+  </div>
+
+  <div class="admin-product-image-box"> 
 
               ${
                 product.image_url
