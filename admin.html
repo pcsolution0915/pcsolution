@@ -4398,6 +4398,205 @@ function getEstimateNumber(id) {
 
 }
 
+/* =====================================
+   작성중 견적 임시저장
+===================================== */
+
+const ESTIMATE_DRAFT_KEY =
+  "pcsolution_estimate_draft";
+
+
+function saveEstimateDraft() {
+
+  const quoteRequestId =
+    document.getElementById(
+      "estimateQuoteRequestId"
+    )?.value || "";
+
+  if (!quoteRequestId) {
+    return;
+  }
+
+  const draft = {
+    quoteRequestId,
+    savedAt: Date.now(),
+    description:
+      getEstimateValue(
+        "estimateDescription"
+      ),
+    parts: {}
+  };
+
+
+  estimateParts.forEach(part => {
+
+    draft.parts[part] = {
+
+      maker:
+        getEstimateValue(
+          "estimate" + part + "Maker"
+        ),
+
+      model:
+        getEstimateValue(
+          "estimate" + part + "Model"
+        ),
+
+      spec:
+        getEstimateValue(
+          "estimate" + part + "Spec"
+        ),
+
+      qty:
+        getEstimateValue(
+          "estimate" + part + "Qty"
+        ),
+
+      price:
+        getEstimateValue(
+          "estimate" + part + "Price"
+        )
+
+    };
+
+  });
+
+
+  try {
+
+    localStorage.setItem(
+      ESTIMATE_DRAFT_KEY,
+      JSON.stringify(draft)
+    );
+
+  } catch (error) {
+
+    console.error(
+      "견적 임시저장 오류:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   작성중 견적 복구
+===================================== */
+
+function restoreEstimateDraft(
+  quoteRequestId
+) {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        ESTIMATE_DRAFT_KEY
+      );
+
+    if (!saved) {
+      return false;
+    }
+
+
+    const draft =
+      JSON.parse(saved);
+
+
+    if (
+      String(draft.quoteRequestId) !==
+      String(quoteRequestId)
+    ) {
+      return false;
+    }
+
+
+    estimateParts.forEach(part => {
+
+      const data =
+        draft.parts?.[part];
+
+      if (!data) {
+        return;
+      }
+
+
+      setEstimateValue(
+        "estimate" + part + "Maker",
+        data.maker
+      );
+
+      setEstimateValue(
+        "estimate" + part + "Model",
+        data.model
+      );
+
+      setEstimateValue(
+        "estimate" + part + "Spec",
+        data.spec
+      );
+
+      setEstimateValue(
+        "estimate" + part + "Qty",
+        data.qty
+      );
+
+      setEstimateValue(
+        "estimate" + part + "Price",
+        data.price
+      );
+
+    });
+
+
+    setEstimateValue(
+      "estimateDescription",
+      draft.description || ""
+    );
+
+
+    updateEstimateTotal();
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "견적 임시복구 오류:",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =====================================
+   임시 견적 삭제
+===================================== */
+
+function clearEstimateDraft() {
+
+  try {
+
+    localStorage.removeItem(
+      ESTIMATE_DRAFT_KEY
+    );
+
+  } catch (error) {
+
+    console.error(
+      "임시 견적 삭제 오류:",
+      error
+    );
+
+  }
+
+}
 
 /* =====================================
    견적 초기화
@@ -4951,12 +5150,30 @@ async function openQuoteEditor(id) {
 
   }
 
-  updateEstimateTotal();
+  /* =====================================
+   저장되지 않은 작성중 견적 복구
+===================================== */
 
-  document
-    .getElementById("quoteModal")
-    .classList
-    .remove("hidden");
+const draftRestored =
+  restoreEstimateDraft(id);
+
+
+if (draftRestored) {
+
+  console.log(
+    "작성중이던 견적을 복구했습니다."
+  );
+
+}
+
+
+updateEstimateTotal();
+
+
+document
+  .getElementById("quoteModal")
+  .classList
+  .remove("hidden");
 
 }
 
@@ -5729,6 +5946,8 @@ async function saveQuoteEstimate() {
         "견적작성";
     }
 
+    clearEstimateDraft();
+
     closeQuoteEditor();
 
     filterQuoteRequests();
@@ -5783,9 +6002,8 @@ function notifyNewQuote() {
 
 }
 
-
 /* =====================================
-   견적 수량/가격 자동 계산
+   견적 자동 계산 + 작성내용 임시저장
 ===================================== */
 
 document.addEventListener(
@@ -5794,6 +6012,9 @@ document.addEventListener(
 
     const id =
       event.target.id || "";
+
+
+    /* 수량 / 가격 변경시 합계 계산 */
 
     if (
       id.startsWith("estimate") &&
@@ -5804,6 +6025,17 @@ document.addEventListener(
     ) {
 
       updateEstimateTotal();
+
+    }
+
+
+    /* 견적서 입력내용 자동 임시저장 */
+
+    if (
+      id.startsWith("estimate")
+    ) {
+
+      saveEstimateDraft();
 
     }
 
