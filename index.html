@@ -843,9 +843,8 @@ section {
 
 </section>
 
-
 <!-- ==================================================
-     QR
+     QR / 홈페이지 공유
 ================================================== -->
 
 <section style="
@@ -865,39 +864,105 @@ section {
     color:#667085;
     margin-bottom:25px;
   ">
-    휴대폰으로 QR코드를 스캔해보세요.
+    QR코드를 스캔하거나 홈페이지 주소를 공유해보세요.
   </p>
 
   <div style="
     display:inline-block;
+    width:100%;
+    max-width:330px;
     background:white;
-    padding:20px;
+    padding:22px;
     border-radius:18px;
     box-shadow:0 10px 30px rgba(0,0,0,.08);
   ">
 
     <img
-      src="https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=https%3A%2F%2Fdusk-box-pale-wing-xe9ibjm6sfrhi9aj5.paged.net%2F"
+      src="https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=https%3A%2F%2Fpcsolution0915.github.io%2Fpcsolution%2F"
       alt="피씨솔루션 홈페이지 QR코드"
       width="230"
       height="230"
-      style="display:block;"
+      style="
+        display:block;
+        max-width:100%;
+        height:auto;
+        margin:auto;
+      "
     >
 
     <h3 style="
-      margin-top:15px;
+      margin:15px 0 5px;
       color:#172033;
     ">
       QR코드 스캔
     </h3>
 
     <p style="
-      margin-top:5px;
+      margin:5px 0 18px;
       color:#737e90;
       font-size:13px;
     ">
       피씨솔루션 홈페이지 바로가기
     </p>
+
+
+    <!-- 홈페이지 주소 -->
+
+    <div style="
+      padding:11px 10px;
+      margin-bottom:10px;
+      background:#f4f7fb;
+      border-radius:8px;
+      color:#667085;
+      font-size:12px;
+      word-break:break-all;
+    ">
+      https://pcsolution0915.github.io/pcsolution/
+    </div>
+
+
+    <!-- 주소 복사 -->
+
+    <button
+      type="button"
+      onclick="copyHomepageLink()"
+      style="
+        display:block;
+        width:100%;
+        padding:14px;
+        margin-top:10px;
+        border:0;
+        border-radius:10px;
+        background:#17243a;
+        color:white;
+        font-size:15px;
+        font-weight:bold;
+      "
+    >
+      🔗 홈페이지 주소 복사
+    </button>
+
+
+    <!-- 공유 -->
+
+    <button
+      type="button"
+      onclick="shareHomepage()"
+      style="
+        display:block;
+        width:100%;
+        padding:14px;
+        margin-top:10px;
+        border:0;
+        border-radius:10px;
+        background:#1769e0;
+        color:white;
+        font-size:15px;
+        font-weight:bold;
+      "
+    >
+      📤 홈페이지 공유하기
+    </button>
 
   </div>
 
@@ -3124,6 +3189,107 @@ window.onafterprint = function() {
 
 }
 
+/* ==================================================
+   홈페이지 주소 복사 / 공유
+================================================== */
+
+const HOMEPAGE_URL =
+  "https://pcsolution0915.github.io/pcsolution/";
+
+
+async function copyHomepageLink() {
+
+  try {
+
+    await navigator.clipboard.writeText(
+      HOMEPAGE_URL
+    );
+
+    alert(
+      "홈페이지 주소가 복사되었습니다."
+    );
+
+  } catch (error) {
+
+    const textarea =
+      document.createElement("textarea");
+
+    textarea.value =
+      HOMEPAGE_URL;
+
+    textarea.style.position =
+      "fixed";
+
+    textarea.style.opacity =
+      "0";
+
+    document.body.appendChild(
+      textarea
+    );
+
+    textarea.focus();
+    textarea.select();
+
+    document.execCommand("copy");
+
+    textarea.remove();
+
+    alert(
+      "홈페이지 주소가 복사되었습니다."
+    );
+
+  }
+
+}
+
+
+async function shareHomepage() {
+
+  const shareData = {
+
+    title:
+      "PC SOLUTION",
+
+    text:
+      "조립PC · 게이밍PC · 사무용PC 맞춤 견적 상담 - PC SOLUTION",
+
+    url:
+      HOMEPAGE_URL
+
+  };
+
+
+  if (navigator.share) {
+
+    try {
+
+      await navigator.share(
+        shareData
+      );
+
+    } catch (error) {
+
+      if (
+        error.name !== "AbortError"
+      ) {
+
+        console.error(
+          "공유 오류:",
+          error
+        );
+
+      }
+
+    }
+
+    return;
+
+  }
+
+
+  await copyHomepageLink();
+
+}
 
 /* ==================================================
    초기 실행
