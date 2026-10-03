@@ -648,7 +648,7 @@
       padding: 30px;
       box-shadow: 0 20px 60px rgba(0,0,0,.2);
       margin: 20px auto;
-      overflow-x: auto;
+      
     }
 
     .quote-modal-box.estimate-sheet {
@@ -1030,7 +1030,7 @@
         padding: 12px;
         border-radius: 10px;
         box-sizing: border-box;
-        overflow-x: auto;
+        
       }
 
       .estimate-main-title {
@@ -2646,7 +2646,7 @@ async function login() {
 
     await loadProducts();
     await loadQuoteRequests();
-    await restoreAdminView();
+    
   } catch (error) {
 
     console.error(
@@ -2743,7 +2743,7 @@ async function checkSession() {
 
       await loadProducts();
       await loadQuoteRequests();
-      await restoreAdminView();
+      
     }
 
   } catch (error) {
@@ -4445,38 +4445,6 @@ async function saveQuoteMemo(id) {
 
 }
 
-/* =====================================
-   상담 전체 선택 / 선택 해제
-===================================== */
-
-function selectAllQuotes() {
-
-  document
-    .querySelectorAll(
-      ".quote-select-checkbox"
-    )
-    .forEach(function(checkbox) {
-
-      checkbox.checked = true;
-
-    });
-
-}
-
-
-function unselectAllQuotes() {
-
-  document
-    .querySelectorAll(
-      ".quote-select-checkbox"
-    )
-    .forEach(function(checkbox) {
-
-      checkbox.checked = false;
-
-    });
-
-}
 
 /* =====================================
    상담 삭제
@@ -5793,10 +5761,11 @@ function closeQuoteEditor() {
    컴오아시스 요청서 열기
 ===================================== */
 
-function openSupplierQuote() {
+function openSupplierQuote(quoteRequestId = "") {
 
-saveAdminView(
-    "supplierQuote"
+  saveAdminView(
+    "supplierQuote",
+    quoteRequestId
   );
 
   const modal =
@@ -5811,7 +5780,6 @@ saveAdminView(
     );
 
     return;
-
   }
 
   const dateElement =
@@ -5821,8 +5789,7 @@ saveAdminView(
 
   if (dateElement) {
 
-    const today =
-      new Date();
+    const today = new Date();
 
     dateElement.textContent =
       today.toLocaleString(
@@ -5835,13 +5802,9 @@ saveAdminView(
           minute: "2-digit"
         }
       );
-
   }
 
-  modal.classList.remove(
-    "hidden"
-  );
-
+  modal.classList.remove("hidden");
 }
 
 /* =====================================
@@ -5851,47 +5814,39 @@ saveAdminView(
 function closeSupplierQuote() {
 
   const supplierModal =
-    document.getElementById(
-      "supplierQuoteModal"
-    );
+    document.getElementById("supplierQuoteModal");
 
   if (supplierModal) {
-
-    supplierModal.classList.add(
-      "hidden"
-    );
-
+    supplierModal.classList.add("hidden");
   }
 
-
-  /* =====================================
-     작성 중이던 고객 견적서 복귀
-     입력값은 초기화하지 않으므로 그대로 유지됨
-  ===================================== */
-
   const quoteModal =
-    document.getElementById(
-      "quoteModal"
-    );
+    document.getElementById("quoteModal");
 
   const quoteRequestId =
-    document.getElementById(
-      "estimateQuoteRequestId"
-    );
+    document.getElementById("estimateQuoteRequestId");
 
-
+  // 고객 견적서에서 넘어온 경우
   if (
     quoteModal &&
     quoteRequestId &&
     quoteRequestId.value
   ) {
 
-    quoteModal.classList.remove(
-      "hidden"
+    quoteModal.classList.remove("hidden");
+
+    // 다시 고객 견적 작성 화면을 현재 화면으로 저장
+    saveAdminView(
+      "quoteEditor",
+      quoteRequestId.value
     );
 
+    return;
   }
 
+  // 관리자 상단 버튼으로 단독 실행한 경우
+  // 모달을 닫았으므로 복구 정보 삭제
+  clearAdminView();
 }
 
 /* =====================================
@@ -6044,26 +5999,22 @@ PC SOLUTION 내부 참고
     .classList
     .add("hidden");
 
+/* =====================================
+   컴오아시스 견적 요청서 열기
+===================================== */
 
-  /* =====================================
-     컴오아시스 견적 요청서 열기
-  ===================================== */
-
-saveAdminView(
-  "supplierQuote",
+openSupplierQuote(
   document.getElementById(
     "estimateQuoteRequestId"
   ).value
 );
 
-  openSupplierQuote();
-
 }
 
-  /* =====================================
+/* =====================================
    컴오아시스 인쇄
 ===================================== */
-
+ 
 function printSupplierQuote() {
 
   window.print();
