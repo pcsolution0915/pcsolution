@@ -9206,6 +9206,275 @@ document.addEventListener(
 );
 
 /* =====================================
+   V2.0 PC 부품 판매가 자동 계산
+===================================== */
+
+function calculatePartSalePrice() {
+
+  const purchaseInput =
+    document.getElementById(
+      "partMasterPurchasePrice"
+    );
+
+  const saleInput =
+    document.getElementById(
+      "partMasterSalePrice"
+    );
+
+  if (
+    !purchaseInput ||
+    !saleInput
+  ) {
+    return;
+  }
+
+  const purchasePrice =
+    Number(
+      purchaseInput.value
+    );
+
+  if (
+    !Number.isFinite(purchasePrice) ||
+    purchasePrice <= 0
+  ) {
+
+    saleInput.value = "";
+
+    return;
+  }
+
+  /* 내부 마진 15% 적용 */
+  const salePrice =
+    Math.round(
+      purchasePrice * 1.15
+    );
+
+  saleInput.value =
+    salePrice;
+
+}
+
+
+/* =====================================
+   V2.0 PC 부품 등록
+===================================== */
+
+async function savePartMaster() {
+
+  const partType =
+    document
+      .getElementById("partMasterType")
+      .value;
+
+  const manufacturer =
+    document
+      .getElementById("partMasterMaker")
+      .value
+      .trim();
+
+  const modelName =
+    document
+      .getElementById("partMasterModel")
+      .value
+      .trim();
+
+  const specification =
+    document
+      .getElementById("partMasterSpec")
+      .value
+      .trim();
+
+  const purchasePrice =
+    Number(
+      document
+        .getElementById(
+          "partMasterPurchasePrice"
+        )
+        .value
+    );
+
+  const salePrice =
+    Number(
+      document
+        .getElementById(
+          "partMasterSalePrice"
+        )
+        .value
+    );
+
+  const supplierName =
+    document
+      .getElementById("partMasterSupplier")
+      .value
+      .trim();
+
+  const stockStatus =
+    document
+      .getElementById("partMasterStatus")
+      .value;
+
+  const memo =
+    document
+      .getElementById("partMasterMemo")
+      .value
+      .trim();
+
+
+  if (!manufacturer) {
+
+    alert(
+      "제조사를 입력해주세요."
+    );
+
+    return;
+  }
+
+
+  if (!modelName) {
+
+    alert(
+      "모델명을 입력해주세요."
+    );
+
+    return;
+  }
+
+
+  if (
+    !Number.isFinite(purchasePrice) ||
+    purchasePrice < 0
+  ) {
+
+    alert(
+      "매입가를 확인해주세요."
+    );
+
+    return;
+  }
+
+
+  if (
+    !Number.isFinite(salePrice) ||
+    salePrice < 0
+  ) {
+
+    alert(
+      "판매가를 확인해주세요."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("product_master")
+        .insert({
+          part_type:
+            partType,
+
+          manufacturer:
+            manufacturer,
+
+          model_name:
+            modelName,
+
+          specification:
+            specification,
+
+          purchase_price:
+            purchasePrice,
+
+          sale_price:
+            salePrice,
+
+          supplier_name:
+            supplierName,
+
+          stock_status:
+            stockStatus,
+
+          memo:
+            memo
+        });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    alert(
+      "✅ PC 부품이 등록되었습니다."
+    );
+
+
+    /* 입력폼 초기화 */
+
+    document
+      .getElementById(
+        "partMasterMaker"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterModel"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterSpec"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterPurchasePrice"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterSalePrice"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterMemo"
+      )
+      .value = "";
+
+
+    await loadPartMaster();
+
+
+  } catch (error) {
+
+    console.error(
+      "PC 부품 등록 오류:",
+      error
+    );
+
+    alert(
+      "PC 부품 등록 실패!\n\n" +
+      (
+        error.message ||
+        String(error)
+      )
+    );
+
+  }
+
+}
+
+/* =====================================
    V2.0 PC 부품 목록 불러오기
 ===================================== */
 
