@@ -2240,7 +2240,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateCpuMaker" placeholder="AMD"></td>
-            <td><input id="estimateCpuModel" placeholder="Ryzen 5 7600"></td>
+            <td><textarea  id="estimateCpuModel"  class="estimate-model"  placeholder="Ryzen 5 7600" ></textarea></td>
             <td><textarea id="estimateCpuSpec" placeholder="세부 스펙을 붙여넣으세요."></textarea></td>
             <td><input id="estimateCpuQty" type="number" value="1" min="0"></td>
             <td><input id="estimateCpuPrice" type="number" min="0" placeholder="0"></td>
@@ -2260,8 +2260,14 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateMainBoardMaker" placeholder="MSI"></td>
-            <td><input id="estimateMainBoardModel" placeholder="B650M"></td>
-            <td><textarea id="estimateMainBoardSpec" placeholder="세부 스펙"></textarea></td>
+                <td>
+  <textarea
+    id="estimateMainBoardModel"
+    class="estimate-model"
+    placeholder="B650M"
+  ></textarea>
+</td>        
+<td><textarea id="estimateMainBoardSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateMainBoardQty" type="number" value="1" min="0"></td>
             <td><input id="estimateMainBoardPrice" type="number" min="0"></td>
             <td id="estimateMainBoardSupply" class="supply-price">0원</td>
@@ -2280,7 +2286,13 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateRamMaker" placeholder="삼성전자"></td>
-            <td><input id="estimateRamModel" placeholder="DDR5 16GB"></td>
+            <td>
+  <textarea
+    id="estimateRamModel"
+    class="estimate-model"
+    placeholder="DDR5 16GB"
+  ></textarea>
+</td>
             <td><textarea id="estimateRamSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateRamQty" type="number" value="1" min="0"></td>
             <td><input id="estimateRamPrice" type="number" min="0"></td>
@@ -2300,7 +2312,13 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateSsdMaker" placeholder="삼성전자"></td>
-            <td><input id="estimateSsdModel" placeholder="NVMe 1TB"></td>
+            <td>
+  <textarea
+    id="estimateSsdModel"
+    class="estimate-model"
+    placeholder="NVMe 1TB"
+  ></textarea>
+</td>
             <td><textarea id="estimateSsdSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateSsdQty" type="number" value="1" min="0"></td>
             <td><input id="estimateSsdPrice" type="number" min="0"></td>
@@ -2320,8 +2338,14 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateGpuMaker" placeholder="MSI"></td>
-            <td><input id="estimateGpuModel" placeholder="RTX 5060"></td>
-            <td><textarea id="estimateGpuSpec" placeholder="세부 스펙"></textarea></td>
+              <td>
+  <textarea
+    id="estimateGpuModel"
+    class="estimate-model"
+    placeholder="RTX 5060"
+  ></textarea>
+</td>         
+ <td><textarea id="estimateGpuSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateGpuQty" type="number" value="1" min="0"></td>
             <td><input id="estimateGpuPrice" type="number" min="0"></td>
             <td id="estimateGpuSupply" class="supply-price">0원</td>
@@ -2340,7 +2364,13 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimatePowerMaker" placeholder="제조사"></td>
-            <td><input id="estimatePowerModel" placeholder="750W"></td>
+            <td>
+  <textarea
+    id="estimatePowerModel"
+    class="estimate-model"
+    placeholder="750W"
+  ></textarea>
+</td>
             <td><textarea id="estimatePowerSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimatePowerQty" type="number" value="1" min="0"></td>
             <td><input id="estimatePowerPrice" type="number" min="0"></td>
@@ -2360,7 +2390,13 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateCaseMaker" placeholder="제조사"></td>
-            <td><input id="estimateCaseModel" placeholder="미들타워"></td>
+            <td>
+  <textarea
+    id="estimateCaseModel"
+    class="estimate-model"
+    placeholder="미들타워"
+  ></textarea>
+</td>
             <td><textarea id="estimateCaseSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateCaseQty" type="number" value="1" min="0"></td>
             <td><input id="estimateCasePrice" type="number" min="0"></td>
@@ -2380,8 +2416,14 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateCoolerMaker" placeholder="제조사"></td>
-            <td><input id="estimateCoolerModel" placeholder="CPU 쿨러"></td>
-            <td><textarea id="estimateCoolerSpec" placeholder="세부 스펙"></textarea></td>
+             <td>
+  <textarea
+    id="estimateCoolerModel"
+    class="estimate-model"
+    placeholder="CPU 쿨러"
+  ></textarea>
+</td>           
+<td><textarea id="estimateCoolerSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateCoolerQty" type="number" value="1" min="0"></td>
             <td><input id="estimateCoolerPrice" type="number" min="0"></td>
             <td id="estimateCoolerSupply" class="supply-price">0원</td>
@@ -2400,7 +2442,13 @@ body.printing-customer-quote #quoteModal .danawa-area {
             </th>
 
             <td><input id="estimateMonitorMaker" placeholder="제조사"></td>
-            <td><input id="estimateMonitorModel" placeholder="27인치 QHD"></td>
+            <td>
+  <textarea
+    id="estimateMonitorModel"
+    class="estimate-model"
+    placeholder="27인치 QHD"
+  ></textarea>
+</td>
             <td><textarea id="estimateMonitorSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="estimateMonitorQty" type="number" value="1" min="0"></td>
             <td><input id="estimateMonitorPrice" type="number" min="0"></td>
