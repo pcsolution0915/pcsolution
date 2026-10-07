@@ -5284,6 +5284,106 @@ function renderQuoteRequests(requests) {
 
 }
 
+/* =====================================
+   컴오아시스 회신 저장
+===================================== */
+
+async function saveQuoteReply(id) {
+
+  const priceInput =
+    document.getElementById(
+      `reply-price-${id}`
+    );
+
+  const messageInput =
+    document.getElementById(
+      `reply-message-${id}`
+    );
+
+  if (!priceInput || !messageInput) {
+    alert("회신 입력창을 찾을 수 없습니다.");
+    return;
+  }
+
+  const priceValue =
+    priceInput.value.trim();
+
+  const message =
+    messageInput.value.trim();
+
+  if (!message) {
+    alert("고객 회신 내용을 입력해주세요.");
+    messageInput.focus();
+    return;
+  }
+
+  let replyPrice = null;
+
+  if (priceValue !== "") {
+
+    replyPrice =
+      Number(priceValue);
+
+    if (
+      !Number.isFinite(replyPrice) ||
+      replyPrice < 0
+    ) {
+      alert("최종 견적금액을 확인해주세요.");
+      priceInput.focus();
+      return;
+    }
+
+  }
+
+  const now =
+    new Date().toISOString();
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("quote_requests")
+        .update({
+          reply_price: replyPrice,
+          reply_message: message,
+          replied_at: now,
+          reply_viewed: false,
+          reply_viewed_at: null,
+          status: "견적완료",
+          updated_at: now
+        })
+        .eq("id", id)
+        .select()
+        .single();
+
+    if (error) {
+      throw error;
+    }
+
+    alert(
+      "컴오아시스 회신이 저장되었습니다."
+    );
+
+    await loadQuoteRequests();
+
+  } catch (error) {
+
+    console.error(
+      "컴오아시스 회신 저장 오류:",
+      error
+    );
+
+    alert(
+      "회신 저장 중 오류가 발생했습니다.\n\n" +
+      error.message
+    );
+
+  }
+
+}
 
 /* =====================================
    상담 상태
