@@ -4865,6 +4865,42 @@ function renderQuoteRequests(requests) {
         const status =
           request.status || "접수";
 
+         /* =====================================
+   컴오아시스 회신 확인
+===================================== */
+
+const supplierReplies =
+  allSupplierReplies.filter(
+    reply =>
+      Number(reply.quote_request_id) === id &&
+      reply.status === "회신완료"
+  );
+
+const supplierReplyCount =
+  supplierReplies.length;
+
+const supplierReplyBadge =
+  supplierReplyCount > 0
+    ? `
+      <button
+        type="button"
+        onclick="openSupplierReply(${id})"
+        style="
+          margin-top:10px;
+          padding:9px 13px;
+          border:1px solid #fecaca;
+          border-radius:8px;
+          background:#fef2f2;
+          color:#dc2626;
+          font-weight:800;
+          cursor:pointer;
+        "
+      >
+        🔴 컴오아시스 회신 ${supplierReplyCount}건
+      </button>
+    `
+    : "";
+
         const monitor =
           request.monitor_needed === true
             ? "필요함"
@@ -4930,6 +4966,8 @@ function renderQuoteRequests(requests) {
                     "번호 없음"
                   )}
                 </p>
+
+                  ${supplierReplyBadge}
 
                 <a
                   class="phone-link"
