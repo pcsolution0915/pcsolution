@@ -874,15 +874,27 @@
       padding: 8px;
     }
 
-    .estimate-table textarea,
-    .supplier-table textarea {
-      min-height: 70px;
-      resize: vertical;
-      line-height: 1.45;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-    }
+   .estimate-table textarea,
+.supplier-table textarea {
+  width: 100%;
+  min-height: 70px;
+  resize: none;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.estimate-table textarea {
+  height: 70px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.estimate-table textarea {
+  overflow: hidden;
+  height: auto;
+}
 
     .estimate-table input:focus,
     .estimate-table textarea:focus,
@@ -4728,6 +4740,34 @@ function sendQuoteMail(id) {
 
 }
 
+/* =====================================
+   견적서 세부스펙 높이 자동 조절
+===================================== */
+
+function resizeEstimateTextarea(textarea) {
+
+  if (!textarea) return;
+
+  textarea.style.height = "auto";
+
+  textarea.style.height =
+    textarea.scrollHeight + "px";
+}
+
+
+function resizeAllEstimateTextareas() {
+
+  document
+    .querySelectorAll(
+      "#quoteModal .estimate-table textarea"
+    )
+    .forEach(function(textarea) {
+
+      resizeEstimateTextarea(textarea);
+
+    });
+
+}
 
 /* =====================================
    견적 값 유틸
@@ -5217,6 +5257,40 @@ function resetEstimateForm() {
 
 }
 
+/* =====================================
+   세부스펙 입력칸 자동 높이
+===================================== */
+
+function resizeEstimateSpec(textarea) {
+
+  if (!textarea) return;
+
+  textarea.style.height = "70px";
+
+  const newHeight =
+    Math.max(
+      70,
+      textarea.scrollHeight
+    );
+
+  textarea.style.height =
+    newHeight + "px";
+}
+
+
+function resizeAllEstimateSpecs() {
+
+  document
+    .querySelectorAll(
+      '#quoteModal textarea[id$="Spec"]'
+    )
+    .forEach(function(textarea) {
+
+      resizeEstimateSpec(textarea);
+
+    });
+
+}
 
 /* =====================================
    견적 계산
@@ -5734,7 +5808,6 @@ if (draftRestored) {
 
 }
 
-
 updateEstimateTotal();
 
 
@@ -5742,6 +5815,16 @@ document
   .getElementById("quoteModal")
   .classList
   .remove("hidden");
+
+
+/* 저장된 세부스펙 내용에 맞춰 높이 자동 조절 */
+
+requestAnimationFrame(function() {
+
+  resizeAllEstimateTextareas();
+
+});
+
 
 }
 
@@ -6566,6 +6649,61 @@ function notifyNewQuote() {
 }
 
 /* =====================================
+   견적 세부스펙 textarea 자동 높이
+===================================== */
+
+function autoResizeEstimateTextarea(element) {
+
+  if (!element) return;
+
+  element.style.height = "auto";
+
+  element.style.height =
+    element.scrollHeight + "px";
+}
+
+
+/* 현재 견적서의 모든 textarea 높이 자동 조절 */
+
+function resizeAllEstimateTextareas() {
+
+  document
+    .querySelectorAll(
+      "#quoteModal .estimate-table textarea"
+    )
+    .forEach(function(textarea) {
+
+      autoResizeEstimateTextarea(
+        textarea
+      );
+
+    });
+
+}
+
+
+/* 입력할 때 즉시 높이 조절 */
+
+document.addEventListener(
+  "input",
+  function(event) {
+
+    if (
+      event.target.matches(
+        "#quoteModal .estimate-table textarea"
+      )
+    ) {
+
+      autoResizeEstimateTextarea(
+        event.target
+      );
+
+    }
+
+  }
+);
+
+/* =====================================
    견적 자동 계산 + 작성내용 임시저장
 ===================================== */
 
@@ -6575,6 +6713,33 @@ document.addEventListener(
 
     const id =
       event.target.id || "";
+
+    /* 세부스펙 입력칸 높이 자동 조절 */
+
+    if (
+      event.target.matches(
+        "#quoteModal .estimate-table textarea"
+      )
+    ) {
+
+      resizeEstimateTextarea(
+        event.target
+      );
+
+    }
+
+    /* 세부스펙 칸 자동 높이 */
+
+    if (
+      id.startsWith("estimate") &&
+      id.endsWith("Spec")
+    ) {
+
+      resizeEstimateSpec(
+        event.target
+      );
+
+    }
 
 
     /* 수량 / 가격 변경시 합계 계산 */
