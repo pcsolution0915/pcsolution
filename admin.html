@@ -1087,6 +1087,86 @@
 
 @media print {
 
+/* =====================================
+   고객 견적서 PDF 열 너비 조절
+   숫자만 바꿔서 사용하면 됨
+===================================== */
+
+/* 1. 부품명 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(1),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(1) {
+  width: 20mm !important;
+}
+
+
+/* 2. 제조사 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(2),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(2) {
+  width: 27mm !important;
+}
+
+
+/* 3. 모델명 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(3),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(3) {
+  width: 42mm !important;
+}
+
+
+/* 4. 세부스펙 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(4),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(4) {
+  width: 50mm !important;
+}
+
+
+/* 5. 수량 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(5),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(5) {
+  width: 12mm !important;
+}
+
+
+/* 6. 단가 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(6),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(6) {
+  width: 22mm !important;
+}
+
+
+/* 7. 공급가 */
+body.printing-customer-quote #quoteModal
+.estimate-table th:nth-child(7),
+body.printing-customer-quote #quoteModal
+.estimate-table td:nth-child(7) {
+  width: 23mm !important;
+}
+
+/* 부품명 한 줄 유지 */
+
+body.printing-customer-quote #quoteModal
+.estimate-table tbody th {
+
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+
+  font-size: 6.5pt !important;
+  padding-left: 0.5mm !important;
+  padding-right: 0.5mm !important;
+}
+
   /* =====================================
      기본 인쇄 설정
   ===================================== */
