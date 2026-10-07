@@ -3937,9 +3937,11 @@ function renderQuoteRequests(requests) {
           Number(request.id);
 
         const name =
-          escapeHTML(
-            request.customer_name || "-"
-          );
+  escapeHTML(
+    request.customer_name
+      ? request.customer_name + " 고객님"
+      : "-"
+  );
 
         const phone =
           escapeHTML(
@@ -5353,11 +5355,13 @@ saveAdminView(
       id;
 
   document
-    .getElementById(
-      "quoteCustomerInfo"
-    )
-    .textContent =
-      `${request.customer_name || "-"} / ${request.phone || "-"}`;
+  .getElementById(
+    "quoteCustomerInfo"
+  )
+  .textContent =
+    request.customer_name
+      ? `${request.customer_name} 고객님`
+      : "고객님";
 
   resetEstimateForm();
 
