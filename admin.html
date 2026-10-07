@@ -2369,6 +2369,250 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
 </div>    
 
+<!-- =====================================
+     PC 부품 관리
+===================================== -->
+
+<div class="card">
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+  ">
+
+    <div>
+      <h2 style="margin:0;">
+        🧩 PC 부품 관리
+      </h2>
+
+      <p style="
+        margin:6px 0 0;
+        color:#667085;
+        font-size:13px;
+      ">
+        견적 작성에 사용할 PC 부품을 등록하고 관리합니다.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div style="
+    display:grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap:14px;
+  ">
+
+    <div>
+      <label for="partMasterType">
+        품목
+      </label>
+
+      <select id="partMasterType">
+        <option value="Cpu">CPU</option>
+        <option value="MainBoard">메인보드</option>
+        <option value="Ram">메모리</option>
+        <option value="Ssd">SSD</option>
+        <option value="Gpu">그래픽카드</option>
+        <option value="Power">파워</option>
+        <option value="Case">케이스</option>
+        <option value="Cooler">쿨러</option>
+        <option value="Monitor">모니터</option>
+        <option value="Etc">기타</option>
+      </select>
+    </div>
+
+
+    <div>
+      <label for="partMasterMaker">
+        제조사
+      </label>
+
+      <input
+        id="partMasterMaker"
+        type="text"
+        placeholder="예: AMD"
+      >
+    </div>
+
+
+    <div style="grid-column:1/-1;">
+      <label for="partMasterModel">
+        모델명
+      </label>
+
+      <input
+        id="partMasterModel"
+        type="text"
+        placeholder="예: Ryzen 5 9600X"
+      >
+    </div>
+
+
+    <div style="grid-column:1/-1;">
+      <label for="partMasterSpec">
+        세부사양
+      </label>
+
+      <textarea
+        id="partMasterSpec"
+        placeholder="제품의 주요 사양을 입력하세요."
+        style="min-height:85px;"
+      ></textarea>
+    </div>
+
+
+    <div>
+      <label for="partMasterPurchasePrice">
+        매입가
+      </label>
+
+      <input
+        id="partMasterPurchasePrice"
+        type="number"
+        min="0"
+        placeholder="250000"
+        oninput="calculatePartSalePrice()"
+      >
+    </div>
+
+
+    <div>
+      <label for="partMasterSalePrice">
+        판매가
+      </label>
+
+      <input
+        id="partMasterSalePrice"
+        type="number"
+        min="0"
+        placeholder="자동 계산"
+      >
+
+      <div style="
+        margin-top:5px;
+        color:#667085;
+        font-size:12px;
+      ">
+        매입가 기준 내부 판매가가 자동 계산됩니다.
+      </div>
+    </div>
+
+
+    <div>
+      <label for="partMasterSupplier">
+        거래처
+      </label>
+
+      <input
+        id="partMasterSupplier"
+        type="text"
+        value="컴오아시스"
+      >
+    </div>
+
+
+    <div>
+      <label for="partMasterStatus">
+        상태
+      </label>
+
+      <select id="partMasterStatus">
+        <option value="판매중">판매중</option>
+        <option value="품절">품절</option>
+        <option value="단종">단종</option>
+      </select>
+    </div>
+
+
+    <div style="grid-column:1/-1;">
+      <label for="partMasterMemo">
+        관리자 메모
+      </label>
+
+      <textarea
+        id="partMasterMemo"
+        placeholder="관리자만 확인할 메모"
+        style="min-height:70px;"
+      ></textarea>
+    </div>
+
+  </div>
+
+
+  <div style="
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+    flex-wrap:wrap;
+  ">
+
+    <button
+      id="partMasterSaveButton"
+      class="save-button"
+      type="button"
+      onclick="savePartMaster()"
+    >
+      ➕ 부품 등록
+    </button>
+
+    <button
+      id="partMasterCancelButton"
+      class="cancel-button hidden"
+      type="button"
+      onclick="cancelPartMasterEdit()"
+    >
+      ❌ 수정 취소
+    </button>
+
+  </div>
+
+
+  <div style="
+    margin-top:30px;
+    padding-top:22px;
+    border-top:1px solid #e5e7eb;
+  ">
+
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    ">
+
+      <h3 style="margin:0;">
+        📦 등록된 PC 부품
+      </h3>
+
+      <button
+        class="refresh-button"
+        type="button"
+        onclick="loadPartMaster()"
+      >
+        🔄 새로고침
+      </button>
+
+    </div>
+
+
+    <div
+      id="partMasterList"
+      style="margin-top:18px;"
+    >
+      등록된 부품을 불러오는 중입니다...
+    </div>
+
+  </div>
+
+</div>
+
 <div class="card">
 
   <div class="quote-header">
