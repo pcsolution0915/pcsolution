@@ -1116,6 +1116,354 @@ body.printing-customer-quote #supplierQuoteModal {
   display: none !important;
 }
 
+/* =====================================
+   고객 견적서 A4 1장 출력
+===================================== */
+
+body.printing-customer-quote #quoteModal {
+  display: block !important;
+  position: static !important;
+
+  width: 100% !important;
+  height: auto !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: #fff !important;
+  overflow: visible !important;
+}
+
+
+body.printing-customer-quote #quoteModal .quote-modal-box,
+body.printing-customer-quote #quoteModal .quote-modal-box.estimate-sheet {
+  display: block !important;
+
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+
+/* 화면용 버튼 제거 */
+
+body.printing-customer-quote #quoteModal .quote-modal-close,
+body.printing-customer-quote #quoteModal .estimate-actions,
+body.printing-customer-quote #quoteModal .danawa-area {
+  display: none !important;
+}
+
+
+/* =====================================
+   상단 제목
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-title-row {
+  min-height: 10mm !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-main-title {
+  font-size: 16pt !important;
+}
+
+
+/* =====================================
+   고객 / 회사 정보
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-customer {
+  min-height: 18mm !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-customer-name {
+  margin-bottom: 1mm !important;
+  font-size: 12pt !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-customer-text {
+  font-size: 7.5pt !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-company > div {
+  grid-template-columns: 18mm 1fr !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-company strong,
+body.printing-customer-quote #quoteModal .estimate-company span {
+  padding: 1mm 1.5mm !important;
+  font-size: 7.5pt !important;
+}
+
+
+/* =====================================
+   상단 안내문
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-guide {
+  padding: 1.5mm 3mm !important;
+  line-height: 1.2 !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-guide > strong {
+  margin-bottom: 1mm !important;
+  font-size: 9pt !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-guide p {
+  margin: 0.7mm 0 !important;
+  font-size: 7pt !important;
+}
+
+
+/* =====================================
+   견적 테이블
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-table-wrap {
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-table {
+  width: 100% !important;
+  min-width: 0 !important;
+
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+
+  font-size: 6.5pt !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-table th,
+body.printing-customer-quote #quoteModal .estimate-table td {
+  padding: 0.5mm !important;
+  height: 6.5mm !important;
+
+  vertical-align: middle !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-table thead th {
+  height: 6.5mm !important;
+  padding: 0.5mm !important;
+
+  font-size: 7pt !important;
+}
+
+
+/* =====================================
+   열 너비 A4 최적화
+===================================== */
+
+body.printing-customer-quote #quoteModal .part-col {
+  width: 17mm !important;
+}
+
+body.printing-customer-quote #quoteModal .spec-col {
+  width: 43mm !important;
+}
+
+body.printing-customer-quote #quoteModal .qty-col {
+  width: 10mm !important;
+}
+
+body.printing-customer-quote #quoteModal .price-col {
+  width: 20mm !important;
+}
+
+body.printing-customer-quote #quoteModal .supply-col {
+  width: 21mm !important;
+}
+
+
+/* =====================================
+   일반 입력칸
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-table input {
+  height: 5.5mm !important;
+
+  margin: 0 !important;
+  padding: 0.4mm !important;
+
+  border: 0 !important;
+  background: transparent !important;
+
+  font-size: 6.3pt !important;
+  line-height: 1.05 !important;
+
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+/* =====================================
+   세부스펙
+   화면에서 늘어난 높이를 인쇄시 압축
+===================================== */
+
+body.printing-customer-quote #quoteModal
+.estimate-table textarea:not(.estimate-model) {
+
+  height: 6mm !important;
+  min-height: 6mm !important;
+  max-height: 6mm !important;
+
+  margin: 0 !important;
+  padding: 0.4mm !important;
+
+  border: 0 !important;
+  background: transparent !important;
+
+  font-size: 6pt !important;
+  line-height: 1.05 !important;
+
+  overflow: hidden !important;
+  resize: none !important;
+
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+/* =====================================
+   모델명
+   줄바꿈 허용
+===================================== */
+
+body.printing-customer-quote #quoteModal
+.estimate-table textarea.estimate-model {
+
+  height: 6mm !important;
+  min-height: 6mm !important;
+  max-height: 8mm !important;
+
+  margin: 0 !important;
+  padding: 0.4mm !important;
+
+  border: 0 !important;
+  background: transparent !important;
+
+  font-size: 6pt !important;
+  line-height: 1.05 !important;
+
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+
+  overflow: hidden !important;
+  resize: none !important;
+
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+/* =====================================
+   공급가
+===================================== */
+
+body.printing-customer-quote #quoteModal .supply-price {
+  padding-right: 1mm !important;
+
+  font-size: 6.5pt !important;
+  white-space: nowrap !important;
+}
+
+
+/* =====================================
+   합계
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-summary {
+  grid-template-columns: 22mm 1fr !important;
+
+  font-size: 8pt !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-summary > div {
+  padding: 1.5mm !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-total-price {
+  font-size: 12pt !important;
+}
+
+
+/* =====================================
+   견적 설명
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-description {
+  margin-top: 2mm !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-description label {
+  margin: 0 0 1mm !important;
+  font-size: 7.5pt !important;
+}
+
+body.printing-customer-quote #quoteModal #estimateDescription {
+  display: block !important;
+
+  width: 100% !important;
+
+  min-height: 0 !important;
+  height: 15mm !important;
+
+  margin: 0 !important;
+  padding: 1mm !important;
+
+  border: 1px solid #aaa !important;
+  border-radius: 0 !important;
+
+  font-size: 6.5pt !important;
+  line-height: 1.1 !important;
+
+  resize: none !important;
+  overflow: hidden !important;
+
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+
+/* =====================================
+   하단 안내
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-footer {
+  margin-top: 1.5mm !important;
+
+  font-size: 7pt !important;
+  line-height: 1.2 !important;
+}
+
+body.printing-customer-quote #quoteModal .estimate-footer p {
+  margin: 0.8mm 0 !important;
+}
+
+
+/* =====================================
+   페이지 분할 방지
+===================================== */
+
+body.printing-customer-quote #quoteModal tr,
+body.printing-customer-quote #quoteModal .estimate-summary,
+body.printing-customer-quote #quoteModal .estimate-description,
+body.printing-customer-quote #quoteModal .estimate-footer {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
 body.printing-customer-quote #quoteModal {
   display: block !important;
   position: static !important;
@@ -1400,7 +1748,38 @@ body.printing-customer-quote #quoteModal .danawa-area {
   }
 
 }
-  </style>
+ 
+/* =====================================
+   견적서 모델명 자동 줄바꿈
+===================================== */
+
+.estimate-table textarea.estimate-model {
+  width: 100%;
+  min-height: 38px;
+  height: 38px;
+
+  margin: 0;
+  padding: 8px;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  resize: none;
+  overflow: hidden;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+
+  line-height: 1.35;
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+
+ </style>
 </head>
 
 <body>
