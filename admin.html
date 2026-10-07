@@ -975,12 +975,12 @@
       font-weight: bold;
     }
 
-    .estimate-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr 180px;
-      gap: 10px;
-      margin-top: 20px;
-    }
+  .estimate-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
 
     .estimate-actions button {
       width: 100%;
@@ -1108,21 +1108,51 @@
     display: none !important;
   }
 
+/* =====================================
+   고객 견적서 출력
+===================================== */
 
-  /* =====================================
-     고객 견적 모달 제거
-  ===================================== */
+body.printing-customer-quote #supplierQuoteModal {
+  display: none !important;
+}
 
-  #quoteModal {
-    display: none !important;
-  }
+body.printing-customer-quote #quoteModal {
+  display: block !important;
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #fff !important;
+  overflow: visible !important;
+}
 
+body.printing-customer-quote #quoteModal .quote-modal-box,
+body.printing-customer-quote #quoteModal .quote-modal-box.estimate-sheet {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+body.printing-customer-quote #quoteModal .quote-modal-close,
+body.printing-customer-quote #quoteModal .estimate-actions,
+body.printing-customer-quote #quoteModal .danawa-area {
+  display: none !important;
+}
+ 
 
   /* =====================================
      컴오아시스 견적서만 출력
   ===================================== */
 
-  #supplierQuoteModal {
+  body:not(.printing-customer-quote) #supplierQuoteModal {
     display: block !important;
 
     position: static !important;
@@ -2453,33 +2483,41 @@
 
     </div>
 
-    <div class="action-row estimate-actions">
+   <div class="action-row estimate-actions">
 
-      <button
-        class="save-button"
-        type="button"
-        onclick="saveQuoteEstimate()"
-      >
-        💾 견적 저장
-      </button>
+  <button
+    class="save-button"
+    type="button"
+    onclick="saveQuoteEstimate()"
+  >
+    💾 견적 저장
+  </button>
 
-      <button
-        class="mail-button"
-        type="button"
-        onclick="copyEstimateToSupplierQuote()"
-      >
-        📋 컴오아시스 견적 요청
-      </button>
+  <button
+    class="update-button"
+    type="button"
+    onclick="printCustomerQuote()"
+  >
+    🖨️ 견적서 PDF 출력
+  </button>
 
-      <button
-        class="cancel-button"
-        type="button"
-        onclick="closeQuoteEditor()"
-      >
-        취소
-      </button>
+  <button
+    class="mail-button"
+    type="button"
+    onclick="copyEstimateToSupplierQuote()"
+  >
+    📋 컴오아시스 견적 요청
+  </button>
 
-    </div>
+  <button
+    class="cancel-button"
+    type="button"
+    onclick="closeQuoteEditor()"
+  >
+    ✕ 닫기
+  </button>
+
+</div>
 
   </div>
 
@@ -5428,14 +5466,16 @@ saveAdminView(
     .value =
       id;
 
-  document
-  .getElementById(
-    "quoteCustomerInfo"
-  )
+const customerName =
+  String(request.customer_name || "")
+    .trim();
+
+document
+  .getElementById("quoteCustomerInfo")
   .textContent =
-    request.customer_name
-      ? `${request.customer_name} 고객님`
-      : "고객님";
+    customerName
+      ? customerName + " 고객님"
+      : "고객님"; 
 
   resetEstimateForm();
 
@@ -6095,6 +6135,30 @@ openSupplierQuote(
     "estimateQuoteRequestId"
   ).value
 );
+
+}
+
+/* =====================================
+   고객 견적서 PDF / 인쇄
+===================================== */
+
+function printCustomerQuote() {
+
+  updateEstimateTotal();
+
+  document.body.classList.add(
+    "printing-customer-quote"
+  );
+
+  window.print();
+
+  setTimeout(function() {
+
+    document.body.classList.remove(
+      "printing-customer-quote"
+    );
+
+  }, 500);
 
 }
 
