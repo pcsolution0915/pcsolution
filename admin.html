@@ -1177,6 +1177,88 @@ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(4) textare
   word-break: break-word !important;
 }
 
+/* =====================================
+   고객 견적서 PDF 행 높이 자동 조절
+===================================== */
+
+/* 행 높이를 고정하지 않고 내용에 맞게 자동 증가 */
+body.printing-customer-quote #quoteModal .estimate-table tbody tr {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  /* 한 부품 행이 페이지 중간에서 잘리는 것 방지 */
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+
+/* 모든 셀 높이 자동 */
+body.printing-customer-quote #quoteModal .estimate-table tbody th,
+body.printing-customer-quote #quoteModal .estimate-table tbody td {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  /* 위아래 여백 */
+  padding-top: 2.2mm !important;
+  padding-bottom: 2.2mm !important;
+
+  vertical-align: middle !important;
+
+  overflow: visible !important;
+}
+
+
+/* 모델명 textarea */
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(3) textarea {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  overflow: visible !important;
+  resize: none !important;
+
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+
+  line-height: 1.35 !important;
+}
+
+
+/* 세부스펙 textarea */
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(4) textarea {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  overflow: visible !important;
+  resize: none !important;
+
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+
+  line-height: 1.35 !important;
+}
+
+
+/* 혹시 기존 textarea CSS에 고정 높이가 있어도 무효화 */
+body.printing-customer-quote #quoteModal .estimate-table textarea {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  overflow: visible !important;
+
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+
+  border: 0 !important;
+  background: transparent !important;
+}
+
 @media print {
 
 /* =====================================
