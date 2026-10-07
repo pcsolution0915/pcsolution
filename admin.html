@@ -1085,6 +1085,98 @@
   margin: 7mm;
 }
 
+/* =====================================
+   고객 견적서 PDF 최종 열 너비
+   반드시 @media print 맨 마지막에 둘 것
+===================================== */
+
+body.printing-customer-quote #quoteModal .estimate-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+
+/* 부품명 - 조금 넓게 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(1),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(1) {
+  width: 22mm !important;
+}
+
+
+/* 제조사 - 확 줄임 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(2),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(2) {
+  width: 20mm !important;
+}
+
+
+/* 모델명 - 줄임 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(3),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(3) {
+  width: 35mm !important;
+}
+
+
+/* 세부스펙 - 크게 확보 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(4),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(4) {
+  width: 59mm !important;
+}
+
+
+/* 수량 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(5),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(5) {
+  width: 11mm !important;
+}
+
+
+/* 단가 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(6),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(6) {
+  width: 22mm !important;
+}
+
+
+/* 공급가 */
+body.printing-customer-quote #quoteModal .estimate-table th:nth-child(7),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(7) {
+  width: 24mm !important;
+}
+
+
+/* 부품명은 줄바꿈 금지 */
+body.printing-customer-quote #quoteModal .estimate-table tbody th {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  font-size: 6.3pt !important;
+}
+
+
+/* 제조사는 너무 긴 단어만 줄바꿈 */
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(2) {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+
+/* 모델명 자동 줄바꿈 */
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(3),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(3) textarea {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
+
+/* 세부스펙 자동 줄바꿈 */
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(4),
+body.printing-customer-quote #quoteModal .estimate-table td:nth-child(4) textarea {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+}
+
 @media print {
 
 /* =====================================
@@ -1106,7 +1198,7 @@ body.printing-customer-quote #quoteModal
 .estimate-table th:nth-child(2),
 body.printing-customer-quote #quoteModal
 .estimate-table td:nth-child(2) {
-  width: 2３mm !important;
+  width: 23mm !important;
 }
 
 
@@ -1115,7 +1207,7 @@ body.printing-customer-quote #quoteModal
 .estimate-table th:nth-child(3),
 body.printing-customer-quote #quoteModal
 .estimate-table td:nth-child(3) {
-  width: ３９mm !important;
+  width: 39mm !important;
 }
 
 
@@ -1124,7 +1216,7 @@ body.printing-customer-quote #quoteModal
 .estimate-table th:nth-child(4),
 body.printing-customer-quote #quoteModal
 .estimate-table td:nth-child(4) {
-  width: 5６mm !important;
+  width: 56mm !important;
 }
 
 
