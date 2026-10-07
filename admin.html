@@ -1259,6 +1259,44 @@ body.printing-customer-quote #quoteModal .estimate-table textarea {
   background: transparent !important;
 }
 
+/* =====================================
+   PDF 하단 3개 행만 압축
+   케이스 / 기타 / 공임
+===================================== */
+
+/* 케이스 = 7번째 행
+   기타   = 10번째 행
+   공임   = 11번째 행 */
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(7) th,
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(7) td,
+
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(10) th,
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(10) td,
+
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(11) th,
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(11) td {
+  padding-top: 0.7mm !important;
+  padding-bottom: 0.7mm !important;
+
+  height: 7mm !important;
+  min-height: 7mm !important;
+
+  line-height: 1.15 !important;
+}
+
+
+/* 해당 행의 textarea도 여백 제거 */
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(7) textarea,
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(10) textarea,
+body.printing-customer-quote #quoteModal .estimate-table tbody tr:nth-child(11) textarea {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+
+  margin: 0 !important;
+  line-height: 1.15 !important;
+}
+
+
 @media print {
 
 /* =====================================
