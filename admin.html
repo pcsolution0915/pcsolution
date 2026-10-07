@@ -2908,26 +2908,34 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
     </div>
 
-
     <div
-      style="
-        display:flex;
-        justify-content:flex-end;
-        gap:8px;
-        margin-top:20px;
-      "
-    >
+  style="
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:20px;
+  "
+>
 
-      <button
-        class="cancel-button"
-        type="button"
-        onclick="closeSupplierReply()"
-      >
-        ✕ 닫기
-      </button>
+  <button
+    class="save-button"
+    type="button"
+    onclick="applySupplierReplyToEstimate()"
+  >
+    💰 고객 견적에 반영
+  </button>
 
-    </div>
+  <button
+    class="cancel-button"
+    type="button"
+    onclick="closeSupplierReply()"
+  >
+    ✕ 닫기
+  </button>
 
+</div>
+    
   </div>
 
 </div>
@@ -3422,6 +3430,9 @@ let editingProduct = null;
 let allQuoteRequests = [];
 let quoteRequestLoadError = false;
 let allSupplierReplies = [];
+
+let currentSupplierReply = null;
+let currentSupplierReplyItems = [];
 
 /* =====================================
    견적 부품 목록
@@ -5468,6 +5479,8 @@ async function openSupplierReply(
   const selectedReply =
     replies[replyIndex];
 
+currentSupplierReply =
+  selectedReply;
 
   modal.classList.remove(
     "hidden"
@@ -5539,6 +5552,8 @@ async function openSupplierReply(
       throw error;
     }
 
+    currentSupplierReplyItems =
+  items || [];
 
     /* =====================================
        회신 일시
@@ -5792,6 +5807,252 @@ async function openSupplierReply(
     );
 
   }
+
+}
+
+/* =====================================
+   컴오아시스 회신가 → 고객 견적 반영
+===================================== */
+
+async function applySupplierReplyToEstimate() {
+
+  if (
+    !currentSupplierReply ||
+    !currentSupplierReplyItems.length
+  ) {
+
+    alert(
+      "반영할 컴오아시스 회신이 없습니다."
+    );
+
+    return;
+  }
+
+
+  const quoteRequestId =
+    Number(
+      currentSupplierReply.quote_request_id
+    );
+
+
+  if (!quoteRequestId) {
+
+    alert(
+      "연결된 상담 정보를 찾을 수 없습니다."
+    );
+
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+      "현재 보고 있는 컴오아시스 회신가를 고객 견적에 반영하시겠습니까?"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  /* =====================================
+     고객 견적 먼저 열기
+  ===================================== */
+
+  await openQuoteEditor(
+    quoteRequestId
+  );
+
+
+  /* =====================================
+     품목별 고객 견적 가격칸
+  ===================================== */
+
+  const priceFields = {
+
+    Cpu:
+      "estimateCpuPrice",
+
+    CPU:
+      "estimateCpuPrice",
+
+    MainBoard:
+      "estimateMainBoardPrice",
+
+    메인보드:
+      "estimateMainBoardPrice",
+
+    Ram:
+      "estimateRamPrice",
+
+    메모리:
+      "estimateRamPrice",
+
+    Ssd:
+      "estimateSsdPrice",
+
+    SSD:
+      "estimateSsdPrice",
+
+    Gpu:
+      "estimateGpuPrice",
+
+    그래픽카드:
+      "estimateGpuPrice",
+
+    Power:
+      "estimatePowerPrice",
+
+    파워:
+      "estimatePowerPrice",
+
+    Case:
+      "estimateCasePrice",
+
+    케이스:
+      "estimateCasePrice",
+
+    Cooler:
+      "estimateCoolerPrice",
+
+    쿨러:
+      "estimateCoolerPrice",
+
+    Monitor:
+      "estimateMonitorPrice",
+
+    모니터:
+      "estimateMonitorPrice",
+
+    Etc:
+      "estimateEtcPrice",
+
+    기타:
+      "estimateEtcPrice",
+
+    Labor:
+      "estimateLaborPrice",
+
+    공임:
+      "estimateLaborPrice"
+
+  };
+
+
+  let appliedCount = 0;
+
+
+  currentSupplierReplyItems
+    .forEach(function(item) {
+
+      const targetId =
+        priceFields[
+          item.part_type
+        ];
+
+
+      if (!targetId) {
+        return;
+      }
+
+
+      /* =====================================
+         "123,000원" 같은 값에서
+         숫자만 추출
+      ===================================== */
+
+      const rawPrice =
+        String(
+          item.supplier_price || ""
+        );
+
+
+      const numericText =
+        rawPrice.replace(
+          /[^0-9]/g,
+          ""
+        );
+
+
+      if (!numericText) {
+
+        /*
+          품절 / 단종 / 문의 등은
+          고객 가격에 반영하지 않음
+        */
+
+        return;
+      }
+
+
+      const supplierPrice =
+        Number(
+          numericText
+        );
+
+
+      if (
+        !Number.isFinite(
+          supplierPrice
+        ) ||
+        supplierPrice <= 0
+      ) {
+
+        return;
+      }
+
+
+      /* =====================================
+         내부 판매가 계산
+
+         공급가 × 1.15
+         → 1,000원 단위 올림
+      ===================================== */
+
+      const customerPrice =
+        Math.ceil(
+          (
+            supplierPrice *
+            1.15
+          ) /
+          1000
+        ) *
+        1000;
+
+
+      setEstimateValue(
+        targetId,
+        customerPrice
+      );
+
+
+      appliedCount++;
+
+    });
+
+
+  /* =====================================
+     총액 다시 계산
+  ===================================== */
+
+  updateEstimateTotal();
+
+
+  /* =====================================
+     회신창 닫기
+  ===================================== */
+
+  closeSupplierReply();
+
+
+  alert(
+    "✅ 컴오아시스 회신가를 고객 견적에 반영했습니다.\n\n" +
+    "반영된 품목: " +
+    appliedCount +
+    "개\n\n" +
+    "고객 견적을 확인한 후 저장해주세요."
+  );
 
 }
 
