@@ -5352,7 +5352,8 @@ const supplierReplyBadge =
 ===================================== */
 
 async function openSupplierReply(
-  quoteRequestId
+  quoteRequestId,
+  replyIndex = 0
 ) {
 
   const modal =
@@ -5435,13 +5436,37 @@ async function openSupplierReply(
   }
 
 
-  /*
-    여러 회신이 있으면
-    가장 최신 회신 사용
-  */
+  /* =====================================
+     회신 번호 보정
+     0 = 최신 회신
+  ===================================== */
 
-  const latestReply =
-    replies[0];
+  replyIndex =
+    Number(replyIndex);
+
+
+  if (
+    !Number.isFinite(replyIndex) ||
+    replyIndex < 0
+  ) {
+
+    replyIndex = 0;
+
+  }
+
+
+  if (
+    replyIndex >= replies.length
+  ) {
+
+    replyIndex =
+      replies.length - 1;
+
+  }
+
+
+  const selectedReply =
+    replies[replyIndex];
 
 
   modal.classList.remove(
@@ -5470,14 +5495,14 @@ async function openSupplierReply(
 
 
   message.textContent =
-    latestReply.supplier_message ||
+    selectedReply.supplier_message ||
     "-";
 
 
   try {
 
     /* =====================================
-       회신 품목 조회
+       선택한 회신의 품목 조회
     ===================================== */
 
     const {
@@ -5500,7 +5525,7 @@ async function openSupplierReply(
         `)
         .eq(
           "reply_id",
-          latestReply.id
+          selectedReply.id
         )
         .order(
           "sort_order",
@@ -5516,51 +5541,130 @@ async function openSupplierReply(
 
 
     /* =====================================
-       상단 회신 정보
+       회신 일시
     ===================================== */
 
     const repliedAt =
-      latestReply.replied_at
+      selectedReply.replied_at
         ? new Date(
-            latestReply.replied_at
+            selectedReply.replied_at
           ).toLocaleString(
             "ko-KR"
           )
         : "-";
 
 
+    /* =====================================
+       이전 / 다음 버튼
+    ===================================== */
+
+    const previousDisabled =
+      replyIndex >=
+      replies.length - 1;
+
+
+    const nextDisabled =
+      replyIndex <= 0;
+
+
     info.innerHTML = `
-      <strong>상담번호 :</strong>
-      ${escapeHTML(
-        latestReply.public_code ||
-        "-"
-      )}
 
-      <br>
+      <div>
 
-      <strong>회신상태 :</strong>
-      🔴 ${escapeHTML(
-        latestReply.status ||
-        "-"
-      )}
+        <strong>상담번호 :</strong>
+        ${escapeHTML(
+          selectedReply.public_code ||
+          "-"
+        )}
 
-      <br>
+        <br>
 
-      <strong>회신일시 :</strong>
-      ${escapeHTML(
-        repliedAt
-      )}
+        <strong>회신상태 :</strong>
+        🔴 ${escapeHTML(
+          selectedReply.status ||
+          "-"
+        )}
+
+        <br>
+
+        <strong>회신일시 :</strong>
+        ${escapeHTML(
+          repliedAt
+        )}
+
+        <br>
+
+        <strong>회신이력 :</strong>
+        총 ${replies.length}건
+
+      </div>
+
 
       ${
         replies.length > 1
           ? `
-            <br>
-            <strong>회신이력 :</strong>
-            총 ${replies.length}건
-            (최신 회신 표시)
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                gap:10px;
+                flex-wrap:wrap;
+                margin-top:15px;
+                padding-top:15px;
+                border-top:1px solid #e5e7eb;
+              "
+            >
+
+              <button
+                type="button"
+                class="cancel-button"
+                onclick="openSupplierReply(
+                  ${Number(quoteRequestId)},
+                  ${replyIndex + 1}
+                )"
+                ${previousDisabled
+                  ? "disabled"
+                  : ""}
+              >
+                ◀ 이전 회신
+              </button>
+
+
+              <strong
+                style="
+                  min-width:80px;
+                  text-align:center;
+                  color:#1769e0;
+                "
+              >
+                ${replyIndex + 1}
+                /
+                ${replies.length}
+              </strong>
+
+
+              <button
+                type="button"
+                class="save-button"
+                onclick="openSupplierReply(
+                  ${Number(quoteRequestId)},
+                  ${replyIndex - 1}
+                )"
+                ${nextDisabled
+                  ? "disabled"
+                  : ""}
+              >
+                다음 회신 ▶
+              </button>
+
+            </div>
+
           `
           : ""
       }
+
     `;
 
 
@@ -5627,7 +5731,11 @@ async function openSupplierReply(
                 )}
               </td>
 
-              <td style="text-align:center;">
+              <td
+                style="
+                  text-align:center;
+                "
+              >
                 ${escapeHTML(
                   item.quantity ?? 1
                 )}
@@ -5686,7 +5794,6 @@ async function openSupplierReply(
   }
 
 }
-
 
 /* =====================================
    컴오아시스 회신 닫기
