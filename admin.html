@@ -1313,38 +1313,9 @@ body.printing-customer-quote #quoteModal .estimate-table input {
 body.printing-customer-quote #quoteModal
 .estimate-table textarea:not(.estimate-model) {
 
-  height: 6mm !important;
+  height: auto !important;
   min-height: 6mm !important;
-  max-height: 6mm !important;
-
-  margin: 0 !important;
-  padding: 0.4mm !important;
-
-  border: 0 !important;
-  background: transparent !important;
-
-  font-size: 6pt !important;
-  line-height: 1.05 !important;
-
-  overflow: hidden !important;
-  resize: none !important;
-
-  box-shadow: none !important;
-  outline: none !important;
-}
-
-
-/* =====================================
-   모델명
-   줄바꿈 허용
-===================================== */
-
-body.printing-customer-quote #quoteModal
-.estimate-table textarea.estimate-model {
-
-  height: 6mm !important;
-  min-height: 6mm !important;
-  max-height: 8mm !important;
+  max-height: none !important;
 
   margin: 0 !important;
   padding: 0.4mm !important;
@@ -1359,7 +1330,39 @@ body.printing-customer-quote #quoteModal
   overflow-wrap: anywhere !important;
   word-break: break-word !important;
 
-  overflow: hidden !important;
+  overflow: visible !important;
+  resize: none !important;
+
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* =====================================
+   모델명
+   줄바꿈 허용
+===================================== */
+
+body.printing-customer-quote #quoteModal
+.estimate-table textarea.estimate-model {
+
+    height: auto !important;
+  min-height: 6mm !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 0.4mm !important;
+
+  border: 0 !important;
+  background: transparent !important;
+
+  font-size: 6pt !important;
+  line-height: 1.05 !important;
+
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+
+  overflow: visible !important;
   resize: none !important;
 
   box-shadow: none !important;
