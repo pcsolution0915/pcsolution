@@ -3280,7 +3280,7 @@ let allProducts = [];
 let editingProduct = null;
 let allQuoteRequests = [];
 let quoteRequestLoadError = false;
-
+let allSupplierReplies = [];
 
 /* =====================================
    견적 부품 목록
@@ -4492,6 +4492,10 @@ async function loadQuoteRequests() {
 
   try {
 
+    /* =====================================
+       1. 상담 신청 조회
+    ===================================== */
+
     const {
       data,
       error
@@ -4513,6 +4517,62 @@ async function loadQuoteRequests() {
     allQuoteRequests =
       data || [];
 
+
+    /* =====================================
+       2. 컴오아시스 회신 조회
+    ===================================== */
+
+    const {
+      data: supplierReplies,
+      error: supplierReplyError
+    } =
+      await supabaseClient
+        .from("supplier_quote_replies")
+        .select(`
+          id,
+          quote_request_id,
+          public_code,
+          status,
+          supplier_message,
+          replied_at,
+          created_at,
+          updated_at
+        `)
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (supplierReplyError) {
+
+      console.error(
+        "컴오아시스 회신 목록 오류:",
+        supplierReplyError
+      );
+
+      /*
+        컴오아시스 회신 조회가 실패해도
+        기존 상담 목록 자체는 표시
+      */
+      allSupplierReplies = [];
+
+    } else {
+
+      allSupplierReplies =
+        supplierReplies || [];
+
+    }
+
+
+    console.log(
+      "컴오아시스 회신 목록:",
+      allSupplierReplies
+    );
+
+
     quoteRequestLoadError =
       false;
 
@@ -4529,6 +4589,7 @@ async function loadQuoteRequests() {
     );
 
     allQuoteRequests = [];
+    allSupplierReplies = [];
 
     updateQuoteStats();
 
