@@ -2770,6 +2770,14 @@ body.printing-customer-quote #quoteModal .danawa-area {
         🖨️ 인쇄 / PDF 저장
       </button>
 
+            <button
+        class="save-button"
+        type="button"
+        onclick="createSupplierReplyLink()"
+      >
+        🔗 링크 생성 및 복사
+      </button>
+
       <button
         class="cancel-button"
         type="button"
@@ -4438,386 +4446,6 @@ function renderProductList() {
       .join("");
 
 }
-
-/* =====================================
-   컴오아시스 견적 요청서 열기
-===================================== */
-
-async function openSupplierQuote() {
-
-  const modal =
-    document.getElementById("supplierQuoteModal");
-
-  const customerSelect =
-    document.getElementById("supplierQuoteCustomer");
-
-  const customerInfo =
-    document.getElementById("supplierQuoteCustomerInfo");
-
-  const content =
-    document.getElementById("supplierQuoteContent");
-
-
-  if (!modal) {
-    alert("컴오아시스 견적 요청서 모달을 찾을 수 없습니다.");
-    return;
-  }
-
-
-  if (!customerSelect) {
-    alert("고객 선택창을 찾을 수 없습니다.");
-    return;
-  }
-
-
-  modal.classList.remove("hidden");
-
-
-  customerSelect.innerHTML = `
-    <option value="">
-      고객 목록을 불러오는 중입니다...
-    </option>
-  `;
-
-
-  if (customerInfo) {
-
-    customerInfo.textContent =
-      "맞춤 견적 고객을 불러오는 중입니다...";
-
-  }
-
-
-  if (content) {
-
-    content.style.display =
-      "none";
-
-  }
-
-
-  try {
-
-    /* =====================================
-       1. 맞춤 견적 조회
-    ===================================== */
-
-    const {
-      data: estimates,
-      error: estimateError
-    } =
-      await supabaseClient
-        .from("quote_estimates")
-        .select("*")
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        );
-
-
-    if (estimateError) {
-      throw estimateError;
-    }
-
-
-    console.log(
-      "컴오아시스 - 견적 목록:",
-      estimates
-    );
-
-
-    if (
-      !estimates ||
-      estimates.length === 0
-    ) {
-
-      customerSelect.innerHTML = `
-        <option value="">
-          작성된 맞춤 견적이 없습니다.
-        </option>
-      `;
-
-      if (customerInfo) {
-
-        customerInfo.textContent =
-          "먼저 고객의 맞춤 견적을 작성해주세요.";
-
-      }
-
-      return;
-
-    }
-
-
-    /* =====================================
-       2. 상담 신청 조회
-    ===================================== */
-
-    const requestIds =
-      [
-        ...new Set(
-          estimates
-            .map(
-              estimate =>
-                Number(
-                  estimate.quote_request_id
-                )
-            )
-            .filter(
-              id =>
-                Number.isFinite(id) &&
-                id > 0
-            )
-        )
-      ];
-
-
-    console.log(
-      "컴오아시스 - 상담 ID:",
-      requestIds
-    );
-
-
-    if (!requestIds.length) {
-
-      throw new Error(
-        "견적서에 연결된 상담번호가 없습니다."
-      );
-
-    }
-
-
-    const {
-      data: requests,
-      error: requestError
-    } =
-      await supabaseClient
-        .from("quote_requests")
-        .select(
-          "id, customer_name, phone, public_code, status"
-        )
-        .in(
-          "id",
-          requestIds
-        );
-
-
-    if (requestError) {
-      throw requestError;
-    }
-
-
-    console.log(
-      "컴오아시스 - 상담 고객:",
-      requests
-    );
-
-
-    /* =====================================
-       3. 고객별 최신 견적만 사용
-    ===================================== */
-
-    const latestEstimates =
-      new Map();
-
-
-    estimates.forEach(
-      estimate => {
-
-        const requestId =
-          Number(
-            estimate.quote_request_id
-          );
-
-
-        if (
-          !Number.isFinite(requestId) ||
-          requestId <= 0
-        ) {
-          return;
-        }
-
-
-        /*
-          created_at DESC로 가져왔기 때문에
-          처음 발견되는 것이 최신 견적
-        */
-
-        if (
-          !latestEstimates.has(
-            requestId
-          )
-        ) {
-
-          latestEstimates.set(
-            requestId,
-            estimate
-          );
-
-        }
-
-      }
-    );
-
-
-    /* =====================================
-       4. 고객 선택 목록 생성
-    ===================================== */
-
-    const options = [];
-
-
-    latestEstimates.forEach(
-      (estimate, requestId) => {
-
-        const request =
-          (requests || [])
-            .find(
-              item =>
-                Number(item.id) ===
-                Number(requestId)
-            );
-
-
-        if (!request) {
-
-          console.warn(
-            "상담 고객을 찾지 못함:",
-            requestId
-          );
-
-          return;
-
-        }
-
-
-        const customerName =
-          request.customer_name ||
-          "이름 없음";
-
-
-        const publicCode =
-          request.public_code ||
-          `상담 ${request.id}`;
-
-
-        const phone =
-          request.phone ||
-          "";
-
-
-        options.push(`
-          <option
-            value="${Number(estimate.id)}"
-            data-request-id="${Number(request.id)}"
-          >
-            ${escapeHTML(customerName)} 고객님 ·
-            ${escapeHTML(publicCode)}
-            ${
-              phone
-                ? " · " + escapeHTML(phone)
-                : ""
-            }
-          </option>
-        `);
-
-      }
-    );
-
-
-    /* =====================================
-       5. 목록 출력
-    ===================================== */
-
-    if (!options.length) {
-
-      customerSelect.innerHTML = `
-        <option value="">
-          연결 가능한 고객이 없습니다.
-        </option>
-      `;
-
-
-      if (customerInfo) {
-
-        customerInfo.textContent =
-          "견적서와 연결된 상담 고객을 찾지 못했습니다.";
-
-      }
-
-
-      console.warn(
-        "견적 목록:",
-        estimates
-      );
-
-      console.warn(
-        "상담 목록:",
-        requests
-      );
-
-
-      return;
-
-    }
-
-
-    customerSelect.innerHTML = `
-      <option value="">
-        고객을 선택해주세요.
-      </option>
-
-      ${options.join("")}
-    `;
-
-
-    if (customerInfo) {
-
-      customerInfo.textContent =
-        `맞춤 견적 고객 ${options.length}명을 불러왔습니다.`;
-
-    }
-
-
-    console.log(
-      `컴오아시스 고객 ${options.length}명 로딩 완료`
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "컴오아시스 견적 고객 조회 오류:",
-      error
-    );
-
-
-    customerSelect.innerHTML = `
-      <option value="">
-        고객 목록 조회 실패
-      </option>
-    `;
-
-
-    if (customerInfo) {
-
-      customerInfo.textContent =
-        "고객 목록을 불러오지 못했습니다.";
-
-    }
-
-
-    alert(
-      "컴오아시스 견적 고객 목록을 불러오지 못했습니다.\n\n" +
-      error.message
-    );
-
-  }
-
-}
-
 
 /* =====================================
    컴오아시스 견적 요청서 닫기
@@ -7294,6 +6922,344 @@ function printSupplierQuote() {
 
 }
 
+/* =====================================
+   컴오아시스 회신 링크 생성 및 복사
+===================================== */
+
+async function createSupplierReplyLink() {
+
+  const quoteRequestId =
+    Number(
+      document.getElementById(
+        "estimateQuoteRequestId"
+      ).value
+    );
+
+
+  if (!quoteRequestId) {
+
+    alert(
+      "연결된 상담 신청 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const request =
+    allQuoteRequests.find(
+      item =>
+        Number(item.id) ===
+        quoteRequestId
+    );
+
+
+  if (!request) {
+
+    alert(
+      "상담 신청 정보를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const publicCode =
+    String(
+      request.public_code || ""
+    ).trim();
+
+
+  if (!publicCode) {
+
+    alert(
+      "상담번호(public_code)를 찾을 수 없습니다."
+    );
+
+    return;
+
+  }
+
+
+  const parts = [
+    {
+      key: "Cpu",
+      name: "CPU"
+    },
+    {
+      key: "MainBoard",
+      name: "메인보드"
+    },
+    {
+      key: "Ram",
+      name: "메모리"
+    },
+    {
+      key: "Ssd",
+      name: "SSD"
+    },
+    {
+      key: "Gpu",
+      name: "그래픽카드"
+    },
+    {
+      key: "Power",
+      name: "파워"
+    },
+    {
+      key: "Case",
+      name: "케이스"
+    },
+    {
+      key: "Cooler",
+      name: "쿨러"
+    },
+    {
+      key: "Monitor",
+      name: "모니터"
+    },
+    {
+      key: "Etc",
+      name: "기타"
+    },
+    {
+      key: "Labor",
+      name: "공임"
+    }
+  ];
+
+
+  function getSupplierValue(id) {
+
+    const element =
+      document.getElementById(id);
+
+    if (!element) {
+      return "";
+    }
+
+    return String(
+      element.value ?? ""
+    ).trim();
+
+  }
+
+
+  const items =
+    parts.map(
+      (part, index) => {
+
+        const quantityText =
+          getSupplierValue(
+            "supplier" +
+            part.key +
+            "Qty"
+          );
+
+
+        const quantity =
+          Number.parseInt(
+            quantityText,
+            10
+          );
+
+
+        return {
+
+          part_type:
+            part.name,
+
+          manufacturer:
+            getSupplierValue(
+              "supplier" +
+              part.key +
+              "Maker"
+            ),
+
+          model_name:
+            getSupplierValue(
+              "supplier" +
+              part.key +
+              "Model"
+            ),
+
+          specification:
+            getSupplierValue(
+              "supplier" +
+              part.key +
+              "Spec"
+            ),
+
+          quantity:
+            Number.isFinite(quantity)
+              ? Math.max(quantity, 0)
+              : 1,
+
+          sort_order:
+            index
+
+        };
+
+      }
+    );
+
+
+  try {
+
+    /* =====================================
+       1. 회신 요청 생성
+    ===================================== */
+
+    const {
+      data: replyData,
+      error: replyError
+    } =
+      await supabaseClient
+        .rpc(
+          "create_supplier_quote_reply",
+          {
+            p_quote_request_id:
+              quoteRequestId,
+
+            p_public_code:
+              publicCode
+          }
+        );
+
+
+    if (replyError) {
+      throw replyError;
+    }
+
+
+    if (
+      !replyData ||
+      replyData.length === 0
+    ) {
+
+      throw new Error(
+        "회신 요청 생성 결과가 없습니다."
+      );
+
+    }
+
+
+    const reply =
+      replyData[0];
+
+
+    const replyId =
+      Number(
+        reply.reply_id
+      );
+
+
+    const replyToken =
+      String(
+        reply.reply_token || ""
+      ).trim();
+
+
+    if (
+      !replyId ||
+      !replyToken
+    ) {
+
+      throw new Error(
+        "회신 요청 ID 또는 토큰을 받지 못했습니다."
+      );
+
+    }
+
+
+    /* =====================================
+       2. 컴오아시스 요청 품목 저장
+    ===================================== */
+
+    const {
+      data: savedCount,
+      error: itemError
+    } =
+      await supabaseClient
+        .rpc(
+          "save_supplier_quote_reply_items",
+          {
+            p_reply_id:
+              replyId,
+
+            p_items:
+              items
+          }
+        );
+
+
+    if (itemError) {
+      throw itemError;
+    }
+
+
+    console.log(
+      "컴오아시스 회신 요청 생성:",
+      reply
+    );
+
+
+    console.log(
+      "컴오아시스 품목 저장 수:",
+      savedCount
+    );
+
+
+    /* =====================================
+       3. 외부 회신 링크 생성
+    ===================================== */
+
+    const replyLink =
+      "https://pcsolution0915.github.io/pcsolution/supplier-reply.html?token=" +
+      encodeURIComponent(
+        replyToken
+      );
+
+
+    /* =====================================
+       4. 클립보드 복사
+    ===================================== */
+
+    await navigator.clipboard.writeText(
+      replyLink
+    );
+
+
+    alert(
+      "✅ 컴오아시스 회신 링크를 생성하고 복사했습니다.\n\n" +
+      "저장된 품목: " +
+      savedCount +
+      "개\n\n" +
+      replyLink
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "컴오아시스 회신 링크 생성 오류:",
+      error
+    );
+
+
+    alert(
+      "컴오아시스 회신 링크 생성에 실패했습니다.\n\n" +
+      (
+        error.message ||
+        String(error)
+      )
+    );
+
+  }
+
+}
 
 /* =====================================
    견적 저장
