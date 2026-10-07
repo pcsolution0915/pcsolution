@@ -2792,6 +2792,147 @@ body.printing-customer-quote #quoteModal .danawa-area {
 </div>
 
 <!-- =====================================
+     컴오아시스 회신 확인
+===================================== -->
+
+<div
+  id="supplierReplyModal"
+  class="quote-modal hidden"
+>
+
+  <div class="quote-modal-box estimate-sheet">
+
+    <div class="quote-modal-header">
+
+      <div>
+
+        <h2 style="margin:0;">
+          📩 컴오아시스 견적 회신
+        </h2>
+
+        <p style="margin:6px 0 0;color:#667085;">
+          컴오아시스에서 회신한 공급가 및 재고 정보를 확인합니다.
+        </p>
+
+      </div>
+
+      <button
+        class="quote-modal-close"
+        type="button"
+        onclick="closeSupplierReply()"
+      >
+        ✕ 닫기
+      </button>
+
+    </div>
+
+
+    <div
+      id="supplierReplyInfo"
+      style="
+        padding:15px;
+        margin-bottom:18px;
+        background:#f8fafc;
+        border:1px solid #e5e7eb;
+        border-radius:10px;
+        line-height:1.8;
+      "
+    >
+      회신 정보를 불러오는 중입니다...
+    </div>
+
+
+    <div class="supplier-table-wrap">
+
+      <table class="supplier-table">
+
+        <thead>
+
+          <tr>
+            <th class="part-col">품목</th>
+            <th>제조사</th>
+            <th>모델명</th>
+            <th class="spec-col">세부사양</th>
+            <th class="qty-col">수량</th>
+            <th>컴오아시스 회신</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="supplierReplyItems">
+
+          <tr>
+            <td
+              colspan="6"
+              style="
+                padding:30px;
+                text-align:center;
+                color:#667085;
+              "
+            >
+              회신 정보를 불러오는 중입니다...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <div
+      style="
+        margin-top:20px;
+        padding:15px;
+        background:#f8fafc;
+        border:1px solid #e5e7eb;
+        border-radius:10px;
+      "
+    >
+
+      <strong>
+        📝 컴오아시스 추가 회신
+      </strong>
+
+      <div
+        id="supplierReplyMessage"
+        style="
+          margin-top:10px;
+          white-space:pre-wrap;
+          line-height:1.7;
+        "
+      >
+        -
+      </div>
+
+    </div>
+
+
+    <div
+      style="
+        display:flex;
+        justify-content:flex-end;
+        gap:8px;
+        margin-top:20px;
+      "
+    >
+
+      <button
+        class="cancel-button"
+        type="button"
+        onclick="closeSupplierReply()"
+      >
+        ✕ 닫기
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =====================================
      맞춤 견적 작성
 ===================================== -->
 
@@ -5206,6 +5347,422 @@ const supplierReplyBadge =
 
 }
 
+/* =====================================
+   컴오아시스 회신 열기
+===================================== */
+
+async function openSupplierReply(
+  quoteRequestId
+) {
+
+  const modal =
+    document.getElementById(
+      "supplierReplyModal"
+    );
+
+  const info =
+    document.getElementById(
+      "supplierReplyInfo"
+    );
+
+  const tbody =
+    document.getElementById(
+      "supplierReplyItems"
+    );
+
+  const message =
+    document.getElementById(
+      "supplierReplyMessage"
+    );
+
+
+  if (
+    !modal ||
+    !info ||
+    !tbody ||
+    !message
+  ) {
+
+    alert(
+      "컴오아시스 회신 화면을 찾을 수 없습니다."
+    );
+
+    return;
+  }
+
+
+  /* =====================================
+     해당 상담의 완료된 회신 찾기
+  ===================================== */
+
+  const replies =
+    allSupplierReplies
+      .filter(
+        reply =>
+          Number(
+            reply.quote_request_id
+          ) ===
+            Number(
+              quoteRequestId
+            ) &&
+          reply.status ===
+            "회신완료"
+      )
+      .sort(
+        (a, b) =>
+          new Date(
+            b.replied_at ||
+            b.updated_at ||
+            b.created_at ||
+            0
+          ) -
+          new Date(
+            a.replied_at ||
+            a.updated_at ||
+            a.created_at ||
+            0
+          )
+      );
+
+
+  if (!replies.length) {
+
+    alert(
+      "확인할 컴오아시스 회신이 없습니다."
+    );
+
+    return;
+  }
+
+
+  /*
+    여러 회신이 있으면
+    가장 최신 회신 사용
+  */
+
+  const latestReply =
+    replies[0];
+
+
+  modal.classList.remove(
+    "hidden"
+  );
+
+
+  info.innerHTML =
+    "회신 정보를 불러오는 중입니다...";
+
+
+  tbody.innerHTML = `
+    <tr>
+      <td
+        colspan="6"
+        style="
+          padding:30px;
+          text-align:center;
+          color:#667085;
+        "
+      >
+        회신 품목을 불러오는 중입니다...
+      </td>
+    </tr>
+  `;
+
+
+  message.textContent =
+    latestReply.supplier_message ||
+    "-";
+
+
+  try {
+
+    /* =====================================
+       회신 품목 조회
+    ===================================== */
+
+    const {
+      data: items,
+      error
+    } =
+      await supabaseClient
+        .from(
+          "supplier_quote_reply_items"
+        )
+        .select(`
+          id,
+          part_type,
+          manufacturer,
+          model_name,
+          specification,
+          quantity,
+          supplier_price,
+          sort_order
+        `)
+        .eq(
+          "reply_id",
+          latestReply.id
+        )
+        .order(
+          "sort_order",
+          {
+            ascending: true
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    /* =====================================
+       상단 회신 정보
+    ===================================== */
+
+    const repliedAt =
+      latestReply.replied_at
+        ? new Date(
+            latestReply.replied_at
+          ).toLocaleString(
+            "ko-KR"
+          )
+        : "-";
+
+
+    info.innerHTML = `
+      <strong>상담번호 :</strong>
+      ${escapeHTML(
+        latestReply.public_code ||
+        "-"
+      )}
+
+      <br>
+
+      <strong>회신상태 :</strong>
+      🔴 ${escapeHTML(
+        latestReply.status ||
+        "-"
+      )}
+
+      <br>
+
+      <strong>회신일시 :</strong>
+      ${escapeHTML(
+        repliedAt
+      )}
+
+      ${
+        replies.length > 1
+          ? `
+            <br>
+            <strong>회신이력 :</strong>
+            총 ${replies.length}건
+            (최신 회신 표시)
+          `
+          : ""
+      }
+    `;
+
+
+    /* =====================================
+       품목 출력
+    ===================================== */
+
+    if (
+      !items ||
+      items.length === 0
+    ) {
+
+      tbody.innerHTML = `
+        <tr>
+          <td
+            colspan="6"
+            style="
+              padding:30px;
+              text-align:center;
+              color:#667085;
+            "
+          >
+            저장된 회신 품목이 없습니다.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+
+    tbody.innerHTML =
+      items
+        .map(
+          item => `
+            <tr>
+
+              <th>
+                ${escapeHTML(
+                  getSupplierPartName(
+                    item.part_type
+                  )
+                )}
+              </th>
+
+              <td>
+                ${escapeHTML(
+                  item.manufacturer ||
+                  "-"
+                )}
+              </td>
+
+              <td>
+                ${escapeHTML(
+                  item.model_name ||
+                  "-"
+                )}
+              </td>
+
+              <td>
+                ${escapeHTML(
+                  item.specification ||
+                  "-"
+                )}
+              </td>
+
+              <td style="text-align:center;">
+                ${escapeHTML(
+                  item.quantity ?? 1
+                )}
+              </td>
+
+              <td
+                style="
+                  font-weight:800;
+                  color:#dc2626;
+                "
+              >
+                ${escapeHTML(
+                  item.supplier_price ||
+                  "-"
+                )}
+              </td>
+
+            </tr>
+          `
+        )
+        .join("");
+
+
+  } catch (error) {
+
+    console.error(
+      "컴오아시스 회신 상세 조회 오류:",
+      error
+    );
+
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="6"
+          style="
+            padding:30px;
+            text-align:center;
+            color:#dc2626;
+          "
+        >
+          회신 품목을 불러오지 못했습니다.
+        </td>
+      </tr>
+    `;
+
+
+    alert(
+      "컴오아시스 회신 내용을 불러오지 못했습니다.\n\n" +
+      (
+        error.message ||
+        String(error)
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   컴오아시스 회신 닫기
+===================================== */
+
+function closeSupplierReply() {
+
+  const modal =
+    document.getElementById(
+      "supplierReplyModal"
+    );
+
+  if (modal) {
+
+    modal.classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   컴오아시스 품목명
+===================================== */
+
+function getSupplierPartName(
+  partType
+) {
+
+  const names = {
+
+    Cpu: "CPU",
+    CPU: "CPU",
+
+    MainBoard: "메인보드",
+    메인보드: "메인보드",
+
+    Ram: "메모리",
+    메모리: "메모리",
+
+    Ssd: "SSD",
+    SSD: "SSD",
+
+    Gpu: "그래픽카드",
+    그래픽카드: "그래픽카드",
+
+    Power: "파워",
+    파워: "파워",
+
+    Case: "케이스",
+    케이스: "케이스",
+
+    Cooler: "쿨러",
+    쿨러: "쿨러",
+
+    Monitor: "모니터",
+    모니터: "모니터",
+
+    Etc: "기타",
+    기타: "기타",
+
+    Labor: "공임",
+    공임: "공임"
+
+  };
+
+
+  return (
+    names[partType] ||
+    partType ||
+    "-"
+  );
+
+}
 
 /* =====================================
    상담 상태
