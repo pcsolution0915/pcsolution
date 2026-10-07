@@ -3917,7 +3917,8 @@ async function checkSession() {
         .classList
         .remove("hidden");
 
-      await loadProducts();
+          await loadProducts();
+      await loadPartMaster();
       await loadQuoteRequests();
       
     }
@@ -9203,6 +9204,170 @@ document.addEventListener(
 
   }
 );
+
+/* =====================================
+   V2.0 PC 부품 목록 불러오기
+===================================== */
+
+async function loadPartMaster() {
+
+  const list =
+    document.getElementById(
+      "partMasterList"
+    );
+
+  if (!list) {
+    return;
+  }
+
+  list.innerHTML =
+    "등록된 부품을 불러오는 중입니다...";
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("product_master")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML = `
+        <div style="
+          padding:25px;
+          text-align:center;
+          color:#667085;
+        ">
+          등록된 PC 부품이 없습니다.
+        </div>
+      `;
+
+      return;
+    }
+
+    list.innerHTML =
+      data.map(part => {
+
+        const purchasePrice =
+          Number(
+            part.purchase_price || 0
+          ).toLocaleString("ko-KR");
+
+        const salePrice =
+          Number(
+            part.sale_price || 0
+          ).toLocaleString("ko-KR");
+
+        return `
+          <div style="
+            padding:16px;
+            margin-bottom:10px;
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+            background:#fff;
+          ">
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              gap:12px;
+              flex-wrap:wrap;
+            ">
+
+              <div>
+
+                <strong style="
+                  font-size:16px;
+                ">
+                  ${escapeHTML(
+                    part.manufacturer || ""
+                  )}
+                  ${escapeHTML(
+                    part.model_name || ""
+                  )}
+                </strong>
+
+                <div style="
+                  margin-top:6px;
+                  color:#667085;
+                  font-size:13px;
+                ">
+                  ${escapeHTML(
+                    part.part_type || "-"
+                  )}
+                  ·
+                  ${escapeHTML(
+                    part.stock_status || "-"
+                  )}
+                </div>
+
+              </div>
+
+              <div style="
+                text-align:right;
+                font-size:13px;
+                line-height:1.7;
+              ">
+
+                <div>
+                  매입가
+                  <strong>
+                    ${purchasePrice}원
+                  </strong>
+                </div>
+
+                <div style="
+                  color:#1769e0;
+                ">
+                  판매가
+                  <strong>
+                    ${salePrice}원
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  } catch (error) {
+
+    console.error(
+      "PC 부품 목록 조회 오류:",
+      error
+    );
+
+    list.innerHTML = `
+      <div style="
+        padding:20px;
+        color:#dc2626;
+      ">
+        PC 부품을 불러오지 못했습니다.
+        <br>
+        ${escapeHTML(
+          error.message ||
+          String(error)
+        )}
+      </div>
+    `;
+
+  }
+
+}
 
 </script>
 
