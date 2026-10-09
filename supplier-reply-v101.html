@@ -779,6 +779,29 @@ async function initSupplierReplyPage() {
 
 }
 
+/* =====================================
+   컴오아시스 택배비 판별
+
+   기존 공임과 택배비 구분
+===================================== */
+
+function isShippingItem(row) {
+
+  return (
+
+    ["공임", "Labor"].includes(
+      row.part_type
+    )
+
+    &&
+
+    String(
+      row.model_name || ""
+    ).trim() === "택배비"
+
+  );
+
+}
 
 /* =====================================
    견적 화면 출력
@@ -862,9 +885,9 @@ function renderQuote(rows) {
 
               <th>
                 ${escapeHtml(
-                  getPartName(
-                    row.part_type
-                  )
+                  isShippingItem(row)
+  ? "🚚 택배비"
+  : getPartName(row.part_type)
                 )}
               </th>
 
@@ -889,7 +912,7 @@ function renderQuote(rows) {
                <td class="qty-cell">
 
   ${
-    ["공임", "Labor"].includes(row.part_type)
+    isShippingItem(row)
 
     ? `
       <input
@@ -1087,8 +1110,8 @@ function getPartName(partType) {
     Monitor: "모니터",
     Etc: "기타",
 
-    Labor: "택배비",
-    "공임": "택배비"
+   Labor: "공임",
+"공임": "공임"
   };
 
   return (
