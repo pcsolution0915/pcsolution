@@ -1,1 +1,1478 @@
+<!DOCTYPE html>
+<html lang="ko">
 
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    PC SOLUTION - 컴오아시스 견적 회신
+  </title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 14px 50px;
+      background: #f4f7fb;
+      color: #172033;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans KR",
+        sans-serif;
+    }
+
+    .page-wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .header-box {
+      padding: 22px;
+      margin-bottom: 18px;
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    .header-box h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .header-box p {
+      margin: 8px 0 0;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    .info-box {
+      display: none;
+      padding: 16px;
+      margin-bottom: 18px;
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-left: 6px;
+      border-radius: 999px;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .status-badge.complete {
+      background: #ecfdf3;
+      color: #15803d;
+    }
+
+    .content-box {
+      display: none;
+      background: #ffffff;
+      border: 1px solid #dbe3ee;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 960px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 11px 9px;
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #eef2f7;
+      vertical-align: middle;
+      text-align: left;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    thead th {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    tbody th {
+      width: 105px;
+      background: #f8fafc;
+      color: #334155;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .model-cell,
+    .spec-cell {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      line-height: 1.45;
+    }
+
+    .qty-cell {
+      width: 70px;
+      text-align: center;
+    }
+
+    .reply-cell {
+      width: 190px;
+    }
+
+    .reply-input {
+      width: 100%;
+      min-width: 165px;
+      padding: 10px 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      font: inherit;
+    }
+
+    .reply-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .reply-input:disabled {
+      background: #f1f5f9;
+      color: #475569;
+      cursor: not-allowed;
+    }
+
+    .bottom-box {
+      padding: 20px;
+    }
+
+    .bottom-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    #supplierMessage {
+      width: 100%;
+      min-height: 110px;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      resize: vertical;
+      font: inherit;
+      line-height: 1.6;
+    }
+
+    #supplierMessage:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    #supplierMessage:disabled {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .guide {
+      margin-top: 8px;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 18px;
+    }
+
+    .submit-button {
+      padding: 12px 22px;
+      border: 0;
+      border-radius: 9px;
+      background: #1769e0;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background: #0f5bc8;
+    }
+
+    .submit-button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      padding: 16px;
+      margin-bottom: 18px;
+      border-radius: 11px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .message.loading {
+      display: block;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .message.error {
+      display: block;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+    }
+
+    .message.success {
+      display: block;
+      background: #ecfdf3;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+    }
+
+    @media (max-width: 700px) {
+
+      body {
+        padding: 14px 8px 35px;
+      }
+
+      .header-box {
+        padding: 17px;
+      }
+
+      .header-box h1 {
+        font-size: 21px;
+      }
+
+      .bottom-box {
+        padding: 16px;
+      }
+
+      .submit-button {
+        width: 100%;
+      }
+
+    }
+
+/* =====================================
+   택배비 수량 입력
+===================================== */
+
+.shipping-qty-input {
+  width: 70px;
+  padding: 9px 5px;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.shipping-qty-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+.shipping-qty-input:disabled {
+  background: #f1f5f9;
+  color: #64748b;
+  border-color: #cbd5e1;
+}
+
+/* =====================================
+   컴오아시스 견적 합계
+===================================== */
+
+.quote-total-box {
+  margin: 20px;
+  padding: 24px;
+  background: #eff6ff;
+  border: 2px solid #bfdbfe;
+  border-radius: 14px;
+  text-align: right;
+}
+
+.quote-total-title {
+  color: #334155;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.quote-total-amount {
+  color: #1769e0;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.quote-total-guide {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+@media(max-width: 700px) {
+
+  .quote-total-box {
+    margin: 12px;
+    padding: 18px;
+  }
+
+  .quote-total-amount {
+    font-size: 26px;
+  }
+
+}
+
+/* =====================================
+   PDF 출력 버튼
+===================================== */
+
+.actions {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.print-button {
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 9px;
+  background: #059669;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background: #047857;
+}
+
+/* =====================================
+   PDF 출력 전용 화면
+===================================== */
+
+#printQuoteSheet {
+  display: none;
+}
+
+@page {
+  size: A4 landscape;
+  margin: 12mm;
+}
+
+@media print {
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  .page-wrap {
+    display: none !important;
+  }
+
+  #printQuoteSheet {
+    display: block !important;
+    color: #111827;
+    font-size: 11px;
+  }
+
+  #printQuoteSheet h1 {
+    text-align: center;
+    font-size: 23px;
+    margin-bottom: 20px;
+  }
+
+  #printQuoteSheet table {
+    width: 100%;
+    min-width: 0 !important;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+
+  #printQuoteSheet th,
+  #printQuoteSheet td {
+    border: 1px solid #cbd5e1;
+    padding: 7px 5px;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  #printQuoteSheet thead th {
+    background: #e2e8f0 !important;
+  }
+
+  #printQuoteSheet tr {
+    break-inside: avoid;
+  }
+
+  #printQuoteSheet .print-total {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #334155;
+    text-align: right;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  #printQuoteSheet .print-note {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+}
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="page-wrap">
+
+    <div class="header-box">
+
+      <h1>
+        📋 PC SOLUTION 견적 회신
+      </h1>
+
+      <p>
+        컴오아시스 담당자 전용 페이지입니다.<br>
+        요청된 품목을 확인한 후 각 품목의 공급금액 또는
+        재고 상태를 입력해 주세요.
+      </p>
+
+    </div>
+
+
+    <div
+      id="pageMessage"
+      class="message loading"
+    >
+      견적 정보를 불러오는 중입니다.
+    </div>
+
+
+    <div
+      id="quoteInfo"
+      class="info-box"
+    >
+
+      <div>
+        <strong>상담번호 :</strong>
+        <span id="publicCode">-</span>
+      </div>
+
+      <div>
+        <strong>회신 상태 :</strong>
+        <span
+          id="replyStatus"
+          class="status-badge"
+        >
+          회신대기
+        </span>
+      </div>
+
+    </div>
+
+
+    <div
+      id="quoteContent"
+      class="content-box"
+    >
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>품목</th>
+              <th>제조사</th>
+              <th>모델명</th>
+              <th>세부사양</th>
+              <th>수량</th>
+              <th>컴오아시스 회신</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="quoteItems"></tbody>
+
+              </table>
+
+    </div>
+
+    <!-- =====================================
+         견적 합계금액
+    ===================================== -->
+
+    <div class="quote-total-box">
+
+      <div class="quote-total-title">
+        💰 컴오아시스 견적 합계
+      </div>
+
+      <div
+        id="quoteTotalAmount"
+        class="quote-total-amount"
+      >
+        0원
+      </div>
+
+      <div
+        id="quoteTotalGuide"
+        class="quote-total-guide"
+      >
+        공급단가를 입력하면 합계가 자동 계산됩니다.
+      </div>
+
+    </div>
+
+
+    <div class="bottom-box">
+
+        <label for="supplierMessage">
+          📝 추가 회신 내용
+        </label>
+
+        <textarea
+          id="supplierMessage"
+          placeholder="필요한 경우 추가 전달사항을 입력해 주세요."
+        ></textarea>
+
+        <div class="guide">
+          각 품목의 회신란에는 공급금액뿐 아니라
+          ‘품절’, ‘단종’, ‘대체품 문의’ 등의 내용도 입력할 수 있습니다.
+        </div>
+
+        <div class="actions">
+
+          <button
+            id="submitButton"
+            type="button"
+            class="submit-button"
+            onclick="submitReply()"
+          >
+            📤 PC SOLUTION에 회신하기
+          </button>
+
+           <!-- PDF 출력 버튼 -->
+
+<button
+  id="printButton"
+  type="button"
+  class="print-button"
+  onclick="printSupplierQuote()"
+>
+  🖨️ PDF 출력
+</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+<script>
+
+/* =====================================
+   Supabase 설정
+===================================== */
+
+const SUPABASE_URL =
+  "https://znsgehjaspiqluopovyv.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================
+   전역 변수
+===================================== */
+
+let replyToken = "";
+let currentRows = [];
+
+
+/* =====================================
+   HTML 보호
+===================================== */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* =====================================
+   메시지
+===================================== */
+
+function showPageMessage(
+  message,
+  type
+) {
+
+  const element =
+    document.getElementById(
+      "pageMessage"
+    );
+
+  element.textContent = message;
+  element.className =
+    "message " + type;
+  element.style.display = "block";
+
+}
+
+
+function hidePageMessage() {
+
+  document
+    .getElementById("pageMessage")
+    .style
+    .display = "none";
+
+}
+
+
+/* =====================================
+   URL 토큰 읽기
+===================================== */
+
+function getReplyToken() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  return (
+    params.get("token") || ""
+  ).trim();
+
+}
+
+
+/* =====================================
+   페이지 초기화
+===================================== */
+
+async function initSupplierReplyPage() {
+
+  replyToken = getReplyToken();
+
+  if (!replyToken) {
+
+    showPageMessage(
+      "유효한 회신 링크가 아닙니다.\nPC SOLUTION에서 전달받은 링크를 다시 확인해 주세요.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const { data, error } =
+    await supabaseClient.rpc(
+      "get_supplier_quote_by_token",
+      {
+        p_reply_token: replyToken
+      }
+    );
+
+
+  if (error) {
+
+    console.error(
+      "컴오아시스 견적 조회 오류:",
+      error
+    );
+
+    showPageMessage(
+      "견적 정보를 불러오지 못했습니다.\nPC SOLUTION에 문의해 주세요.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    !Array.isArray(data) ||
+    data.length === 0
+  ) {
+
+    showPageMessage(
+      "존재하지 않거나 사용할 수 없는 회신 링크입니다.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  currentRows = data;
+
+  renderQuote(data);
+
+}
+
+
+/* =====================================
+   견적 화면 출력
+===================================== */
+
+function renderQuote(rows) {
+
+  const first = rows[0];
+
+  document.getElementById(
+    "publicCode"
+  ).textContent =
+    first.public_code || "-";
+
+
+  const statusElement =
+    document.getElementById(
+      "replyStatus"
+    );
+
+  statusElement.textContent =
+    first.reply_status || "회신대기";
+
+
+  const isCompleted =
+    first.reply_status === "회신완료";
+
+
+  if (isCompleted) {
+
+    statusElement.classList.add(
+      "complete"
+    );
+
+  } else {
+
+    statusElement.classList.remove(
+      "complete"
+    );
+
+  }
+
+
+  const validRows =
+    rows.filter(
+      row => row.item_id !== null
+    );
+
+
+  const tbody =
+    document.getElementById(
+      "quoteItems"
+    );
+
+
+  if (validRows.length === 0) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td
+          colspan="6"
+          style="
+            padding:30px;
+            text-align:center;
+            color:#94a3b8;
+          "
+        >
+          등록된 견적 품목이 없습니다.
+        </td>
+      </tr>
+    `;
+
+  } else {
+
+    tbody.innerHTML =
+      validRows
+        .map(function(row) {
+
+          return `
+            <tr>
+
+              <th>
+                ${escapeHtml(
+                  getPartName(
+                    row.part_type
+                  )
+                )}
+              </th>
+
+              <td>
+                ${escapeHtml(
+                  row.manufacturer || "-"
+                )}
+              </td>
+
+              <td class="model-cell">
+                ${escapeHtml(
+                  row.model_name || "-"
+                )}
+              </td>
+
+              <td class="spec-cell">
+                ${escapeHtml(
+                  row.specification || "-"
+                )}
+              </td>
+
+               <td class="qty-cell">
+
+  ${
+    ["공임", "Labor"].includes(row.part_type)
+
+    ? `
+      <input
+        type="number"
+        class="shipping-qty-input"
+        data-item-id="${Number(row.item_id)}"
+        min="1"
+        step="1"
+        value="${Math.max(1, Number(row.quantity) || 1)}"
+        ${isCompleted ? "disabled" : ""}
+      >
+    `
+
+    : escapeHtml(row.quantity ?? 1)
+  }
+
+</td>              
+
+              <td class="reply-cell">
+
+                <input
+                  type="text"
+                  class="reply-input"
+                  data-item-id="${row.item_id}"
+                  value="${escapeHtml(
+                    row.supplier_price || ""
+                  )}"
+                  placeholder="금액 / 품절 / 단종"
+                  ${isCompleted
+                    ? "disabled"
+                    : ""}
+                >
+
+              </td>
+
+            </tr>
+          `;
+
+        })
+        .join("");
+
+  }
+
+
+  const supplierMessage =
+    document.getElementById(
+      "supplierMessage"
+    );
+
+  supplierMessage.value =
+    first.supplier_message || "";
+
+  supplierMessage.disabled =
+    isCompleted;
+
+
+  const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
+
+
+  if (isCompleted) {
+
+    submitButton.disabled = true;
+    submitButton.textContent =
+      "✅ 회신 완료";
+
+    showPageMessage(
+      "이미 PC SOLUTION에 회신이 완료된 견적입니다.",
+      "success"
+    );
+
+  } else {
+
+    submitButton.disabled = false;
+    submitButton.textContent =
+      "📤 PC SOLUTION에 회신하기";
+
+    hidePageMessage();
+
+  }
+
+
+  document.getElementById(
+    "quoteInfo"
+  ).style.display = "block";
+
+    document.getElementById(
+    "quoteContent"
+  ).style.display = "block";
+
+
+  /* =====================================
+     단가 및 택배비 수량 변경 시 자동계산
+  ===================================== */
+
+  tbody.oninput = updateQuoteTotal;
+
+  updateQuoteTotal();
+
+}
+
+/* =====================================
+   컴오아시스 견적 합계 자동 계산
+===================================== */
+
+function updateQuoteTotal() {
+
+  let total = 0;
+  let excludedCount = 0;
+
+  const rows =
+    document.querySelectorAll(
+      "#quoteItems tr"
+    );
+
+  rows.forEach(function(row) {
+
+    const priceInput =
+      row.querySelector(".reply-input");
+
+    if (!priceInput) {
+      return;
+    }
+
+    const priceText =
+      priceInput.value
+        .replaceAll(",", "")
+        .replaceAll("원", "")
+        .trim();
+
+    // 품절, 단종, 미입력 등은 합계에서 제외
+    if (!/^\d+$/.test(priceText)) {
+      excludedCount++;
+      return;
+    }
+
+    const price = Number(priceText);
+
+    const shippingQty =
+      row.querySelector(
+        ".shipping-qty-input"
+      );
+
+    const qtyCell =
+      row.querySelector(".qty-cell");
+
+    const quantity = shippingQty
+      ? Number(shippingQty.value)
+      : Number(qtyCell.textContent.trim());
+
+    if (
+      !Number.isSafeInteger(quantity) ||
+      quantity < 1 ||
+      !Number.isSafeInteger(price)
+    ) {
+      excludedCount++;
+      return;
+    }
+
+    total += price * quantity;
+
+  });
+
+  document.getElementById(
+    "quoteTotalAmount"
+  ).textContent =
+    total.toLocaleString("ko-KR") + "원";
+
+  document.getElementById(
+    "quoteTotalGuide"
+  ).textContent =
+    excludedCount > 0
+      ? `금액 미입력 또는 계산 제외 품목 ${excludedCount}개가 있습니다. 표시된 합계는 일부 품목 기준입니다.`
+      : "모든 품목의 금액이 합계에 반영되었습니다.";
+
+}
+
+/* =====================================
+   품목명 표시
+===================================== */
+
+function getPartName(partType) {
+
+  const names = {
+    Cpu: "CPU",
+    MainBoard: "메인보드",
+    Ram: "메모리",
+    Ssd: "SSD",
+    Gpu: "그래픽카드",
+    Power: "파워",
+    Case: "케이스",
+    Cooler: "쿨러",
+    Monitor: "모니터",
+    Etc: "기타",
+
+    Labor: "택배비",
+    "공임": "택배비"
+  };
+
+  return (
+    names[partType] ||
+    partType ||
+    "-"
+  );
+
+}
+
+
+/* =====================================
+   회신 전송
+===================================== */
+
+async function submitReply() {
+
+  const submitButton =
+    document.getElementById(
+      "submitButton"
+    );
+
+
+  const inputs =
+    Array.from(
+      document.querySelectorAll(
+        ".reply-input"
+      )
+    );
+
+
+  if (inputs.length === 0) {
+
+    alert(
+      "회신할 견적 품목이 없습니다."
+    );
+
+    return;
+  }
+
+/* =====================================
+   회신 품목 데이터 만들기
+   택배비 수량만 추가 전송
+===================================== */
+
+  let invalidShippingQuantity = false;
+
+  const items =
+    inputs.map(function(input) {
+
+      const item = {
+
+        item_id:
+          Number(input.dataset.itemId),
+
+        supplier_price:
+          input.value.trim()
+
+      };
+
+      // 해당 품목의 행 찾기
+      const row = input.closest("tr");
+
+      // 택배비 수량 입력칸 찾기
+      const shippingInput =
+        row.querySelector(
+          ".shipping-qty-input"
+        );
+
+      // 택배비 항목에만 수량 추가
+      if (shippingInput) {
+
+        const rawQuantity =
+          shippingInput.value.trim();
+
+        const quantity =
+          Number(rawQuantity);
+
+        if (
+          !/^[1-9]\d*$/.test(rawQuantity) ||
+          !Number.isSafeInteger(quantity)
+        ) {
+
+          invalidShippingQuantity = true;
+
+        } else {
+
+          item.quantity = quantity;
+
+        }
+
+      }
+
+      return item;
+
+    });
+
+
+  // 택배비 수량 검사
+  if (invalidShippingQuantity) {
+
+    alert(
+      "택배비 박스 수는 1 이상의 정수로 입력해 주세요."
+    );
+
+    return;
+
+  }
+  
+  const hasAnyReply =
+    items.some(
+      item =>
+        item.supplier_price !== ""
+    );
+
+
+  const supplierMessage =
+    document
+      .getElementById(
+        "supplierMessage"
+      )
+      .value
+      .trim();
+
+
+  if (
+    !hasAnyReply &&
+    supplierMessage === ""
+  ) {
+
+    alert(
+      "최소 한 개 이상의 품목 회신 또는 추가 회신 내용을 입력해 주세요."
+    );
+
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+      "입력한 내용을 PC SOLUTION에 회신하시겠습니까?\n\n회신 완료 후에는 이 페이지에서 수정할 수 없습니다."
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  submitButton.disabled = true;
+  submitButton.textContent =
+    "회신 전송 중...";
+
+
+  const { error } =
+    await supabaseClient.rpc(
+      "submit_supplier_quote_reply_v101",
+      {
+        p_reply_token:
+          replyToken,
+
+        p_supplier_message:
+          supplierMessage,
+
+        p_items:
+          items
+      }
+    );
+
+
+  if (error) {
+
+    console.error(
+      "컴오아시스 회신 저장 오류:",
+      error
+    );
+
+    alert(
+      "회신 저장 중 오류가 발생했습니다.\n잠시 후 다시 시도해 주세요."
+    );
+
+    submitButton.disabled = false;
+    submitButton.textContent =
+      "📤 PC SOLUTION에 회신하기";
+
+    return;
+  }
+
+
+  alert(
+    "PC SOLUTION에 회신이 정상적으로 전달되었습니다."
+  );
+
+
+  await initSupplierReplyPage();
+
+}
+
+/* =====================================
+   컴오아시스 견적 PDF 출력
+===================================== */
+
+function printSupplierQuote() {
+
+  const rows = document.querySelectorAll(
+    "#quoteItems tr"
+  );
+
+  let tableRows = "";
+  let total = 0;
+  let excludedCount = 0;
+
+  rows.forEach(function(row) {
+
+    const input = row.querySelector(
+      ".reply-input"
+    );
+
+    if (!input) return;
+
+    const cells = row.querySelectorAll("td");
+
+    const part =
+      row.querySelector("th")?.textContent.trim() || "-";
+
+    const maker =
+      cells[0]?.textContent.trim() || "-";
+
+    const model =
+      cells[1]?.textContent.trim() || "-";
+
+    const spec =
+      cells[2]?.textContent.trim() || "-";
+
+    const shippingInput = row.querySelector(
+      ".shipping-qty-input"
+    );
+
+    const quantityText = shippingInput
+      ? shippingInput.value.trim()
+      : row.querySelector(".qty-cell")?.textContent.trim() || "";
+
+    const quantity = Number(quantityText);
+
+    const priceText = input.value.trim();
+
+    const numericText = priceText
+      .replaceAll(",", "")
+      .replaceAll("원", "")
+      .trim();
+
+    const price = Number(numericText);
+
+    const valid =
+      /^\d+$/.test(numericText) &&
+      /^[1-9]\d*$/.test(quantityText) &&
+      Number.isSafeInteger(price) &&
+      Number.isSafeInteger(quantity) &&
+      Number.isSafeInteger(price * quantity);
+
+    const amount = valid
+      ? price * quantity
+      : null;
+
+    if (valid) {
+      total += amount;
+    } else {
+      excludedCount++;
+    }
+
+    tableRows += `
+      <tr>
+        <td>${escapeHtml(part)}</td>
+        <td>${escapeHtml(maker)}</td>
+        <td>${escapeHtml(model)}</td>
+        <td>${escapeHtml(spec)}</td>
+        <td>${escapeHtml(quantityText)}</td>
+        <td>${escapeHtml(priceText || "-")}</td>
+        <td>
+          ${amount === null
+            ? "-"
+            : amount.toLocaleString("ko-KR") + "원"}
+        </td>
+      </tr>
+    `;
+
+  });
+
+  if (!tableRows) {
+    alert("출력할 견적 품목이 없습니다.");
+    return;
+  }
+
+  if (!Number.isSafeInteger(total)) {
+    alert("합계금액이 너무 큽니다. 입력값을 확인해 주세요.");
+    return;
+  }
+
+  const code = document.getElementById(
+    "publicCode"
+  ).textContent;
+
+  const status = document.getElementById(
+    "replyStatus"
+  ).textContent;
+
+  const message = document.getElementById(
+    "supplierMessage"
+  ).value.trim();
+
+  const today = new Date().toLocaleDateString(
+    "ko-KR"
+  );
+
+  let printArea = document.getElementById(
+    "printQuoteSheet"
+  );
+
+  if (!printArea) {
+    printArea = document.createElement("section");
+    printArea.id = "printQuoteSheet";
+    document.body.appendChild(printArea);
+  }
+
+  printArea.innerHTML = `
+    <h1>컴오아시스 견적 회신서</h1>
+
+    <p><strong>수신 :</strong> PC SOLUTION</p>
+    <p><strong>발신 :</strong> 컴오아시스</p>
+    <p><strong>상담번호 :</strong> ${escapeHtml(code)}</p>
+    <p><strong>회신 상태 :</strong> ${escapeHtml(status)}</p>
+    <p><strong>출력일 :</strong> ${escapeHtml(today)}</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>품목</th>
+          <th>제조사</th>
+          <th>모델명</th>
+          <th>세부사양</th>
+          <th>수량</th>
+          <th>공급단가 / 상태</th>
+          <th>금액</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${tableRows}
+      </tbody>
+    </table>
+
+    <div class="print-total">
+      총 합계금액 :
+      ${total.toLocaleString("ko-KR")}원
+    </div>
+
+    ${
+      excludedCount > 0
+        ? `<p>※ 금액 미입력 또는 계산 제외 품목
+           ${excludedCount}개가 있습니다.
+           표시된 합계는 일부 품목 기준입니다.</p>`
+        : ""
+    }
+
+    <div class="print-note">
+      <strong>추가 회신 내용</strong>
+      <p>${escapeHtml(message || "없음")}</p>
+    </div>
+  `;
+
+  window.print();
+
+}
+
+/* =====================================
+   시작
+===================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initSupplierReplyPage
+);
+
+</script>
+
+</body>
+</html>
