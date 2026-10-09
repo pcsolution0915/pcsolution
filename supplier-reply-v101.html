@@ -646,7 +646,73 @@
   }
 
 }
-  </style>
+  
+/* =====================================
+   V1.0.1 PDF 최종 디자인 조정
+
+   A4 세로 유지
+   글씨 확대
+   행 높이 축소
+===================================== */
+
+@media print {
+
+  /* 견적서 제목 */
+
+  #printQuoteSheet h1 {
+    font-size: 22px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* 표 전체 글씨 확대 */
+
+  #printQuoteSheet th,
+  #printQuoteSheet td {
+
+    font-size: 12px !important;
+
+    padding: 4px 4px !important;
+
+    line-height: 1.25 !important;
+
+    height: auto !important;
+
+    min-height: 0 !important;
+
+    vertical-align: middle !important;
+
+  }
+
+  /* 표 제목 글씨 */
+
+  #printQuoteSheet thead th {
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    padding: 6px 3px !important;
+  }
+
+  /* 합계금액 */
+
+  #printQuoteSheet .print-total {
+    font-size: 19px !important;
+    padding: 10px !important;
+    margin-top: 12px !important;
+  }
+
+  /* 추가 회신 내용 */
+
+  #printQuoteSheet .print-note {
+    font-size: 12px !important;
+    margin-top: 12px !important;
+  }
+
+  #printQuoteSheet .print-note p {
+    font-size: 12px !important;
+  }
+
+}
+
+</style>
 </head>
 
 
