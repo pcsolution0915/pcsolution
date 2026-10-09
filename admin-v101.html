@@ -3160,6 +3160,56 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
     </div>
 
+     <!-- =====================================
+     V1.0.1 컴오아시스 회신 합계금액
+===================================== -->
+
+<div
+  id="supplierReplyTotalBox"
+  style="
+    margin-top:15px;
+    padding:20px;
+    background:#eff6ff;
+    border:2px solid #bfdbfe;
+    border-radius:12px;
+    text-align:right;
+  "
+>
+
+  <div
+    style="
+      font-size:15px;
+      font-weight:700;
+      color:#334155;
+      margin-bottom:8px;
+    "
+  >
+    💰 컴오아시스 견적 합계
+  </div>
+
+  <div
+    id="supplierReplyTotalAmount"
+    style="
+      font-size:30px;
+      font-weight:800;
+      color:#1769e0;
+    "
+  >
+    0원
+  </div>
+
+  <div
+    id="supplierReplyTotalGuide"
+    style="
+      margin-top:8px;
+      font-size:12px;
+      color:#64748b;
+    "
+  >
+    공급단가와 수량을 기준으로 계산됩니다.
+  </div>
+
+</div>    
 
     <div
       style="
@@ -5835,6 +5885,94 @@ currentSupplierReply =
 
     currentSupplierReplyItems =
   items || [];
+
+/* =====================================
+   V1.0.1 컴오아시스 회신 합계 계산
+===================================== */
+
+let supplierTotal = 0;
+let supplierExcludedCount = 0;
+
+currentSupplierReplyItems.forEach(function(item) {
+
+  /* 공급단가 문자열 정리 */
+
+  const priceText =
+    String(item.supplier_price ?? "")
+      .replaceAll(",", "")
+      .replaceAll("원", "")
+      .trim();
+
+  /* 품절 / 단종 / 미입력 제외 */
+
+  if (!/^\d+$/.test(priceText)) {
+
+    supplierExcludedCount++;
+    return;
+
+  }
+
+  const price = Number(priceText);
+
+  const quantity = Number(
+    item.quantity
+  );
+
+  /* 올바른 금액과 수량인지 검사 */
+
+  if (
+    !Number.isSafeInteger(price) ||
+    !Number.isSafeInteger(quantity) ||
+    quantity < 1
+  ) {
+
+    supplierExcludedCount++;
+    return;
+
+  }
+
+  const amount = price * quantity;
+
+  if (
+    !Number.isSafeInteger(amount) ||
+    !Number.isSafeInteger(supplierTotal + amount)
+  ) {
+
+    supplierExcludedCount++;
+    return;
+
+  }
+
+  /* 합계 누적 */
+
+  supplierTotal += amount;
+
+});
+
+
+/* =====================================
+   합계금액 화면 표시
+===================================== */
+
+document.getElementById(
+  "supplierReplyTotalAmount"
+).textContent =
+  supplierTotal.toLocaleString("ko-KR") + "원";
+
+
+/* =====================================
+   계산 제외 품목 안내
+===================================== */
+
+document.getElementById(
+  "supplierReplyTotalGuide"
+).textContent =
+
+  supplierExcludedCount > 0
+
+    ? `금액 미입력 또는 계산 제외 품목 ${supplierExcludedCount}개가 있습니다. 표시된 합계는 일부 품목 기준입니다.`
+
+    : "모든 품목의 공급금액이 합계에 반영되었습니다.";
 
     /* =====================================
        회신 일시
