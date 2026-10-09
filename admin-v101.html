@@ -2978,14 +2978,50 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierEtcQty" type="number" value="1" min="0"></td>
           </tr>
 
-          <tr>
-            <th>공임</th>
+          <!-- =====================================
+     컴오아시스 전용 택배비
+     고객 견적 공임과 분리
+===================================== -->
 
-            <td><input id="supplierLaborMaker" value="-" placeholder="-"></td>
-            <td><input id="supplierLaborModel" placeholder="조립 및 세팅"></td>
-            <td><textarea id="supplierLaborSpec" placeholder="조립 / 테스트 / 세팅 등"></textarea></td>
-            <td><input id="supplierLaborQty" type="number" value="1" min="0"></td>
-          </tr>
+<tr>
+
+  <th>🚚 택배비</th>
+
+  <td>
+    <input
+      id="supplierLaborMaker"
+      value="-"
+      placeholder="-"
+      readonly
+    >
+  </td>
+
+  <td>
+    <input
+      id="supplierLaborModel"
+      value="택배비"
+      readonly
+    >
+  </td>
+
+  <td>
+    <textarea
+      id="supplierLaborSpec"
+      readonly
+    >박스당 배송비</textarea>
+  </td>
+
+  <td>
+    <input
+      id="supplierLaborQty"
+      type="number"
+      value="1"
+      min="1"
+      readonly
+    >
+  </td>
+
+</tr>
 
         </tbody>
 
@@ -8090,13 +8126,17 @@ function copyEstimateToSupplierQuote() {
 
   }
 
-
   parts.forEach(function(part) {
+
+    // 일반 PC 부품은 고객 견적에서 복사
+    // 공임은 복사하지 않음
+    if (part === "Labor") {
+      return;
+    }
 
     copyValue(
       "estimate" + part + "Maker",
-      "supplier" + part + "Maker",
-      part === "Labor" ? "-" : ""
+      "supplier" + part + "Maker"
     );
 
     copyValue(
@@ -8116,6 +8156,47 @@ function copyEstimateToSupplierQuote() {
     );
 
   });
+
+
+  /* =====================================
+     컴오아시스 택배비 자동 입력
+     고객 견적 공임과 완전히 분리
+  ===================================== */
+
+  const shippingFields = {
+
+    supplierLaborMaker: "-",
+
+    supplierLaborModel: "택배비",
+
+    supplierLaborSpec: "박스당 배송비",
+
+    supplierLaborQty: "1"
+
+  };
+
+
+  Object.entries(shippingFields)
+    .forEach(function([id, value]) {
+
+      const element =
+        document.getElementById(id);
+
+      if (element) {
+
+        element.value = value;
+
+      } else {
+
+        console.error(
+          "택배비 입력칸 없음:",
+          id
+        );
+
+      }
+
+    });
+  
 
 
   const request =
