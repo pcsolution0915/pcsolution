@@ -2181,6 +2181,44 @@ body.printing-customer-quote #quoteModal .danawa-area {
 .registered-picker-model small { color:#64748b; }
 @media print { #registeredPartPicker,#quoteModal .registered-external-search,#quoteModal .registered-part-guide { display:none !important; } #quoteModal .registered-part-trigger { background:none !important; padding:0 !important; color:#172033 !important; border:0 !important; } }
 </style>
+<style>
+.part-catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;}
+.part-category-card{border:1px solid #dbe4f0;border-radius:14px;background:#fff;padding:17px;display:flex;flex-direction:column;min-width:0;}
+.part-category-card header{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.part-category-card h4{font-size:17px;margin:0;color:#172033;}
+.part-category-card header span{background:#edf4ff;color:#1769e0;border-radius:20px;padding:4px 10px;font-weight:700;}
+.part-category-card ul{margin:14px 0;padding-left:18px;min-height:70px;line-height:1.8;font-size:13px;color:#475569;}
+.part-category-card li{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.part-category-select{margin-top:auto;border:0;border-radius:8px;padding:10px;background:#1769e0;color:#fff;cursor:pointer;font-weight:700;}
+.part-catalog-summary,.part-catalog-muted{font-size:13px;color:#64748b;line-height:1.6;}
+#partCatalogDialog[hidden]{display:none!important;}
+#partCatalogDialog{position:fixed;inset:0;background:#0f172a88;z-index:11010;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;}
+.part-catalog-panel{background:#fff;border-radius:16px;width:min(920px,100%);max-height:90vh;padding:22px;box-sizing:border-box;display:flex;flex-direction:column;}
+.part-catalog-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px;}
+.part-catalog-header h2{font-size:20px;margin:0;}
+#partCatalogContent{overflow-y:auto;overscroll-behavior:contain;min-height:100px;}
+#partCatalogDialog button{cursor:pointer;}
+#partCatalogDialog button:disabled{opacity:.5;cursor:default;}
+#partCatalogClose,#partCatalogBack,.part-catalog-pagination button,.part-catalog-actions button{border:1px solid #cbd5e1;border-radius:8px;padding:9px 14px;background:#fff;color:#172033;}
+.part-catalog-search{display:block;font-size:13px;font-weight:700;}
+.part-catalog-search input,.part-catalog-edit-grid input,.part-catalog-edit-grid select,.part-catalog-edit-grid textarea{display:block;box-sizing:border-box;width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:10px;margin:6px 0 0;font:inherit;background:#fff;color:#172033;}
+.part-catalog-model{display:flex;flex-direction:column;gap:7px;text-align:left;padding:16px;border:1px solid #dbe4f0;border-radius:12px;background:#f8fbff;color:#172033;min-width:0;overflow-wrap:anywhere;}
+.part-catalog-model:hover{border-color:#1769e0;}
+.part-catalog-model>span,.part-catalog-model small{font-size:12px;color:#64748b;}
+.part-catalog-model .part-catalog-spec{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap;}
+.part-catalog-pagination,.part-catalog-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0 4px;}
+#partCatalogFields{margin:16px 0 0;padding:0;border:0;min-width:0;}
+.part-catalog-edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.part-catalog-edit-grid label{font-size:13px;font-weight:700;min-width:0;}
+.part-catalog-edit-grid textarea{min-height:100px;resize:vertical;line-height:1.6;}
+.part-catalog-edit-grid label:has(textarea){grid-column:1/-1;}
+#partCatalogFields:disabled input,#partCatalogFields:disabled textarea,#partCatalogFields:disabled select{opacity:1;color:#172033;background:#f8fafc;}
+#partCatalogSave{background:#1769e0!important;color:#fff!important;border-color:#1769e0!important;}
+.part-catalog-danger{color:#dc2626!important;border-color:#fecaca!important;}
+#partCatalogMessage{font-size:13px;line-height:1.6;color:#1769e0;white-space:pre-wrap;}
+@media(max-width:560px){.part-catalog-grid{grid-template-columns:1fr;}.part-catalog-edit-grid{grid-template-columns:1fr;}.part-catalog-panel{padding:16px;}}
+@media print{#partCatalogDialog{display:none!important;}}
+</style>
 </head>
 
 <body>
@@ -9358,165 +9396,7 @@ async function savePartMaster() {
    V2.0 PC 부품 목록 불러오기
 ===================================== */
 
-async function loadPartMaster() {
-
-  const list =
-    document.getElementById(
-      "partMasterList"
-    );
-
-  if (!list) {
-    return;
-  }
-
-  list.innerHTML =
-    "등록된 부품을 불러오는 중입니다...";
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("product_master")
-        .select("*")
-        .order("id", {
-          ascending: false
-        });
-
-    if (error) {
-      throw error;
-    }
-
-    if (!data || data.length === 0) {
-
-      list.innerHTML = `
-        <div style="
-          padding:25px;
-          text-align:center;
-          color:#667085;
-        ">
-          등록된 PC 부품이 없습니다.
-        </div>
-      `;
-
-      return;
-    }
-
-    list.innerHTML =
-      data.map(part => {
-
-        const purchasePrice =
-          Number(
-            part.purchase_price || 0
-          ).toLocaleString("ko-KR");
-
-        const salePrice =
-          Number(
-            part.sale_price || 0
-          ).toLocaleString("ko-KR");
-
-        return `
-          <div style="
-            padding:16px;
-            margin-bottom:10px;
-            border:1px solid #e5e7eb;
-            border-radius:12px;
-            background:#fff;
-          ">
-
-            <div style="
-              display:flex;
-              justify-content:space-between;
-              gap:12px;
-              flex-wrap:wrap;
-            ">
-
-              <div>
-
-                <strong style="
-                  font-size:16px;
-                ">
-                  ${escapeHTML(
-                    part.manufacturer || ""
-                  )}
-                  ${escapeHTML(
-                    part.model_name || ""
-                  )}
-                </strong>
-
-                <div style="
-                  margin-top:6px;
-                  color:#667085;
-                  font-size:13px;
-                ">
-                  ${escapeHTML(
-                    part.part_type || "-"
-                  )}
-                  ·
-                  ${escapeHTML(
-                    part.stock_status || "-"
-                  )}
-                </div>
-
-              </div>
-
-              <div style="
-                text-align:right;
-                font-size:13px;
-                line-height:1.7;
-              ">
-
-                <div>
-                  매입가
-                  <strong>
-                    ${purchasePrice}원
-                  </strong>
-                </div>
-
-                <div style="
-                  color:#1769e0;
-                ">
-                  판매가
-                  <strong>
-                    ${salePrice}원
-                  </strong>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        `;
-
-      }).join("");
-
-  } catch (error) {
-
-    console.error(
-      "PC 부품 목록 조회 오류:",
-      error
-    );
-
-    list.innerHTML = `
-      <div style="
-        padding:20px;
-        color:#dc2626;
-      ">
-        PC 부품을 불러오지 못했습니다.
-        <br>
-        ${escapeHTML(
-          error.message ||
-          String(error)
-        )}
-      </div>
-    `;
-
-  }
-
-}
+async function loadPartMaster(){ return loadPartCatalog(); }
 
 </script>
 
@@ -10361,6 +10241,126 @@ document.addEventListener('keydown',event=>{
   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
  }
 },true);
+</script>
+<div id="partCatalogDialog" role="dialog" aria-modal="true" aria-labelledby="partCatalogTitle" hidden><div class="part-catalog-panel"><div class="part-catalog-header"><h2 id="partCatalogTitle">등록 부품</h2><button id="partCatalogClose" type="button">닫기</button></div><div id="partCatalogContent"></div></div></div>
+<script>// PCSOLUTION-28: category dashboard, paged list and explicit detail editing.
+let partCatalog={items:[],loaded:false,loadSequence:0,category:'',page:0,query:'',selected:null,editing:false,busy:false,opener:null};
+const partCatalogLabels={...registeredPartLabels,Unclassified:'미분류'};
+function partCatalogCategory(item){return Object.hasOwn(registeredPartLabels,item.part_type)?item.part_type:'Unclassified';}
+function partCatalogMoney(value){if(value===null||value===undefined||value==='')return '미입력';const n=Number(value);return Number.isFinite(n)?n.toLocaleString('ko-KR')+'원':'미입력';}
+async function loadPartCatalog(){
+ const target=document.getElementById('partMasterList'),sequence=++partCatalog.loadSequence;
+ target.textContent='등록된 부품을 불러오는 중입니다.';
+ try{
+  let rows=[],offset=0;
+  while(true){
+   const {data,error}=await supabaseClient.from('product_master').select('*').order('id',{ascending:false}).range(offset,offset+499);
+   if(sequence!==partCatalog.loadSequence)return false;if(error)throw error;
+   const page=Array.isArray(data)?data:[];rows.push(...page);if(page.length<500)break;offset+=500;
+  }
+  partCatalog.items=rows;partCatalog.loaded=true;renderPartCatalogDashboard();return true;
+ }catch(error){if(sequence===partCatalog.loadSequence){partCatalog.loaded=false;target.textContent='부품을 불러오지 못했습니다. 새로고침해 주세요. '+(error.message||'통신 오류');}return false;}
+}
+function renderPartCatalogDashboard(){
+ const keys=Object.keys(registeredPartLabels);if(partCatalog.items.some(x=>partCatalogCategory(x)==='Unclassified'))keys.push('Unclassified');
+ document.getElementById('partMasterList').innerHTML='<p class="part-catalog-summary">총 '+partCatalog.items.length+'개 등록 · 종류별 최근 3개 표시</p><div class="part-catalog-grid">'+keys.map(key=>{
+  const items=partCatalog.items.filter(x=>partCatalogCategory(x)===key);
+  return '<section class="part-category-card"><header><h4>'+escapeHTML(partCatalogLabels[key])+'</h4><span>'+items.length+'개</span></header><ul>'+items.slice(0,3).map(item=>'<li>'+escapeHTML([item.manufacturer,item.model_name].filter(Boolean).join(' '))+'</li>').join('')+'</ul>'+(items.length?'':'<p class="part-catalog-muted">등록된 부품이 없습니다.</p>')+'<button type="button" class="part-category-select" data-catalog-category="'+key+'">선택 →</button></section>';
+ }).join('')+'</div>';
+ document.querySelectorAll('[data-catalog-category]').forEach(button=>button.addEventListener('click',()=>openPartCatalog(button.dataset.catalogCategory,button)));
+}
+function openPartCatalog(category,opener){
+ if(!Object.hasOwn(partCatalogLabels,category))return;
+ partCatalog.category=category;partCatalog.page=0;partCatalog.query='';partCatalog.selected=null;partCatalog.editing=false;partCatalog.opener=opener||document.activeElement;
+ document.getElementById('partCatalogDialog').hidden=false;renderPartCatalogList();document.getElementById('partCatalogClose').focus();
+}
+function closePartCatalog(){
+ if(partCatalog.busy)return;
+ document.getElementById('partCatalogDialog').hidden=true;
+ if(partCatalog.opener?.isConnected)partCatalog.opener.focus();partCatalog.selected=null;
+}
+function setPartCatalogBusy(busy){partCatalog.busy=busy;document.getElementById('partCatalogClose').disabled=busy;document.querySelectorAll('#partCatalogContent button').forEach(button=>{if(busy){button.dataset.catalogWasDisabled=String(button.disabled);button.disabled=true;}else if(Object.hasOwn(button.dataset,'catalogWasDisabled')){button.disabled=button.dataset.catalogWasDisabled==='true';delete button.dataset.catalogWasDisabled;}});const fields=document.getElementById('partCatalogFields');if(fields)fields.disabled=busy||!partCatalog.editing;}
+function renderPartCatalogList(){
+ const state=partCatalog;state.selected=null;state.editing=false;
+ document.getElementById('partCatalogTitle').textContent=partCatalogLabels[state.category]+' 부품 목록';
+ const found=state.items.filter(item=>partCatalogCategory(item)===state.category&&[item.manufacturer,item.model_name,item.specification,item.supplier_name].some(v=>String(v||'').toLowerCase().includes(state.query.toLowerCase().trim())));
+ state.page=Math.max(0,Math.min(state.page,Math.max(0,Math.ceil(found.length/12)-1)));
+ const shown=found.slice(state.page*12,state.page*12+12);
+ document.getElementById('partCatalogContent').innerHTML='<label class="part-catalog-search">모델·제조사·스펙 검색<input id="partCatalogSearch" type="search" placeholder="검색어 입력"></label><p class="part-catalog-summary">검색 '+found.length+'개 · 한 화면에 최대 12개</p><div class="part-catalog-grid">'+shown.map(item=>'<button type="button" class="part-catalog-model" data-catalog-id="'+escapeHTML(String(item.id))+'"><span>'+escapeHTML(String(item.manufacturer||'제조사 미입력'))+'</span><strong>'+escapeHTML(String(item.model_name||'모델명 미입력'))+'</strong><span class="part-catalog-spec">'+escapeHTML(String(item.specification||'세부스펙 미등록'))+'</span><small>'+escapeHTML([item.stock_status,item.supplier_name].filter(Boolean).join(' · '))+'</small><span>판매가 '+partCatalogMoney(item.sale_price)+'</span><small>상세 보기 →</small></button>').join('')+'</div>'+(found.length?'':'<p>해당 부품이 없습니다.</p>')+'<div class="part-catalog-pagination"><button type="button" id="partCatalogPrevious" '+(state.page===0?'disabled':'')+'>이전</button><span>'+(state.page+1)+' / '+Math.max(1,Math.ceil(found.length/12))+'</span><button type="button" id="partCatalogNext" '+((state.page+1)*12>=found.length?'disabled':'')+'>다음</button></div>';
+ const search=document.getElementById('partCatalogSearch');search.value=state.query;
+ search.addEventListener('input',()=>{const position=search.selectionStart;state.query=search.value;state.page=0;renderPartCatalogList();const next=document.getElementById('partCatalogSearch');next.focus();try{next.setSelectionRange(position,position);}catch{}});
+ document.querySelectorAll('[data-catalog-id]').forEach(button=>button.addEventListener('click',()=>showPartCatalogDetail(button.dataset.catalogId)));
+ document.getElementById('partCatalogPrevious').addEventListener('click',()=>{state.page--;renderPartCatalogList();document.getElementById('partCatalogPrevious').focus();});
+ document.getElementById('partCatalogNext').addEventListener('click',()=>{state.page++;renderPartCatalogList();document.getElementById('partCatalogNext').focus();});
+}
+function partCatalogField(label,key,value,type='text'){
+ const content=type==='textarea'?'<textarea id="partEdit'+key+'">'+escapeHTML(String(value??''))+'</textarea>':'<input id="partEdit'+key+'" type="'+type+'" '+(type==='number'?'min="0" max="2147483647" step="1" ':'')+'value="'+escapeHTML(String(value??''))+'">';
+ return '<label>'+label+content+'</label>';
+}
+function showPartCatalogDetail(id){
+ if(partCatalog.busy)return;
+ const item=partCatalog.items.find(x=>String(x.id)===String(id));if(!item)return;
+ partCatalog.selected={...item};partCatalog.editing=false;renderPartCatalogDetail();
+}
+function renderPartCatalogDetail(){
+ const item=partCatalog.selected;if(!item)return;
+ const editable=partCatalog.editing;
+ document.getElementById('partCatalogTitle').textContent=editable?'등록 부품 수정':'등록 부품 상세';
+ const types=Object.keys(registeredPartLabels);if(item.part_type&&!types.includes(item.part_type))types.push(item.part_type);
+ const statuses=['판매중','품절','단종'];if(!statuses.includes(item.stock_status||''))statuses.unshift(item.stock_status||'');
+ document.getElementById('partCatalogContent').innerHTML='<button type="button" id="partCatalogBack">← 목록으로</button><p class="part-catalog-summary">'+escapeHTML(String(item.model_name||''))+'</p><fieldset id="partCatalogFields" '+(editable?'':'disabled')+'><div class="part-catalog-edit-grid"><label>품목<select id="partEditType">'+types.map(t=>'<option value="'+escapeHTML(t)+'">'+escapeHTML(registeredPartLabels[t]||t)+'</option>').join('')+'</select></label>'+partCatalogField('제조사','Maker',item.manufacturer)+partCatalogField('모델명','Model',item.model_name)+partCatalogField('세부스펙','Spec',item.specification,'textarea')+partCatalogField('매입가','Purchase',item.purchase_price,'number')+partCatalogField('판매가','Sale',item.sale_price,'number')+partCatalogField('거래처','Supplier',item.supplier_name)+'<label>상태<select id="partEditStatus">'+statuses.map(v=>'<option value="'+escapeHTML(v)+'">'+escapeHTML(v||'미지정')+'</option>').join('')+'</select></label>'+partCatalogField('관리자 메모','Memo',item.memo,'textarea')+'</div></fieldset><p id="partCatalogMessage" role="status"></p><div class="part-catalog-actions">'+(editable?'<button type="button" id="partCatalogSave">수정 저장</button><button type="button" id="partCatalogCancel">수정 취소</button>':'<button type="button" id="partCatalogEdit">수정</button><button type="button" id="partCatalogDelete" class="part-catalog-danger">삭제</button>')+'</div>';
+ document.getElementById('partEditType').value=item.part_type||'';document.getElementById('partEditStatus').value=item.stock_status||'';
+ document.getElementById('partCatalogBack').addEventListener('click',()=>{if(!editable||confirm('수정 중인 내용을 취소하고 목록으로 돌아갈까요?'))renderPartCatalogList();});
+ if(editable){
+  document.getElementById('partCatalogSave').addEventListener('click',savePartCatalogEdit);
+  document.getElementById('partCatalogCancel').addEventListener('click',()=>{partCatalog.editing=false;renderPartCatalogDetail();});
+  document.getElementById('partEditPurchase').addEventListener('input',()=>{const raw=document.getElementById('partEditPurchase').value,n=Number(raw);if(raw!==''&&Number.isSafeInteger(n)&&n>=0)document.getElementById('partEditSale').value=Math.round(n*1.20);});
+  document.getElementById('partEditModel').focus();
+ }else{
+  document.getElementById('partCatalogEdit').addEventListener('click',()=>{partCatalog.editing=true;renderPartCatalogDetail();});
+  document.getElementById('partCatalogDelete').addEventListener('click',deletePartCatalogItem);
+ }
+}
+function partCatalogMutationQuery(query,item){return item.updated_at?query.eq('updated_at',item.updated_at):query.is('updated_at',null);}
+async function savePartCatalogEdit(){
+ if(partCatalog.busy||!partCatalog.selected||!partCatalog.editing)return;
+ const item=partCatalog.selected,get=key=>document.getElementById('partEdit'+key).value;
+ const purchase=get('Purchase'),sale=get('Sale');
+ const payload={part_type:get('Type'),manufacturer:get('Maker').trim(),model_name:get('Model').trim(),specification:get('Spec'),purchase_price:purchase===''?null:Number(purchase),sale_price:sale===''?null:Number(sale),supplier_name:get('Supplier').trim(),stock_status:get('Status')||null,memo:get('Memo'),updated_at:new Date().toISOString()};
+ const message=document.getElementById('partCatalogMessage');
+ if(!payload.manufacturer||!payload.model_name){message.textContent='제조사와 모델명을 입력해 주세요.';return;}
+ if([payload.purchase_price,payload.sale_price].some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>2147483647))){message.textContent='가격은 0~2,147,483,647 범위의 정수로 입력해 주세요.';return;}
+ setPartCatalogBusy(true);message.textContent='수정 내용을 저장하는 중입니다.';
+ try{
+  const {data,error}=await partCatalogMutationQuery(supabaseClient.from('product_master').update(payload).eq('id',item.id),item).select('*');
+  if(error)throw error;if(!data||data.length!==1)throw Error('다른 화면에서 변경됐거나 수정 권한이 없습니다. 목록을 새로고침한 뒤 확인해 주세요.');
+  partCatalog.items=partCatalog.items.map(row=>String(row.id)===String(item.id)?data[0]:row);
+  partCatalog.selected={...data[0]};partCatalog.editing=false;renderPartCatalogDashboard();renderPartCatalogDetail();
+  document.getElementById('partCatalogMessage').textContent='수정 저장했습니다. 이후 고객 견적에서 선택할 때 최신 스펙이 입력됩니다.';
+ }catch(error){message.textContent='수정 실패: '+(error.message||'통신 오류');}
+ finally{setPartCatalogBusy(false);}
+}
+async function deletePartCatalogItem(){
+ if(partCatalog.busy||!partCatalog.selected)return;
+ const item=partCatalog.selected;
+ if(!confirm('등록 부품 「'+String(item.model_name||'')+'」을 삭제할까요? 기존 고객 견적에 저장된 내용은 유지됩니다.'))return;
+ const message=document.getElementById('partCatalogMessage');setPartCatalogBusy(true);message.textContent='삭제하는 중입니다.';
+ try{
+  const {data,error}=await partCatalogMutationQuery(supabaseClient.from('product_master').delete().eq('id',item.id),item).select('id');
+  if(error)throw error;if(!data||data.length!==1)throw Error('다른 화면에서 변경됐거나 삭제 권한이 없습니다. 목록을 새로고침한 뒤 확인해 주세요.');
+  partCatalog.items=partCatalog.items.filter(row=>String(row.id)!==String(item.id));renderPartCatalogDashboard();renderPartCatalogList();
+ }catch(error){message.textContent='삭제 실패: '+(error.message||'통신 오류');}
+ finally{setPartCatalogBusy(false);}
+}
+function cancelPartMasterEdit(){document.getElementById('partMasterCancelButton').classList.add('hidden');}
+document.getElementById('partCatalogClose').addEventListener('click',()=>{if(partCatalog.busy)return;if(!partCatalog.editing||confirm('수정 중인 내용을 취소하고 닫을까요?'))closePartCatalog();});
+document.getElementById('partCatalogDialog').addEventListener('keydown',event=>{
+ if(event.key==='Escape'){event.preventDefault();if(!partCatalog.busy&&(!partCatalog.editing||confirm('수정 중인 내용을 취소하고 닫을까요?')))closePartCatalog();}
+ if(event.key==='Tab'){
+  const fields=[...document.getElementById('partCatalogDialog').querySelectorAll('button,input,select,textarea')].filter(el=>!el.disabled&&!el.closest('fieldset[disabled]'));
+  const first=fields[0],last=fields[fields.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+ }
+});
 </script>
 </body>
 </html>
