@@ -2232,6 +2232,10 @@ body.printing-customer-quote #quoteModal .danawa-area {
 #registeredPickerList .catalog-thumbnail{height:130px;max-width:220px;}
 @media(max-width:700px){.product-category-grid{grid-template-columns:1fr;}}@media print{#productCatalogDialog{display:none!important;}}
 </style>
+<style>
+.product-registered-part{border:1px solid #cfe0ff;background:#edf4ff;color:#145bcc;border-radius:8px;padding:9px 12px;font:inherit;font-weight:700;cursor:pointer;text-align:left;}
+.product-registered-part:hover{background:#deebff;}#registeredPartPicker{z-index:11040;}
+</style>
 </head>
 
 <body>
@@ -2316,118 +2320,38 @@ body.printing-customer-quote #quoteModal .danawa-area {
       <input type="hidden" id="editId">
 <label for="productCategory">상품 분류</label><select id="productCategory"><option value="gaming">게이밍</option><option value="office">사무용</option><option value="other" selected>기타</option></select><p class="part-catalog-summary">분류가 없던 기존 상품은 기타에서 확인하고 수정할 수 있습니다.</p>
 
-      <label for="name">상품명</label>
+      <p id="productPartFeedback" class="part-catalog-summary" role="status">부품 항목을 누르면 등록한 제조사 → 모델 순서로 선택할 수 있습니다.</p>
+<label for="name">상품명</label>
       <input type="text" id="name" placeholder="예: 게이밍 PC">
 
       <label for="price">가격</label>
       <input type="text" id="price" placeholder="예: 1299000">
 
-      <label for="cpu">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=CPU"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          CPU 🔍
-        </a>
-      </label>
+      <label for="cpu"><button type="button" class="product-registered-part" data-product-part-field="cpu" aria-haspopup="dialog">CPU · 등록 부품 선택 ▾</button></label>
       <input type="text" id="cpu" placeholder="예: Ryzen 5 7600">
 
-      <label for="gpu">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=그래픽카드"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          그래픽카드 🔍
-        </a>
-      </label>
+      <label for="gpu"><button type="button" class="product-registered-part" data-product-part-field="gpu" aria-haspopup="dialog">그래픽카드 · 등록 부품 선택 ▾</button></label>
       <input type="text" id="gpu" placeholder="예: RTX 5060">
 
-      <label for="ram">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=RAM"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          RAM 🔍
-        </a>
-      </label>
+      <label for="ram"><button type="button" class="product-registered-part" data-product-part-field="ram" aria-haspopup="dialog">메모리 · 등록 부품 선택 ▾</button></label>
       <input type="text" id="ram" placeholder="예: DDR5 32GB">
 
-      <label for="ssd">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=SSD"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          SSD 🔍
-        </a>
-      </label>
+      <label for="ssd"><button type="button" class="product-registered-part" data-product-part-field="ssd" aria-haspopup="dialog">SSD · 등록 부품 선택 ▾</button></label>
       <input type="text" id="ssd" placeholder="예: NVMe 1TB">
 
-      <label for="main_board">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=메인보드"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          메인보드 🔍
-        </a>
-      </label>
+      <label for="main_board"><button type="button" class="product-registered-part" data-product-part-field="main_board" aria-haspopup="dialog">메인보드 · 등록 부품 선택 ▾</button></label>
       <input type="text" id="main_board" placeholder="예: B650M">
 
-      <label for="power">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=PC파워"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          파워 🔍
-        </a>
-      </label>
+      <label for="power"><button type="button" class="product-registered-part" data-product-part-field="power" aria-haspopup="dialog">파워 · 등록 부품 선택 ▾</button></label>
       <input type="text" id="power" placeholder="예: 750W">
 
-      <label for="monitor">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=모니터"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          모니터 🔍
-        </a>
-      </label>
+      <label for="monitor"><button type="button" class="product-registered-part" data-product-part-field="monitor" aria-haspopup="dialog">모니터 · 등록 부품 선택 ▾</button></label>
       <input type="text" id="monitor" placeholder="예: 27인치 QHD">
 
-      <label for="hdd">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=HDD"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          HDD 🔍
-        </a>
-      </label>
+      <label for="hdd"><button type="button" class="product-registered-part" data-product-part-field="hdd" aria-haspopup="dialog">HDD · 등록 부품 선택 ▾</button></label>
       <input type="text" id="hdd" placeholder="선택사항">
 
-      <label for="keyboard_mouse">
-        <a
-          href="https://search.danawa.com/dsearch.php?query=키보드 마우스"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="part-search-link"
-        >
-          키보드 / 마우스 🔍
-        </a>
-      </label>
+      <label for="keyboard_mouse"><button type="button" class="product-registered-part" data-product-part-field="keyboard_mouse" aria-haspopup="dialog">키보드 / 마우스 · 등록 부품 선택 ▾</button></label>
 
       <input
         type="text"
@@ -2582,7 +2506,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
         <option value="Case">케이스</option>
         <option value="Cooler">쿨러</option>
         <option value="Monitor">모니터</option>
-        <option value="Etc">기타</option>
+        <option value="Hdd">HDD</option><option value="KeyboardMouse">키보드 / 마우스</option><option value="Etc">기타</option>
       </select>
     </div>
 
@@ -4354,6 +4278,7 @@ async function saveProduct(){if(productCatalogState.busy)return;hideMessage('for
 ===================================== */
 
 function editProduct(id) {
+ if(typeof invalidateProductPartPicker==='function')invalidateProductPartPicker();
   clearCatalogPreview('image','productNewImagePreview');
 
   const product =
@@ -4500,6 +4425,7 @@ function cancelEdit() {
 ===================================== */
 
 function resetForm() {
+ if(typeof invalidateProductPartPicker==='function')invalidateProductPartPicker();
   document.getElementById('productCategory').value='other';
   clearCatalogPreview('image','productNewImagePreview');
 
@@ -9896,29 +9822,38 @@ ${bodyRows}
  <input id="registeredPickerSearch" type="search" aria-label="모델명 또는 세부스펙 검색" placeholder="모델명 · 세부스펙 검색" hidden>
  <div id="registeredPickerList"></div></div></div>
 <script>// PCSOLUTION-27: registered part -> manufacturer -> model -> quote fields.
-const registeredPartLabels={Cpu:'CPU',MainBoard:'메인보드',Ram:'메모리',Ssd:'SSD',Gpu:'그래픽카드',Power:'파워',Case:'케이스',Cooler:'쿨러',Monitor:'모니터',Etc:'기타'};
-let registeredPickerState={sequence:0,part:'',requestId:'',items:[],manufacturer:null,opener:null};
+const registeredPartLabels={Cpu:'CPU',MainBoard:'메인보드',Ram:'메모리',Ssd:'SSD',Gpu:'그래픽카드',Power:'파워',Case:'케이스',Cooler:'쿨러',Monitor:'모니터',Hdd:'HDD',KeyboardMouse:'키보드 / 마우스',Etc:'기타'};
+let productPartFormRevision=0;
+const productPartFieldTypes={"cpu":"Cpu","gpu":"Gpu","ram":"Ram","ssd":"Ssd","main_board":"MainBoard","power":"Power","monitor":"Monitor","hdd":"Hdd","keyboard_mouse":"KeyboardMouse"};
+let registeredPickerState={target:'quote',sequence:0,part:'',requestId:'',items:[],manufacturer:null,opener:null};
 function registeredMakerKey(value){
  const key=String(value||'').trim().replace(/\s+/g,' ').toLowerCase();
  return ['intel','인텔'].includes(key)?'intel':['amd','에이엠디'].includes(key)?'amd':key;
 }
 function registeredMakerLabel(value){const key=registeredMakerKey(value);return key==='intel'?'Intel':key==='amd'?'AMD':String(value||'').trim()||'제조사 미입력';}
 function registeredPickerIsCurrent(){
- return !document.getElementById('quoteModal').classList.contains('hidden')&&
-  String(document.getElementById('estimateQuoteRequestId').value)===registeredPickerState.requestId;
+ if(registeredPickerState.target==='product'){
+  const field=document.getElementById(registeredPickerState.fieldId);
+  return !!field&&field.isConnected&&!document.getElementById('adminSection').classList.contains('hidden')&&
+   productPartFormRevision===registeredPickerState.formRevision&&
+   String(document.getElementById('editId').value||'')===registeredPickerState.editId;
+ }
+ return !document.getElementById('quoteModal').classList.contains('hidden')&&String(document.getElementById('estimateQuoteRequestId').value)===registeredPickerState.requestId;
 }
 function closeRegisteredPartPicker(){
  const modal=document.getElementById('registeredPartPicker');if(!modal)return;
  modal.hidden=true;registeredPickerState.sequence++;registeredPickerState.items=[];
  const opener=registeredPickerState.opener;if(opener?.isConnected&&registeredPickerIsCurrent())opener.focus();
 }
-async function openRegisteredPartPicker(part,opener){
+async function openRegisteredPartPicker(part,opener,options={}){
  if(!Object.hasOwn(registeredPartLabels,part))return;
  const modal=document.getElementById('registeredPartPicker');
+ const target=options.target==='product'?'product':'quote';
  const requestId=String(document.getElementById('estimateQuoteRequestId').value||'');
- if(!requestId||document.getElementById('quoteModal').classList.contains('hidden'))return;
+ if(target==='quote'&&(!requestId||document.getElementById('quoteModal').classList.contains('hidden')))return;
+ if(target==='product'&&(!Object.hasOwn(productPartFieldTypes,options.fieldId)||productPartFieldTypes[options.fieldId]!==part||document.getElementById('adminSection').classList.contains('hidden')))return;
  const sequence=registeredPickerState.sequence+1;
- registeredPickerState={sequence,part,requestId,items:[],manufacturer:null,opener:opener||document.activeElement};
+ registeredPickerState={sequence,part,requestId,target,fieldId:options.fieldId||'',editId:String(document.getElementById('editId')?.value||''),formRevision:productPartFormRevision,items:[],manufacturer:null,opener:opener||document.activeElement};
  modal.hidden=false;
  document.getElementById('registeredPickerTitle').textContent=registeredPartLabels[part]+' 등록 부품 선택';
  document.getElementById('registeredPickerBack').hidden=true;
@@ -9977,16 +9912,23 @@ function renderRegisteredPartPicker(){
 }
 function applyRegisteredPart(index){
  const state=registeredPickerState,item=state.items[index];
- if(!item||!Number.isInteger(index)||!registeredPickerIsCurrent()) {closeRegisteredPartPicker();return;}
+ if(!item||!Number.isInteger(index)||!registeredPickerIsCurrent()){closeRegisteredPartPicker();return;}
  if(registeredMakerKey(item.manufacturer)!==state.manufacturer)return;
- const fields=['Maker','Model','Spec'].map(s=>document.getElementById('estimate'+state.part+s));
- if(fields.some(field=>!field))return;
- fields[0].value=String(item.manufacturer||'');
- fields[1].value=String(item.model_name||'');
- fields[2].value=String(item.specification||'');
+ if(state.target==='product'){
+  const field=document.getElementById(state.fieldId);
+  const model=[String(item.manufacturer||'').trim(),String(item.model_name||'').trim()].filter(Boolean).join(' ');
+  const spec=String(item.specification||'').trim().replace(/\r?\n\s*/g,' · ');
+  field.value=model+(spec?' / '+spec:'');
+  field.dispatchEvent(new Event('input',{bubbles:true}));
+  document.getElementById('productPartFeedback').textContent=registeredPartLabels[state.part]+' 제조사·모델·스펙을 입력했습니다. 상품 저장을 누르면 반영됩니다.';
+  closeRegisteredPartPicker();field.focus();return;
+ }
+ const targets=['Maker','Model','Spec'].map(s=>document.getElementById('estimate'+state.part+s));
+ if(targets.some(field=>!field))return;
+ targets[0].value=String(item.manufacturer||'');targets[1].value=String(item.model_name||'');targets[2].value=String(item.specification||'');
  saveEstimateDraft();resizeAllEstimateTextareas();
  document.getElementById('registeredPartFeedback').textContent=registeredPartLabels[state.part]+' 모델명과 세부스펙을 입력했습니다. 고객 견적 저장을 누르면 반영됩니다.';
- closeRegisteredPartPicker();fields[1].focus();
+ closeRegisteredPartPicker();targets[1].focus();
 }
 document.querySelectorAll('#quoteModal [data-registered-part]').forEach(button=>button.addEventListener('click',()=>openRegisteredPartPicker(button.dataset.registeredPart,button)));
 document.getElementById('registeredPickerClose').addEventListener('click',closeRegisteredPartPicker);
@@ -10209,6 +10151,18 @@ function renderPartCatalogImage(item,editable){
  if(editable){bindCatalogPreview('partEditImage','partEditImagePreview');document.getElementById('partEditImage').addEventListener('change',()=>{if(document.getElementById('partEditImage').files.length)document.getElementById('partEditImageRemove').checked=false;});document.getElementById('partEditImageRemove').addEventListener('change',event=>{if(event.target.checked)clearCatalogPreview('partEditImage','partEditImagePreview');});}bindCatalogImageFallback(fields);
 }
 bindCatalogPreview('image','productNewImagePreview');bindCatalogPreview('partMasterImage','partMasterImagePreview');
+</script>
+<script>
+function invalidateProductPartPicker(){
+ productPartFormRevision++;
+ if(registeredPickerState.target==='product'&&!document.getElementById('registeredPartPicker').hidden)closeRegisteredPartPicker();
+ const feedback=document.getElementById('productPartFeedback');if(feedback)feedback.textContent='부품 항목을 누르면 등록 부품을 선택할 수 있습니다.';
+}
+function openProductRegisteredPart(fieldId,opener){
+ if(!Object.hasOwn(productPartFieldTypes,fieldId)||productCatalogState.busy)return;
+ return openRegisteredPartPicker(productPartFieldTypes[fieldId],opener,{target:'product',fieldId});
+}
+document.querySelectorAll('[data-product-part-field]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();openProductRegisteredPart(button.dataset.productPartField,button);}));
 </script>
 </body>
 </html>
