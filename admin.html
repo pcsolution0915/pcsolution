@@ -2219,6 +2219,19 @@ body.printing-customer-quote #quoteModal .danawa-area {
 @media(max-width:560px){.part-catalog-grid{grid-template-columns:1fr;}.part-catalog-edit-grid{grid-template-columns:1fr;}.part-catalog-panel{padding:16px;}}
 @media print{#partCatalogDialog{display:none!important;}}
 </style>
+<style>
+#productList{display:block!important;}.product-category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
+#productCatalogDialog[hidden]{display:none!important;}#productCatalogDialog{position:fixed;inset:0;background:#0f172a88;z-index:11020;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;}
+#productCatalogContent{overflow-y:auto;overscroll-behavior:contain;min-height:100px;}#productCatalogContent>.card{margin:0;box-shadow:none;padding:0;border:0;}
+#productCatalogClose,#productCatalogBack{padding:9px 14px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;cursor:pointer;}
+.product-catalog-tile{border:1px solid #dbe4f0;border-radius:12px;overflow:hidden;}.product-catalog-tile .part-catalog-model{width:100%;border:0;border-radius:0;}
+.product-catalog-check{display:flex;align-items:center;gap:8px;padding:9px 12px;font-size:12px;background:#f1f5f9;margin:0;}.product-catalog-check input{width:auto;margin:0;}
+.catalog-thumbnail{width:100%;height:140px;object-fit:contain;background:#fff;border-radius:8px;}.catalog-detail-image{display:block;width:100%;max-width:430px;max-height:320px;object-fit:contain;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin:12px 0;}.catalog-detail-image[hidden]{display:none!important;}
+.product-catalog-details{margin:16px 0;}.product-catalog-details>div{display:grid;grid-template-columns:100px 1fr;border-bottom:1px solid #e2e8f0;padding:10px;gap:12px;}.product-catalog-details dt{font-weight:700;}.product-catalog-details dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;}
+.catalog-part-image{grid-column:1/-1;margin:16px 0;padding:16px;border:1px solid #e2e8f0;border-radius:10px;}.catalog-part-image input[type=checkbox]{width:auto;display:inline-block;}
+#registeredPickerList .catalog-thumbnail{height:130px;max-width:220px;}
+@media(max-width:700px){.product-category-grid{grid-template-columns:1fr;}}@media print{#productCatalogDialog{display:none!important;}}
+</style>
 </head>
 
 <body>
@@ -2301,6 +2314,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
       <h2 id="formTitle">➕ 상품 등록</h2>
 
       <input type="hidden" id="editId">
+<label for="productCategory">상품 분류</label><select id="productCategory"><option value="gaming">게이밍</option><option value="office">사무용</option><option value="other" selected>기타</option></select><p class="part-catalog-summary">분류가 없던 기존 상품은 기타에서 확인하고 수정할 수 있습니다.</p>
 
       <label for="name">상품명</label>
       <input type="text" id="name" placeholder="예: 게이밍 PC">
@@ -2428,14 +2442,15 @@ body.printing-customer-quote #quoteModal .danawa-area {
         placeholder="상품의 특징이나 추천 용도를 입력하세요."
       ></textarea>
 
-      <label for="image">상품 사진</label>
+      <label for="image">메인 상품 이미지</label>
 
       <input
         type="file"
         id="image"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp,image/gif"
       >
 
+<p class="part-catalog-summary">JPG·PNG·WEBP·GIF, 10MB 이하 · 고객 홈페이지의 상품 카드와 상세 화면에 반영됩니다.</p><img id="productNewImagePreview" class="catalog-detail-image" alt="새 메인 상품 이미지 미리보기" hidden>
       <div
         id="currentImageArea"
         class="hidden"
@@ -2689,6 +2704,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
   </div>
 
 
+<div class="catalog-part-image"><label for="partMasterImage">부품 이미지 (선택)</label><input id="partMasterImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="part-catalog-summary">모든 부품에 등록 가능 · 10MB 이하</p><img id="partMasterImagePreview" class="catalog-detail-image" alt="새 부품 이미지 미리보기" hidden></div>
   <div style="
     display:flex;
     gap:8px;
@@ -4074,6 +4090,7 @@ async function checkSession() {
 function getFormData() {
 
   return {
+    category: document.getElementById('productCategory').value,
 
     name:
       document.getElementById("name").value.trim(),
@@ -4120,62 +4137,7 @@ function getFormData() {
    이미지 업로드
 ===================================== */
 
-async function uploadImage(file) {
-
-  if (!file) {
-    return null;
-  }
-
-  const extension =
-    file.name
-      .split(".")
-      .pop()
-      .toLowerCase();
-
-  const fileName =
-    Date.now() +
-    "-" +
-    Math.random()
-      .toString(36)
-      .substring(2) +
-    "." +
-    extension;
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .storage
-      .from("product-images")
-      .upload(
-        fileName,
-        file,
-        {
-          cacheControl: "3600",
-          upsert: false
-        }
-      );
-
-  if (error) {
-
-    throw new Error(
-      "사진 업로드 실패: " +
-      error.message
-    );
-
-  }
-
-  const {
-    data
-  } =
-    supabaseClient
-      .storage
-      .from("product-images")
-      .getPublicUrl(fileName);
-
-  return data.publicUrl;
-
-}
+async function uploadImage(file){return uploadCatalogImage(file,'product');}
 
 
 /* =====================================
@@ -4190,6 +4152,7 @@ function makeProductData(
   return {
 
     name: form.name,
+    category: form.category,
     price: form.price,
     cpu: form.cpu,
     gpu: form.gpu,
@@ -4383,17 +4346,7 @@ async function updateProduct() {
    상품 저장
 ===================================== */
 
-async function saveProduct() {
-
-  hideMessage("formMessage");
-
-  if (editingProduct) {
-    await updateProduct();
-  } else {
-    await insertProduct();
-  }
-
-}
+async function saveProduct(){if(productCatalogState.busy)return;hideMessage('formMessage');await runProductCatalogAction(async()=>{if(editingProduct)await updateProduct();else await insertProduct();productCatalogSaved();});}
 
 
 /* =====================================
@@ -4401,6 +4354,7 @@ async function saveProduct() {
 ===================================== */
 
 function editProduct(id) {
+  clearCatalogPreview('image','productNewImagePreview');
 
   const product =
     allProducts.find(
@@ -4419,6 +4373,7 @@ function editProduct(id) {
   }
 
   editingProduct = product;
+  document.getElementById("productCategory").value=productCategory(product);
 
   document.getElementById("editId").value =
     product.id;
@@ -4524,6 +4479,7 @@ function editProduct(id) {
 ===================================== */
 
 function cancelEdit() {
+  const returnToProductList=typeof productCatalogState!=='undefined'&&productCatalogState.view==='edit';
 
   editingProduct = null;
 
@@ -4535,6 +4491,7 @@ function cancelEdit() {
     "success"
   );
 
+  if(returnToProductList){restoreProductForm();renderProductCatalogList();}
 }
 
 
@@ -4543,6 +4500,8 @@ function cancelEdit() {
 ===================================== */
 
 function resetForm() {
+  document.getElementById('productCategory').value='other';
+  clearCatalogPreview('image','productNewImagePreview');
 
   const ids = [
     "editId",
@@ -4759,215 +4718,14 @@ async function deleteSelectedProducts() {
    상품 목록
 ===================================== */
 
-async function loadProducts() {
-
-  const productList =
-    document.getElementById(
-      "productList"
-    );
-
-  productList.textContent =
-    "상품을 불러오는 중입니다...";
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("pcsolution")
-        .select("*")
-        .order(
-          "id",
-          {
-            ascending: false
-          }
-        );
-
-    if (error) {
-      throw error;
-    }
-
-    allProducts =
-      data || [];
-
-    renderProductList();
-
-  } catch (error) {
-
-    console.error(
-      "상품 목록 오류:",
-      error
-    );
-
-    productList.innerHTML =
-      `
-        <p style="color:#dc2626;">
-          상품을 불러오지 못했습니다.<br>
-          ${escapeHTML(error.message)}
-        </p>
-      `;
-
-  }
-
-}
+async function loadProducts(){return loadProductCatalog();}
 
 
 /* =====================================
    상품 출력
 ===================================== */
 
-function renderProductList() {
-
-  const productList =
-    document.getElementById(
-      "productList"
-    );
-
-  if (!allProducts.length) {
-
-    productList.innerHTML = `
-      <p style="
-        color:#667085;
-        grid-column:1/-1;
-      ">
-        등록된 상품이 없습니다.
-      </p>
-    `;
-
-    return;
-  }
-
-  productList.innerHTML =
-    allProducts
-      .map(product => {
-
-        const id =
-          Number(product.id);
-
-        const numericPrice =
-          Number(product.price);
-
-        const price =
-          Number.isFinite(numericPrice) &&
-          numericPrice > 0
-            ? numericPrice.toLocaleString("ko-KR") + "원"
-            : "가격 문의";
-
-        return `
-
-         <div class="product-item">
-
-  <div style="
-    padding:10px 12px;
-    background:#f8fafc;
-    border-bottom:1px solid #e5e7eb;
-  ">
-
-    <label style="
-      margin:0;
-      display:flex;
-      align-items:center;
-      gap:7px;
-      cursor:pointer;
-      font-size:13px;
-    ">
-
-      <input
-        type="checkbox"
-        class="product-select"
-        value="${id}"
-        style="
-          width:18px;
-          height:18px;
-          margin:0;
-        "
-      >
-
-      선택
-
-    </label>
-
-  </div>
-
-  <div class="admin-product-image-box"> 
-
-              ${
-                product.image_url
-                  ? `
-                    <img
-                      src="${escapeHTML(product.image_url)}"
-                      alt="${escapeHTML(product.name || "")}"
-                    >
-                  `
-                  : `
-                    <div class="admin-no-image">
-                      상품 이미지 준비중
-                    </div>
-                  `
-              }
-
-            </div>
-
-            <div class="admin-product-body">
-
-              <div
-                class="product-name"
-                title="${escapeHTML(product.name || "")}"
-              >
-                ${escapeHTML(product.name || "-")}
-              </div>
-
-              <div class="product-price">
-                ${escapeHTML(price)}
-              </div>
-
-              <p class="admin-product-spec">
-                CPU : ${escapeHTML(product.cpu || "-")}
-              </p>
-
-              <p class="admin-product-spec">
-                GPU : ${escapeHTML(product.gpu || "-")}
-              </p>
-
-              <p class="admin-product-spec">
-                RAM : ${escapeHTML(product.ram || "-")}
-              </p>
-
-              <p class="admin-product-spec">
-                SSD : ${escapeHTML(product.ssd || "-")}
-              </p>
-
-              <div class="product-actions">
-
-                <button
-                  class="update-button"
-                  type="button"
-                  onclick="editProduct(${id})"
-                >
-                  ✏️ 수정
-                </button>
-
-                <button
-                  class="delete-button"
-                  type="button"
-                  onclick="deleteProduct(${id})"
-                >
-                  🗑️ 삭제
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-        `;
-
-      })
-      .join("");
-
-}
+function renderProductList(){return renderProductCatalogDashboard();}
 
 /* =====================================
    컴오아시스 견적 요청서 닫기
@@ -9285,6 +9043,7 @@ async function savePartMaster() {
 
 
   try {
+    const imageUrl=await uploadCatalogImage(document.getElementById('partMasterImage').files[0],'part');
 
     const {
       error
@@ -9292,6 +9051,7 @@ async function savePartMaster() {
       await supabaseClient
         .from("product_master")
         .insert({
+          image_url: imageUrl,
           part_type:
             partType,
 
@@ -9370,6 +9130,7 @@ async function savePartMaster() {
       .value = "";
 
 
+    clearCatalogPreview('partMasterImage','partMasterImagePreview');
     await loadPartMaster();
 
 
@@ -10170,7 +9931,7 @@ async function openRegisteredPartPicker(part,opener){
   let items=[];let offset=0;
   while(true){
    const {data,error}=await supabaseClient.from('product_master')
-    .select('id,part_type,manufacturer,model_name,specification,stock_status,supplier_name')
+    .select('id,part_type,manufacturer,model_name,specification,stock_status,supplier_name,image_url')
     .eq('part_type',part).order('id',{ascending:true}).range(offset,offset+499);
    if(sequence!==registeredPickerState.sequence||modal.hidden)return;
    if(!registeredPickerIsCurrent()){closeRegisteredPartPicker();return;}
@@ -10210,8 +9971,9 @@ function renderRegisteredPartPicker(){
   [item.model_name,item.specification,item.supplier_name].some(v=>String(v||'').toLowerCase().includes(query)))
   .sort((a,b)=>String(a.item.model_name).localeCompare(String(b.item.model_name),'ko',{numeric:true}));
  if(!models.length){list.textContent='검색 결과가 없습니다.';return;}
- list.innerHTML=models.map(({item,index})=>'<button type="button" class="registered-picker-option registered-picker-model" data-model-index="'+index+'"><strong>'+escapeHTML(String(item.model_name))+'</strong><span class="registered-picker-spec">'+escapeHTML(String(item.specification||'세부스펙 미등록'))+'</span><small>'+escapeHTML([item.stock_status,item.supplier_name].filter(Boolean).join(' · '))+'</small></button>').join('');
+ list.innerHTML=models.map(({item,index})=>'<button type="button" class="registered-picker-option registered-picker-model" data-model-index="'+index+'">'+catalogThumbnail(item.image_url,item.model_name)+'<strong>'+escapeHTML(String(item.model_name))+'</strong><span class="registered-picker-spec">'+escapeHTML(String(item.specification||'세부스펙 미등록'))+'</span><small>'+escapeHTML([item.stock_status,item.supplier_name].filter(Boolean).join(' · '))+'</small></button>').join('');
  list.querySelectorAll('[data-model-index]').forEach(button=>button.addEventListener('click',()=>applyRegisteredPart(Number(button.dataset.modelIndex))));
+ bindCatalogImageFallback(list);
 }
 function applyRegisteredPart(index){
  const state=registeredPickerState,item=state.items[index];
@@ -10275,18 +10037,20 @@ function openPartCatalog(category,opener){
  document.getElementById('partCatalogDialog').hidden=false;renderPartCatalogList();document.getElementById('partCatalogClose').focus();
 }
 function closePartCatalog(){
+ if(!partCatalog.busy&&typeof clearCatalogPreview==='function')clearCatalogPreview('partEditImage','partEditImagePreview');
  if(partCatalog.busy)return;
  document.getElementById('partCatalogDialog').hidden=true;
  if(partCatalog.opener?.isConnected)partCatalog.opener.focus();partCatalog.selected=null;
 }
 function setPartCatalogBusy(busy){partCatalog.busy=busy;document.getElementById('partCatalogClose').disabled=busy;document.querySelectorAll('#partCatalogContent button').forEach(button=>{if(busy){button.dataset.catalogWasDisabled=String(button.disabled);button.disabled=true;}else if(Object.hasOwn(button.dataset,'catalogWasDisabled')){button.disabled=button.dataset.catalogWasDisabled==='true';delete button.dataset.catalogWasDisabled;}});const fields=document.getElementById('partCatalogFields');if(fields)fields.disabled=busy||!partCatalog.editing;}
 function renderPartCatalogList(){
+ if(typeof clearCatalogPreview==='function')clearCatalogPreview('partEditImage','partEditImagePreview');
  const state=partCatalog;state.selected=null;state.editing=false;
  document.getElementById('partCatalogTitle').textContent=partCatalogLabels[state.category]+' 부품 목록';
  const found=state.items.filter(item=>partCatalogCategory(item)===state.category&&[item.manufacturer,item.model_name,item.specification,item.supplier_name].some(v=>String(v||'').toLowerCase().includes(state.query.toLowerCase().trim())));
  state.page=Math.max(0,Math.min(state.page,Math.max(0,Math.ceil(found.length/12)-1)));
  const shown=found.slice(state.page*12,state.page*12+12);
- document.getElementById('partCatalogContent').innerHTML='<label class="part-catalog-search">모델·제조사·스펙 검색<input id="partCatalogSearch" type="search" placeholder="검색어 입력"></label><p class="part-catalog-summary">검색 '+found.length+'개 · 한 화면에 최대 12개</p><div class="part-catalog-grid">'+shown.map(item=>'<button type="button" class="part-catalog-model" data-catalog-id="'+escapeHTML(String(item.id))+'"><span>'+escapeHTML(String(item.manufacturer||'제조사 미입력'))+'</span><strong>'+escapeHTML(String(item.model_name||'모델명 미입력'))+'</strong><span class="part-catalog-spec">'+escapeHTML(String(item.specification||'세부스펙 미등록'))+'</span><small>'+escapeHTML([item.stock_status,item.supplier_name].filter(Boolean).join(' · '))+'</small><span>판매가 '+partCatalogMoney(item.sale_price)+'</span><small>상세 보기 →</small></button>').join('')+'</div>'+(found.length?'':'<p>해당 부품이 없습니다.</p>')+'<div class="part-catalog-pagination"><button type="button" id="partCatalogPrevious" '+(state.page===0?'disabled':'')+'>이전</button><span>'+(state.page+1)+' / '+Math.max(1,Math.ceil(found.length/12))+'</span><button type="button" id="partCatalogNext" '+((state.page+1)*12>=found.length?'disabled':'')+'>다음</button></div>';
+ document.getElementById('partCatalogContent').innerHTML='<label class="part-catalog-search">모델·제조사·스펙 검색<input id="partCatalogSearch" type="search" placeholder="검색어 입력"></label><p class="part-catalog-summary">검색 '+found.length+'개 · 한 화면에 최대 12개</p><div class="part-catalog-grid">'+shown.map(item=>'<button type="button" class="part-catalog-model" data-catalog-id="'+escapeHTML(String(item.id))+'">'+catalogThumbnail(item.image_url,item.model_name)+'<span>'+escapeHTML(String(item.manufacturer||'제조사 미입력'))+'</span><strong>'+escapeHTML(String(item.model_name||'모델명 미입력'))+'</strong><span class="part-catalog-spec">'+escapeHTML(String(item.specification||'세부스펙 미등록'))+'</span><small>'+escapeHTML([item.stock_status,item.supplier_name].filter(Boolean).join(' · '))+'</small><span>판매가 '+partCatalogMoney(item.sale_price)+'</span><small>상세 보기 →</small></button>').join('')+'</div>'+(found.length?'':'<p>해당 부품이 없습니다.</p>')+'<div class="part-catalog-pagination"><button type="button" id="partCatalogPrevious" '+(state.page===0?'disabled':'')+'>이전</button><span>'+(state.page+1)+' / '+Math.max(1,Math.ceil(found.length/12))+'</span><button type="button" id="partCatalogNext" '+((state.page+1)*12>=found.length?'disabled':'')+'>다음</button></div>';
  const search=document.getElementById('partCatalogSearch');search.value=state.query;
  search.addEventListener('input',()=>{const position=search.selectionStart;state.query=search.value;state.page=0;renderPartCatalogList();const next=document.getElementById('partCatalogSearch');next.focus();try{next.setSelectionRange(position,position);}catch{}});
  document.querySelectorAll('[data-catalog-id]').forEach(button=>button.addEventListener('click',()=>showPartCatalogDetail(button.dataset.catalogId)));
@@ -10320,6 +10084,7 @@ function renderPartCatalogDetail(){
   document.getElementById('partCatalogEdit').addEventListener('click',()=>{partCatalog.editing=true;renderPartCatalogDetail();});
   document.getElementById('partCatalogDelete').addEventListener('click',deletePartCatalogItem);
  }
+ renderPartCatalogImage(item,editable);
 }
 function partCatalogMutationQuery(query,item){return item.updated_at?query.eq('updated_at',item.updated_at):query.is('updated_at',null);}
 async function savePartCatalogEdit(){
@@ -10332,6 +10097,8 @@ async function savePartCatalogEdit(){
  if([payload.purchase_price,payload.sale_price].some(n=>n!==null&&(!Number.isSafeInteger(n)||n<0||n>2147483647))){message.textContent='가격은 0~2,147,483,647 범위의 정수로 입력해 주세요.';return;}
  setPartCatalogBusy(true);message.textContent='수정 내용을 저장하는 중입니다.';
  try{
+  const imageInput=document.getElementById('partEditImage'),removeImage=document.getElementById('partEditImageRemove');
+  payload.image_url=imageInput?.files[0]?await uploadCatalogImage(imageInput.files[0],'part'):removeImage?.checked?null:item.image_url||null;
   const {data,error}=await partCatalogMutationQuery(supabaseClient.from('product_master').update(payload).eq('id',item.id),item).select('*');
   if(error)throw error;if(!data||data.length!==1)throw Error('다른 화면에서 변경됐거나 수정 권한이 없습니다. 목록을 새로고침한 뒤 확인해 주세요.');
   partCatalog.items=partCatalog.items.map(row=>String(row.id)===String(item.id)?data[0]:row);
@@ -10361,6 +10128,87 @@ document.getElementById('partCatalogDialog').addEventListener('keydown',event=>{
   const first=fields[0],last=fields[fields.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
  }
 });
+</script>
+<div id="productCatalogDialog" role="dialog" aria-modal="true" aria-labelledby="productCatalogTitle" hidden><div class="part-catalog-panel"><div class="part-catalog-header"><h2 id="productCatalogTitle">상품 목록</h2><button id="productCatalogClose" type="button">닫기</button></div><div id="productCatalogContent"></div></div></div>
+<script>// PCSOLUTION-29: three product categories, reuse the existing product editor.
+const productCategoryLabels={gaming:'게이밍',office:'사무용',other:'기타'};
+let productCatalogState={category:'other',page:0,query:'',view:'list',selectedId:null,busy:false,opener:null,loadSequence:0};
+const productCatalogForm=document.getElementById('formTitle').closest('.card');
+const productFormHome=document.createElement('div');productFormHome.id='productFormHome';productCatalogForm.before(productFormHome);
+function productCategory(item){return Object.hasOwn(productCategoryLabels,item.category)?item.category:'other';}
+function catalogImageUrl(value){try{const u=new URL(String(value||''));return ['https:','http:'].includes(u.protocol)?u.href:'';}catch{return '';}}
+function catalogThumbnail(value,alt,cls='catalog-thumbnail'){const u=catalogImageUrl(value);return u?'<img class="'+cls+'" src="'+escapeHTML(u)+'" alt="'+escapeHTML(alt||'등록 이미지')+'" loading="lazy" decoding="async">':'';}
+function bindCatalogImageFallback(root){root.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;}));}
+function renderProductCatalogDashboard(){
+ const target=document.getElementById('productList');
+ target.innerHTML='<p class="part-catalog-summary">총 '+allProducts.length+'개 · 종류별 최근 상품 3개 표시</p><div class="product-category-grid">'+Object.entries(productCategoryLabels).map(([key,label])=>{const items=allProducts.filter(item=>productCategory(item)===key);return '<section class="part-category-card"><header><h4>'+label+'</h4><span>'+items.length+'개</span></header><ul>'+items.slice(0,3).map(item=>'<li>'+escapeHTML(item.name||'상품명 미입력')+'</li>').join('')+'</ul>'+(items.length?'':'<p class="part-catalog-muted">등록된 상품이 없습니다.</p>')+'<button type="button" class="part-category-select" data-product-category="'+key+'">선택 →</button></section>';}).join('')+'</div>';
+ target.querySelectorAll('[data-product-category]').forEach(button=>button.addEventListener('click',()=>openProductCatalog(button.dataset.productCategory,button)));
+ if(!document.getElementById('productCatalogDialog').hidden&&productCatalogState.view!=='edit'){
+  if(productCatalogState.view==='detail'&&allProducts.some(p=>String(p.id)===String(productCatalogState.selectedId)))showProductCatalogDetail(productCatalogState.selectedId);else renderProductCatalogList();
+ }
+}
+async function loadProductCatalog(){
+ const sequence=++productCatalogState.loadSequence;
+ document.getElementById('productList').textContent='상품을 불러오는 중입니다.';
+ try{let rows=[],offset=0;while(true){const{data,error}=await supabaseClient.from('pcsolution').select('*').order('id',{ascending:false}).range(offset,offset+499);if(sequence!==productCatalogState.loadSequence)return;if(error)throw error;const page=Array.isArray(data)?data:[];rows.push(...page);if(page.length<500)break;offset+=500;}allProducts=rows;renderProductCatalogDashboard();}
+ catch(error){if(sequence===productCatalogState.loadSequence)document.getElementById('productList').textContent='상품을 불러오지 못했습니다. '+(error.message||'통신 오류');}
+}
+function openProductCatalog(category,opener){if(!Object.hasOwn(productCategoryLabels,category))return;productCatalogState.category=category;productCatalogState.page=0;productCatalogState.query='';productCatalogState.opener=opener||document.activeElement;document.getElementById('productCatalogDialog').hidden=false;renderProductCatalogList();document.getElementById('productCatalogClose').focus();}
+function restoreProductForm(){if(productCatalogForm.parentNode!==productFormHome.parentNode||productCatalogForm.previousElementSibling!==productFormHome)productFormHome.after(productCatalogForm);}
+function closeProductCatalog(){if(productCatalogState.busy)return;if(productCatalogState.view==='edit'){if(!confirm('수정 중인 상품 내용을 취소하고 닫을까요?'))return;editingProduct=null;resetForm();restoreProductForm();}document.getElementById('productCatalogDialog').hidden=true;productCatalogState.view='list';if(productCatalogState.opener?.isConnected)productCatalogState.opener.focus();}
+function renderProductCatalogList(){
+ restoreProductForm();productCatalogState.view='list';const state=productCatalogState;
+ document.getElementById('productCatalogTitle').textContent=productCategoryLabels[state.category]+' 상품 목록';
+ const found=allProducts.filter(p=>productCategory(p)===state.category&&[p.name,p.cpu,p.gpu,p.description].some(v=>String(v||'').toLowerCase().includes(state.query.toLowerCase().trim())));
+ state.page=Math.max(0,Math.min(state.page,Math.max(0,Math.ceil(found.length/12)-1)));
+ const content=document.getElementById('productCatalogContent');content.innerHTML='<label class="part-catalog-search">상품명·CPU·그래픽카드 검색<input id="productCatalogSearch" type="search" placeholder="검색어 입력"></label><p class="part-catalog-summary">'+found.length+'개 · 한 화면에 최대 12개</p><div class="part-catalog-grid">'+found.slice(state.page*12,state.page*12+12).map(p=>'<section class="product-catalog-tile"><label class="product-catalog-check"><input type="checkbox" class="product-select" value="'+escapeHTML(String(p.id))+'"> 선택삭제 대상</label><button type="button" class="part-catalog-model" data-product-id="'+escapeHTML(String(p.id))+'">'+catalogThumbnail(p.image_url,p.name)+'<strong>'+escapeHTML(p.name||'-')+'</strong><span>'+escapeHTML(p.cpu||'-')+'</span><span>'+escapeHTML(p.gpu||'-')+'</span><strong>'+escapeHTML(partCatalogMoney(p.price))+'</strong><small>상세 보기 →</small></button></section>').join('')+'</div>'+(found.length?'':'<p>등록된 상품이 없습니다.</p>')+'<div class="part-catalog-pagination"><button type="button" id="productCatalogPrevious" '+(state.page===0?'disabled':'')+'>이전</button><span>'+(state.page+1)+' / '+Math.max(1,Math.ceil(found.length/12))+'</span><button type="button" id="productCatalogNext" '+((state.page+1)*12>=found.length?'disabled':'')+'>다음</button><button type="button" id="productCatalogBulkDelete">현재 페이지 선택삭제</button></div>';
+ const search=document.getElementById('productCatalogSearch');search.value=state.query;search.addEventListener('input',()=>{state.query=search.value;state.page=0;renderProductCatalogList();document.getElementById('productCatalogSearch').focus();});
+ content.querySelectorAll('[data-product-id]').forEach(button=>button.addEventListener('click',()=>showProductCatalogDetail(button.dataset.productId)));
+ document.getElementById('productCatalogPrevious').addEventListener('click',()=>{state.page--;renderProductCatalogList();});document.getElementById('productCatalogNext').addEventListener('click',()=>{state.page++;renderProductCatalogList();});
+ document.getElementById('productCatalogBulkDelete').addEventListener('click',()=>runProductCatalogAction(()=>deleteSelectedProducts()));bindCatalogImageFallback(content);
+}
+function showProductCatalogDetail(id){
+ if(productCatalogState.busy)return;
+ const p=allProducts.find(item=>String(item.id)===String(id));if(!p)return;restoreProductForm();productCatalogState.view='detail';productCatalogState.selectedId=p.id;
+ document.getElementById('productCatalogTitle').textContent='상품 상세 확인';
+ const fields=[['분류',productCategoryLabels[productCategory(p)]],['가격',partCatalogMoney(p.price)],['CPU',p.cpu],['그래픽카드',p.gpu],['메모리',p.ram],['SSD',p.ssd],['메인보드',p['main board']],['파워',p.power],['모니터',p.monitor],['HDD',p.hdd],['키보드/마우스',p['keyboard mouse']],['상품 설명',p.description]];
+ const content=document.getElementById('productCatalogContent');content.innerHTML='<button type="button" id="productCatalogBack">← 목록으로</button><h3>'+escapeHTML(p.name||'-')+'</h3>'+catalogThumbnail(p.image_url,p.name,'catalog-detail-image')+'<dl class="product-catalog-details">'+fields.map(([label,value])=>'<div><dt>'+label+'</dt><dd>'+escapeHTML(String(value??'-'))+'</dd></div>').join('')+'</dl><div class="part-catalog-actions"><button type="button" id="productCatalogEdit">수정 · 이미지 교체</button><button type="button" id="productCatalogDelete" class="part-catalog-danger">삭제</button></div>';
+ document.getElementById('productCatalogBack').addEventListener('click',renderProductCatalogList);document.getElementById('productCatalogEdit').addEventListener('click',()=>editProductInCatalog(p.id));document.getElementById('productCatalogDelete').addEventListener('click',()=>runProductCatalogAction(()=>deleteProduct(p.id)));bindCatalogImageFallback(content);
+}
+function editProductInCatalog(id){
+ if(productCatalogState.busy)return;
+ const dirty=['name','price','cpu','gpu','ram','ssd','main_board','power','monitor','hdd','keyboard_mouse','description'].some(key=>document.getElementById(key)?.value.trim())||document.getElementById('image').files.length>0;
+ if(dirty&&!confirm('상품 입력폼의 작성 중인 내용을 선택한 상품으로 바꿀까요?'))return;
+ productCatalogState.view='edit';productCatalogState.selectedId=id;
+ document.getElementById('productCatalogTitle').textContent='상품 수정 · 메인 이미지';
+ const content=document.getElementById('productCatalogContent');content.replaceChildren(productCatalogForm);editProduct(id);
+}
+async function runProductCatalogAction(action){
+ if(productCatalogState.busy)return;productCatalogState.busy=true;
+ const close=document.getElementById('productCatalogClose'),save=document.getElementById('saveButton'),cancel=document.getElementById('cancelButton');close.disabled=true;save.disabled=true;cancel.disabled=true;productCatalogForm.inert=true;
+ try{await action();}finally{productCatalogState.busy=false;close.disabled=false;save.disabled=false;cancel.disabled=false;productCatalogForm.inert=false;}
+}
+function productCatalogSaved(){if(productCatalogState.view==='edit'&&!editingProduct){restoreProductForm();renderProductCatalogList();}}
+document.getElementById('productCatalogClose').addEventListener('click',closeProductCatalog);
+document.getElementById('productCatalogDialog').addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeProductCatalog();}if(event.key==='Tab'){const fields=[...event.currentTarget.querySelectorAll('button,input,textarea,select')].filter(el=>!el.disabled&&!el.closest('.hidden'));const first=fields[0],last=fields.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}}});
+
+// Shared optional images for products and all registered parts.
+const catalogPreviewUrls=new Map(),catalogUploadedFiles=new WeakMap();
+function validateCatalogImage(file){if(!file)return;if(!['image/jpeg','image/png','image/webp','image/gif'].includes(file.type))throw Error('JPG·PNG·WEBP·GIF 이미지를 선택해 주세요.');if(file.size>10*1024*1024)throw Error('이미지는 10MB 이하로 선택해 주세요.');}
+async function uploadCatalogImage(file,prefix='product'){
+ if(!file)return null;validateCatalogImage(file);if(catalogUploadedFiles.has(file))return catalogUploadedFiles.get(file);
+ const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif'}[file.type];
+ const name=prefix+'-'+Date.now()+'-'+Math.random().toString(36).slice(2)+'.'+ext;
+ const{error}=await supabaseClient.storage.from('product-images').upload(name,file,{cacheControl:'3600',upsert:false,contentType:file.type});if(error)throw Error('이미지 업로드 실패: '+error.message);
+ const{data}=supabaseClient.storage.from('product-images').getPublicUrl(name);if(!data?.publicUrl)throw Error('이미지 주소를 받지 못했습니다.');catalogUploadedFiles.set(file,data.publicUrl);return data.publicUrl;
+}
+function clearCatalogPreview(inputId,previewId){const old=catalogPreviewUrls.get(inputId);if(old){URL.revokeObjectURL(old);catalogPreviewUrls.delete(inputId);}const input=document.getElementById(inputId);if(input)input.value='';const preview=document.getElementById(previewId);if(preview){preview.removeAttribute('src');preview.hidden=true;}}
+function bindCatalogPreview(inputId,previewId){const input=document.getElementById(inputId);input.addEventListener('change',()=>{const file=input.files[0],preview=document.getElementById(previewId);const old=catalogPreviewUrls.get(inputId);if(old){URL.revokeObjectURL(old);catalogPreviewUrls.delete(inputId);}if(!file){preview.hidden=true;return;}try{validateCatalogImage(file);const url=URL.createObjectURL(file);catalogPreviewUrls.set(inputId,url);preview.src=url;preview.hidden=false;}catch(error){input.value='';preview.hidden=true;alert(error.message);}});}
+function renderPartCatalogImage(item,editable){
+ const fields=document.getElementById('partCatalogFields');fields.insertAdjacentHTML('beforeend','<div class="catalog-part-image"><h4>부품 이미지</h4>'+catalogThumbnail(item.image_url,item.model_name,'catalog-detail-image')+(editable?'<label>이미지 등록·교체<input id="partEditImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label><img id="partEditImagePreview" class="catalog-detail-image" alt="새 부품 이미지 미리보기" hidden><label><input id="partEditImageRemove" type="checkbox"> 기존 이미지 연결 제거</label>':'')+'</div>');
+ if(editable){bindCatalogPreview('partEditImage','partEditImagePreview');document.getElementById('partEditImage').addEventListener('change',()=>{if(document.getElementById('partEditImage').files.length)document.getElementById('partEditImageRemove').checked=false;});document.getElementById('partEditImageRemove').addEventListener('change',event=>{if(event.target.checked)clearCatalogPreview('partEditImage','partEditImagePreview');});}bindCatalogImageFallback(fields);
+}
+bindCatalogPreview('image','productNewImagePreview');bindCatalogPreview('partMasterImage','partMasterImagePreview');
 </script>
 </body>
 </html>
