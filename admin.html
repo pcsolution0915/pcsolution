@@ -1081,7 +1081,7 @@
     }
 
   @page {
-  size: A4 portrait;
+  size: 210mm 297mm;
   margin: 7mm;
 }
 
@@ -1795,7 +1795,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
      컴오아시스 견적서만 출력
   ===================================== */
 
-  body:not(.printing-customer-quote) #supplierQuoteModal {
+  body:not(.printing-customer-quote):not(.printing-supplier-reply) #supplierQuoteModal {
     display: block !important;
 
     position: static !important;
@@ -2074,7 +2074,91 @@ body.printing-customer-quote #quoteModal .danawa-area {
   box-sizing: border-box;
 }
 
- </style>
+ 
+/* Revision 17: customer estimate print preview side margins only. */
+@media print {
+ body.printing-customer-quote #quoteModal {
+  box-sizing:border-box !important;
+  width:100% !important;
+  padding-left:8mm !important;
+  padding-right:8mm !important;
+ }
+ body.printing-customer-quote #quoteModal .quote-modal-box,
+ body.printing-customer-quote #quoteModal .quote-modal-box.estimate-sheet {
+  box-sizing:border-box !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+ }
+ body.printing-customer-quote #quoteModal .estimate-table-wrap,
+ body.printing-customer-quote #quoteModal .estimate-table {
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+ }
+ body.printing-customer-quote #quoteModal .estimate-table { table-layout:fixed !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(1),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(1) { width:10.256410% !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(2),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(2) { width:11.794872% !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(3),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(3) { width:20.000000% !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(4),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(4) { width:28.717949% !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(5),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(5) { width:6.153846% !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(6),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(6) { width:11.282051% !important; }
+ body.printing-customer-quote #quoteModal .estimate-table th:nth-child(7),
+ body.printing-customer-quote #quoteModal .estimate-table td:nth-child(7) { width:11.794872% !important; }
+}
+</style>
+<style>
+
+.unit-summary { display:flex; justify-content:space-between; gap:15px; padding:12px 16px; margin-top:16px; border:1px solid #d5e0ee; background:#f4f8fd; font-size:13px; line-height:1.6; }
+.supplier-line-amount,.line-amount { text-align:right; font-weight:700; white-space:nowrap; }
+.pending-price { color:#718198; font-size:12px; text-align:center; }
+@media print { .unit-summary { padding:2mm; margin-top:2mm; font-size:8pt; break-inside:avoid; } }
+
+#supplierQuoteModal .supplier-table,#supplierReplyModal .supplier-table { table-layout:fixed; }
+@media print {
+ #supplierQuoteModal .supplier-table th,#supplierQuoteModal .supplier-table td,#supplierReplyModal .supplier-table th,#supplierReplyModal .supplier-table td { width:auto !important; }
+ #supplierQuoteModal .supplier-table th:nth-child(4),#supplierQuoteModal .supplier-table td:nth-child(4),#supplierReplyModal .supplier-table th:nth-child(4),#supplierReplyModal .supplier-table td:nth-child(4) { width:25% !important; }
+}
+
+
+/* Revision 21: real page summary styles, shared by screen and print. */
+.unit-summary { box-sizing:border-box; width:100%; display:grid; grid-template-columns:minmax(100px,1fr) minmax(0,1fr); gap:0; padding:0; margin:12px 0 0; border:1px solid #172033; background:#fff; color:#172033; font-size:13px; line-height:1.5; break-inside:avoid; }
+.unit-summary > span,.unit-summary > strong { padding:9px 12px; min-width:0; }
+.unit-summary > span { border-right:1px solid #172033; background:#f4f8fd; font-weight:700; }
+.unit-summary > strong { text-align:right; overflow-wrap:anywhere; }
+@media print {
+ .unit-summary { margin-top:2mm; font-size:8pt; border:1px solid #172033; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+ .unit-summary > span,.unit-summary > strong { padding:1.5mm 2mm; }
+}
+
+#quoteModal .unit-summary { grid-template-columns:150px minmax(0,1fr); border:2px solid #172033; }
+#quoteModal .unit-summary > span { text-align:center; }
+#quoteModal .estimate-company > div { grid-template-columns:90px minmax(0,1fr); }
+#quoteModal .estimate-company strong { box-sizing:border-box; border-right:1px solid #172033; }
+#quoteModal .estimate-company span { min-width:0; overflow-wrap:anywhere; }
+@media print {
+ body.printing-customer-quote #quoteModal .unit-summary { display:grid !important; grid-template-columns:22mm minmax(0,1fr) !important; padding:0 !important; border:1px solid #172033 !important; margin:2mm 0 0 !important; font-size:8pt !important; }
+ body.printing-customer-quote #quoteModal .unit-summary > span,
+ body.printing-customer-quote #quoteModal .unit-summary > strong { display:block !important; padding:1.5mm !important; }
+ body.printing-customer-quote #quoteModal .unit-summary > span { border-right:1px solid #172033 !important; }
+ body.printing-customer-quote #quoteModal .unit-summary > strong { text-align:right !important; }
+ body.printing-customer-quote #quoteModal .estimate-summary { display:grid !important; grid-template-columns:22mm minmax(0,1fr) !important; border:1px solid #172033 !important; border-top:0 !important; }
+ body.printing-customer-quote #quoteModal .estimate-company { display:block !important; }
+ body.printing-customer-quote #quoteModal .estimate-company > div { display:grid !important; grid-template-columns:22mm minmax(0,1fr) !important; border-bottom:1px solid #172033 !important; }
+ body.printing-customer-quote #quoteModal .estimate-company > div:last-child { border-bottom:0 !important; }
+ body.printing-customer-quote #quoteModal .estimate-company strong { display:block !important; border-right:1px solid #172033 !important; text-align:center !important; padding:1.5mm !important; }
+ body.printing-customer-quote #quoteModal .estimate-company span { display:block !important; padding:1.5mm 2mm !important; }
+}
+
+</style>
 </head>
 
 <body>
@@ -2369,6 +2453,250 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
 </div>    
 
+<!-- =====================================
+     PC 부품 관리
+===================================== -->
+
+<div class="card">
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+  ">
+
+    <div>
+      <h2 style="margin:0;">
+        🧩 PC 부품 관리
+      </h2>
+
+      <p style="
+        margin:6px 0 0;
+        color:#667085;
+        font-size:13px;
+      ">
+        견적 작성에 사용할 PC 부품을 등록하고 관리합니다.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div style="
+    display:grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap:14px;
+  ">
+
+    <div>
+      <label for="partMasterType">
+        품목
+      </label>
+
+      <select id="partMasterType">
+        <option value="Cpu">CPU</option>
+        <option value="MainBoard">메인보드</option>
+        <option value="Ram">메모리</option>
+        <option value="Ssd">SSD</option>
+        <option value="Gpu">그래픽카드</option>
+        <option value="Power">파워</option>
+        <option value="Case">케이스</option>
+        <option value="Cooler">쿨러</option>
+        <option value="Monitor">모니터</option>
+        <option value="Etc">기타</option>
+      </select>
+    </div>
+
+
+    <div>
+      <label for="partMasterMaker">
+        제조사
+      </label>
+
+      <input
+        id="partMasterMaker"
+        type="text"
+        placeholder="예: AMD"
+      >
+    </div>
+
+
+    <div style="grid-column:1/-1;">
+      <label for="partMasterModel">
+        모델명
+      </label>
+
+      <input
+        id="partMasterModel"
+        type="text"
+        placeholder="예: Ryzen 5 9600X"
+      >
+    </div>
+
+
+    <div style="grid-column:1/-1;">
+      <label for="partMasterSpec">
+        세부사양
+      </label>
+
+      <textarea
+        id="partMasterSpec"
+        placeholder="제품의 주요 사양을 입력하세요."
+        style="min-height:85px;"
+      ></textarea>
+    </div>
+
+
+    <div>
+      <label for="partMasterPurchasePrice">
+        매입가
+      </label>
+
+      <input
+        id="partMasterPurchasePrice"
+        type="number"
+        min="0"
+        placeholder="250000"
+        oninput="calculatePartSalePrice()"
+      >
+    </div>
+
+
+    <div>
+      <label for="partMasterSalePrice">
+        판매가
+      </label>
+
+      <input
+        id="partMasterSalePrice"
+        type="number"
+        min="0"
+        placeholder="자동 계산"
+      >
+
+      <div style="
+        margin-top:5px;
+        color:#667085;
+        font-size:12px;
+      ">
+        매입가 기준 내부 판매가가 자동 계산됩니다.
+      </div>
+    </div>
+
+
+    <div>
+      <label for="partMasterSupplier">
+        거래처
+      </label>
+
+      <input
+        id="partMasterSupplier"
+        type="text"
+        value="컴오아시스"
+      >
+    </div>
+
+
+    <div>
+      <label for="partMasterStatus">
+        상태
+      </label>
+
+      <select id="partMasterStatus">
+        <option value="판매중">판매중</option>
+        <option value="품절">품절</option>
+        <option value="단종">단종</option>
+      </select>
+    </div>
+
+
+    <div style="grid-column:1/-1;">
+      <label for="partMasterMemo">
+        관리자 메모
+      </label>
+
+      <textarea
+        id="partMasterMemo"
+        placeholder="관리자만 확인할 메모"
+        style="min-height:70px;"
+      ></textarea>
+    </div>
+
+  </div>
+
+
+  <div style="
+    display:flex;
+    gap:8px;
+    margin-top:18px;
+    flex-wrap:wrap;
+  ">
+
+    <button
+      id="partMasterSaveButton"
+      class="save-button"
+      type="button"
+      onclick="savePartMaster()"
+    >
+      ➕ 부품 등록
+    </button>
+
+    <button
+      id="partMasterCancelButton"
+      class="cancel-button hidden"
+      type="button"
+      onclick="cancelPartMasterEdit()"
+    >
+      ❌ 수정 취소
+    </button>
+
+  </div>
+
+
+  <div style="
+    margin-top:30px;
+    padding-top:22px;
+    border-top:1px solid #e5e7eb;
+  ">
+
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    ">
+
+      <h3 style="margin:0;">
+        📦 등록된 PC 부품
+      </h3>
+
+      <button
+        class="refresh-button"
+        type="button"
+        onclick="loadPartMaster()"
+      >
+        🔄 새로고침
+      </button>
+
+    </div>
+
+
+    <div
+      id="partMasterList"
+      style="margin-top:18px;"
+    >
+      등록된 부품을 불러오는 중입니다...
+    </div>
+
+  </div>
+
+</div>
+
 <div class="card">
 
   <div class="quote-header">
@@ -2558,6 +2886,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <th>모델명</th>
             <th class="spec-col">세부사양</th>
             <th class="qty-col">수량</th>
+            <th>개당 단가</th><th>공급액</th>
           </tr>
         </thead>
 
@@ -2579,6 +2908,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierCpuModel" placeholder="Ryzen 5 7600"></td>
             <td><textarea id="supplierCpuSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierCpuQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2597,6 +2927,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierMainBoardModel" placeholder="B650M"></td>
             <td><textarea id="supplierMainBoardSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierMainBoardQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2615,6 +2946,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierRamModel" placeholder="DDR5 16GB"></td>
             <td><textarea id="supplierRamSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierRamQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2633,6 +2965,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierSsdModel" placeholder="NVMe 1TB"></td>
             <td><textarea id="supplierSsdSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierSsdQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2651,6 +2984,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierGpuModel" placeholder="RTX 5060"></td>
             <td><textarea id="supplierGpuSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierGpuQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2669,6 +3003,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierPowerModel" placeholder="750W"></td>
             <td><textarea id="supplierPowerSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierPowerQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2687,6 +3022,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierCaseModel" placeholder="미들타워"></td>
             <td><textarea id="supplierCaseSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierCaseQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2705,6 +3041,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierCoolerModel" placeholder="CPU 쿨러"></td>
             <td><textarea id="supplierCoolerSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierCoolerQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2723,6 +3060,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierMonitorModel" placeholder="27인치 QHD"></td>
             <td><textarea id="supplierMonitorSpec" placeholder="세부 스펙"></textarea></td>
             <td><input id="supplierMonitorQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2732,6 +3070,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierEtcModel" placeholder="기타 부품"></td>
             <td><textarea id="supplierEtcSpec" placeholder="세부 내용"></textarea></td>
             <td><input id="supplierEtcQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
           <tr>
@@ -2741,6 +3080,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <td><input id="supplierLaborModel" placeholder="조립 및 세팅"></td>
             <td><textarea id="supplierLaborSpec" placeholder="조립 / 테스트 / 세팅 등"></textarea></td>
             <td><input id="supplierLaborQty" type="number" value="1" min="0"></td>
+            <td class="pending-price">회신 대기</td><td class="pending-price">-</td>
           </tr>
 
         </tbody>
@@ -2854,7 +3194,8 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <th>모델명</th>
             <th class="spec-col">세부사양</th>
             <th class="qty-col">수량</th>
-            <th>컴오아시스 회신</th>
+            <th>개당 단가 / 상태</th>
+            <th>공급액</th>
           </tr>
 
         </thead>
@@ -2863,7 +3204,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
           <tr>
             <td
-              colspan="6"
+              colspan="7"
               style="
                 padding:30px;
                 text-align:center;
@@ -2921,6 +3262,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
   <button
     class="save-button"
     type="button"
+    id="applySupplierReplyButton"
     onclick="applySupplierReplyToEstimate()"
   >
     💰 고객 견적에 반영
@@ -3051,8 +3393,8 @@ body.printing-customer-quote #quoteModal .danawa-area {
             <th>모델명</th>
             <th class="spec-col">세부스펙</th>
             <th class="qty-col">수량</th>
-            <th class="price-col">단가</th>
-            <th class="supply-col">공급가</th>
+            <th class="price-col">개당 단가</th>
+            <th class="supply-col">공급액</th>
           </tr>
         </thead>
 
@@ -3314,10 +3656,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
     </div>
 
+    <p style="font-size:12px;line-height:1.6;margin:12px 0">부가세 포함 · 현금/카드 동일가<br>개당 단가 합계는 참고용이며, 결제 금액은 수량을 반영한 공급액 합계입니다.</p>
+<div class="unit-summary"><span>개당 단가 합계</span><strong id="estimateUnitPriceTotal">0원</strong></div>
     <div class="estimate-summary">
 
       <div>
-        <strong>합계</strong>
+        <strong>공급액 합계</strong>
       </div>
 
       <div
@@ -3673,7 +4017,8 @@ async function checkSession() {
         .classList
         .remove("hidden");
 
-      await loadProducts();
+          await loadProducts();
+      await loadPartMaster();
       await loadQuoteRequests();
       
     }
@@ -5481,6 +5826,7 @@ async function openSupplierReply(
 
 currentSupplierReply =
   selectedReply;
+currentSupplierReplyItems = [];
 
   modal.classList.remove(
     "hidden"
@@ -5494,7 +5840,7 @@ currentSupplierReply =
   tbody.innerHTML = `
     <tr>
       <td
-        colspan="6"
+        colspan="7"
         style="
           padding:30px;
           text-align:center;
@@ -5552,6 +5898,7 @@ currentSupplierReply =
       throw error;
     }
 
+    if(Number(currentSupplierReply?.id)!==Number(selectedReply.id))return;
     currentSupplierReplyItems =
   items || [];
 
@@ -5695,7 +6042,7 @@ currentSupplierReply =
       tbody.innerHTML = `
         <tr>
           <td
-            colspan="6"
+            colspan="7"
             style="
               padding:30px;
               text-align:center;
@@ -5711,67 +6058,18 @@ currentSupplierReply =
     }
 
 
-    tbody.innerHTML =
-      items
-        .map(
-          item => `
-            <tr>
-
-              <th>
-                ${escapeHTML(
-                  getSupplierPartName(
-                    item.part_type
-                  )
-                )}
-              </th>
-
-              <td>
-                ${escapeHTML(
-                  item.manufacturer ||
-                  "-"
-                )}
-              </td>
-
-              <td>
-                ${escapeHTML(
-                  item.model_name ||
-                  "-"
-                )}
-              </td>
-
-              <td>
-                ${escapeHTML(
-                  item.specification ||
-                  "-"
-                )}
-              </td>
-
-              <td
-                style="
-                  text-align:center;
-                "
-              >
-                ${escapeHTML(
-                  item.quantity ?? 1
-                )}
-              </td>
-
-              <td
-                style="
-                  font-weight:800;
-                  color:#dc2626;
-                "
-              >
-                ${escapeHTML(
-                  item.supplier_price ||
-                  "-"
-                )}
-              </td>
-
-            </tr>
-          `
-        )
-        .join("");
+    tbody.innerHTML=items.map(function(item){
+ const values=calculateSupplierLine(item.supplier_price,item.quantity);
+ return `<tr>
+ <th>${escapeHTML(getSupplierPartName(item.part_type))}</th>
+ <td>${escapeHTML(item.manufacturer||'-')}</td>
+ <td>${escapeHTML(item.model_name||'-')}</td>
+ <td>${escapeHTML(item.specification||'-')}</td>
+ <td style="text-align:center">${escapeHTML(item.quantity??1)}</td>
+ <td class="supplier-unit-price">${escapeHTML(item.supplier_price||'-')}</td>
+ <td class="supplier-line-amount">${values?values.amount.toLocaleString('ko-KR')+'원':'-'}</td>
+ </tr>`;
+}).join('');
 
 
   } catch (error) {
@@ -5785,7 +6083,7 @@ currentSupplierReply =
     tbody.innerHTML = `
       <tr>
         <td
-          colspan="6"
+          colspan="7"
           style="
             padding:30px;
             text-align:center;
@@ -5815,251 +6113,64 @@ currentSupplierReply =
 ===================================== */
 
 async function applySupplierReplyToEstimate() {
-
-  if (
-    !currentSupplierReply ||
-    !currentSupplierReplyItems.length
-  ) {
-
-    alert(
-      "반영할 컴오아시스 회신이 없습니다."
-    );
-
-    return;
+ const button=document.getElementById('applySupplierReplyButton');
+ if(button?.disabled)return;
+ const reply=currentSupplierReply;
+ const items=Array.isArray(currentSupplierReplyItems)?currentSupplierReplyItems.map(item=>({...item})):[];
+ const quoteRequestId=Number(reply?.quote_request_id);
+ if(!reply||!items.length||!Number.isSafeInteger(quoteRequestId)||quoteRequestId<=0){
+  alert('반영할 회신 또는 연결된 상담 정보가 없습니다. 회신을 다시 열어주세요.');return;
+ }
+ const aliases={cpu:'Cpu',mainboard:'MainBoard',메인보드:'MainBoard',ram:'Ram',메모리:'Ram',ssd:'Ssd',gpu:'Gpu',그래픽카드:'Gpu',power:'Power',파워:'Power',case:'Case',케이스:'Case',cooler:'Cooler',쿨러:'Cooler',monitor:'Monitor',모니터:'Monitor',etc:'Etc',기타:'Etc'};
+ let skipped=0;
+ const applicable=[];
+ const usedParts=new Set();
+ for(const item of items){
+  const rawPart=String(item.part_type||'').trim();
+  // The supplier Labor row represents shipping; preserve the customer's existing labor charge.
+  if(['labor','공임','택배비','배송비','shipping','delivery'].includes(rawPart.toLowerCase().replace(/[\s_-]/g,'')) || String(item.model_name||'').trim()==='택배비')continue;
+  const part=aliases[rawPart.toLowerCase().replace(/[\s_-]/g,'')];
+  const priceText=String(item.supplier_price??'').replace(/[,원\s]/g,'');
+  const cost=Number(priceText);
+  if(!part||!/^\d+$/.test(priceText)||!Number.isSafeInteger(cost)||cost<=0){skipped++;continue;}
+  if(usedParts.has(part)){alert('같은 부품의 회신이 중복되어 있습니다. 회신 품목을 확인해주세요.');return;}
+  const customerPrice=Math.ceil((cost*120)/100000)*1000;
+  const quantity=item.quantity===null||item.quantity===undefined||item.quantity===''?1:Number(item.quantity);
+  if(!Number.isSafeInteger(customerPrice)||!Number.isSafeInteger(quantity)||quantity<1||!Number.isSafeInteger(customerPrice*quantity)){skipped++;continue;}
+  applicable.push({item,part,customerPrice,quantity});usedParts.add(part);
+ }
+ if(!applicable.length){alert('반영 가능한 숫자 공급가가 없습니다. 미입력·품절·문의 항목은 반영하지 않습니다.');return;}
+ if(!confirm('선택한 회신 '+applicable.length+'개 품목을 공급가에 20% 가산하여 고객 견적에 반영할까요?\n고객 견적 화면에서 확인 후 저장해야 고객 조회에 반영됩니다.'))return;
+ if(button)button.disabled=true;
+ try {
+  const opened=await openQuoteEditor(quoteRequestId);
+  if(opened!==true){alert('고객 견적을 열지 못해 회신을 반영하지 않았습니다.');return;}
+  for(const {part} of applicable){
+   for(const suffix of ['Price','Qty','Maker','Model','Spec']){
+    if(!document.getElementById('estimate'+part+suffix))throw Error('고객 견적 입력칸을 찾을 수 없습니다: '+part+suffix);
+   }
   }
-
-
-  const quoteRequestId =
-    Number(
-      currentSupplierReply.quote_request_id
-    );
-
-
-  if (!quoteRequestId) {
-
-    alert(
-      "연결된 상담 정보를 찾을 수 없습니다."
-    );
-
-    return;
+  for(const {item,part,customerPrice,quantity} of applicable){
+   const prefix='estimate'+part;
+   setEstimateValue(prefix+'Price',customerPrice);
+   setEstimateValue(prefix+'Qty',quantity);
+   for(const [suffix,key] of [['Maker','manufacturer'],['Model','model_name'],['Spec','specification']]){
+    const text=String(item[key]??'').trim();
+    if(text && text!=='-')setEstimateValue(prefix+suffix,text);
+   }
   }
-
-
-  const confirmed =
-    confirm(
-      "현재 보고 있는 컴오아시스 회신가를 고객 견적에 반영하시겠습니까?"
-    );
-
-
-  if (!confirmed) {
-    return;
-  }
-
-
-  /* =====================================
-     고객 견적 먼저 열기
-  ===================================== */
-
-  await openQuoteEditor(
-    quoteRequestId
-  );
-
-
-  /* =====================================
-     품목별 고객 견적 가격칸
-  ===================================== */
-
-  const priceFields = {
-
-    Cpu:
-      "estimateCpuPrice",
-
-    CPU:
-      "estimateCpuPrice",
-
-    MainBoard:
-      "estimateMainBoardPrice",
-
-    메인보드:
-      "estimateMainBoardPrice",
-
-    Ram:
-      "estimateRamPrice",
-
-    메모리:
-      "estimateRamPrice",
-
-    Ssd:
-      "estimateSsdPrice",
-
-    SSD:
-      "estimateSsdPrice",
-
-    Gpu:
-      "estimateGpuPrice",
-
-    그래픽카드:
-      "estimateGpuPrice",
-
-    Power:
-      "estimatePowerPrice",
-
-    파워:
-      "estimatePowerPrice",
-
-    Case:
-      "estimateCasePrice",
-
-    케이스:
-      "estimateCasePrice",
-
-    Cooler:
-      "estimateCoolerPrice",
-
-    쿨러:
-      "estimateCoolerPrice",
-
-    Monitor:
-      "estimateMonitorPrice",
-
-    모니터:
-      "estimateMonitorPrice",
-
-    Etc:
-      "estimateEtcPrice",
-
-    기타:
-      "estimateEtcPrice",
-
-    Labor:
-      "estimateLaborPrice",
-
-    공임:
-      "estimateLaborPrice"
-
-  };
-
-
-  let appliedCount = 0;
-
-
-  currentSupplierReplyItems
-    .forEach(function(item) {
-
-      const targetId =
-        priceFields[
-          item.part_type
-        ];
-
-
-      if (!targetId) {
-        return;
-      }
-
-
-      /* =====================================
-         "123,000원" 같은 값에서
-         숫자만 추출
-      ===================================== */
-
-      const rawPrice =
-        String(
-          item.supplier_price || ""
-        );
-
-
-      const numericText =
-        rawPrice.replace(
-          /[^0-9]/g,
-          ""
-        );
-
-
-      if (!numericText) {
-
-        /*
-          품절 / 단종 / 문의 등은
-          고객 가격에 반영하지 않음
-        */
-
-        return;
-      }
-
-
-      const supplierPrice =
-        Number(
-          numericText
-        );
-
-
-      if (
-        !Number.isFinite(
-          supplierPrice
-        ) ||
-        supplierPrice <= 0
-      ) {
-
-        return;
-      }
-
-
-      /* =====================================
-         내부 판매가 계산
-
-         공급가 × 1.15
-         → 1,000원 단위 올림
-      ===================================== */
-
-      const customerPrice =
-        Math.ceil(
-          (
-            supplierPrice *
-            1.15
-          ) /
-          1000
-        ) *
-        1000;
-
-
-      setEstimateValue(
-        targetId,
-        customerPrice
-      );
-
-
-      appliedCount++;
-
-    });
-
-
-  /* =====================================
-     총액 다시 계산
-  ===================================== */
-
   updateEstimateTotal();
-
-
-  /* =====================================
-     회신창 닫기
-  ===================================== */
-
+  saveEstimateDraft();
+  resizeAllEstimateTextareas();
   closeSupplierReply();
-
-
-  alert(
-    "✅ 컴오아시스 회신가를 고객 견적에 반영했습니다.\n\n" +
-    "반영된 품목: " +
-    appliedCount +
-    "개\n\n" +
-    "고객 견적을 확인한 후 저장해주세요."
-  );
-
+  alert('✅ '+applicable.length+'개 품목을 고객 견적 작성 화면에 반영했습니다.\n공급가 20% 가산 · 1,000원 단위 올림'+(skipped?'\n미입력·상태값 등 제외: '+skipped+'개':'')+'\n\n아직 서버에 저장하지 않았습니다. 확인 후 고객 견적 저장 버튼을 눌러주세요.');
+ } catch(error){
+  console.error('회신 고객 견적 반영 오류:',error);
+  alert('회신 반영 중 오류가 발생했습니다. 고객 견적을 확인해주세요.\n'+(error.message||String(error)));
+ } finally {if(button)button.disabled=false;}
 }
 
-/* =====================================
-   컴오아시스 회신 닫기
-===================================== */
-
+/* 고객 견적에 적용해도 서버 저장은 기존 저장 버튼으로 수행합니다. */
 function closeSupplierReply() {
 
   const modal =
@@ -6081,6 +6192,13 @@ function closeSupplierReply() {
 /* =====================================
    컴오아시스 품목명
 ===================================== */
+
+function calculateSupplierLine(price,quantity){
+ const raw=String(price??'').replace(/[,원\s]/g,'');
+ const unit=Number(raw),qty=Number(quantity);
+ if(!/^\d+$/.test(raw)||!Number.isSafeInteger(unit)||unit<0||!Number.isSafeInteger(qty)||qty<1||!Number.isSafeInteger(unit*qty))return null;
+ return {unit,qty,amount:unit*qty};
+}
 
 function getSupplierPartName(
   partType
@@ -7168,40 +7286,16 @@ function calculatePartSupply(part) {
 
 
 function updateEstimateTotal() {
-
-  let total = 0;
-
-  estimateParts.forEach(
-    function(part) {
-
-      total +=
-        calculatePartSupply(part);
-
-    }
-  );
-
-  const totalInput =
-    document.getElementById(
-      "estimateTotalPrice"
-    );
-
-  if (totalInput) {
-    totalInput.value = total;
-  }
-
-  const totalDisplay =
-    document.getElementById(
-      "estimateTotalDisplay"
-    );
-
-  if (totalDisplay) {
-
-    totalDisplay.textContent =
-      total.toLocaleString("ko-KR") +
-      "원";
-
-  }
-
+ let total=0,unitTotal=0;
+ estimateParts.forEach(function(part){
+  total+=calculatePartSupply(part);
+  const qty=getEstimateNumber('estimate'+part+'Qty');
+  const price=getEstimateNumber('estimate'+part+'Price');
+  if(qty>0 && price>=0)unitTotal+=price;
+ });
+ const input=document.getElementById('estimateTotalPrice');if(input)input.value=total;
+ const display=document.getElementById('estimateTotalDisplay');if(display)display.textContent=total.toLocaleString('ko-KR')+'원';
+ const units=document.getElementById('estimateUnitPriceTotal');if(units)units.textContent=unitTotal.toLocaleString('ko-KR')+'원';
 }
 
 
@@ -7229,7 +7323,7 @@ saveAdminView(
       "상담 신청을 찾을 수 없습니다."
     );
 
-    return;
+    return false;
 
   }
 
@@ -7602,7 +7696,7 @@ document
       error.message
     );
 
-    return;
+    return false;
 
   }
 
@@ -7640,6 +7734,7 @@ requestAnimationFrame(function() {
 });
 
 
+  return true;
 }
 
 
@@ -7823,32 +7918,66 @@ function copyEstimateToSupplierQuote() {
 
   }
 
+parts.forEach(function(part) {
 
-  parts.forEach(function(part) {
+  /* 고객 공임은 컴오아시스로 복사하지 않음 */
 
-    copyValue(
-      "estimate" + part + "Maker",
-      "supplier" + part + "Maker",
-      part === "Labor" ? "-" : ""
-    );
+  if (part === "Labor") {
+    return;
+  }
 
-    copyValue(
-      "estimate" + part + "Model",
-      "supplier" + part + "Model"
-    );
+  copyValue(
+    "estimate" + part + "Maker",
+    "supplier" + part + "Maker"
+  );
 
-    copyValue(
-      "estimate" + part + "Spec",
-      "supplier" + part + "Spec"
-    );
+  copyValue(
+    "estimate" + part + "Model",
+    "supplier" + part + "Model"
+  );
 
-    copyValue(
-      "estimate" + part + "Qty",
-      "supplier" + part + "Qty",
-      "1"
-    );
+  copyValue(
+    "estimate" + part + "Spec",
+    "supplier" + part + "Spec"
+  );
+
+  copyValue(
+    "estimate" + part + "Qty",
+    "supplier" + part + "Qty",
+    "1"
+  );
+
+});
+
+/* =====================================
+   컴오아시스 택배비 자동 입력
+===================================== */
+
+const shippingFields = {
+
+  supplierLaborMaker: "-",
+
+  supplierLaborModel: "택배비",
+
+  supplierLaborSpec: "박스당 배송비",
+
+  supplierLaborQty: "1"
+
+};
+
+
+Object.entries(shippingFields)
+  .forEach(function([id, value]) {
+
+    const element =
+      document.getElementById(id);
+
+    if (element) {
+      element.value = value;
+    }
 
   });
+  
 
 
   const request =
@@ -8235,16 +8364,24 @@ async function createSupplierReplyLink() {
       savedCount
     );
 
+/* =====================================
+   V2.0 컴오아시스 전용 회신 링크
+===================================== */
 
-    /* =====================================
-       3. 외부 회신 링크 생성
-    ===================================== */
+const replyUrl =
+  new URL(
+    "./supplier-reply.html",
+    window.location.href
+  );
 
-    const replyLink =
-      "https://pcsolution0915.github.io/pcsolution/supplier-reply.html?token=" +
-      encodeURIComponent(
-        replyToken
-      );
+replyUrl.searchParams.set(
+  "token",
+  replyToken
+);
+
+const replyLink =
+  replyUrl.toString();
+    
 
 
     /* =====================================
@@ -8959,6 +9096,1168 @@ document.addEventListener(
 
   }
 );
+
+/* =====================================
+   V2.0 PC 부품 판매가 자동 계산
+===================================== */
+
+function calculatePartSalePrice() {
+
+  const purchaseInput =
+    document.getElementById(
+      "partMasterPurchasePrice"
+    );
+
+  const saleInput =
+    document.getElementById(
+      "partMasterSalePrice"
+    );
+
+  if (
+    !purchaseInput ||
+    !saleInput
+  ) {
+    return;
+  }
+
+  const purchasePrice =
+    Number(
+      purchaseInput.value
+    );
+
+  if (
+    !Number.isFinite(purchasePrice) ||
+    purchasePrice <= 0
+  ) {
+
+    saleInput.value = "";
+
+    return;
+  }
+
+  /* 내부 판매가: 매입가에 20% 가산 */
+  const salePrice =
+    Math.round(
+      purchasePrice * 1.20
+    );
+
+  saleInput.value =
+    salePrice;
+
+}
+
+
+/* =====================================
+   V2.0 PC 부품 등록
+===================================== */
+
+async function savePartMaster() {
+
+  const partType =
+    document
+      .getElementById("partMasterType")
+      .value;
+
+  const manufacturer =
+    document
+      .getElementById("partMasterMaker")
+      .value
+      .trim();
+
+  const modelName =
+    document
+      .getElementById("partMasterModel")
+      .value
+      .trim();
+
+  const specification =
+    document
+      .getElementById("partMasterSpec")
+      .value
+      .trim();
+
+  const purchasePrice =
+    Number(
+      document
+        .getElementById(
+          "partMasterPurchasePrice"
+        )
+        .value
+    );
+
+  const salePrice =
+    Number(
+      document
+        .getElementById(
+          "partMasterSalePrice"
+        )
+        .value
+    );
+
+  const supplierName =
+    document
+      .getElementById("partMasterSupplier")
+      .value
+      .trim();
+
+  const stockStatus =
+    document
+      .getElementById("partMasterStatus")
+      .value;
+
+  const memo =
+    document
+      .getElementById("partMasterMemo")
+      .value
+      .trim();
+
+
+  if (!manufacturer) {
+
+    alert(
+      "제조사를 입력해주세요."
+    );
+
+    return;
+  }
+
+
+  if (!modelName) {
+
+    alert(
+      "모델명을 입력해주세요."
+    );
+
+    return;
+  }
+
+
+  if (
+    !Number.isFinite(purchasePrice) ||
+    purchasePrice < 0
+  ) {
+
+    alert(
+      "매입가를 확인해주세요."
+    );
+
+    return;
+  }
+
+
+  if (
+    !Number.isFinite(salePrice) ||
+    salePrice < 0
+  ) {
+
+    alert(
+      "판매가를 확인해주세요."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("product_master")
+        .insert({
+          part_type:
+            partType,
+
+          manufacturer:
+            manufacturer,
+
+          model_name:
+            modelName,
+
+          specification:
+            specification,
+
+          purchase_price:
+            purchasePrice,
+
+          sale_price:
+            salePrice,
+
+          supplier_name:
+            supplierName,
+
+          stock_status:
+            stockStatus,
+
+          memo:
+            memo
+        });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    alert(
+      "✅ PC 부품이 등록되었습니다."
+    );
+
+
+    /* 입력폼 초기화 */
+
+    document
+      .getElementById(
+        "partMasterMaker"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterModel"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterSpec"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterPurchasePrice"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterSalePrice"
+      )
+      .value = "";
+
+    document
+      .getElementById(
+        "partMasterMemo"
+      )
+      .value = "";
+
+
+    await loadPartMaster();
+
+
+  } catch (error) {
+
+    console.error(
+      "PC 부품 등록 오류:",
+      error
+    );
+
+    alert(
+      "PC 부품 등록 실패!\n\n" +
+      (
+        error.message ||
+        String(error)
+      )
+    );
+
+  }
+
+}
+
+/* =====================================
+   V2.0 PC 부품 목록 불러오기
+===================================== */
+
+async function loadPartMaster() {
+
+  const list =
+    document.getElementById(
+      "partMasterList"
+    );
+
+  if (!list) {
+    return;
+  }
+
+  list.innerHTML =
+    "등록된 부품을 불러오는 중입니다...";
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("product_master")
+        .select("*")
+        .order("id", {
+          ascending: false
+        });
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML = `
+        <div style="
+          padding:25px;
+          text-align:center;
+          color:#667085;
+        ">
+          등록된 PC 부품이 없습니다.
+        </div>
+      `;
+
+      return;
+    }
+
+    list.innerHTML =
+      data.map(part => {
+
+        const purchasePrice =
+          Number(
+            part.purchase_price || 0
+          ).toLocaleString("ko-KR");
+
+        const salePrice =
+          Number(
+            part.sale_price || 0
+          ).toLocaleString("ko-KR");
+
+        return `
+          <div style="
+            padding:16px;
+            margin-bottom:10px;
+            border:1px solid #e5e7eb;
+            border-radius:12px;
+            background:#fff;
+          ">
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              gap:12px;
+              flex-wrap:wrap;
+            ">
+
+              <div>
+
+                <strong style="
+                  font-size:16px;
+                ">
+                  ${escapeHTML(
+                    part.manufacturer || ""
+                  )}
+                  ${escapeHTML(
+                    part.model_name || ""
+                  )}
+                </strong>
+
+                <div style="
+                  margin-top:6px;
+                  color:#667085;
+                  font-size:13px;
+                ">
+                  ${escapeHTML(
+                    part.part_type || "-"
+                  )}
+                  ·
+                  ${escapeHTML(
+                    part.stock_status || "-"
+                  )}
+                </div>
+
+              </div>
+
+              <div style="
+                text-align:right;
+                font-size:13px;
+                line-height:1.7;
+              ">
+
+                <div>
+                  매입가
+                  <strong>
+                    ${purchasePrice}원
+                  </strong>
+                </div>
+
+                <div style="
+                  color:#1769e0;
+                ">
+                  판매가
+                  <strong>
+                    ${salePrice}원
+                  </strong>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  } catch (error) {
+
+    console.error(
+      "PC 부품 목록 조회 오류:",
+      error
+    );
+
+    list.innerHTML = `
+      <div style="
+        padding:20px;
+        color:#dc2626;
+      ">
+        PC 부품을 불러오지 못했습니다.
+        <br>
+        ${escapeHTML(
+          error.message ||
+          String(error)
+        )}
+      </div>
+    `;
+
+  }
+
+}
+
+</script>
+
+<style>
+
+/* =====================================
+   V2.0 컴오아시스 회신 PDF 최적화
+   A4 세로 출력
+===================================== */
+
+@media print {
+
+  /* 관리자 화면 숨기기 */
+
+  body.printing-supplier-reply > .container,
+  body.printing-supplier-reply #quoteModal,
+  body.printing-supplier-reply #supplierQuoteModal {
+    display: none !important;
+  }
+
+  /* 회신 모달 */
+
+  body.printing-supplier-reply #supplierReplyModal {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    overflow: visible !important;
+  }
+
+  /* 회신서 본문 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .quote-modal-box {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* 버튼 숨기기 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal button {
+    display: none !important;
+  }
+
+  /* 제목 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .quote-modal-header {
+    margin-bottom: 2mm !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyModal .quote-modal-header h2 {
+    font-size: 13pt !important;
+    margin: 0 !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyModal .quote-modal-header p {
+    font-size: 7pt !important;
+    margin-top: 1mm !important;
+  }
+
+  /* 회신 정보 */
+
+  body.printing-supplier-reply
+  #supplierReplyInfo {
+    padding: 2mm !important;
+    margin-bottom: 2mm !important;
+    font-size: 7pt !important;
+    line-height: 1.25 !important;
+  }
+
+  /* 표 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table-wrap {
+    width: 100% !important;
+    overflow: visible !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    font-size: 7pt !important;
+  }
+
+  /* 표 제목 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table thead th {
+    height: 6mm !important;
+    padding: 0.7mm !important;
+    font-size: 7pt !important;
+    line-height: 1.15 !important;
+  }
+
+  /* 표 내용 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table tbody th,
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table tbody td {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0.8mm !important;
+    font-size: 7pt !important;
+    line-height: 1.15 !important;
+    vertical-align: middle !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    border: 1px solid #333 !important;
+  }
+
+  /* 행 분할 방지 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* 열 너비 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table .part-col {
+    width: 10% !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table .spec-col {
+    width: 28% !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyModal .supplier-table .qty-col {
+    width: 6% !important;
+  }
+
+  /* 공급금액 합계 */
+
+  body.printing-supplier-reply
+  #supplierReplyTotalBox {
+    margin-top: 2mm !important;
+    padding: 2mm !important;
+    border-radius: 0 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyTotalBox > div {
+    margin-top: 1mm !important;
+    font-size: 8pt !important;
+    line-height: 1.2 !important;
+  }
+
+  body.printing-supplier-reply
+  #supplierReplyTotalAmount {
+    font-size: 14pt !important;
+    font-weight: 800 !important;
+  }
+
+  /* 추가 회신 */
+
+  body.printing-supplier-reply
+  #supplierReplyMessage {
+    margin-top: 1mm !important;
+    font-size: 7pt !important;
+    line-height: 1.25 !important;
+  }
+
+  /* 추가 회신 상자 */
+
+  body.printing-supplier-reply
+  #supplierReplyModal
+  .supplier-table-wrap ~ div:not(#supplierReplyTotalBox) {
+    margin-top: 2mm !important;
+    padding: 2mm !important;
+  }
+
+}
+
+</style>
+
+<script>
+
+(function() {
+
+  const modal =
+    document.getElementById(
+      "supplierReplyModal"
+    );
+
+  const tbody =
+    document.getElementById(
+      "supplierReplyItems"
+    );
+
+  if (!modal || !tbody) {
+    return;
+  }
+
+  const tableWrap =
+    tbody.closest(
+      ".supplier-table-wrap"
+    );
+
+  if (!tableWrap) {
+    return;
+  }
+
+
+  /* =====================================
+     공급금액 합계 표시 영역
+  ===================================== */
+
+  const totalBox =
+    document.createElement("div");
+
+  totalBox.id =
+    "supplierReplyTotalBox";
+
+  totalBox.style.cssText = `
+    margin-top:18px;
+    padding:20px;
+    background:#eef6ff;
+    border:1px solid #bfdbfe;
+    border-radius:12px;
+    text-align:center;
+  `;
+
+  totalBox.innerHTML = `
+
+    <div style="
+      color:#475569;
+      font-size:15px;
+      font-weight:bold;
+    ">
+      💰 공급액 합계
+    </div>
+
+    <div class="unit-summary"><span>개당 단가 합계</span><strong id="supplierReplyUnitPriceTotal">0원</strong></div>
+<div
+      id="supplierReplyTotalAmount"
+      style="
+        margin-top:8px;
+        color:#1769e0;
+        font-size:28px;
+        font-weight:800;
+      "
+    >
+      0원
+    </div>
+
+    <div
+      id="supplierReplyTotalGuide"
+      style="
+        margin-top:10px;
+        color:#64748b;
+        font-size:13px;
+        line-height:1.6;
+      "
+    ></div>
+
+  `;
+
+  totalBox.hidden = true;
+
+  tableWrap.insertAdjacentElement(
+    "afterend",
+    totalBox
+  );
+
+
+  /* =====================================
+     공급금액 자동 합계
+  ===================================== */
+
+  function updateSupplierReplyTotal(){
+ const items=Array.isArray(currentSupplierReplyItems)?currentSupplierReplyItems:[];
+ const rows=tbody.querySelectorAll('tr');
+ if(!items.length||rows.length!==items.length||tbody.textContent.includes('불러오는 중')||tbody.textContent.includes('불러오지 못했습니다')){totalBox.hidden=true;return;}
+ let total=0,units=0,excluded=0;
+ items.forEach(function(item,index){
+  if(['Labor','공임'].includes(item.part_type)&&String(item.model_name||'').trim()==='택배비'){
+   const heading=rows[index].querySelector('th');if(heading)heading.textContent='택배비';
+  }
+  const line=calculateSupplierLine(item.supplier_price,item.quantity);
+  if(!line||!Number.isSafeInteger(total+line.amount)||!Number.isSafeInteger(units+line.unit)){excluded++;return;}
+  total+=line.amount;units+=line.unit;
+ });
+ document.getElementById('supplierReplyUnitPriceTotal').textContent=units.toLocaleString('ko-KR')+'원';
+ document.getElementById('supplierReplyTotalAmount').textContent=total.toLocaleString('ko-KR')+'원';
+ document.getElementById('supplierReplyTotalGuide').textContent=excluded?'계산 제외 '+excluded+'개 품목이 있습니다.':'수량 × 개당 단가 기준이며 택배비를 포함한 공급액 합계입니다.';
+ totalBox.hidden=false;
+ }
+
+
+  /* =====================================
+     회신 품목 표시 후 자동 계산
+  ===================================== */
+
+  const observer =
+    new MutationObserver(
+      updateSupplierReplyTotal
+    );
+
+  observer.observe(
+    tbody,
+    {
+      childList: true
+    }
+  );
+
+/* =====================================
+   PDF 저장 / 인쇄 버튼
+===================================== */
+
+const closeButton =
+  modal.querySelector(
+    'button[onclick="closeSupplierReply()"]'
+  );
+
+if (closeButton) {
+
+  const printButton =
+    document.createElement("button");
+
+  printButton.type = "button";
+
+  printButton.className =
+    "save-button";
+
+  printButton.textContent =
+    "🖨️ 회신서 PDF 저장 / 인쇄";
+
+  printButton.addEventListener(
+    "click",
+    function() {
+
+      if (totalBox.hidden) {
+
+        alert(
+          "회신 정보를 불러온 후 인쇄해 주세요."
+        );
+
+        return;
+
+      }
+
+      /* =====================================
+         V2.0 독립 PDF 출력 실행
+      ===================================== */
+
+      printSupplierReplyOnly();
+
+    }
+  );
+    
+
+    closeButton.parentNode.insertBefore(
+      printButton,
+      closeButton
+    );
+
+  }
+
+})();
+
+</script>
+
+<!-- =====================================
+     V2.0 컴오아시스 독립 PDF 출력
+===================================== -->
+
+<script>
+
+function printSupplierReplyOnly() {
+
+  const modal =
+    document.getElementById(
+      "supplierReplyModal"
+    );
+
+  const table =
+    modal?.querySelector(
+      ".supplier-table"
+    );
+
+  const totalBox =
+    document.getElementById(
+      "supplierReplyTotalBox"
+    );
+
+  if (
+    !modal ||
+    !table ||
+    !totalBox ||
+    totalBox.hidden
+  ) {
+
+    alert("출력할 회신 정보가 없습니다.");
+    return;
+
+  }
+
+  /* HTML 특수문자 보호 */
+
+  function safe(value) {
+
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+  /* 표 데이터 생성 */
+
+  function makeRows(selector) {
+
+    return Array.from(
+      table.querySelectorAll(selector)
+    ).map(function(row) {
+
+      const cells =
+        Array.from(row.children)
+          .filter(cell =>
+            cell.matches("th, td")
+          );
+
+      return "<tr>" +
+        cells.map(function(cell) {
+
+          const tag =
+            cell.tagName.toLowerCase();
+
+          return "<" + tag + ">" +
+            safe(cell.innerText) +
+            "</" + tag + ">";
+
+        }).join("") +
+        "</tr>";
+
+    }).join("");
+
+  }
+
+  const headerRows =
+    makeRows("thead tr");
+
+  const bodyRows =
+    makeRows("tbody tr");
+
+  const info =
+    document.getElementById(
+      "supplierReplyInfo"
+    )?.innerText || "";
+
+  const total =
+    document.getElementById(
+      "supplierReplyTotalAmount"
+    )?.textContent || "0원";
+
+  const unitTotal=document.getElementById('supplierReplyUnitPriceTotal')?.textContent||'-';
+
+  const guide =
+    document.getElementById(
+      "supplierReplyTotalGuide"
+    )?.textContent || "";
+
+  const message =
+    document.getElementById(
+      "supplierReplyMessage"
+    )?.innerText || "-";
+
+  /* 새 인쇄창 */
+
+  const printWindow =
+    window.open("", "_blank");
+
+  if (!printWindow) {
+
+    alert(
+      "인쇄창이 차단되었습니다.\n팝업 차단을 해제해 주세요."
+    );
+
+    return;
+
+  }
+
+  printWindow.onload = function() {
+
+    setTimeout(function() {
+
+      printWindow.focus();
+      printWindow.print();
+
+    }, 300);
+
+  };
+
+  printWindow.document.open();
+
+  printWindow.document.write(`
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>PC SOLUTION 컴오아시스 회신서</title>
+
+<style>
+
+@page {
+  size: A4 portrait;
+  margin: 7mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+}
+
+body {
+  padding: 0 8mm;
+  font-family:
+    Arial,
+    "Malgun Gothic",
+    sans-serif;
+  color: #172033;
+  font-size: 8pt;
+}
+
+h1 {
+  margin: 0 0 3mm;
+  text-align: center;
+  font-size: 15pt;
+}
+
+.info {
+  padding: 2mm;
+  margin-bottom: 3mm;
+  border: 1px solid #cbd5e1;
+  white-space: pre-line;
+  font-size: 7.5pt;
+  line-height: 1.3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: 1px solid #475569;
+  padding: 1mm;
+  font-size: 7pt;
+  line-height: 1.2;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-line;
+}
+
+thead th {
+  background: #e2e8f0;
+  text-align: center;
+  font-weight: bold;
+}
+
+tbody th {
+  text-align: center;
+}
+
+tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.total {
+  margin-top: 3mm;
+  padding: 3mm;
+  border: 1px solid #94a3b8;
+  text-align: center;
+  break-inside: avoid;
+}
+
+.total-title {
+  font-weight: bold;
+  font-size: 9pt;
+}
+
+.total-amount {
+  margin-top: 1mm;
+  font-size: 15pt;
+  font-weight: 800;
+  color: #1769e0;
+}
+
+.total-guide {
+  margin-top: 1mm;
+  font-size: 7pt;
+  color: #64748b;
+}
+
+.message {
+  margin-top: 3mm;
+  padding: 2mm;
+  border: 1px solid #cbd5e1;
+  font-size: 7.5pt;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.message strong {
+  display: block;
+  margin-bottom: 1mm;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>📩 컴오아시스 견적 회신서</h1>
+
+<div class="info">${safe(info)}</div>
+
+<table>
+
+<colgroup>
+  <col style="width:10%">
+  <col style="width:12%">
+  <col style="width:20%">
+  <col style="width:27%">
+  <col style="width:7%">
+  <col style="width:13%">
+  <col style="width:11%">
+</colgroup>
+
+<thead>
+${headerRows}
+</thead>
+
+<tbody>
+${bodyRows}
+</tbody>
+
+</table>
+
+<div class="total">
+
+  <div class="total-title">개당 단가 합계: ${safe(unitTotal)}</div>
+  <div class="total-title">
+    공급액 합계
+  </div>
+
+  <div class="total-amount">
+    ${safe(total)}
+  </div>
+
+  <div class="total-guide">
+    ${safe(guide)}
+  </div>
+
+</div>
+
+<div class="message"><strong>📝 컴오아시스 추가 회신</strong>${safe(message)}</div>
+
+<style>
+@media print {
+ body.printing-supplier-reply #supplierReplyModal {
+  box-sizing:border-box !important;
+  width:100% !important;
+  padding-left:8mm !important;
+  padding-right:8mm !important;
+ }
+}
+</style>
+<style>
+.unit-summary { display:flex; justify-content:space-between; gap:15px; padding:12px 16px; margin-top:16px; border:1px solid #d5e0ee; background:#f4f8fd; font-size:13px; line-height:1.6; }
+.supplier-line-amount,.line-amount { text-align:right; font-weight:700; white-space:nowrap; }
+.pending-price { color:#718198; font-size:12px; text-align:center; }
+@media print { .unit-summary { padding:2mm; margin-top:2mm; font-size:8pt; break-inside:avoid; } }
+
+#supplierQuoteModal .supplier-table,#supplierReplyModal .supplier-table { table-layout:fixed; }
+@media print {
+ #supplierQuoteModal .supplier-table th,#supplierQuoteModal .supplier-table td,#supplierReplyModal .supplier-table th,#supplierReplyModal .supplier-table td { width:auto !important; }
+ #supplierQuoteModal .supplier-table th:nth-child(4),#supplierQuoteModal .supplier-table td:nth-child(4),#supplierReplyModal .supplier-table th:nth-child(4),#supplierReplyModal .supplier-table td:nth-child(4) { width:25% !important; }
+}
+</style>
+</body>
+</html>
+
+  `);
+
+  printWindow.document.close();
+
+}
 
 </script>
 

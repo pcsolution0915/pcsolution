@@ -10,11 +10,2038 @@
   content="width=device-width, initial-scale=1.0"
 >
 
-<title>피씨솔루션-최종수정</title>
+<meta
+  name="description"
+  content="PC SOLUTION 조립PC 전문 쇼핑몰. 게이밍 PC, 사무용 PC, 맞춤 견적 상담."
+>
+
+<title>PC SOLUTION | 조립PC 전문 쇼핑몰</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<style>
+
+/* ==========================================
+   PC SOLUTION V2.0
+   INDEX DESIGN 1.0
+========================================== */
+
+:root {
+  --blue:#086bfa;
+  --navy:#071b39;
+  --text:#101e37;
+  --gray:#64748b;
+  --line:#e3eaf5;
+  --bg:#f6f9ff;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+body {
+  margin:0;
+  font-family:Arial,"Malgun Gothic",sans-serif;
+  color:var(--text);
+  background:var(--bg);
+}
+
+button,
+input,
+select {
+  font:inherit;
+}
+
+button {
+  cursor:pointer;
+}
+
+a {
+  text-decoration:none;
+  color:inherit;
+}
+
+.container {
+  width:min(1280px,94%);
+  margin:auto;
+}
+
+section {
+  scroll-margin-top:90px;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:white;
+  box-shadow:0 2px 12px #10204012;
+}
+
+.header-inner {
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo {
+  flex-shrink:0;
+}
+
+.logo strong {
+  display:block;
+  font-size:27px;
+  font-weight:1000;
+  font-style:italic;
+  letter-spacing:-1.5px;
+}
+
+.logo strong span {
+  color:var(--blue);
+}
+
+.logo small {
+  font-size:10px;
+  color:var(--gray);
+}
+
+.nav {
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+
+.nav a {
+  font-size:14px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.nav a:hover {
+  color:var(--blue);
+}
+
+.admin-link {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.admin-link span {
+  font-size:24px;
+}
+
+.menu-button {
+  display:none;
+  border:0;
+  background:none;
+  font-size:25px;
+}
+
+/* ==========================================
+   HERO
+========================================== */
+
+.hero {
+  position:relative;
+  min-height:465px;
+  overflow:hidden;
+  color:white;
+
+  background:
+    radial-gradient(
+      circle at 75% 35%,
+      #6b24cf99,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 45% 65%,
+      #087aff88,
+      transparent 45%
+    ),
+    linear-gradient(
+      120deg,
+      #03091c,
+      #101046 55%,
+      #070c22
+    );
+}
+
+.hero-inner {
+  min-height:465px;
+  display:flex;
+  align-items:center;
+  position:relative;
+}
+
+.hero-content {
+  position:relative;
+  z-index:3;
+  padding-bottom:75px;
+}
+
+.hero-label {
+  font-size:13px;
+  margin-bottom:15px;
+}
+
+.hero-label::before {
+  content:"■ ";
+  color:#00cfff;
+}
+
+.hero h1 {
+  margin:0;
+  font-size:clamp(35px,4.5vw,60px);
+  line-height:1.17;
+  letter-spacing:-2px;
+  font-weight:1000;
+}
+
+.hero h1 span {
+  background:linear-gradient(
+    90deg,
+    #ff9ce9,
+    #a67cff,
+    #35e3ff
+  );
+
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p {
+  margin:20px 0;
+  font-size:15px;
+  line-height:1.7;
+}
+
+.hero-buttons {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 24px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.btn:hover {
+  transform:translateY(-3px);
+}
+
+.btn-blue {
+  background:var(--blue);
+  color:white;
+  box-shadow:0 5px 18px #087aff66;
+}
+
+.btn-outline {
+  border:1px solid #ffffffaa;
+  color:white;
+}
+
+/* RGB gaming photography */
+.hero { background:#030e22; isolation:isolate; }
+.hero-art { position:absolute; inset:0; z-index:-2; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(3,14,34,.96) 0%,rgba(3,14,34,.8) 28%,rgba(3,14,34,.2) 52%,transparent 72%); }
+.hero-inner { min-height:510px; }
+.hero-content { padding:44px 0 116px; max-width:620px; }
+.hero-label { color:#b5d5f5; letter-spacing:1.6px; font-size:11px; font-weight:700; }
+.hero h1 { font-size:clamp(36px,4.1vw,58px); line-height:1.2; text-shadow:0 2px 20px #00102866; }
+.hero p { color:#d5e4f5; font-size:14px; }
+.hero .btn-blue { background:linear-gradient(100deg,#087aff,#00a8ed); }
+.hero .btn-outline { background:#061b3f66; }
+.hero-benefits { background:#03152be8; }
+.hero .btn:focus-visible { outline:3px solid #6be6ff; outline-offset:5px; }
+@media(min-width:1600px) { .hero-art { object-position:center 55%; } }
+@media(max-width:760px) {
+  .hero-inner { min-height:670px; align-items:flex-start; }
+  .hero-art { height:340px; top:235px; object-position:75% center; }
+  .hero::after { background:linear-gradient(180deg,#030e22 0%,#030e22 30%,transparent 55%,#030e2240 75%,#030e22 90%); }
+  .hero-content { padding:30px 0 0; max-width:100%; }
+  .hero h1 { font-size:clamp(32px,7.7vw,44px); }
+  .hero p { margin:12px 0 16px; font-size:12px; }
+  .hero .btn { padding:11px 16px; font-size:12px; }
+  .hero-label { margin-bottom:12px; font-size:10px; }
+  .hero-benefits .benefits-inner { padding:14px 0; gap:14px 8px; }
+  .hero-benefits .benefit { gap:8px; }
+  .hero-benefits .benefit-icon { font-size:22px; }
+}
+
+/* HERO BENEFITS */
+
+.hero-benefits {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background:#0007;
+  border-top:1px solid #ffffff22;
+}
+
+.benefits-inner {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  padding:18px 0;
+}
+
+.benefit {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.benefit-icon {
+  font-size:27px;
+}
+
+.benefit strong {
+  display:block;
+  font-size:13px;
+}
+
+.benefit small {
+  display:block;
+  font-size:11px;
+  color:#cbd5e1;
+  margin-top:4px;
+}
+
+/* ==========================================
+   CATEGORY
+========================================== */
+
+.category-section {
+  padding:20px 0 10px;
+}
+
+.category-grid {
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+
+.category-card {
+  position:relative;
+  min-height:115px;
+  padding:16px;
+  border-radius:13px;
+  background:white;
+  border:1px solid var(--line);
+  box-shadow:0 5px 18px #1234560a;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.category-card:hover {
+  transform:translateY(-4px);
+}
+
+.category-card:first-child {
+  background:linear-gradient(
+    135deg,
+    #0349c5,
+    #6237e8
+  );
+  color:white;
+}
+
+.category-card strong {
+  display:block;
+  font-size:15px;
+}
+
+.category-card small {
+  display:block;
+  font-size:11px;
+  margin-top:7px;
+  opacity:.7;
+}
+
+.category-icon {
+  position:absolute;
+  right:12px;
+  bottom:7px;
+  font-size:39px;
+}
+
+/* ==========================================
+   SECTION
+========================================== */
+
+.section {
+  padding:25px 0;
+}
+
+.section-heading {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.section-label {
+  color:var(--blue);
+  font-size:13px;
+  font-weight:bold;
+}
+
+.section-heading h2 {
+  font-size:29px;
+  margin:6px 0;
+  letter-spacing:-1px;
+}
+
+.section-heading h2 span {
+  color:var(--blue);
+}
+
+.section-heading p {
+  margin:0;
+  color:var(--gray);
+  font-size:13px;
+}
+
+.more-button {
+  border:1px solid #d8e5f7;
+  background:white;
+  border-radius:25px;
+  padding:10px 17px;
+  font-size:12px;
+  color:var(--blue);
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+/* ==========================================
+   PRODUCTS
+========================================== */
+
+.product-controls {
+  display:flex;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.product-controls input,
+.product-controls select {
+  padding:10px 13px;
+  border:1px solid #dce5f2;
+  border-radius:8px;
+  background:white;
+  font-size:12px;
+}
+
+.product-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+}
+
+.product-card {
+  min-width:0;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:15px;
+  box-shadow:0 5px 20px #1234560a;
+  transition:.2s;
+}
+
+.product-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 30px #12345620;
+}
+
+.product-image-box {
+  height:190px;
+  border-radius:10px;
+  background:#f4f7ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.product-image {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  cursor:zoom-in;
+}
+
+.product-placeholder {
+  font-size:65px;
+  color:#8ba5ca;
+}
+
+.product-card h3 {
+  font-size:16px;
+  margin:14px 0 8px;
+  line-height:1.4;
+}
+
+.product-card h3 a:hover {
+  color:var(--blue);
+}
+
+.product-specs {
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-bottom:13px;
+}
+
+.product-specs span {
+  background:#eef3fa;
+  border-radius:5px;
+  padding:5px 7px;
+  font-size:11px;
+  color:#53647e;
+}
+
+.product-price {
+  font-size:21px;
+  font-weight:900;
+  color:#0d1b34;
+}
+
+.empty-message {
+  grid-column:1/-1;
+  text-align:center;
+  padding:35px;
+  color:var(--gray);
+}
+
+/* ==========================================
+   CONSULTATION + QR
+========================================== */
+
+.middle-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  align-items:stretch;
+}
+
+.consultation-board,
+.contact-board {
+  min-width:0;
+  height:320px;
+  border-radius:15px;
+  border:1px solid var(--line);
+  box-shadow:0 5px 20px #1234560a;
+}
+
+.consultation-board {
+  padding:18px;
+  background:white;
+  display:flex;
+  flex-direction:column;
+}
+
+.board-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:15px;
+  gap:10px;
+}
+
+.board-heading h3 {
+  margin:0;
+  font-size:19px;
+}
+
+.board-heading p {
+  margin:5px 0 0;
+  font-size:11px;
+  color:var(--gray);
+}
+
+.consultation-table {
+  flex:1;
+  min-height:0;
+  border:1px solid #e4ebf5;
+  border-radius:8px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.consultation-header,
+.consultation-row {
+  display:grid;
+  grid-template-columns:1fr 100px 105px;
+  align-items:center;
+  gap:6px;
+  padding:10px;
+  font-size:12px;
+}
+
+.consultation-header {
+  background:#182d50;
+  color:white;
+  font-weight:bold;
+  text-align:center;
+}
+
+.consultation-header div:first-child {
+  text-align:left;
+}
+
+#consultationStatusList {
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  scrollbar-width:thin;
+}
+
+.consultation-row {
+  min-height:42px;
+  border-bottom:1px solid #edf1f7;
+}
+
+.consultation-name {
+  font-weight:bold;
+}
+
+.consultation-date,
+.consultation-status {
+  text-align:center;
+}
+
+.status-badge {
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 8px;
+  font-size:11px;
+  font-weight:bold;
+  background:#edf4ff;
+  color:#1769e0;
+}
+
+.status-received {
+  background:#fff0e4;
+  color:#e66b19;
+}
+
+.status-estimate {
+  background:#e8f2ff;
+  color:#1769e0;
+}
+
+.status-consulting {
+  background:#f1e6ff;
+  color:#8b36dc;
+}
+
+.status-complete {
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.contact-board {
+  padding:22px;
+  color:white;
+  background:linear-gradient(
+    135deg,
+    #071a3c,
+    #0052c6
+  );
+}
+
+.contact-board h3 {
+  margin:0 0 10px;
+  font-size:24px;
+}
+
+.contact-board p {
+  font-size:12px;
+  line-height:1.6;
+  margin:0 0 15px;
+}
+
+.contact-inner {
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:15px;
+  align-items:center;
+}
+
+.qr-box {
+  background:white;
+  padding:10px;
+  border-radius:12px;
+  text-align:center;
+  color:var(--navy);
+}
+
+.qr-box img {
+  display:block;
+  width:100%;
+  aspect-ratio:1;
+}
+
+.qr-box small {
+  display:block;
+  font-size:10px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.contact-buttons {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.contact-buttons a,
+.contact-buttons button {
+  display:block;
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:13px 10px;
+  font-size:13px;
+  font-weight:900;
+  text-align:center;
+}
+
+.kakao-contact {
+  background:#fee500;
+  color:#241b00;
+}
+
+.phone-contact {
+  background:#00b997;
+  color:white;
+}
+
+.copy-contact {
+  background:#0876ff;
+  color:white;
+}
+
+/* ==========================================
+   SERVICE
+========================================== */
+
+.service-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.service-card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.service-card .icon {
+  font-size:28px;
+}
+
+.service-card strong {
+  font-size:13px;
+}
+
+.service-card p {
+  font-size:11px;
+  color:var(--gray);
+  margin:5px 0 0;
+}
+
+/* ==========================================
+   BOTTOM
+========================================== */
+
+.bottom-grid {
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:15px;
+}
+
+.consult-banner {
+  min-height:230px;
+  border-radius:14px;
+  padding:25px;
+  background:linear-gradient(
+    120deg,
+    #ffffff,
+    #dceeff
+  );
+  border:1px solid var(--line);
+}
+
+.consult-banner h3 {
+  margin:0 0 13px;
+  font-size:26px;
+}
+
+.consult-banner h3 span {
+  color:var(--blue);
+}
+
+.consult-banner p {
+  font-size:13px;
+  line-height:1.7;
+}
+
+.review-area h3 {
+  margin:0 0 15px;
+  font-size:19px;
+}
+
+.review-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.review-card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  min-height:175px;
+}
+
+.review-card strong {
+  font-size:13px;
+}
+
+.review-card p {
+  font-size:12px;
+  line-height:1.6;
+  color:var(--gray);
+}
+
+.review-card small {
+  font-size:10px;
+  color:#94a3b8;
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer {
+  margin-top:25px;
+  background:#06172d;
+  color:white;
+  padding:30px 0;
+}
+
+.footer-inner {
+  display:grid;
+  grid-template-columns:230px 1fr;
+  gap:30px;
+}
+
+.footer-logo {
+  font-size:25px;
+  font-weight:1000;
+  font-style:italic;
+}
+
+.footer-logo span {
+  color:#1682ff;
+}
+
+.footer-logo small {
+  display:block;
+  font-size:11px;
+  font-style:normal;
+  font-weight:normal;
+  margin-top:8px;
+  color:#cbd5e1;
+}
+
+.footer-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+.footer-info {
+  font-size:11px;
+  color:#a9b7ca;
+  line-height:1.9;
+}
+
+/* ==========================================
+   IMAGE MODAL
+========================================== */
+
+.image-modal {
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#000d;
+  padding:30px;
+}
+
+.image-modal.open {
+  display:flex;
+}
+
+.image-modal img {
+  max-width:95%;
+  max-height:90%;
+  object-fit:contain;
+}
+
+.image-close {
+  position:absolute;
+  top:15px;
+  right:25px;
+  border:0;
+  background:none;
+  color:white;
+  font-size:35px;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:1000px) {
+
+  .nav {
+    gap:14px;
+  }
+
+  .nav a {
+    font-size:12px;
+  }
+
+  .category-grid {
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .product-grid {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .service-grid {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:760px) {
+
+  .header-inner {
+    min-height:65px;
+  }
+
+  .menu-button {
+    display:block;
+  }
+
+  .nav {
+    display:none;
+    position:absolute;
+    top:65px;
+    left:0;
+    right:0;
+    padding:20px;
+    background:white;
+    flex-direction:column;
+    align-items:stretch;
+    box-shadow:0 10px 20px #0002;
+  }
+
+  .nav.open {
+    display:flex;
+  }
+
+  .hero-pc {
+    right:-60px;
+    opacity:.35;
+  }
+
+  .hero-content {
+    width:100%;
+  }
+
+  .hero h1 {
+    font-size:40px;
+  }
+
+  .benefits-inner {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .middle-grid,
+  .bottom-grid {
+    grid-template-columns:1fr;
+  }
+
+  .consultation-board,
+  .contact-board {
+    height:auto;
+    min-height:320px;
+  }
+
+  .consultation-table {
+    min-height:220px;
+  }
+
+  .footer-inner {
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:500px) {
+
+  .logo strong {
+    font-size:22px;
+  }
+
+  .category-grid {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .product-grid {
+    gap:9px;
+  }
+
+  .product-card {
+    padding:10px;
+  }
+
+  .product-image-box {
+    height:145px;
+  }
+
+  .product-card h3 {
+    font-size:13px;
+  }
+
+  .product-price {
+    font-size:16px;
+  }
+
+  .section-heading h2 {
+    font-size:23px;
+  }
+
+  .service-grid {
+    gap:8px;
+  }
+
+  .service-card {
+    padding:11px;
+  }
+
+  .service-card strong {
+    font-size:11px;
+  }
+
+  .service-card p {
+    font-size:10px;
+  }
+
+  .review-grid {
+    grid-template-columns:1fr;
+  }
+
+  .contact-inner {
+    grid-template-columns:110px 1fr;
+  }
+
+  .contact-buttons a,
+  .contact-buttons button {
+    font-size:11px;
+  }
+
+  .consultation-header,
+  .consultation-row {
+    grid-template-columns:1fr 75px 80px;
+    font-size:11px;
+    padding:9px 6px;
+  }
+
+}
+
+
+/* Product-image category cards */
+.category-section { padding:24px 0 12px; }
+.category-grid { gap:12px; }
+.category-card { min-height:164px; padding:18px 15px; border-radius:16px; box-shadow:0 4px 16px #163a6c06; background:linear-gradient(145deg,#fff,#f1f6fe); transition:transform .2s,box-shadow .2s,border-color .2s; }
+.category-card strong { position:relative; z-index:1; font-size:14px; letter-spacing:-.5px; }
+.category-card small { position:relative; z-index:1; font-size:11px; margin-top:6px; opacity:1; color:#64748b; }
+.category-card:first-child { background:linear-gradient(135deg,#1258f2,#4934d9); border-color:transparent; }
+.category-card:first-child small { color:#dce8ff; }
+.category-card::after { content:"↗"; position:absolute; left:15px; bottom:17px; display:grid; place-items:center; width:25px; height:25px; border-radius:50%; color:#3760a2; background:#e5edfa; font-size:15px; }
+.category-card:first-child::after { color:white; background:#ffffff22; }
+.category-image { position:absolute; width:120px; height:110px; object-fit:contain; right:0; bottom:0; pointer-events:none; }
+.category-card:hover { border-color:#8db7ff; box-shadow:0 12px 24px #173f7e12; transform:translateY(-4px); }
+.category-card:focus-visible { outline:3px solid #087aff; outline-offset:4px; }
+@media(max-width:1000px) { .category-card { min-height:154px; } .category-image { width:135px; height:110px; right:6px; } }
+@media(max-width:500px) { .category-section { padding-top:16px; } .category-grid { gap:10px; } .category-card { min-height:158px; padding:15px 12px; } .category-card strong { font-size:13px; } .category-card small { font-size:10px; } .category-image { width:120px; height:105px; right:0; } .category-card::after { left:12px; bottom:14px; } }
+@media(prefers-reduced-motion:reduce) { .category-card { transition:none; } .category-card:hover { transform:none; } }
+
+
+/* Keep the banner signature above the service strip. */
+@media(min-width:761px) { .hero-art { height:calc(100% - 77px); } }
+
+/* Recommended products — shopping cards */
+#products { padding:38px 0 32px; }
+#products .section-heading { margin-bottom:24px; align-items:center; }
+#products .section-label { font-size:11px; letter-spacing:2px; }
+#products .section-heading h2 { margin:9px 0; font-size:30px; line-height:1.35; }
+#products .section-heading p { line-height:1.6; }
+#products .more-button { border-radius:10px; padding:12px 17px; }
+#products .product-controls { padding:14px; gap:10px; margin-bottom:20px; border:1px solid #e3eaf5; border-radius:14px; background:#fff; }
+#products .product-controls input { flex:1; min-width:0; max-width:360px; background:#f6f8fc; padding:12px 14px; font-size:13px; }
+#products .product-controls select { padding:12px 14px; font-size:13px; }
+#products :is(input,select,a):focus-visible { outline:3px solid #087aff; outline-offset:3px; }
+#products .product-grid { gap:20px; align-items:stretch; }
+#products .product-card { display:flex; flex-direction:column; padding:12px; border-radius:19px; box-shadow:0 5px 20px #163b6e08; transition:transform .2s,box-shadow .2s,border-color .2s; }
+#products .product-card:hover { border-color:#b2ceff; transform:translateY(-4px); box-shadow:0 14px 30px #163b6e13; }
+#products .product-image-box { position:relative; height:auto; aspect-ratio:1.12; flex-shrink:0; border-radius:12px; background:radial-gradient(ellipse at center,#fff,#f0f4fb); }
+#products .product-image { padding:14px; }
+#products .product-image-box:after { content:"확대 +"; position:absolute; right:9px; bottom:9px; pointer-events:none; font-size:10px; color:#526582; border:1px solid #dde6f2; padding:4px 7px; border-radius:6px; background:#ffffffe6; }
+#products .product-image-box:has(.product-placeholder):after { display:none; }
+#products .product-placeholder { font-size:0; color:#7c92b3; text-align:center; }
+#products .product-placeholder:before { content:"PC SOLUTION"; font-size:19px; font-weight:900; font-style:italic; }
+#products .product-placeholder:after { content:"상품 이미지 준비 중"; display:block; font-size:11px; margin-top:8px; font-style:normal; }
+#products .product-card h3 { margin:18px 6px 12px; font-size:16px; line-height:1.55; overflow-wrap:anywhere; }
+#products .product-specs { gap:6px; margin:0 6px 18px; }
+#products .product-specs span { max-width:100%; overflow-wrap:anywhere; background:#f0f4fa; color:#546782; border-radius:6px; font-size:11px; padding:5px 8px; line-height:1.45; }
+#products .product-price { margin-top:auto; padding:16px 6px 8px; border-top:1px solid #edf1f7; font-size:24px; line-height:1.35; letter-spacing:-.7px; color:#075ad5; overflow-wrap:anywhere; }
+#products .empty-message { border:1px dashed #d1dff0; border-radius:16px; background:#fff; padding:45px 18px; font-size:14px; line-height:1.7; }
+@media(max-width:1000px) { #products .product-grid { gap:16px; } #products .product-image-box { aspect-ratio:1.35; } }
+@media(max-width:500px) {
+ #products { padding:26px 0; }
+ #products .section-heading { gap:10px; margin-bottom:18px; }
+ #products .section-heading h2 { font-size:23px; }
+ #products .section-heading p { font-size:11px; }
+ #products .more-button { padding:9px 11px; font-size:11px; }
+ #products .product-controls { padding:10px; gap:8px; }
+ #products .product-controls input { width:100%; flex-basis:100%; max-width:none; }
+ #products .product-controls select { width:100%; }
+ #products .product-grid { gap:10px; }
+ #products .product-card { padding:8px; border-radius:14px; }
+ #products .product-image-box { border-radius:9px; aspect-ratio:1; }
+ #products .product-image { padding:8px; }
+ #products .product-card h3 { font-size:13px; margin:13px 3px 10px; }
+ #products .product-specs { margin:0 3px 12px; gap:4px; }
+ #products .product-specs span { font-size:10px; padding:4px 5px; }
+ #products .product-price { font-size:19px; padding:12px 3px 6px; }
+ #products .product-placeholder:before { font-size:13px; }
+ #products .product-placeholder:after { font-size:10px; }
+}
+@media(prefers-reduced-motion:reduce) { #products .product-card { transition:none; } #products .product-card:hover { transform:none; } }
+
+
+/* Consultation and contact panels */
+#consultationStatus { padding:22px 0 30px; }
+#consultationStatus .middle-grid { gap:22px; }
+#consultationStatus .consultation-board,
+#consultationStatus .contact-board { height:350px; border-radius:20px; box-shadow:0 8px 26px #183b6c09; }
+#consultationStatus .consultation-board { padding:23px; }
+#consultationStatus .board-heading { margin-bottom:20px; }
+#consultationStatus .board-heading h3 { font-size:20px; letter-spacing:-.6px; line-height:1.4; }
+#consultationStatus .board-heading p { margin-top:7px; line-height:1.5; color:#718198; }
+#consultationStatus .more-button { padding:9px 13px; border-radius:9px; }
+#consultationStatus .consultation-table { border-color:#e5ecf6; border-radius:12px; }
+#consultationStatus .consultation-header { background:#102644; padding:13px 14px; grid-template-columns:minmax(0,1fr) 110px 105px; font-size:11px; }
+#consultationStatus .consultation-row { padding:12px 14px; grid-template-columns:minmax(0,1fr) 110px 105px; min-height:51px; }
+#consultationStatus .consultation-row:nth-child(even) { background:#f8faff; }
+#consultationStatus .consultation-name { min-width:0; overflow-wrap:anywhere; }
+#consultationStatus .consultation-date { font-size:11px; color:#718198; line-height:1.5; }
+#consultationStatus .status-badge { font-size:10px; padding:6px 10px; line-height:1.3; }
+#consultationStatus .empty-message { font-size:12px; padding:35px 12px; line-height:1.7; }
+#consultationStatus .contact-board { position:relative; padding:25px; background:radial-gradient(ellipse at 100% 0%,#167aeb88,transparent 65%),linear-gradient(125deg,#061a39,#064bb0); border-color:#154e92; }
+#consultationStatus .contact-board h3 { font-size:25px; letter-spacing:-.7px; line-height:1.3; margin-bottom:10px; }
+#consultationStatus .contact-board>p { color:#d3e3fa; font-size:12px; line-height:1.7; margin-bottom:22px; }
+#consultationStatus .contact-inner { grid-template-columns:136px minmax(0,1fr); gap:18px; }
+#consultationStatus .qr-box { padding:12px; border-radius:14px; box-shadow:0 5px 15px #00153833; }
+#consultationStatus .qr-box img { width:100%; height:auto; aspect-ratio:1; object-fit:contain; }
+#consultationStatus .qr-box small { color:#163b6c; font-size:10px; margin-top:7px; }
+#consultationStatus .contact-buttons { gap:9px; }
+#consultationStatus .contact-buttons :is(a,button) { min-height:43px; padding:12px 10px; border-radius:10px; font-size:12px; line-height:1.5; transition:filter .15s; }
+#consultationStatus .contact-buttons :is(a,button):hover { filter:brightness(1.08); }
+#consultationStatus .copy-contact { background:#ffffff16; color:#fff; border:1px solid #ffffff45; }
+#consultationStatus :is(a,button):focus-visible { outline:3px solid #5fddff; outline-offset:4px; }
+@media(min-width:761px) and (max-width:1050px) {
+ #consultationStatus .middle-grid { gap:14px; }
+ #consultationStatus .consultation-board,#consultationStatus .contact-board { padding:18px; height:360px; }
+ #consultationStatus .board-heading h3 { font-size:17px; }
+ #consultationStatus .contact-board h3 { font-size:22px; }
+ #consultationStatus .contact-inner { grid-template-columns:104px minmax(0,1fr); gap:12px; }
+ #consultationStatus .consultation-row,#consultationStatus .consultation-header { grid-template-columns:minmax(0,1fr) 82px 85px; padding:12px 8px; }
+ #consultationStatus .contact-buttons :is(a,button) { font-size:11px; }
+}
+@media(max-width:760px) {
+ #consultationStatus { padding:16px 0 24px; }
+ #consultationStatus .middle-grid { gap:16px; }
+ #consultationStatus .consultation-board,#consultationStatus .contact-board { height:auto; min-height:0; padding:20px; border-radius:17px; }
+ #consultationStatus .consultation-table { flex:none; height:246px; min-height:0; }
+ #consultationStatus .contact-inner { grid-template-columns:120px minmax(0,1fr); gap:14px; }
+ #consultationStatus .contact-board>p { margin-bottom:18px; }
+}
+@media(max-width:420px) {
+ #consultationStatus .consultation-board,#consultationStatus .contact-board { padding:16px; }
+ #consultationStatus .board-heading { gap:7px; }
+ #consultationStatus .board-heading h3 { font-size:17px; }
+ #consultationStatus .board-heading p { font-size:10px; }
+ #consultationStatus .more-button { font-size:10px; padding:8px 9px; }
+ #consultationStatus .consultation-header,#consultationStatus .consultation-row { grid-template-columns:minmax(0,1fr) 82px 82px; padding:12px 7px; font-size:11px; }
+ #consultationStatus .status-badge { padding:5px 7px; }
+ #consultationStatus .contact-board h3 { font-size:22px; }
+ #consultationStatus .contact-inner { grid-template-columns:98px minmax(0,1fr); gap:10px; }
+ #consultationStatus .qr-box { padding:8px; }
+ #consultationStatus .contact-buttons :is(a,button) { font-size:11px; padding:10px 7px; min-height:41px; }
+}
+
+
+/* Bundled QR: stable aspect ratio and four-module white quiet zone in image. */
+#consultationStatus .qr-box img { display:block; width:100%; height:auto; aspect-ratio:1; image-rendering:pixelated; }
+
+/* Service, consultation banner, reviews and footer */
+.service-grid { gap:16px; }
+.service-card { padding:22px 18px; border-radius:15px; box-shadow:0 4px 18px #153a6c05; align-items:flex-start; }
+.service-card .icon { display:grid; place-items:center; flex-shrink:0; width:45px; height:45px; border-radius:13px; background:#eff5ff; font-size:23px; }
+.service-card strong { display:block; padding-top:3px; font-size:14px; line-height:1.5; }
+.service-card p { font-size:11px; line-height:1.7; margin-top:5px; }
+.bottom-grid { grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr); gap:24px; align-items:stretch; }
+.consult-banner { position:relative; overflow:hidden; min-height:280px; border-radius:20px; padding:30px; background:radial-gradient(ellipse at 100% 100%,#b9d9ff,transparent 65%),linear-gradient(135deg,#f4f9ff,#e7f1ff); border-color:#d6e7fc; }
+.consult-banner h3 { position:relative; font-size:28px; line-height:1.4; letter-spacing:-1px; margin-bottom:13px; }
+.consult-banner p { position:relative; margin:0 0 22px; color:#5d718e; font-size:13px; line-height:1.8; }
+.consult-banner .btn { border-radius:11px; padding:13px 20px; font-size:13px; }
+.review-area { min-width:0; padding-top:4px; }
+.review-area>h3 { font-size:20px; letter-spacing:-.5px; margin:0 0 18px; line-height:1.45; }
+.review-grid { gap:12px; }
+.review-card { display:flex; flex-direction:column; min-width:0; min-height:212px; padding:20px 16px; border-radius:16px; background:linear-gradient(180deg,#fff,#fafcff); box-shadow:0 4px 16px #143b6c04; }
+.review-card strong { font-size:13px; line-height:1.6; }
+.review-card p { font-size:12px; line-height:1.8; color:#728198; margin:15px 0 20px; overflow-wrap:anywhere; }
+.review-card small { margin-top:auto; align-self:flex-start; color:#637996; border:1px solid #e2eaf6; background:#f1f5fb; border-radius:6px; padding:5px 7px; font-size:10px; line-height:1.4; }
+.footer { margin-top:35px; padding:42px 0 32px; background:#06162d; border-top:3px solid #0f3563; }
+.footer-inner { grid-template-columns:260px minmax(0,1fr); gap:35px; }
+.footer-logo { font-size:27px; line-height:1.3; }
+.footer-logo small { font-size:11px; line-height:1.7; color:#96abc7; margin-top:12px; }
+.footer-links { gap:12px 25px; margin-bottom:20px; font-size:12px; line-height:1.7; }
+.footer-links a:hover { color:#69cbff; }
+.footer-info { font-size:11px; color:#8ea5c3; line-height:2.1; }
+.bottom-grid a:focus-visible,.footer a:focus-visible { outline:3px solid #4ecbff; outline-offset:4px; }
+@media(min-width:761px) and (max-width:1100px) {
+ .service-grid { gap:12px; }
+ .bottom-grid { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:16px; }
+ .consult-banner { padding:24px; }
+ .consult-banner h3 { font-size:25px; }
+ .review-grid { gap:8px; }
+ .review-card { padding:17px 12px; }
+}
+@media(max-width:760px) {
+ .bottom-grid { grid-template-columns:1fr; gap:25px; }
+ .consult-banner { min-height:0; padding:25px; }
+ .review-card { min-height:190px; }
+ .footer { margin-top:20px; padding:30px 0; }
+ .footer-inner { grid-template-columns:1fr; gap:24px; }
+}
+@media(max-width:500px) {
+ .service-grid { gap:10px; }
+ .service-card { padding:15px 12px; flex-direction:column; gap:10px; }
+ .service-card .icon { width:36px; height:36px; font-size:20px; border-radius:10px; }
+ .service-card strong { padding:0; font-size:12px; }
+ .service-card p { font-size:10px; }
+ .consult-banner { padding:22px; border-radius:17px; }
+ .consult-banner h3 { font-size:25px; }
+ .review-area>h3 { font-size:19px; }
+ .review-grid { grid-template-columns:1fr; gap:10px; }
+ .review-card { min-height:0; padding:18px; }
+ .review-card p { margin:10px 0 14px; }
+ .footer-logo { font-size:25px; }
+ .footer-links { gap:10px 18px; font-size:11px; }
+}
+@media(prefers-reduced-motion:reduce) { .consult-banner .btn { transition:none; } .consult-banner .btn:hover { transform:none; } }
+
+
+/* Header and service categories — revision 6 */
+.header { border-bottom:1px solid #e5edf8; box-shadow:0 4px 20px #153b6c08; }
+.header-inner { gap:22px; }
+.nav { gap:24px; }
+.nav a { padding:12px 0; transition:color .15s; }
+.nav a:focus-visible,.admin-link:focus-visible,.logo:focus-visible,.menu-button:focus-visible { outline:3px solid #087aff; outline-offset:4px; border-radius:5px; }
+.admin-link { color:#60738e; font-size:10px; gap:2px; }
+.menu-button { border-radius:9px; width:42px; height:42px; color:#123157; background:#f0f5fc; }
+.category-card { min-height:192px; }
+.category-card strong { max-width:100%; font-size:13px; line-height:1.45; word-break:keep-all; overflow-wrap:anywhere; }
+.category-card small { line-height:1.5; font-size:10px; word-break:keep-all; }
+@media(max-width:1000px) {
+ .header-inner { display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:16px; }
+ .menu-button { display:block; }
+ .nav { display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; padding:12px 3%; background:#fff; border-top:1px solid #edf1f7; box-shadow:0 15px 25px #10213b12; max-height:calc(100dvh - 72px); overflow-y:auto; }
+ .nav.open { display:flex; }
+ .nav a { font-size:14px; padding:13px 14px; border-radius:8px; }
+ .nav a:hover { background:#f0f6ff; }
+ .category-card { min-height:192px; }
+}
+@media(max-width:500px) { .header-inner { gap:12px; } .logo strong { font-size:22px; } .logo small { font-size:9px; } .category-card { min-height:220px; } .category-card strong { font-size:13px; } .category-image { height:100px; } }
+@media(max-width:360px) { .header-inner { gap:8px; } .logo strong { font-size:20px; } .category-card small { font-size:9px; } }
+
+
+/* Revision 7: keyboard and touch accessibility */
+.product-image:focus-visible { outline:3px solid #087aff; outline-offset:-4px; border-radius:12px; }
+.image-close { min-width:48px; min-height:48px; display:grid; place-items:center; border-radius:50%; background:#ffffff15; }
+.image-close:focus-visible { outline:3px solid #67dfff; outline-offset:4px; }
+.image-modal { overscroll-behavior:contain; }
+@media(max-width:500px) { .image-modal { padding:16px; } .image-close { top:14px; right:14px; } #products .product-controls input,#products .product-controls select { font-size:16px; } }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .btn,.category-card,.product-card { transition:none; } }
+
+
+/* Revision 10: shared service navigation and mobile contact */
+.pcs-footer-services { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 23px; padding:0 18px 23px; max-width:1200px; margin:auto; font-size:12px; line-height:1.8; }
+.pcs-footer-services a { color:#c2d3eb; text-decoration:none; }
+.pcs-footer-services a:hover { color:#67d3ff; }
+.pcs-footer-services a:focus-visible,.pcs-quick-contact a:focus-visible { outline:3px solid #42cfff; outline-offset:3px; border-radius:5px; }
+.pcs-quick-contact { display:none; }
+@media(max-width:760px) {
+ body { padding-bottom:calc(76px + env(safe-area-inset-bottom,0px)); }
+ .pcs-quick-contact { display:grid; position:fixed; z-index:110; bottom:0; left:0; right:0; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px)); background:#fffffff5; border-top:1px solid #dce6f4; box-shadow:0 -4px 20px #1234580c; }
+ .pcs-quick-contact a { display:flex; align-items:center; justify-content:center; min-height:44px; padding:9px 5px; border-radius:9px; text-decoration:none; font-size:12px; font-weight:700; line-height:1.4; }
+ .pcs-quick-kakao { background:#fee500; color:#211b00; }
+ .pcs-quick-phone { background:#edf4ff; color:#20559b; }
+ .pcs-quick-form { background:#086bfa; color:white; }
+ .pcs-footer-services { gap:9px 16px; font-size:11px; }
+}
+@media print { .pcs-quick-contact { display:none; } body { padding-bottom:0; } }
+
+.pcs-faq { padding:28px 0 38px; }
+.pcs-faq-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; align-items:start; }
+.pcs-faq details { border:1px solid #e0e9f6; border-radius:13px; background:#fff; overflow:hidden; }
+.pcs-faq summary { display:flex; align-items:center; justify-content:space-between; gap:14px; cursor:pointer; padding:20px; font-size:13px; font-weight:700; line-height:1.6; list-style:none; }
+.pcs-faq summary::-webkit-details-marker { display:none; }
+.pcs-faq summary::after { content:'+'; color:#086bfa; font-size:20px; font-weight:400; flex-shrink:0; }
+.pcs-faq details[open] summary::after { content:'−'; }
+.pcs-faq details[open] summary { color:#0758ce; }
+.pcs-faq summary:focus-visible { outline:3px solid #087aff; outline-offset:-4px; border-radius:12px; }
+.pcs-faq details p { margin:0; padding:0 20px 20px; font-size:12px; color:#60738e; line-height:1.9; overflow-wrap:anywhere; }
+.pcs-faq details a { color:#086bfa; text-decoration:underline; text-underline-offset:3px; }
+@media(max-width:760px) { .pcs-faq-grid { grid-template-columns:1fr; gap:10px; } .pcs-faq { padding:20px 0 28px; } .pcs-faq summary { padding:17px; font-size:12px; } .pcs-faq details p { padding:0 17px 17px; } }
+
+
+.consultation-scroll-controls { display:flex; justify-content:flex-end; margin:-10px 0 9px; }
+#consultationScrollToggle { padding:3px 8px; background:#eef4ff; border:1px solid #dbe7fa; border-radius:6px; color:#42638e; font-size:10px; line-height:1.6; }
+.pcs-estimate-card { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:28px; align-items:center; padding:27px; border:1px solid #d8e6fb; border-radius:18px; background:#edf5ff; }
+.pcs-estimate-card h2 { font-size:24px; margin:9px 0; }
+.pcs-estimate-card p { color:#637b99; font-size:12px; line-height:1.8; margin:0; }
+.pcs-estimate-form label { display:block; font-size:12px; font-weight:700; margin-bottom:8px; }
+.pcs-estimate-form>div { display:flex; gap:8px; }
+.pcs-estimate-form input { min-width:0; flex:1; width:100%; padding:13px; border:1px solid #ccdbef; border-radius:9px; background:#fff; font-size:14px; }
+.pcs-estimate-form button { border:0; border-radius:9px; padding:12px 16px; background:#086bfa; color:#fff; font-size:12px; font-weight:700; white-space:nowrap; }
+@media(max-width:760px){.pcs-estimate-card {grid-template-columns:1fr;gap:20px;padding:22px;}.pcs-estimate-form input {font-size:16px;}}
+
+
+/* Revision 13: mobile headline and visible banner signature */
+#consultationStatusList:focus-visible { outline:3px solid #087aff; outline-offset:-3px; }
+@media(max-width:500px) {
+ .hero h1 { font-size:clamp(27px,7.4vw,36px); line-height:1.25; letter-spacing:-1px; word-break:keep-all; }
+ .hero::before { content:'PC SOLUTION'; position:absolute; right:14px; bottom:132px; z-index:1; padding:5px 9px; border-radius:12px; background:#03152bcc; color:#d8f5ff; font-size:11px; font-weight:900; font-style:italic; letter-spacing:.3px; pointer-events:none; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<header class="header">
+
+  <div class="container header-inner">
+
+    <a href="index-v2.html" class="logo">
+
+      <strong>
+        <span>PC</span> SOLUTION
+      </strong>
+
+      <small>
+        조립PC 전문 쇼핑몰 피씨솔루션
+      </small>
+
+    </a>
+
+    <nav class="nav" id="mainNav" aria-label="주요 메뉴">
+
+      <a href="#products">추천 PC</a>
+
+      <a href="consulting.html">맞춤 PC</a>
+
+      <a href="#categories">PC 부품</a>
+
+      <a href="#reviews">커뮤니티</a>
+
+      <a href="#consultationStatus">상담 현황</a>
+
+      <a href="#faq">자주 묻는 질문</a>
+
+      <a href="estimate.html" id="estimateMenu">견적 조회</a>
+
+    </nav>
+
+    <a href="admin.html" class="admin-link">
+
+      <span>♙</span>
+      관리자
+
+    </a>
+
+    <button
+      type="button"
+      class="menu-button"
+      id="menuButton"
+      aria-controls="mainNav"
+      aria-label="메뉴 열기"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+  </div>
+
+</header>
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section class="hero" aria-label="맞춤 조립 PC 안내">
+  <img class="hero-art" src="images/hero-rgb-gaming-watermarked.png" alt="" fetchpriority="high" decoding="async">
+
+  <div class="container hero-inner">
+
+    <div class="hero-content">
+
+      <div class="hero-label">
+        YOUR PERFECT PC, PC SOLUTION
+      </div>
+
+      <h1>
+
+        게이밍부터 업무까지<br>
+
+        내게 맞는 PC,<br>
+
+        <span>제대로 만나다.</span>
+
+      </h1>
+
+      <p>
+
+        용도와 예산에 맞는 맞춤 견적.<br>
+
+        상담부터 조립, A/S까지 함께합니다.
+
+      </p>
+
+      <div class="hero-buttons">
+
+        <a
+          href="consulting.html"
+          class="btn btn-blue"
+        >
+          💬 맞춤 견적 상담하기 →
+        </a>
+
+        <a
+          href="#products"
+          class="btn btn-outline"
+        >
+          추천 PC 보기 →
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="hero-benefits">
+
+    <div class="container benefits-inner">
+
+      <div class="benefit">
+        <span class="benefit-icon">🛡️</span>
+        <div>
+          <strong>정품 부품</strong>
+          <small>정품 부품 사용</small>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <span class="benefit-icon">🛠️</span>
+        <div>
+          <strong>전문가 조립</strong>
+          <small>꼼꼼한 세팅</small>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <span class="benefit-icon">🚚</span>
+        <div>
+          <strong>안전한 배송</strong>
+          <small>꼼꼼한 포장</small>
+        </div>
+      </div>
+
+      <div class="benefit">
+        <span class="benefit-icon">🎧</span>
+        <div>
+          <strong>든든한 A/S</strong>
+          <small>부품별 정책 안내</small>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ==========================================
+     CATEGORY
+========================================== -->
+
+<section class="category-section" id="categories">
+
+  <div class="container category-grid">
+
+    <a href="#products" class="category-card">
+      <strong>게이밍 PC</strong>
+      <small>최고의 퍼포먼스</small>
+      <img class="category-image" src="images/category-gaming-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    </a>
+
+    <a href="#products" class="category-card">
+      <strong>사무용 PC</strong>
+      <small>업무에 최적화</small>
+      <img class="category-image" src="images/category-office-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    </a>
+
+    <a href="consulting.html?service=repair" class="category-card">
+      <strong>PC/노트북 수리·업그레이드 상담</strong>
+      <small>점검부터 성능 업그레이드까지</small>
+      <img class="category-image" src="images/category-custom-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    </a>
+
+    <a href="consulting.html?service=media" class="category-card">
+      <strong>홈페이지 및 영상제작 상담</strong>
+      <small>홈페이지부터 영상 콘텐츠까지</small>
+      <img class="category-image" src="images/category-creator-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    </a>
+
+    <a href="#products" class="category-card">
+      <strong>PC 부품</strong>
+      <small>다양한 부품 쇼핑</small>
+      <img class="category-image" src="images/category-parts-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    </a>
+
+    <a href="#products" class="category-card">
+      <strong>주변기기</strong>
+      <small>모니터·키보드·마우스</small>
+      <img class="category-image" src="images/category-accessories-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    </a>
+
+  </div>
+
+</section>
+
+<!-- ==========================================
+     RECOMMENDED PRODUCTS
+========================================== -->
+
+<section class="section" id="products">
+
+  <div class="container">
+
+    <div class="section-heading">
+
+      <div>
+
+        <div class="section-label">
+          ■ BEST PC
+        </div>
+
+        <h2>
+          지금 가장 인기있는
+          <span>추천 PC</span>
+        </h2>
+
+        <p>
+          PC SOLUTION에서 추천하는 PC를 만나보세요.
+        </p>
+
+      </div>
+
+      <a href="#products" class="more-button">
+        전체보기 →
+      </a>
+
+    </div>
+
+    <div class="product-controls">
+
+      <input
+        id="productSearch"
+        type="search"
+        placeholder="상품명·CPU·그래픽카드 검색"
+        aria-label="상품 검색"
+      >
+
+      <select id="productSort">
+
+        <option value="latest">
+          최신 상품순
+        </option>
+
+        <option value="priceLow">
+          가격 낮은순
+        </option>
+
+        <option value="priceHigh">
+          가격 높은순
+        </option>
+
+        <option value="name">
+          상품명순
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="product-grid" id="productList">
+
+      <div class="empty-message">
+        상품을 불러오는 중입니다...
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ==========================================
+     CONSULTATION STATUS + QR
+========================================== -->
+
+<section class="section" id="consultationStatus">
+
+  <div class="container middle-grid">
+
+    <!-- LEFT 50% -->
+
+    <div class="consultation-board">
+
+      <div class="board-heading">
+
+        <div>
+
+          <h3>📋 실시간 상담 현황판</h3>
+
+          <p>
+            지금 고객님들의 상담이 진행되고 있습니다.
+          </p>
+
+        </div>
+
+        <a href="#consultationStatus" class="more-button">
+          전체보기 →
+        </a>
+
+      </div>
+
+      <div class="consultation-scroll-controls"><button type="button" id="consultationScrollToggle" aria-pressed="false">자동 스크롤 정지</button></div>
+
+      <div class="consultation-table">
+
+        <div class="consultation-header">
+
+          <div>고객명</div>
+          <div>접수일시</div>
+          <div>상담 진행 상태</div>
+
+        </div>
+
+        <div id="consultationStatusList" tabindex="0" role="region" aria-label="진행 중 상담 목록">
+
+          <div class="empty-message">
+            상담 현황을 불러오는 중입니다...
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT 50% -->
+
+    <div class="contact-board">
+
+      <h3>지금 바로 상담하세요!</h3>
+
+      <p>
+        QR코드로 홈페이지를 열거나<br>
+        편하게 상담하실 수 있습니다.
+      </p>
+
+      <div class="contact-inner">
+
+        <div class="qr-box">
+
+          <img
+            id="homepageQR"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUgAAAFICAIAAAC9dvBkAAAGmklEQVR4nO3dW2rkOhRA0bi585+yewRuEFdC0s5a36HKeWxUcHLs533fH6Dlz+4LAOYTNgQJG4KEDUHChiBhQ5CwIUjYECRsCBI2BAkbgoQNQcKGIGFDkLAhSNgQJGwIEjYECRuChA1BwoYgYUOQsCFI2BAkbAgSNgQJG4KEDUHChiBhQ5CwIei/1W/wPM/PDVY/J3zWz2HWdX5dz9frj3796Pt+Wf361b83JzYECRuChA1BwoYgYUOQsCFI2BC0fI69a453+5xz1xx49HVmzbd3vX71782JDUHChiBhQ5CwIUjYECRsCBI2BG2bY9++tzxq1l7xrr3xr/ddPU/+bXvyszixIUjYECRsCBI2BAkbgoQNQcKGoOPm2LdbPa8+be66a9/4tLnxaZzYECRsCBI2BAkbgoQNQcKGIGFDkDn2ofvMpz2/evX1j14P/+bEhiBhQ5CwIUjYECRsCBI2BAkbgo6bY9++Z7t6Tjvr62fdJ/y06/ltf29fnNgQJGwIEjYECRuChA1BwoYgYUPQtjn27Xu2q/eQV+9pf9l1/auv57n8722UExuChA1BwoYgYUOQsCFI2BAkbAh6qvuos8yao/626zztOd6/jRMbgoQNQcKGIGFDkLAhSNgQJGwIWj7HXr0/PMvq/d5d+8Ozfs679sNnXc9qp83bndgQJGwIEjYECRuChA1BwoYgYUPQcfvYq+eQq+e6p+1Lr54z75pXfznt+r+s/r07sSFI2BAkbAgSNgQJG4KEDUHChqBtz8feNVe8ZT98VHX+v+u52e9h3+8oJzYECRuChA1BwoYgYUOQsCFI2BB03H3FZ73+LXvUp92Xe5Zd9w/fdf/2UfaxgWE+ikOQsCFI2BAkbAgSNgQJG4K27WPvmnOOzj9vfy70ac/9nvX72uW9ZG/fiQ1BwoYgYUOQsCFI2BAkbAgSNgQdt499+32ed82rZ7lln3nUu2n//4t9bGCYj+IQJGwIEjYECRuChA1Bwoag4/axb9k3Pm0fe9To9ez6/4Jdz0WfxfOxgWl8FIcgYUOQsCFI2BAkbAgSNgQt38f+fOPL94pvn1eftu99+5z83dTRFyc2BAkbgoQNQcKGIGFDkLAhSNgQtG0fe5fT9nJX70XPep1dc+Nd7/tu+j+CWZzYECRsCBI2BAkbgoQNQcKGIGFD0LbnY39ZPY+9/b7ot++9fzntPu3PpvvPz+LEhiBhQ5CwIUjYECRsCBI2BAkbgq7Zxz5tj/e0+0jfPlef9b6j3++zaS99NSc2BAkbgoQNQcKGIGFDkLAhSNgQtHyOfctziXfNgU97fvVpc+bR17n9/yZmcWJDkLAhSNgQJGwIEjYECRuChA1By+8rPuq0ue5pP5/T5tK339+7Ood3YkOQsCFI2BAkbAgSNgQJG4KEDUHL97Grc+bT5quj7ztr7r1rH37169zyfxZfnNgQJGwIEjYECRuChA1BwoYgYUPQ8n3s0+7XPeq0Oero+45a/XM+bb/9iT5H3YkNQcKGIGFDkLAhSNgQJGwIEjYELd/HnmXWnHDW3uysr18959z1+l/fb3Xu/R52nU5sCBI2BAkbgoQNQcKGIGFDkLAh6Lg59up94NOek3zL/bFnvc6u39csno8NbOOjOAQJG4KEDUHChiBhQ5CwIWj5fcVvd9pzm1ffp33XfbZ37Wk/m36eq7tzYkOQsCFI2BAkbAgSNgQJG4KEDUHL97FP26f98jVXnDWfPG1uPOqW/3c47fnkr+djA7P4KA5BwoYgYUOQsCFI2BAkbAh6ftt8b/We8JfVr3/a/dtXW72PPYs5NjCNj+IQJGwIEjYECRuChA1Bwoag456PvXpuvMvq+4p/2fX6q7/f2+f/r/uKA6N8FIcgYUOQsCFI2BAkbAgSNgQdN8e+3ehcd/XceNfc+5b7qD+XPO96lBMbgoQNQcKGIGFDkLAhSNgQJGwIMsee7LS58WnXP/o6t8/JX8/HBmbxURyChA1BwoYgYUOQsCFI2BB03Bz7tL3W258fPvr6q/e9R+2ak3+xjw1s46M4BAkbgoQNQcKGIGFDkLAhaNsce9fzjUeddv/qWXbtG6+eh++6H/hz2P3GndgQJGwIEjYECRuChA1BwoYgYUPQc9r+M/D/ObEhSNgQJGwIEjYECRuChA1BwoYgYUOQsCFI2BAkbAgSNgQJG4KEDUHChiBhQ5CwIUjYECRsCBI2BAkbgoQNQcKGIGFDkLAhSNgQJGwIEjYECRuChA1Bwoafnr9q8w6q5K6xFAAAAABJRU5ErkJggg=="
+            alt="PC SOLUTION 홈페이지 QR코드"
+            width="120"
+            height="120"
+          >
+
+          <small>
+            PC SOLUTION
+          </small>
+
+        </div>
+
+        <div class="contact-buttons">
+
+          <a
+            href="https://open.kakao.com/o/gYVLkHNi"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="kakao-contact"
+          >
+            💬 카카오톡 상담하기 →
+          </a>
+
+          <a
+            href="tel:01095547365"
+            class="phone-contact"
+          >
+            ☎ 전화 상담하기 →
+          </a>
+
+          <button
+            type="button"
+            id="copyHomepageButton"
+            class="copy-contact"
+          >
+            🔗 홈페이지 주소 복사하기 →
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ==========================================
+     SERVICE
+========================================== -->
+
+<section class="section">
+
+  <div class="container service-grid">
+
+    <div class="service-card">
+      <span class="icon">💎</span>
+      <div>
+        <strong>정품 부품 사용</strong>
+        <p>믿을 수 있는 정품만 취급</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <span class="icon">⚙️</span>
+      <div>
+        <strong>전문가 조립·세팅</strong>
+        <p>다년간의 노하우로 꼼꼼하게</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <span class="icon">🚚</span>
+      <div>
+        <strong>안전한 배송</strong>
+        <p>안전한 포장으로 신속하게</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <span class="icon">🛡️</span>
+      <div>
+        <strong>A/S 안내</strong>
+        <p>부품별 A/S 정책에 따릅니다.</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ==========================================
+     BOTTOM
+========================================== -->
+
+<section class="section">
+
+  <div class="container bottom-grid">
+
+    <div class="consult-banner">
+
+      <h3>
+
+        🎧 지금 바로<br>
+
+        <span>맞춤 견적 상담</span>
+
+      </h3>
+
+      <p>
+
+        원하는 용도와 예산에 맞춰<br>
+        최적의 구성을 제안해 드립니다.
+
+      </p>
+
+      <a
+        href="consulting.html"
+        class="btn btn-blue"
+      >
+        상담 신청하기 →
+      </a>
+
+    </div>
+
+    <div class="review-area" id="reviews">
+
+      <h3>
+        고객님들의 생생한 후기
+      </h3>
+
+      <div class="review-grid">
+
+        <div class="review-card">
+          <strong>🎮 게이밍 PC 후기</strong>
+          <p>
+            실제 고객 후기를 연결할 예정입니다.
+          </p>
+          <small>후기 기능 준비 중</small>
+        </div>
+
+        <div class="review-card">
+          <strong>💻 사무용 PC 후기</strong>
+          <p>
+            실제 고객 후기를 연결할 예정입니다.
+          </p>
+          <small>후기 기능 준비 중</small>
+        </div>
+
+        <div class="review-card">
+          <strong>🎥 영상편집 PC 후기</strong>
+          <p>
+            실제 고객 후기를 연결할 예정입니다.
+          </p>
+          <small>후기 기능 준비 중</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+
+
+<section class="section pcs-estimate-entry" id="estimateLookup" aria-labelledby="estimateLookupTitle">
+ <div class="container"><div class="pcs-estimate-card">
+  <div><span class="section-label">MY ESTIMATE</span><h2 id="estimateLookupTitle">내 맞춤 견적 조회</h2><p>상담 신청 후 받은 상담번호로 견적을 확인하고 PDF로 저장할 수 있어요.</p></div>
+  <form action="estimate.html" method="get" class="pcs-estimate-form">
+   <label for="customerQuoteRequestId">상담번호</label>
+   <div><input id="customerQuoteRequestId" name="code" type="text" placeholder="예: PCS-7F3A91C2D4" autocomplete="off" maxlength="100" required><button type="submit" id="estimateSearchButton">견적 조회 →</button></div>
+  </form>
+ </div></div>
+</section>
+
+<section class="pcs-faq section" id="faq" aria-labelledby="faqTitle">
+ <div class="container">
+  <div class="section-heading"><div><div class="section-label">HELP &amp; GUIDE</div><h2 id="faqTitle">상담 전에 <span>궁금한 점</span></h2><p>필요한 상담과 준비할 내용을 확인해 보세요.</p></div></div>
+  <div class="pcs-faq-grid">
+   <details><summary>어떤 상담을 신청할 수 있나요?</summary><p>맞춤 PC 구성, PC/노트북 수리·업그레이드, 홈페이지 및 영상제작 상담을 신청할 수 있습니다. <a href="consulting.html">상담 신청서</a>에서 분야를 선택해 주세요.</p></details>
+   <details><summary>PC 부품을 잘 몰라도 신청할 수 있나요?</summary><p>사용 목적과 예상 예산을 알려주시면 됩니다. 원하는 부품 입력란은 선택사항이므로 비워두셔도 됩니다.</p></details>
+   <details><summary>수리·업그레이드 상담에는 무엇을 적나요?</summary><p>사용 중인 PC 또는 노트북의 모델명, 현재 사양, 고장 증상이나 원하는 업그레이드를 적어주세요. <a href="consulting.html?service=repair">수리·업그레이드 상담 신청</a></p></details>
+   <details><summary>홈페이지·영상제작 상담에는 무엇이 필요한가요?</summary><p>제작 목적, 필요한 페이지·기능이나 영상 분량, 희망 일정을 적어주세요. <a href="consulting.html?service=media">홈페이지·영상제작 상담 신청</a></p></details>
+   <details><summary>상품에 표시된 가격과 구성이 확정인가요?</summary><p>부품 가격과 재고 상황에 따라 실제 판매 가격과 일부 부품은 달라질 수 있습니다. 상품 상세페이지에서 상담을 신청하면 상품명과 상품번호가 신청서에 함께 입력됩니다.</p></details>
+   <details><summary>신청 후 상담번호는 어디서 확인하나요?</summary><p>접수가 완료되면 신청 화면에 상담번호가 표시됩니다. 복사 버튼으로 보관해 주세요. <a href="estimate.html">견적 조회</a>에서 상담번호로 조회하고 PDF 저장·인쇄를 할 수 있습니다.</p></details>
+  </div>
+ </div>
+</section>
+
+<footer class="footer">
+
+ <nav class="pcs-footer-services" aria-label="서비스 상담 바로가기">
+  <a href="consulting.html">맞춤 PC 상담</a>
+  <a href="consulting.html?service=repair">PC/노트북 수리·업그레이드</a>
+  <a href="consulting.html?service=media">홈페이지·영상제작</a>
+  <a href="index-v2.html#faq">자주 묻는 질문</a>
+ </nav>
+
+
+  <div class="container footer-inner">
+
+    <div class="footer-logo">
+
+      <span>PC</span> SOLUTION
+
+      <small>
+        조립PC 전문 쇼핑몰 피씨솔루션
+      </small>
+
+    </div>
+
+    <div>
+
+      <div class="footer-links">
+
+        <a href="#" data-pending="이용약관">
+          이용약관
+        </a>
+
+        <a href="#" data-pending="개인정보처리방침">
+          개인정보처리방침
+        </a>
+
+        <a href="consulting.html">
+          상담문의
+        </a>
+
+        <a href="#" data-pending="회사소개">
+          회사소개
+        </a>
+
+      </div>
+
+      <div class="footer-info">
+
+        인천시 서구 승학로 512번길 60
+        <br>
+
+        사업자등록번호 :
+        483-34-01650
+
+        <br>
+
+        대표전화 :
+        010-9554-7365
+
+        <br>
+
+        © PC SOLUTION. All rights reserved.
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- ==========================================
+     IMAGE MODAL
+========================================== -->
+
+<div
+  id="imageModal"
+  class="image-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="상품 이미지 확대"
+>
+
+  <button
+    type="button"
+    class="image-close"
+    id="imageClose"
+    aria-label="닫기"
+  >
+    ×
+  </button>
+
+  <img
+    id="modalImage"
+    alt="확대된 상품 이미지"
+  >
+
+</div>
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
 <script>
+
+"use strict";
+
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
   "https://znsgehjaspiqluopovyv.supabase.co";
@@ -23,1221 +2050,421 @@ const SUPABASE_KEY =
   "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
 
 const supabaseClient =
-  window.supabase.createClient(
+  (window.supabase ? window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-  );
-
-</script>
-
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, "Malgun Gothic", sans-serif;
-  color: #172033;
-  background: #fff;
-}
-
-input,
-select,
-button {
-  font-family: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-section {
-  scroll-margin-top: 20px;
-}
-
-
-/* ==================================================
-   상담 현황판
-================================================== */
-
-.consultation-board {
-  max-width: 700px;
-  margin: auto;
-  background: #f4f7fb;
-  border-radius: 18px;
-  padding: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.06);
-}
-
-.consultation-table {
-  overflow: hidden;
-  border-radius: 10px;
-  background: white;
-}
-
-.consultation-header,
-.consultation-row {
-  display: grid;
-  grid-template-columns: 1fr 110px 110px;
-  align-items: center;
-}
-
-.consultation-header {
-  padding: 12px 15px;
-  background: #17243a;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.consultation-row {
-  min-height: 58px;
-  padding: 10px 15px;
-  border-bottom: 1px solid #eef0f3;
-  font-size: 14px;
-}
-
-.consultation-row:last-child {
-  border-bottom: 0;
-}
-
-.consultation-name {
-  font-weight: bold;
-  color: #172033;
-}
-
-.consultation-date {
-  text-align: center;
-  color: #667085;
-}
-
-.consultation-status {
-  text-align: center;
-}
-
-.status-badge {
-  display: inline-block;
-  min-width: 70px;
-  padding: 6px 9px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.status-received {
-  background: #fff7ed;
-  color: #d97706;
-}
-
-.status-estimate {
-  background: #eef6ff;
-  color: #1769e0;
-}
-
-.status-consulting {
-  background: #f3e8ff;
-  color: #7c3aed;
-}
-
-.status-complete {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.status-cancelled {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-#consultationStatusList {
-  max-height: 290px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
-}
-
-#consultationStatusList::-webkit-scrollbar {
-  width: 6px;
-}
-
-#consultationStatusList::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#consultationStatusList::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 10px;
-}
-
-
-/* ==================================================
-   PC 종류
-================================================== */
-
-.pc-type-grid {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-.pc-type-card {
-  flex: 1;
-  min-width: 220px;
-  padding: 30px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.07);
-  text-align: center;
-}
-
-.consulting-button {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  background: #1769e0;
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-
-/* ==================================================
-   상품
-================================================== */
-
-.product-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(280px,1fr));
-  gap: 25px;
-}
-
-.product-card {
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,.08);
-}
-
-.product-image {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
-  cursor: pointer;
-}
-
-.product-body {
-  padding: 25px;
-}
-
-.product-body h3 {
-  margin-top: 0;
-  color: #172033;
-}
-
-.product-price {
-  font-size: 22px;
-  font-weight: bold;
-  color: #1769e0;
-}
-
-.kakao-button {
-  display: block;
-  margin-top: 25px;
-  padding: 15px;
-  background: #FEE500;
-  color: #191919;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-
-/* ==================================================
-   모바일
-================================================== */
-
-@media (max-width: 600px) {
-
-  .consultation-board {
-    padding: 18px;
-  }
-
-  .consultation-header,
-  .consultation-row {
-    grid-template-columns: 1fr 75px 80px;
-  }
-
-  .consultation-header {
-    font-size: 12px;
-  }
-
-  .consultation-row {
-    font-size: 13px;
-    padding: 9px 10px;
-  }
-
-  .status-badge {
-    min-width: 62px;
-    padding: 5px 6px;
-    font-size: 11px;
-  }
-
-}
-
-
-/* ==================================================
-   인쇄
-================================================== */
-
-@media print {
-
-  body {
-    background: white;
-  }
-
-  .no-print {
-    display: none !important;
-  }
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-
-<!-- ==================================================
-     HEADER
-================================================== -->
-
-<header style="
-  background:#fff;
-  padding:20px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:center;
-">
-
-  <h1 style="
-    margin:0;
-    color:#1769e0;
-    font-size:28px;
-  ">
-    PC SOLUTION
-  </h1>
-
-  <p style="
-    margin:6px 0 0;
-    color:#667085;
-  ">
-    피씨솔루션
-  </p>
-
-  <a
-    href="admin.html"
-    style="
-      display:inline-block;
-      margin-top:15px;
-      padding:10px 18px;
-      background:#17243a;
-      color:white;
-      border-radius:8px;
-      font-size:13px;
-      font-weight:bold;
-      text-decoration:none;
-    "
-  >
-    🔐 관리자
-  </a>
-
-</header>
-
-
-<!-- ==================================================
-     HERO
-================================================== -->
-
-<section style="
-  padding:80px 20px;
-  text-align:center;
-  background:linear-gradient(135deg,#eef6ff,#fff);
-">
-
-  <p style="
-    color:#1769e0;
-    font-weight:bold;
-  ">
-    PC SOLUTION
-  </p>
-
-  <h2 style="
-    font-size:42px;
-    margin:15px 0;
-    line-height:1.3;
-  ">
-
-    좋은 PC를<br>
-
-    <span style="color:#1769e0;">
-      합리적인 가격으로
-    </span>
-
-  </h2>
-
-  <p style="
-    color:#667085;
-    font-size:17px;
-    line-height:1.7;
-  ">
-
-    게이밍 PC부터 사무용 PC까지<br>
-    용도와 예산에 딱 맞는 PC를 찾아드립니다.
-
-  </p>
-
-  <a
-    href="consulting.html"
-    target="_blank"
-    rel="noopener noreferrer"
-    style="
-      display:inline-block;
-      margin-top:20px;
-      padding:15px 25px;
-      background:#1769e0;
-      color:white;
-      border-radius:10px;
-      text-decoration:none;
-      font-weight:bold;
-    "
-  >
-    견적 상담하기
-  </a>
-
-</section>
-
-
-<!-- ==================================================
-     상담 현황
-================================================== -->
-
-<section
-  id="consultationStatus"
-  style="
-    padding:50px 20px;
-    background:#fff;
-  "
->
-
-  <div class="consultation-board">
-
-    <h2 style="
-      margin:0;
-      text-align:center;
-      color:#172033;
-      font-size:24px;
-    ">
-      📋 PC 상담 현황
-    </h2>
-
-    <p style="
-      margin:8px 0 22px;
-      text-align:center;
-      color:#667085;
-      font-size:14px;
-    ">
-      최근 접수된 상담 현황입니다.
-    </p>
-
-    <div class="consultation-table">
-
-      <div class="consultation-header">
-
-        <div>고객명</div>
-
-        <div style="text-align:center;">
-          접수일
-        </div>
-
-        <div style="text-align:center;">
-          상태
-        </div>
-
-      </div>
-
-      <div id="consultationStatusList">
-
-        <div style="
-          padding:30px;
-          text-align:center;
-          color:#667085;
-        ">
-          상담 현황을 불러오는 중입니다...
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     PC 종류
-================================================== -->
-
-<section style="
-  padding:60px 20px;
-  max-width:900px;
-  margin:auto;
-">
-
-  <h2 style="text-align:center;">
-    어떤 PC가 필요하세요?
-  </h2>
-
-  <div class="pc-type-grid">
-
-    <div class="pc-type-card">
-
-      <div style="font-size:40px;">
-        🎮
-      </div>
-
-      <h3>
-        게이밍 PC
-      </h3>
-
-      <p>
-        게임에 맞는 최적의 PC 구성
-      </p>
-
-    </div>
-
-
-    <div class="pc-type-card">
-
-      <div style="font-size:40px;">
-        💼
-      </div>
-
-      <h3>
-        사무용 PC
-      </h3>
-
-      <p>
-        실속 있는 업무용 PC 구성
-      </p>
-
-    </div>
-
-
-    <div class="pc-type-card">
-
-      <div style="font-size:40px;">
-        🛠️
-      </div>
-
-      <h3>
-        PC 컨설팅
-      </h3>
-
-      <p>
-        예산과 용도만 알려주세요.<br>
-        부품 구성은 전문가가 상담해드립니다.
-      </p>
-
-      <a
-        href="consulting.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="consulting-button"
-      >
-        PC 컨설팅 신청
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     추천 PC
-     메인 PC 컨설팅 신청서는 완전히 삭제됨
-================================================== -->
-
-<section style="
-  padding:60px 20px;
-  background:#f4f7fb;
-">
-
-  <div style="
-    max-width:1000px;
-    margin:auto;
-  ">
-
-    <h2 style="
-      text-align:center;
-      color:#172033;
-      margin-bottom:10px;
-    ">
-      🖥️ 추천 PC
-    </h2>
-
-    <p style="
-      text-align:center;
-      color:#667085;
-      margin-bottom:35px;
-    ">
-      피씨솔루션에서 추천하는 PC를 만나보세요.
-    </p>
-
-    <input
-      type="text"
-      id="productSearch"
-      placeholder="🔍 상품명, CPU, 그래픽카드 검색"
-      oninput="filterProducts()"
-      style="
-        display:block;
-        width:100%;
-        max-width:500px;
-        margin:0 auto 20px;
-        padding:15px 18px;
-        border:1px solid #d0d5dd;
-        border-radius:12px;
-        font-size:16px;
-      "
-    >
-
-    <select
-      id="productSort"
-      onchange="sortProducts()"
-      style="
-        display:block;
-        width:100%;
-        max-width:500px;
-        margin:0 auto 30px;
-        padding:14px 18px;
-        border:1px solid #d0d5dd;
-        border-radius:12px;
-        font-size:16px;
-        background:white;
-      "
-    >
-
-      <option value="latest">
-        🆕 최신 상품순
-      </option>
-
-      <option value="priceLow">
-        💰 가격 낮은순
-      </option>
-
-      <option value="priceHigh">
-        💰 가격 높은순
-      </option>
-
-      <option value="name">
-        🔤 상품명순
-      </option>
-
-    </select>
-
-    <div
-      id="productList"
-      class="product-grid"
-    >
-
-      <p style="
-        grid-column:1/-1;
-        text-align:center;
-        color:#667085;
-      ">
-        상품을 불러오는 중입니다...
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     상담
-================================================== -->
-
-<section
-  id="contact"
-  style="
-    padding:60px 20px;
-    text-align:center;
-    background:#17243a;
-    color:white;
-  "
->
-
-  <h2>
-    피씨솔루션 상담
-  </h2>
-
-  <p style="
-    line-height:1.8;
-    color:#cbd5e1;
-  ">
-    PC 구매 및 맞춤 견적 상담
-  </p>
-
-  <p style="
-    font-size:28px;
-    font-weight:bold;
-    color:#64b5ff;
-  ">
-    ☎ 010-9554-7365
-  </p>
-
-  <p>
-    📍 인천시 서구 승학로 512번길 60
-  </p>
-
-  <p>
-    🕐 365일 연중무휴
-  </p>
-
-  <div style="margin-top:30px;">
-
-    <a
-      href="tel:01095547365"
-      style="
-        display:block;
-        width:240px;
-        margin:12px auto;
-        padding:16px;
-        background:#1769e0;
-        color:white;
-        border-radius:10px;
-        font-size:17px;
-        font-weight:bold;
-        text-decoration:none;
-      "
-    >
-      ☎ 전화 상담
-    </a>
-
-    <a
-      href="https://open.kakao.com/o/gYVLkHNi"
-      target="_blank"
-      rel="noopener noreferrer"
-      style="
-        display:block;
-        width:240px;
-        margin:12px auto;
-        padding:16px;
-        background:#FEE500;
-        color:#191919;
-        border-radius:10px;
-        font-size:17px;
-        font-weight:bold;
-        text-decoration:none;
-      "
-    >
-      💬 카카오톡 상담
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     QR
-================================================== -->
-
-<section style="
-  padding:50px 20px;
-  text-align:center;
-  background:#f5f8fc;
-">
-
-  <h2 style="
-    color:#172033;
-    margin-bottom:10px;
-  ">
-    📱 홈페이지 바로가기
-  </h2>
-
-  <p style="
-    color:#667085;
-    margin-bottom:25px;
-  ">
-    휴대폰으로 QR코드를 스캔해보세요.
-  </p>
-
-  <div style="
-    display:inline-block;
-    background:white;
-    padding:20px;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-  ">
-
-    <img
-      src="https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=https%3A%2F%2Fdusk-box-pale-wing-xe9ibjm6sfrhi9aj5.paged.net%2F"
-      alt="피씨솔루션 홈페이지 QR코드"
-      width="230"
-      height="230"
-      style="display:block;"
-    >
-
-    <h3 style="
-      margin-top:15px;
-      color:#172033;
-    ">
-      QR코드 스캔
-    </h3>
-
-    <p style="
-      margin-top:5px;
-      color:#737e90;
-      font-size:13px;
-    ">
-      피씨솔루션 홈페이지 바로가기
-    </p>
-
-  </div>
-
-</section>
-
-<!-- ==================================================
-     고객 맞춤 견적 조회
-
-     V1.0 임시 비활성화
-     V2.0에서 본인 인증 기능과 함께 재개
-================================================== -->
-
-<section
-  id="customerEstimate"
-  style="
-    display:none;
-    padding:60px 20px;
-    background:#fff;
-  "
->
-
-  <div style="
-    max-width:700px;
-    margin:auto;
-    background:#f4f7fb;
-    padding:35px;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.06);
-  ">
-
-    <h2 style="
-      text-align:center;
-      color:#172033;
-      margin-bottom:10px;
-    ">
-      📋 맞춤 견적 조회
-    </h2>
-
-    <p style="
-      text-align:center;
-      color:#667085;
-      line-height:1.7;
-      margin-bottom:25px;
-    ">
-      상담 접수 후 안내받은 상담번호를 입력해주세요.
-    </p>
-
-    <div style="
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    ">
-
-      <input
-        type="number"
-        id="customerQuoteRequestId"
-        min="1"
-        step="1"
-        placeholder="상담번호를 입력하세요"
-        style="
-          flex:1;
-          min-width:200px;
-          padding:15px;
-          border:1px solid #d0d5dd;
-          border-radius:10px;
-          font-size:16px;
-        "
-      >
-
-      <button
-        type="button"
-        id="estimateSearchButton"
-        onclick="loadCustomerEstimate()"
-        style="
-          padding:15px 22px;
-          border:0;
-          border-radius:10px;
-          background:#1769e0;
-          color:white;
-          font-size:16px;
-          font-weight:bold;
-        "
-      >
-        🔍 견적 조회
-      </button>
-
-    </div>
-
-    <div
-      id="customerEstimateResult"
-      role="status"
-      aria-live="polite"
-      style="margin-top:25px;"
-    ></div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     FOOTER
-================================================== -->
-
-<footer style="
-  padding:30px;
-  text-align:center;
-  background:#0d1522;
-  color:#94a3b8;
-">
-
-  <strong style="color:white;">
-    피씨솔루션
-  </strong>
-
-  <br><br>
-
-  조립PC · 게이밍PC · 사무용PC · PC부품 · A/S
-
-</footer>
-
-
-<!-- ==================================================
-     이미지 확대
-================================================== -->
-
-<div
-  id="imageModal"
-  onclick="closeImage()"
-  style="
-    display:none;
-    position:fixed;
-    z-index:9999;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.85);
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-  "
->
-
-  <button
-    type="button"
-    aria-label="사진 닫기"
-    onclick="closeImage(event)"
-    style="
-      position:absolute;
-      top:20px;
-      right:30px;
-      color:white;
-      font-size:40px;
-      font-weight:bold;
-      background:transparent;
-      border:0;
-    "
-  >
-    &times;
-  </button>
-
-  <img
-    id="modalImage"
-    src=""
-    alt="확대된 상품 사진"
-    style="
-      max-width:90%;
-      max-height:85%;
-      object-fit:contain;
-      border-radius:12px;
-      box-shadow:0 10px 40px rgba(0,0,0,.5);
-      cursor:default;
-    "
-    onclick="event.stopPropagation()"
-  >
-
-</div>
-
-
-<script>
-
-/* ==================================================
-   공통
-================================================== */
+  ) : null);
+
+/* ==========================================
+   COMMON
+========================================== */
 
 function escapeHTML(value) {
 
   return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
+function safeImageUrl(value) {
 
-/* ==================================================
-   상담 현황판
-================================================== */
+  if (typeof value !== "string" || !value.trim()) return "";
+
+  try {
+
+    const url = new URL(
+      value,
+      window.location.href
+    );
+
+    if (
+      url.protocol === "https:" ||
+      url.protocol === "http:"
+    ) {
+      return url.href;
+    }
+
+  } catch (_) {}
+
+  return "";
+
+}
+
+/* ==========================================
+   MOBILE MENU
+========================================== */
+
+const menuButton =
+  document.getElementById("menuButton");
+
+const mainNav =
+  document.getElementById("mainNav");
+
+menuButton.addEventListener(
+  "click",
+  function() {
+
+    const open =
+      mainNav.classList.toggle("open");
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      String(open)
+    );
+
+  }
+);
+
+mainNav.querySelectorAll("a").forEach(
+  function(link) {
+
+    link.addEventListener(
+      "click",
+      function() {
+
+        mainNav.classList.remove("open");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+    );
+
+  }
+);
+
+/* ==========================================
+   PRODUCTS
+========================================== */
+
+let allProducts = [];
+
+function renderProducts(products) {
+
+  const container =
+    document.getElementById("productList");
+
+  if (!products.length) {
+
+    container.innerHTML =
+      document.getElementById("productSearch").value.trim()
+        ? '<div class="empty-message" role="status">검색 결과가 없습니다. 다른 상품명이나 부품명으로 검색해 주세요.</div>'
+        : '<div class="empty-message" role="status">등록된 상품이 없습니다.</div>';
+
+    return;
+
+  }
+
+  container.innerHTML =
+    products.map(function(product) {
+
+      const id = Number(product.id);
+
+      const name =
+        escapeHTML(product.name || "상품");
+
+      const image =
+        safeImageUrl(product.image_url);
+
+      const price =
+        Number(product.price);
+
+      const priceText =
+        Number.isFinite(price) && price > 0
+          ? price.toLocaleString("ko-KR") + "원"
+          : "가격 문의";
+
+      const specs = [
+
+        product.cpu,
+        product.gpu,
+        product.ram,
+        product.ssd,
+        product.power
+
+      ].filter(Boolean);
+
+      const detailUrl =
+        Number.isSafeInteger(id) && id > 0
+          ? "product.html?id=" + id
+          : "#";
+
+      return `
+
+        <article class="product-card">
+
+          <div class="product-image-box">
+
+            ${
+              image
+                ? `
+                  <img
+                    src="${escapeHTML(image)}"
+                    alt="${name}"
+                    class="product-image"
+                    role="button"
+                    tabindex="0"
+                    aria-label="${name} 이미지 확대"
+                    data-image="${escapeHTML(image)}"
+                    loading="lazy"
+                  >
+                `
+                : `
+                  <div class="product-placeholder">
+                    🖥️
+                  </div>
+                `
+            }
+
+          </div>
+
+          <h3>
+            <a href="${detailUrl}">
+              ${name}
+            </a>
+          </h3>
+
+          <div class="product-specs">
+
+            ${specs.map(function(spec) {
+
+              return `
+                <span>${escapeHTML(spec)}</span>
+              `;
+
+            }).join("")}
+
+          </div>
+
+          <div class="product-price">
+            ${escapeHTML(priceText)}
+          </div>
+
+        </article>
+
+      `;
+
+    }).join("");
+
+}
+
+function getFilteredProducts() {
+
+  const keyword =
+    document.getElementById("productSearch")
+      .value.trim().toLowerCase();
+
+  return allProducts.filter(function(product) {
+
+    const text = [
+
+      product.name,
+      product.cpu,
+      product.gpu,
+      product.ram,
+      product.ssd,
+      product.power,
+      product.description
+
+    ].join(" ").toLowerCase();
+
+    return text.includes(keyword);
+
+  });
+
+}
+
+function filterProducts() {
+
+  const products = getFilteredProducts();
+
+  const sortType =
+    document.getElementById("productSort").value;
+
+  if (sortType === "priceLow") {
+
+    products.sort(
+      (a,b) => Number(a.price || 0) - Number(b.price || 0)
+    );
+
+  } else if (sortType === "priceHigh") {
+
+    products.sort(
+      (a,b) => Number(b.price || 0) - Number(a.price || 0)
+    );
+
+  } else if (sortType === "name") {
+
+    products.sort(
+      (a,b) => String(a.name || "").localeCompare(
+        String(b.name || ""),
+        "ko"
+      )
+    );
+
+  } else {
+
+    products.sort(
+      (a,b) => Number(b.id || 0) - Number(a.id || 0)
+    );
+
+  }
+
+  renderProducts(products);
+
+}
+
+async function loadProducts() {
+
+  const container =
+    document.getElementById("productList");
+
+  try {
+
+    const {data,error} =
+      await supabaseClient
+        .from("pcsolution")
+        .select("*");
+
+    if (error) throw error;
+
+    allProducts = data || [];
+
+    filterProducts();
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      '<div class="empty-message">상품을 불러오지 못했습니다.</div>';
+
+  }
+
+}
+
+document.getElementById("productSearch")
+  .addEventListener("input",filterProducts);
+
+document.getElementById("productSort")
+  .addEventListener("change",filterProducts);
+
+/* ==========================================
+   IMAGE MODAL
+========================================== */
+
+const imageModal = document.getElementById("imageModal");
+const modalImage = document.getElementById("modalImage");
+const imageClose = document.getElementById("imageClose");
+let imageOpener = null;
+let previousPageOverflow = "";
+function openProductImage(image) {
+ const url = safeImageUrl(image.dataset.image);
+ if(!url) return;
+ imageOpener = image;
+ previousPageOverflow = document.body.style.overflow;
+ modalImage.src = url;
+ modalImage.alt = image.alt || "확대된 상품 이미지";
+ imageModal.classList.add("open");
+ document.body.style.overflow = "hidden";
+ imageClose.focus();
+}
+function closeImage() {
+ if(!imageModal.classList.contains("open")) return;
+ imageModal.classList.remove("open");
+ modalImage.removeAttribute("src");
+ document.body.style.overflow = previousPageOverflow;
+ if(imageOpener && imageOpener.isConnected) imageOpener.focus();
+ imageOpener = null;
+}
+const productList = document.getElementById("productList");
+productList.addEventListener("click",function(event){
+ const image=event.target.closest("[data-image]");
+ if(image) openProductImage(image);
+});
+productList.addEventListener("keydown",function(event){
+ const image=event.target.closest("[data-image]");
+ if(image && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); openProductImage(image); }
+});
+productList.addEventListener("error",function(event){
+ const failed=event.target;
+ if(!failed.matches("img.product-image")) return;
+ const fallback=document.createElement("div");
+ fallback.className="product-placeholder";
+ fallback.setAttribute("role","img");
+ fallback.setAttribute("aria-label","상품 이미지 준비 중");
+ failed.replaceWith(fallback);
+},true);
+imageClose.addEventListener("click",closeImage);
+imageModal.addEventListener("click",function(event){if(event.target === imageModal) closeImage();});
+document.addEventListener("keydown",function(event){
+ if(!imageModal.classList.contains("open")) return;
+ if(event.key === "Escape") {event.preventDefault();closeImage();}
+ else if(event.key === "Tab") {event.preventDefault();imageClose.focus();}
+});
+
+/* ==========================================
+   CONSULTATION STATUS
+========================================== */
 
 let consultationChannel = null;
 let consultationTimer = null;
-let consultationScrollTimer = null;
-let consultationScrollDirection = 1;
-
-
-/* ==================================================
-   이름 마스킹
-================================================== */
 
 function maskCustomerName(name) {
 
-  const value =
-    String(name || "").trim();
+  const chars = [...String(name || "").trim()];
 
-  if (!value) {
-    return "-";
-  }
+  if (!chars.length) return "-";
 
-  const chars = [...value];
-
-  if (chars.length === 1) {
-    return "*";
-  }
+  if (chars.length === 1) return "*";
 
   if (chars.length === 2) {
     return chars[0] + "*";
   }
 
-  const middleIndex =
-    Math.floor(chars.length / 2);
-
-  chars[middleIndex] = "*";
+  chars[Math.floor(chars.length / 2)] = "*";
 
   return chars.join("");
 
 }
 
-
-/* ==================================================
-   날짜
-================================================== */
-
-function formatConsultationDate(value) {
-
-  if (!value) {
-    return "-";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "-";
-  }
-
-  const month =
-    String(date.getMonth() + 1)
-      .padStart(2, "0");
-
-  const day =
-    String(date.getDate())
-      .padStart(2, "0");
-
-  return `${month}/${day}`;
-
-}
-
-
-/* ==================================================
-   상담 상태
-================================================== */
-
 function getConsultationStatus(status) {
-
-  const value =
-    String(status || "접수")
-      .trim()
-      .replace(/\s/g, "");
-
-  if (
-    value.includes("완료") ||
-    value.includes("완성")
-  ) {
-
-    return {
-      text: "완료",
-      className: "status-complete"
-    };
-
-  }
-
-  if (value.includes("취소")) {
-
-    return {
-      text: "취소",
-      className: "status-cancelled"
-    };
-
-  }
-
-  if (value.includes("견적작성")) {
-
-    return {
-      text: "견적작성",
-      className: "status-estimate"
-    };
-
-  }
-
-  if (value.includes("견적중")) {
-
-    return {
-      text: "견적중",
-      className: "status-estimate"
-    };
-
-  }
-
-  if (value.includes("상담중")) {
-
-    return {
-      text: "상담중",
-      className: "status-consulting"
-    };
-
-  }
-
-  if (value.includes("접수")) {
-
-    return {
-      text: "접수중",
-      className: "status-received"
-    };
-
-  }
-
-  return {
-    text: "접수중",
-    className: "status-received"
-  };
-
+ const value=String(status||'접수').replace(/\s/g,'');
+ if(/완료|완성/.test(value))return {text:'완료',className:'status-complete'};
+ if(value.includes('취소'))return {text:'취소',className:'status-cancelled'};
+ if(value.includes('견적작성'))return {text:'견적작성',className:'status-estimate'};
+ if(value.includes('견적중'))return {text:'견적중',className:'status-estimate'};
+ if(value.includes('견적'))return {text:'견적 진행',className:'status-estimate'};
+ if(value.includes('상담중'))return {text:'상담중',className:'status-consulting'};
+ if(value.includes('상담'))return {text:'상담 진행중',className:'status-consulting'};
+ return {text:'접수중',className:'status-received'};
 }
-
-
-/* ==================================================
-   자동 스크롤
-================================================== */
-
-function stopConsultationAutoScroll() {
-
-  if (consultationScrollTimer) {
-
-    clearInterval(
-      consultationScrollTimer
-    );
-
-    consultationScrollTimer = null;
-
-  }
-
+let consultationScrollTimer=null;
+let consultationScrollDirection=1;
+let consultationScrollPaused=Boolean(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+let consultationScrollInteracting=false;
+let consultationScrollResumeTimer=null;
+let consultationRenderedSignature=null;
+function stopConsultationAutoScroll(){
+ if(consultationScrollTimer!==null){clearInterval(consultationScrollTimer);consultationScrollTimer=null;}
 }
-
-
-function startConsultationAutoScroll() {
-
-  stopConsultationAutoScroll();
-
-  const container =
-    document.getElementById(
-      "consultationStatusList"
-    );
-
-  if (!container) {
-    return;
-  }
-
-  if (
-    container.scrollHeight <=
-    container.clientHeight
-  ) {
-    return;
-  }
-
-  consultationScrollDirection = 1;
-
-  consultationScrollTimer =
-    setInterval(function() {
-
-      const maxScroll =
-        container.scrollHeight -
-        container.clientHeight;
-
-      if (
-        container.scrollTop >=
-        maxScroll
-      ) {
-        consultationScrollDirection = -1;
-      }
-
-      if (
-        container.scrollTop <= 0
-      ) {
-        consultationScrollDirection = 1;
-      }
-
-      container.scrollTop +=
-        consultationScrollDirection;
-
-    }, 50);
-
+function startConsultationAutoScroll(){
+ stopConsultationAutoScroll();
+ const list=document.getElementById('consultationStatusList');
+ if(!list||consultationScrollPaused||consultationScrollInteracting||list.scrollHeight<=list.clientHeight)return;
+ consultationScrollTimer=setInterval(function(){
+  const max=list.scrollHeight-list.clientHeight;
+  if(list.scrollTop>=max-1)consultationScrollDirection=-1;
+  if(list.scrollTop<=1)consultationScrollDirection=1;
+  list.scrollTop=Math.max(0,Math.min(max,list.scrollTop+consultationScrollDirection));
+ },50);
 }
-
-
-/* ==================================================
-   상담 현황 출력
-================================================== */
 
 function renderConsultationStatus(list) {
 
@@ -1246,1409 +2473,224 @@ function renderConsultationStatus(list) {
       "consultationStatusList"
     );
 
-  if (!container) {
+  const activeList =
+    (Array.isArray(list) ? list : []).filter(function(item) {
+
+      const status =
+        String(item.status || "");
+
+      return !(
+        status.includes("완료") ||
+        status.includes("완성") ||
+        status.includes("취소")
+      );
+
+    });
+
+  activeList.sort((a,b)=>(new Date(b.created_at).getTime()||0)-(new Date(a.created_at).getTime()||0));
+  const signature=JSON.stringify(activeList.map(item=>[item.customer_name,item.created_at,item.status]));
+  // A periodic refresh of identical data must not restart or interrupt scrolling.
+  if(signature===consultationRenderedSignature) {
+    if(consultationScrollTimer===null) startConsultationAutoScroll();
     return;
   }
-
+  consultationRenderedSignature=signature;
+  const previousScrollTop=container.scrollTop;
   stopConsultationAutoScroll();
 
-  const activeList =
-    Array.isArray(list)
 
-      ? list.filter(function(item) {
+  if (!activeList.length) {
 
-          const status =
-            String(item.status || "")
-              .trim()
-              .replace(/\s/g, "");
-
-          return !(
-            status.includes("완료") ||
-            status.includes("완성") ||
-            status.includes("취소")
-          );
-
-        })
-
-      : [];
-
-  activeList.sort(function(a, b) {
-
-    return (
-      new Date(
-        b.created_at || 0
-      ).getTime()
-
-      -
-
-      new Date(
-        a.created_at || 0
-      ).getTime()
-    );
-
-  });
-
-  if (activeList.length === 0) {
-
-    container.innerHTML = `
-
-      <div style="
-        padding:30px;
-        text-align:center;
-        color:#667085;
-      ">
-        현재 진행중인 상담이 없습니다.
-      </div>
-
-    `;
+    container.innerHTML =
+      '<div class="empty-message">현재 진행 중인 상담이 없습니다.</div>';
 
     return;
 
   }
 
   container.innerHTML =
+    activeList.map(function(item) {
 
-    activeList
+      const status =
+        getConsultationStatus(item.status);
 
-      .map(function(item) {
+      const date =
+        new Date(item.created_at || NaN);
 
-        const status =
-          getConsultationStatus(
-            item.status
-          );
+      const dateText =
+        Number.isNaN(date.getTime())
+          ? "-"
+          : date.toLocaleString("ko-KR",{
+              month:"2-digit",
+              day:"2-digit",
+              hour:"2-digit",
+              minute:"2-digit"
+            });
 
-        return `
+      return `
 
-          <div class="consultation-row">
+        <div class="consultation-row">
 
-            <div class="consultation-name">
+          <div class="consultation-name">
+            ${escapeHTML(maskCustomerName(item.customer_name))}
+          </div>
 
-              ${escapeHTML(
-                maskCustomerName(
-                  item.customer_name
-                )
-              )}
+          <div class="consultation-date">
+            ${escapeHTML(dateText)}
+          </div>
 
-            </div>
+          <div class="consultation-status">
 
-            <div class="consultation-date">
-
-              ${escapeHTML(
-                formatConsultationDate(
-                  item.created_at
-                )
-              )}
-
-            </div>
-
-            <div class="consultation-status">
-
-              <span class="
-                status-badge
-                ${status.className}
-              ">
-
-                ${escapeHTML(
-                  status.text
-                )}
-
-              </span>
-
-            </div>
+            <span class="status-badge ${status.className}">
+              ${escapeHTML(status.text)}
+            </span>
 
           </div>
 
-        `;
+        </div>
 
-      })
+      `;
 
-      .join("");
+    }).join("");
 
-  requestAnimationFrame(function() {
+  requestAnimationFrame(function(){
+    container.scrollTop=Math.max(0,Math.min(previousScrollTop,container.scrollHeight-container.clientHeight));
     startConsultationAutoScroll();
   });
-
 }
-
-
-/* ==================================================
-   상담 현황 데이터
-================================================== */
 
 async function loadConsultationStatus() {
-
-  const container =
-    document.getElementById(
-      "consultationStatusList"
-    );
-
-  if (!container) {
-    return;
+ const container=document.getElementById('consultationStatusList');
+ try {
+  if(!supabaseClient)throw Error('Data client unavailable');
+  let result=await supabaseClient.rpc('get_public_consultation_status');
+  // Match the original read path only if the newer public RPC is not installed.
+  if(result.error && ['PGRST202','42883'].includes(result.error.code)){
+   result=await supabaseClient.from('quote_requests')
+    .select('id, customer_name, created_at, status').order('created_at',{ascending:false}).limit(50);
   }
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabaseClient
-
-      .from("quote_requests")
-
-      .select(
-        "id, customer_name, created_at, status"
-      )
-
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      )
-
-      .limit(50);
-
-    if (error) {
-      throw error;
-    }
-
-    renderConsultationStatus(
-      data || []
-    );
-
-  } catch (error) {
-
-    console.error(
-      "상담 현황 불러오기 오류:",
-      error
-    );
-
-    container.innerHTML = `
-
-      <div style="
-        padding:25px;
-        text-align:center;
-        color:#d92d20;
-      ">
-        상담 현황을 불러오지 못했습니다.
-      </div>
-
-    `;
-
-  }
-
+  if(result.error)throw result.error;
+  renderConsultationStatus(result.data||[]);
+ } catch(error) {
+  console.error('상담 현황 오류:',error);
+  consultationRenderedSignature=null;
+  stopConsultationAutoScroll();
+  container.innerHTML='<div class="empty-message">상담 현황을 불러오지 못했습니다.</div>';
+ }
 }
-
-
-/* ==================================================
-   Supabase 실시간
-================================================== */
 
 function startConsultationRealtime() {
 
-  if (consultationChannel) {
+  if (!supabaseClient) return;
 
-    supabaseClient
-      .removeChannel(
-        consultationChannel
-      );
-
-    consultationChannel = null;
-
-  }
+  if(consultationChannel) supabaseClient.removeChannel(consultationChannel);
 
   consultationChannel =
-
     supabaseClient
-
-      .channel(
-        "quote-status-board"
-      )
-
+      .channel("v2-consultation-status")
       .on(
-
         "postgres_changes",
-
         {
-          event: "*",
-          schema: "public",
-          table: "quote_requests"
+          event:"*",
+          schema:"public",
+          table:"quote_requests"
         },
-
         function() {
+
           loadConsultationStatus();
+
         }
-
       )
-
       .subscribe();
 
 }
 
-
-/* ==================================================
-   10초 보조 갱신
-================================================== */
-
 function startConsultationFallback() {
 
+  if (!supabaseClient) return;
+
   if (consultationTimer) {
-    clearInterval(
-      consultationTimer
-    );
+    clearInterval(consultationTimer);
   }
 
   consultationTimer =
-    setInterval(
-      function() {
-        loadConsultationStatus();
-      },
-      10000
-    );
+    setInterval(loadConsultationStatus,10000);
 
 }
 
+/* ==========================================
+   HOMEPAGE QR + COPY
+========================================== */
 
-/* ==================================================
-   상품
-================================================== */
+// Public test homepage; never copy a local file path.
+const HOMEPAGE_URL = "https://pcsolution0915.github.io/pcsolution/";
 
-let allProducts = [];
+document.getElementById("copyHomepageButton")
+  .addEventListener("click",async function() {
 
+    try {
 
-function safeImageUrl(value) {
-
-  if (!value) {
-    return "";
-  }
-
-  try {
-
-    const url =
-      new URL(
-        value,
-        window.location.href
+      await navigator.clipboard.writeText(
+        HOMEPAGE_URL
       );
 
-    if (
-      url.protocol !== "https:" &&
-      url.protocol !== "http:"
-    ) {
-      return "";
-    }
+      alert("홈페이지 주소가 복사되었습니다.");
 
-    return url.href;
+    } catch (error) {
 
-  } catch (_) {
+      const input =
+        document.createElement("textarea");
 
-    return "";
+      input.value = HOMEPAGE_URL;
 
-  }
+      document.body.appendChild(input);
 
-}
+      input.select();
 
+      const copied =
+        document.execCommand("copy");
 
-/* ==================================================
-   상품 출력
-================================================== */
+      input.remove();
 
-function renderProducts(products) {
-
-  const productList =
-    document.getElementById(
-      "productList"
-    );
-
-  if (!productList) {
-    return;
-  }
-
-  if (
-    !products ||
-    products.length === 0
-  ) {
-
-    productList.innerHTML = `
-
-      <p style="
-        grid-column:1/-1;
-        text-align:center;
-        color:#667085;
-      ">
-        검색 결과가 없습니다.
-      </p>
-
-    `;
-
-    return;
-
-  }
-
-  productList.innerHTML =
-
-    products
-
-      .map(function(product) {
-
-        const name =
-          escapeHTML(
-            product.name || ""
-          );
-
-        const imageUrl =
-          safeImageUrl(
-            product.image_url
-          );
-
-        const numericPrice =
-          Number(product.price);
-
-        const price =
-
-          Number.isFinite(
-            numericPrice
-          ) &&
-          numericPrice > 0
-
-            ? numericPrice
-                .toLocaleString(
-                  "ko-KR"
-                ) + "원"
-
-            : "가격 문의";
-
-        return `
-
-          <div class="product-card">
-
-            ${
-              imageUrl
-
-                ? `
-
-                  <img
-                    src="${escapeHTML(
-                      imageUrl
-                    )}"
-                    alt="${name}"
-                    class="product-image"
-                    onclick="openImage('${escapeHTML(
-                      imageUrl
-                    )}')"
-                  >
-
-                `
-
-                : ""
-            }
-
-            <div class="product-body">
-
-              <h3>
-                ${name}
-              </h3>
-
-              <p class="product-price">
-                ${escapeHTML(price)}
-              </p>
-
-              <p>
-                CPU :
-                ${escapeHTML(
-                  product.cpu || "-"
-                )}
-              </p>
-
-              <p>
-                그래픽카드 :
-                ${escapeHTML(
-                  product.gpu || "-"
-                )}
-              </p>
-
-              <p>
-                RAM :
-                ${escapeHTML(
-                  product.ram || "-"
-                )}
-              </p>
-
-              <p>
-                SSD :
-                ${escapeHTML(
-                  product.ssd || "-"
-                )}
-              </p>
-
-              <p>
-                메인보드 :
-                ${escapeHTML(
-                  product["main board"] || "-"
-                )}
-              </p>
-
-              <p>
-                파워 :
-                ${escapeHTML(
-                  product.power || "-"
-                )}
-              </p>
-
-              <p>
-                모니터 :
-                ${escapeHTML(
-                  product.monitor || "-"
-                )}
-              </p>
-
-              <p>
-                HDD :
-                ${escapeHTML(
-                  product.hdd || "-"
-                )}
-              </p>
-
-              <p>
-                키보드/마우스 :
-                ${escapeHTML(
-                  product["keyboard mouse"] || "-"
-                )}
-              </p>
-
-              ${
-                product.description
-
-                  ? `
-
-                    <p style="
-                      color:#667085;
-                      line-height:1.6;
-                    ">
-
-                      ${escapeHTML(
-                        product.description
-                      )}
-
-                    </p>
-
-                  `
-
-                  : ""
-              }
-
-              <a
-                href="https://open.kakao.com/o/gYVLkHNi"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="kakao-button"
-              >
-                💬 이 상품 카카오톡 상담하기
-              </a>
-
-            </div>
-
-          </div>
-
-        `;
-
-      })
-
-      .join("");
-
-}
-
-
-/* ==================================================
-   상품 검색
-================================================== */
-
-function getFilteredProducts() {
-
-  const input =
-    document.getElementById(
-      "productSearch"
-    );
-
-  const searchText =
-
-    input
-
-      ? input.value
-          .trim()
-          .toLowerCase()
-
-      : "";
-
-  return allProducts.filter(
-    function(product) {
-
-      const searchableText = [
-
-        product.name,
-        product.cpu,
-        product.gpu,
-        product.ram,
-        product.ssd,
-        product["main board"],
-        product.power,
-        product.monitor,
-        product.hdd,
-        product["keyboard mouse"],
-        product.description
-
-      ]
-
-        .map(
-          value => value || ""
-        )
-
-        .join(" ")
-
-        .toLowerCase();
-
-      return searchableText.includes(
-        searchText
+      alert(
+        copied
+          ? "홈페이지 주소가 복사되었습니다."
+          : "주소 복사에 실패했습니다."
       );
 
     }
-  );
 
-}
+  });
 
+/* ==========================================
+   ESTIMATE LOOKUP
+========================================== */
 
-/* ==================================================
-   상품 정렬
-================================================== */
+document.querySelectorAll("[data-pending]")
+  .forEach(function(link) {
 
-function applySort(products) {
+    link.addEventListener("click",function(event) {
 
-  const select =
-    document.getElementById(
-      "productSort"
-    );
+      event.preventDefault();
 
-  const sortType =
-    select
-      ? select.value
-      : "latest";
+      alert(
+        link.dataset.pending +
+        " 페이지는 준비 중입니다."
+      );
 
-  const sorted =
-    [...products];
+    });
 
-  if (sortType === "priceLow") {
+  });
 
-    sorted.sort(
-      (a,b) =>
-        Number(a.price || 0) -
-        Number(b.price || 0)
-    );
-
-  } else if (
-    sortType === "priceHigh"
-  ) {
-
-    sorted.sort(
-      (a,b) =>
-        Number(b.price || 0) -
-        Number(a.price || 0)
-    );
-
-  } else if (
-    sortType === "name"
-  ) {
-
-    sorted.sort(
-      (a,b) =>
-        String(a.name || "")
-          .localeCompare(
-            String(b.name || ""),
-            "ko"
-          )
-    );
-
-  } else {
-
-    sorted.sort(
-      (a,b) =>
-        Number(b.id || 0) -
-        Number(a.id || 0)
-    );
-
-  }
-
-  renderProducts(sorted);
-
-}
-
-
-function filterProducts() {
-
-  applySort(
-    getFilteredProducts()
-  );
-
-}
-
-
-function sortProducts() {
-
-  applySort(
-    getFilteredProducts()
-  );
-
-}
-
-
-/* ==================================================
-   상품 불러오기
-================================================== */
-
-async function loadProducts() {
-
-  const productList =
-    document.getElementById(
-      "productList"
-    );
-
-  if (!productList) {
-    return;
-  }
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabaseClient
-
-      .from("pcsolution")
-
-      .select("*");
-
-    if (error) {
-      throw error;
-    }
-
-    allProducts =
-      data || [];
-
-    applySort(
-      allProducts
-    );
-
-  } catch (error) {
-
-    console.error(
-      "상품 불러오기 오류:",
-      error
-    );
-
-    productList.innerHTML = `
-
-      <p style="
-        grid-column:1/-1;
-        text-align:center;
-        color:#d92d20;
-      ">
-        상품을 불러오지 못했습니다.
-      </p>
-
-    `;
-
-  }
-
-}
-
-
-/* ==================================================
-   이미지 확대
-================================================== */
-
-function openImage(imageUrl) {
-
-  const modal =
-    document.getElementById(
-      "imageModal"
-    );
-
-  const modalImage =
-    document.getElementById(
-      "modalImage"
-    );
-
-  const safeUrl =
-    safeImageUrl(
-      imageUrl
-    );
-
-  if (!safeUrl) {
-    return;
-  }
-
-  modalImage.src =
-    safeUrl;
-
-  modal.style.display =
-    "flex";
-
-}
-
-
-function closeImage(event) {
-
-  if (event) {
-    event.stopPropagation();
-  }
-
-  const modal =
-    document.getElementById(
-      "imageModal"
-    );
-
-  const modalImage =
-    document.getElementById(
-      "modalImage"
-    );
-
-  modal.style.display =
-    "none";
-
-  modalImage.src =
-    "";
-
-}
-
-
-/* ==================================================
-   고객 견적 조회
-================================================== */
-
-async function loadCustomerEstimate() {
-
-  const input =
-    document.getElementById(
-      "customerQuoteRequestId"
-    );
-
-  const result =
-    document.getElementById(
-      "customerEstimateResult"
-    );
-
-  const button =
-    document.getElementById(
-      "estimateSearchButton"
-    );
-
-  if (button.disabled) {
-    return;
-  }
-
-  const rawId =
-    input.value.trim();
-
-  const quoteRequestId =
-    Number(rawId);
-
-  if (
-    !rawId ||
-    !Number.isSafeInteger(
-      quoteRequestId
-    ) ||
-    quoteRequestId <= 0
-  ) {
-
-    result.innerHTML = `
-
-      <div style="
-        padding:20px;
-        background:#fee2e2;
-        color:#991b1b;
-        border-radius:10px;
-        text-align:center;
-      ">
-        올바른 상담번호를 입력해주세요.
-      </div>
-
-    `;
-
-    input.focus();
-
-    return;
-
-  }
-
-  button.disabled = true;
-  button.style.opacity = "0.6";
-
-  result.innerHTML = `
-
-    <div style="
-      padding:20px;
-      background:#eef6ff;
-      color:#1769e0;
-      border-radius:10px;
-      text-align:center;
-    ">
-      견적을 불러오는 중입니다...
-    </div>
-
-  `;
-
-  try {
-
-    const {
-      data: request,
-      error: requestError
-    } = await supabaseClient
-
-      .from("quote_requests")
-
-      .select(
-        "id, customer_name"
-      )
-
-      .eq(
-        "id",
-        quoteRequestId
-      )
-
-      .maybeSingle();
-
-    if (requestError) {
-      throw requestError;
-    }
-
-    if (!request) {
-
-      result.innerHTML = `
-
-        <div style="
-          padding:20px;
-          background:#fee2e2;
-          color:#991b1b;
-          border-radius:10px;
-          text-align:center;
-        ">
-          해당 상담번호를 찾을 수 없습니다.
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-    const {
-      data: estimate,
-      error: estimateError
-    } = await supabaseClient
-
-      .from("quote_estimates")
-
-      .select("*")
-
-      .eq(
-        "quote_request_id",
-        quoteRequestId
-      )
-
-      .order(
-        "id",
-        {
-          ascending:false
-        }
-      )
-
-      .limit(1)
-
-      .maybeSingle();
-
-    if (estimateError) {
-      throw estimateError;
-    }
-
-    if (!estimate) {
-
-      result.innerHTML = `
-
-        <div style="
-          padding:25px;
-          background:#fff7ed;
-          color:#9a3412;
-          border-radius:10px;
-          text-align:center;
-          line-height:1.8;
-        ">
-
-          <strong>
-            아직 작성된 맞춤 견적이 없습니다.
-          </strong>
-
-          <br>
-
-          현재 상담 신청은 정상적으로 접수되어 있습니다.
-
-          <br>
-
-          견적 작성이 완료되면 다시 조회해주세요.
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-    result.innerHTML = `
-
-      <div
-        id="estimatePrintArea"
-        style="
-          background:white;
-          border:1px solid #e5e7eb;
-          border-radius:15px;
-          padding:25px;
-        "
-      >
-
-        <h3 style="
-          margin-top:0;
-          color:#172033;
-          text-align:center;
-        ">
-          🖥️ 맞춤 PC 견적
-        </h3>
-
-        <p style="
-          text-align:center;
-          color:#667085;
-          margin-bottom:25px;
-        ">
-
-          상담번호 #${escapeHTML(
-            quoteRequestId
-          )}
-
-          <br>
-
-          ${escapeHTML(
-            request.customer_name || ""
-          )}
-
-        </p>
-
-        <div style="
-          display:grid;
-          gap:10px;
-        ">
-
-          ${estimateRow(
-            "CPU",
-            estimate.cpu
-          )}
-
-          ${estimateRow(
-            "그래픽카드",
-            estimate.gpu
-          )}
-
-          ${estimateRow(
-            "RAM",
-            estimate.ram
-          )}
-
-          ${estimateRow(
-            "SSD",
-            estimate.ssd
-          )}
-
-          ${estimateRow(
-            "메인보드",
-            estimate.main_board
-          )}
-
-          ${estimateRow(
-            "파워",
-            estimate.power
-          )}
-
-          ${estimateRow(
-            "케이스",
-            estimate.case
-          )}
-
-          ${estimateRow(
-            "쿨러",
-            estimate.cooler
-          )}
-
-          ${estimateRow(
-            "모니터",
-            estimate.monitor
-          )}
-
-          ${estimateRow(
-            "기타",
-            estimate.etc
-          )}
-
-        </div>
-
-        <div style="
-          margin-top:25px;
-          padding:20px;
-          background:#eef6ff;
-          border-radius:12px;
-          text-align:center;
-        ">
-
-          <div style="
-            color:#667085;
-            font-size:14px;
-          ">
-            총 견적금액
-          </div>
-
-          <div style="
-            margin-top:5px;
-            color:#1769e0;
-            font-size:28px;
-            font-weight:bold;
-          ">
-
-            ${formatEstimatePrice(
-              estimate.total_price
-            )}
-
-          </div>
-
-        </div>
-
-        ${
-          estimate.description
-
-            ? `
-
-              <div style="
-                margin-top:20px;
-                padding:18px;
-                background:#f8fafc;
-                border-radius:10px;
-                line-height:1.7;
-                color:#475467;
-              ">
-
-                <strong style="color:#172033;">
-                  📝 상담 내용
-                </strong>
-
-                <br><br>
-
-                ${escapeHTML(
-                  estimate.description
-                ).replace(
-                  /\n/g,
-                  "<br>"
-                )}
-
-              </div>
-
-            `
-
-            : ""
-        }
-
-        <div style="
-          margin-top:20px;
-          text-align:center;
-          color:#667085;
-          font-size:13px;
-          line-height:1.8;
-        ">
-
-          위 견적은 상담 내용을 기준으로 작성된 맞춤 견적입니다.<br>
-          최종 부품 및 가격은 상담 과정에서 변경될 수 있습니다.
-
-        </div>
-
-        <button
-          type="button"
-          onclick="printEstimate()"
-          class="no-print"
-          style="
-            display:block;
-            width:100%;
-            margin-top:25px;
-            padding:16px;
-            border:0;
-            border-radius:10px;
-            background:#1769e0;
-            color:white;
-            font-size:16px;
-            font-weight:bold;
-          "
-        >
-          📄 견적서 PDF 저장 / 인쇄
-        </button>
-
-      </div>
-
-    `;
-
-  } catch (error) {
-
-    console.error(
-      "맞춤 견적 조회 오류:",
-      error
-    );
-
-    result.innerHTML = `
-
-      <div style="
-        padding:20px;
-        background:#fee2e2;
-        color:#991b1b;
-        border-radius:10px;
-        line-height:1.7;
-      ">
-
-        <strong>
-          견적 조회 중 오류가 발생했습니다.
-        </strong>
-
-        <br><br>
-
-        잠시 후 다시 시도해주세요.
-
-      </div>
-
-    `;
-
-  } finally {
-
-    button.disabled = false;
-    button.style.opacity = "1";
-
-  }
-
-}
-
-
-/* ==================================================
-   견적 행
-================================================== */
-
-function estimateRow(label, value) {
-
-  const displayValue =
-
-    value === null ||
-    value === undefined ||
-    String(value).trim() === ""
-
-      ? "-"
-
-      : String(value);
-
-  return `
-
-    <div style="
-      display:flex;
-      gap:15px;
-      padding:13px 0;
-      border-bottom:1px solid #eef0f3;
-    ">
-
-      <div style="
-        width:90px;
-        flex-shrink:0;
-        color:#667085;
-        font-weight:bold;
-      ">
-        ${escapeHTML(label)}
-      </div>
-
-      <div style="
-        color:#172033;
-        word-break:break-word;
-      ">
-        ${escapeHTML(
-          displayValue
-        )}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ==================================================
-   견적 금액
-================================================== */
-
-function formatEstimatePrice(value) {
-
-  const price =
-    Number(value);
-
-  if (
-    value === null ||
-    value === undefined ||
-    value === "" ||
-    !Number.isFinite(price)
-  ) {
-
-    return "금액 확인 필요";
-
-  }
-
-  return (
-    price.toLocaleString(
-      "ko-KR"
-    ) + "원"
-  );
-
-}
-
-
-/* ==================================================
-   견적서 인쇄
-================================================== */
-
-function printEstimate() {
-
-  const result =
-    document.getElementById(
-      "estimatePrintArea"
-    );
-
-  if (!result) {
-
-    alert(
-      "먼저 견적을 조회해주세요."
-    );
-
-    return;
-
-  }
-
-  const printWindow =
-    window.open(
-      "",
-      "_blank",
-      "width=900,height=900"
-    );
-
-  if (!printWindow) {
-
-    alert(
-      "인쇄 창이 차단되었습니다. 팝업을 허용해주세요."
-    );
-
-    return;
-
-  }
-
-  printWindow.document.write(`
-
-<!DOCTYPE html>
-
-<html lang="ko">
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>
-PC SOLUTION 맞춤 견적서
-</title>
-
-<style>
-
-* {
-  box-sizing:border-box;
-}
-
-@page {
-  size:A4;
-  margin:10mm;
-}
-
-body {
-  margin:0;
-  padding:0;
-  font-family:
-    Arial,
-    "Malgun Gothic",
-    sans-serif;
-  color:#172033;
-  background:white;
-  font-size:12px;
-}
-
-.container {
-  width:100%;
-  max-width:190mm;
-  margin:auto;
-}
-
-button {
-  display:none !important;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-  ${result.outerHTML}
-
-</div>
-
-<script>
-
-window.onload = function() {
-
-  setTimeout(
-    function() {
-      window.print();
-    },
-    300
-  );
-
-};
-
-window.onafterprint = function() {
-  window.close();
-};
-
-<\/script>
-
-</body>
-
-</html>
-
-  `);
-
-  printWindow.document.close();
-
-}
-
-
-/* ==================================================
-   초기 실행
-================================================== */
+/* ==========================================
+   INITIALIZE
+========================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
+
+    loadProducts();
 
     loadConsultationStatus();
 
@@ -2656,11 +2698,68 @@ document.addEventListener(
 
     startConsultationFallback();
 
-    loadProducts();
-
   }
 );
 
+</script>
+
+
+<script>
+/* Keep menu state accessible across touch, keyboard and resizing. */
+(function() {
+ const button=document.getElementById('menuButton');
+ const nav=document.getElementById('mainNav');
+ const close=function(){ nav.classList.remove('open'); button.setAttribute('aria-expanded','false'); button.setAttribute('aria-label','메뉴 열기'); };
+ button.addEventListener('click',function(){ button.setAttribute('aria-label',button.getAttribute('aria-expanded')==='true'?'메뉴 닫기':'메뉴 열기'); });
+ nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',close);});
+ document.addEventListener('keydown',function(event){ if(event.key==='Escape'&&nav.classList.contains('open')){close();button.focus();} });
+ document.addEventListener('click',function(event){ if(!nav.contains(event.target)&&!button.contains(event.target)) close(); });
+ window.matchMedia('(max-width:1000px)').addEventListener('change',close);
+})();
+</script>
+
+
+<nav class="pcs-quick-contact" aria-label="빠른 상담">
+ <a class="pcs-quick-kakao" href="https://open.kakao.com/o/gYVLkHNi" target="_blank" rel="noopener noreferrer">카카오톡 상담</a>
+ <a class="pcs-quick-phone" href="tel:01095547365">전화 상담</a>
+ <a class="pcs-quick-form" href="consulting.html">상담 신청</a>
+</nav>
+
+
+<script>
+(function(){
+ const list=document.getElementById('consultationStatusList');
+ const button=document.getElementById('consultationScrollToggle');
+ function update(){button.textContent=consultationScrollPaused?'자동 스크롤 시작':'자동 스크롤 정지';button.setAttribute('aria-pressed',String(consultationScrollPaused));}
+ function clearResume(){if(consultationScrollResumeTimer!==null){clearTimeout(consultationScrollResumeTimer);consultationScrollResumeTimer=null;}}
+ function pauseForManualScroll(){
+  clearResume();
+  if(consultationScrollPaused)return;
+  consultationScrollInteracting=true;
+  stopConsultationAutoScroll();
+  consultationScrollResumeTimer=setTimeout(function(){
+   consultationScrollResumeTimer=null;consultationScrollInteracting=false;
+   if(!document.hidden)startConsultationAutoScroll();
+  },3000);
+ }
+ button.addEventListener('click',function(){
+  clearResume();consultationScrollInteracting=false;
+  consultationScrollPaused=!consultationScrollPaused;
+  update();startConsultationAutoScroll();
+ });
+ // Hover alone does not pause. Explicit manual scrolling pauses for three seconds.
+ list.addEventListener('wheel',pauseForManualScroll,{passive:true});
+ list.addEventListener('touchstart',pauseForManualScroll,{passive:true});
+ list.addEventListener('touchmove',pauseForManualScroll,{passive:true});
+ list.addEventListener('touchend',pauseForManualScroll,{passive:true});
+ list.addEventListener('keydown',function(event){if(['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key))pauseForManualScroll();});
+ window.addEventListener('pagehide',function(){clearResume();stopConsultationAutoScroll();});
+ document.addEventListener('visibilitychange',function(){
+  if(document.hidden){clearResume();consultationScrollInteracting=false;stopConsultationAutoScroll();}
+  else startConsultationAutoScroll();
+ });
+ update();
+})();
 </script>
 
 </body>

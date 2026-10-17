@@ -21,10 +21,10 @@ const SUPABASE_KEY =
   "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
 
 const supabaseClient =
-  window.supabase.createClient(
+  (window.supabase ? window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-  );
+  ) : null);
 </script>
 
 
@@ -493,6 +493,80 @@ button {
 
 }
 
+
+/* Revision 9: product detail */
+body { background:#f4f8ff; }
+.header { box-shadow:0 3px 18px #153b6c06; border-color:#e3ebf7; }
+.header-inner { max-width:1200px; }
+.logo { font-size:26px; font-style:italic; font-weight:900; letter-spacing:-1px; }
+.home-button { background:#edf4ff; color:#245285; border:1px solid #dbe7fa; padding:11px 16px; font-size:12px; white-space:nowrap; }
+.container { max-width:1200px; margin:32px auto 45px; }
+.product-detail { grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:40px; padding:32px; border:1px solid #e1eaf6; border-radius:22px; box-shadow:0 10px 35px #153b6c08; }
+.product-image-box { background:radial-gradient(ellipse at center,#fff,#eef4fc); border-color:#e4edf9; border-radius:18px; }
+.product-image { padding:22px; }
+.product-label { font-size:11px; letter-spacing:.3px; padding:7px 11px; }
+.product-name { font-size:29px; letter-spacing:-.8px; line-height:1.45; overflow-wrap:anywhere; }
+.product-description { font-size:13px; line-height:1.9; }
+.price-box { padding:20px 22px; background:linear-gradient(120deg,#eef5ff,#f7faff); border:1px solid #deebfc; border-radius:14px; margin-top:22px; }
+.price-label { font-size:12px; color:#6a809d; }
+.product-price { font-size:32px; font-weight:900; color:#075bd9; }
+.spec-title { font-size:17px; margin-top:26px; }
+.spec-list { border:1px solid #e3eaf5; border-radius:12px; overflow:hidden; }
+.spec-row { grid-template-columns:102px minmax(0,1fr); gap:14px; padding:12px 15px; font-size:12px; line-height:1.6; }
+.spec-row:nth-child(odd) { background:#f8faff; }
+.spec-row:last-child { border-bottom:0; }
+.spec-name { font-weight:600; }
+.spec-value { overflow-wrap:anywhere; }
+.button-area { gap:10px; margin-top:24px; }
+.consult-button { padding:16px; background:linear-gradient(100deg,#086bfa,#0756cc); font-size:15px; border-radius:11px; box-shadow:0 5px 15px #086bfa20; }
+.kakao-button { padding:14px; font-size:13px; border-radius:11px; }
+.back-button { padding:13px; font-size:12px; background:#f2f6fc; border:1px solid #e0e8f5; border-radius:10px; }
+.notice { font-size:11px; line-height:1.9; background:#faf8f3; border-color:#eee3ce; color:#8b7351; }
+.no-image { font-size:13px; color:#7b90ac; padding:25px; line-height:1.8; text-align:center; }
+.loading,.error-box { border:1px solid #e1eaf6; box-shadow:0 10px 35px #153b6c08; }
+.error-box h2 { font-size:23px; }
+.error-box p { font-size:14px; }
+.footer { background:#06162d; font-size:12px; margin-top:40px; }
+a:focus-visible,button:focus-visible { outline:3px solid #087aff; outline-offset:4px; }
+@media(max-width:800px) {
+ .product-detail { grid-template-columns:1fr; gap:25px; padding:24px; }
+ .image-area { width:100%; max-width:480px; margin:auto; }
+ .product-name { font-size:26px; }
+}
+@media(max-width:500px) {
+ .header { padding:16px; }
+ .logo { font-size:21px; }
+ .header-inner { gap:12px; }
+ .home-button { padding:10px 12px; font-size:11px; }
+ .container { padding:0 12px; margin:20px auto 30px; }
+ .product-detail { padding:17px; border-radius:17px; gap:23px; }
+ .product-image { padding:15px; }
+ .product-name { font-size:23px; }
+ .product-price { font-size:28px; }
+ .spec-row { grid-template-columns:80px minmax(0,1fr); padding:11px 12px; gap:10px; }
+ .price-box { padding:17px; }
+ .button-area { margin-top:22px; }
+ .error-box { padding:35px 18px; }
+}
+
+
+/* Revision 10: shared service navigation and mobile contact */
+.pcs-footer-services { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 23px; padding:0 18px 23px; max-width:1200px; margin:auto; font-size:12px; line-height:1.8; }
+.pcs-footer-services a { color:#c2d3eb; text-decoration:none; }
+.pcs-footer-services a:hover { color:#67d3ff; }
+.pcs-footer-services a:focus-visible,.pcs-quick-contact a:focus-visible { outline:3px solid #42cfff; outline-offset:3px; border-radius:5px; }
+.pcs-quick-contact { display:none; }
+@media(max-width:760px) {
+ body { padding-bottom:calc(76px + env(safe-area-inset-bottom,0px)); }
+ .pcs-quick-contact { display:grid; position:fixed; z-index:110; bottom:0; left:0; right:0; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px)); background:#fffffff5; border-top:1px solid #dce6f4; box-shadow:0 -4px 20px #1234580c; }
+ .pcs-quick-contact a { display:flex; align-items:center; justify-content:center; min-height:44px; padding:9px 5px; border-radius:9px; text-decoration:none; font-size:12px; font-weight:700; line-height:1.4; }
+ .pcs-quick-kakao { background:#fee500; color:#211b00; }
+ .pcs-quick-phone { background:#edf4ff; color:#20559b; }
+ .pcs-quick-form { background:#086bfa; color:white; }
+ .pcs-footer-services { gap:9px 16px; font-size:11px; }
+}
+@media print { .pcs-quick-contact { display:none; } body { padding-bottom:0; } }
+
 </style>
 
 </head>
@@ -509,12 +583,10 @@ button {
 
   <div class="header-inner">
 
-    <div class="logo">
-      PC SOLUTION
-    </div>
+    <a class="logo" href="index-v2.html">PC SOLUTION</a>
 
     <a
-      href="index.html"
+      href="index-v2.html#products"
       class="home-button"
     >
       🏠 메인으로
@@ -535,6 +607,8 @@ button {
   <div
     id="productDetail"
     class="loading"
+    aria-busy="true"
+    aria-label="상품 정보"
   >
     상품 정보를 불러오는 중입니다...
   </div>
@@ -548,6 +622,14 @@ button {
 ========================================== -->
 
 <footer class="footer">
+
+ <nav class="pcs-footer-services" aria-label="서비스 상담 바로가기">
+  <a href="consulting.html">맞춤 PC 상담</a>
+  <a href="consulting.html?service=repair">PC/노트북 수리·업그레이드</a>
+  <a href="consulting.html?service=media">홈페이지·영상제작</a>
+  <a href="index-v2.html#faq">자주 묻는 질문</a>
+ </nav>
+
 
   <strong>
     PC SOLUTION
@@ -590,7 +672,7 @@ function escapeHTML(value) {
 
 function safeImageUrl(value) {
 
-  if (!value) {
+  if (typeof value !== "string" || !value.trim()) {
     return "";
   }
 
@@ -694,6 +776,14 @@ function specRow(
 ========================================== */
 
 function renderProduct(product) {
+  const id = Number(product.id);
+  const consultParams = new URLSearchParams();
+  if (Number.isSafeInteger(id) && id > 0) {
+    consultParams.set("product", String(id));
+    consultParams.set("name", String(product.name || "관심 상품").slice(0,120));
+  }
+  const consultUrl = "consulting.html" + (consultParams.size ? "?" + consultParams.toString() : "");
+
 
   const container =
     document.getElementById(
@@ -753,6 +843,7 @@ function renderProduct(product) {
 
   container.className =
     "product-detail";
+  container.setAttribute("aria-busy","false");
 
 
   container.innerHTML = `
@@ -869,10 +960,10 @@ function renderProduct(product) {
       <div class="button-area">
 
         <a
-          href="consulting.html"
+          href="${escapeHTML(consultUrl)}"
           class="consult-button"
         >
-          🛠️ 이 구성으로 PC 컨설팅 신청
+          이 상품으로 상담 신청하기 →
         </a>
 
 
@@ -887,7 +978,7 @@ function renderProduct(product) {
 
 
         <a
-          href="index.html"
+          href="index-v2.html#products"
           class="back-button"
         >
           ← 상품 목록으로 돌아가기
@@ -941,6 +1032,7 @@ function showError(
 
   container.className =
     "error-box";
+  container.setAttribute("aria-busy","false");
 
 
   container.innerHTML = `
@@ -954,7 +1046,7 @@ function showError(
     </p>
 
     <a
-      href="index.html"
+      href="index-v2.html#products"
       class="back-button"
       style="
         max-width:250px;
@@ -1088,6 +1180,22 @@ document.addEventListener(
 
 </script>
 
+
+<script>
+document.getElementById('productDetail').addEventListener('error',function(event){
+ const image=event.target;
+ if(!image.matches('img.product-image'))return;
+ const placeholder=document.createElement('div');
+ placeholder.className='no-image';placeholder.textContent='상품 이미지 준비 중';
+ image.replaceWith(placeholder);
+},true);
+</script>
+
+<nav class="pcs-quick-contact" aria-label="빠른 상담">
+ <a class="pcs-quick-kakao" href="https://open.kakao.com/o/gYVLkHNi" target="_blank" rel="noopener noreferrer">카카오톡 상담</a>
+ <a class="pcs-quick-phone" href="tel:01095547365">전화 상담</a>
+ <a class="pcs-quick-form" href="consulting.html">상담 신청</a>
+</nav>
 
 </body>
 </html>

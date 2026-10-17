@@ -255,82 +255,102 @@
 
     }
 
-/* =====================================
-   PC SOLUTION PDF 인쇄 전용 디자인
-===================================== */
-
-@page {
-  size: A4 portrait;
-  margin: 12mm;
+/* Revision 14: structured estimate table and A4 printing */
+body { font-family:Arial,"Malgun Gothic",sans-serif; }
+.container { max-width:1100px; }
+.container>.card:first-of-type { max-width:760px; margin-left:auto; margin-right:auto; }
+.lookup-return { margin:0 0 18px; }
+.lookup-return a { color:#24598f; font-size:13px; text-decoration:none; display:inline-block; padding:9px 0; }
+.lookup-return a:focus-visible,.estimate-table-wrap:focus-visible { outline:3px solid #087aff; outline-offset:4px; border-radius:5px; }
+.customer-info-box { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:17px 20px; margin-bottom:22px; background:#f5f8fd; border:1px solid #dce5f1; border-radius:10px; font-size:13px; color:#64748b; line-height:1.7; }
+.customer-info-box strong { display:block; margin-top:4px; color:#172033; font-weight:700; overflow-wrap:anywhere; }
+.estimate-table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #cfdbe9; border-radius:10px; }
+.estimate-table { width:100%; min-width:860px; border-collapse:collapse; table-layout:fixed; font-size:12px; line-height:1.7; }
+.estimate-table th,.estimate-table td { padding:13px 10px; border:1px solid #d7e1ee; text-align:left; vertical-align:top; overflow-wrap:anywhere; white-space:normal; }
+.estimate-table thead th { background:#132d50; color:#fff; font-size:12px; font-weight:700; text-align:center; vertical-align:middle; border-color:#2c4668; }
+.estimate-table tbody th { background:#eff4fb; font-weight:700; color:#294969; }
+.estimate-table tbody tr:nth-child(even) td { background:#fafcff; }
+.estimate-table thead th:first-child { width:9%; }
+.estimate-table thead th:nth-child(2) { width:12%; }
+.estimate-table thead th:nth-child(3) { width:21%; }
+.estimate-table thead th:nth-child(4) { width:21%; }
+.estimate-table thead th:nth-child(5) { width:6%; }
+.estimate-table thead th:nth-child(6) { width:10%; }
+.estimate-table thead th:nth-child(7) { width:11%; }
+.estimate-table .qty { text-align:center; }
+.estimate-table .price,.estimate-table .supply { text-align:right; font-variant-numeric:tabular-nums; }
+.estimate-table-hint { margin:0 0 10px; color:#6c809b; font-size:12px; line-height:1.7; }
+@media(max-width:600px) {
+ .quote-header h2 { font-size:21px; line-height:1.5; }
+ .quote-number { font-size:17px; }
+ .customer-info-box { grid-template-columns:1fr; gap:12px; padding:15px; font-size:12px; }
+ .estimate-table { font-size:11px; }
+ .estimate-table th,.estimate-table td { padding:11px 9px; }
 }
-
+@page { size:A4 portrait; margin:12mm; }
 @media print {
-
-  @media print {
-
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-  }
-
-  body * {
-    visibility: hidden !important;
-  }
-
-  #resultSection,
-  #resultSection * {
-    visibility: visible !important;
-  }
-
-  #resultSection {
-    display: block !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 10mm !important;
-    background: #ffffff !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-  }
-
-  #resultSection .part {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  #resultSection .total-box {
-    background: #eff6ff !important;
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
-
-  #resultSection h2 {
-    color: #172033 !important;
-  }
-
-  #resultSection .quote-number {
-    color: #1769e0 !important;
-  }
-
-  #resultSection .total-price {
-    color: #1d4ed8 !important;
-  }
-
-  a[href]::after {
-    content: none !important;
-  }
-
+ body { margin:0 !important; padding:0 !important; background:#fff !important; color:#172033; font-size:10px; }
+ .container { max-width:none; width:100%; margin:0; padding:0; }
+ .container>.card:first-of-type,.lookup-return,#pdfButtonArea,.no-print { display:none !important; }
+ #resultSection.hidden { display:none !important; }
+ #resultSection:not(.hidden) { display:block !important; width:100%; margin:0; padding:0; box-shadow:none; border:0; border-radius:0; }
+ .quote-header { margin-bottom:14px; }
+ .quote-header h2 { font-size:18px; }
+ .quote-number { font-size:14px; }
+ .status { font-size:10px; padding:5px 9px; }
+ .customer-info-box { margin-bottom:15px; padding:10px 12px; grid-template-columns:repeat(2,minmax(0,1fr)); font-size:10px; }
+ .estimate-table-wrap { overflow:visible !important; border:0; border-radius:0; }
+ .estimate-table { min-width:0 !important; width:100% !important; font-size:9px; table-layout:fixed; }
+ .estimate-table th,.estimate-table td { padding:7px 5px; border:1px solid #aebed1; font-size:9px; }
+ .estimate-table thead { display:table-header-group; }
+ .estimate-table tr { break-inside:avoid; page-break-inside:avoid; }
+ .estimate-table thead th { background:#e8eef7 !important; color:#172033 !important; }
+ .total-box,.customer-info-box { break-inside:avoid; page-break-inside:avoid; }
+ .total-box { padding:15px; }
+ .total-price { font-size:24px; }
+ .notice,.updated,.description { font-size:10px; line-height:1.7; }
+ .estimate-table,.customer-info-box,.total-box { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+ a[href]::after { content:none !important; }
 }
 
-  </style>
 
+
+/* Revision 16: inset the PDF content independently of print-dialog margins. */
+@media print {
+ #resultSection:not(.hidden) {
+  box-sizing:border-box !important;
+  width:100% !important;
+  padding-left:8mm !important;
+  padding-right:8mm !important;
+ }
+}
+
+
+.unit-summary { display:flex; justify-content:space-between; gap:15px; padding:12px 16px; margin-top:16px; border:1px solid #d5e0ee; background:#f4f8fd; font-size:13px; line-height:1.6; }
+.supplier-line-amount,.line-amount { text-align:right; font-weight:700; white-space:nowrap; }
+.pending-price { color:#718198; font-size:12px; text-align:center; }
+@media print { .unit-summary { padding:2mm; margin-top:2mm; font-size:8pt; break-inside:avoid; } }
+
+</style>
+
+<style>
+
+/* Revision 21: real page summary styles, shared by screen and print. */
+.unit-summary { box-sizing:border-box; width:100%; display:grid; grid-template-columns:minmax(100px,1fr) minmax(0,1fr); gap:0; padding:0; margin:12px 0 0; border:1px solid #172033; background:#fff; color:#172033; font-size:13px; line-height:1.5; break-inside:avoid; }
+.unit-summary > span,.unit-summary > strong { padding:9px 12px; min-width:0; }
+.unit-summary > span { border-right:1px solid #172033; background:#f4f8fd; font-weight:700; }
+.unit-summary > strong { text-align:right; overflow-wrap:anywhere; }
+@media print {
+ .unit-summary { margin-top:2mm; font-size:8pt; border:1px solid #172033; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+ .unit-summary > span,.unit-summary > strong { padding:1.5mm 2mm; }
+}
+
+</style>
 </head>
 
 <body>
   <main class="container">
+    <p class="lookup-return no-print"><a href="index-v2.html">← 홈페이지로 돌아가기</a></p>
 
     <!-- 조회 영역 -->
 
@@ -369,7 +389,7 @@
       </form>
 
       <div
-        id="message"
+        id="message" role="status" aria-live="polite"
         class="message"
       ></div>
 
@@ -431,20 +451,21 @@
        견적 품목표
   ====================================== -->
 
-  <div class="estimate-table-wrap">
+  <p class="estimate-table-hint no-print">작은 화면에서는 품목표를 좌우로 움직여 전체 내용을 확인할 수 있습니다.</p>
+  <div class="estimate-table-wrap" tabindex="0" role="region" aria-label="부품별 견적 품목표">
 
     <table class="estimate-table">
 
       <thead>
 
         <tr>
-          <th>품목</th>
-          <th>제조사</th>
-          <th>모델명</th>
-          <th>세부 스펙</th>
-          <th>수량</th>
-          <th>단가</th>
-          <th>공급가</th>
+          <th scope="col">품목</th>
+          <th scope="col">제조사</th>
+          <th scope="col">모델명</th>
+          <th scope="col">세부 스펙</th>
+          <th scope="col">수량</th>
+          <th scope="col">개당 단가</th>
+          <th scope="col">공급액</th>
         </tr>
 
       </thead>
@@ -453,7 +474,7 @@
       <tbody id="customerEstimateBody">
 
         <tr data-part="cpu">
-          <th>CPU</th>
+          <th scope="row">CPU</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -464,7 +485,7 @@
 
 
         <tr data-part="main_board">
-          <th>메인보드</th>
+          <th scope="row">메인보드</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -475,7 +496,7 @@
 
 
         <tr data-part="ram">
-          <th>RAM</th>
+          <th scope="row">RAM</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -486,7 +507,7 @@
 
 
         <tr data-part="ssd">
-          <th>SSD</th>
+          <th scope="row">SSD</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -497,7 +518,7 @@
 
 
         <tr data-part="gpu">
-          <th>그래픽카드</th>
+          <th scope="row">그래픽카드</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -508,7 +529,7 @@
 
 
         <tr data-part="power">
-          <th>파워</th>
+          <th scope="row">파워</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -519,7 +540,7 @@
 
 
         <tr data-part="case">
-          <th>케이스</th>
+          <th scope="row">케이스</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -530,7 +551,7 @@
 
 
         <tr data-part="cooler">
-          <th>쿨러</th>
+          <th scope="row">쿨러</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -541,7 +562,7 @@
 
 
         <tr data-part="monitor">
-          <th>모니터</th>
+          <th scope="row">모니터</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -552,7 +573,7 @@
 
 
         <tr data-part="etc">
-          <th>기타</th>
+          <th scope="row">기타</th>
           <td class="maker"></td>
           <td class="model"></td>
           <td class="spec"></td>
@@ -570,10 +591,12 @@
 
   <!-- 총 견적금액 -->
 
+  <p style="font-size:12px;line-height:1.6;margin:12px 0">부가세 포함 · 현금/카드 동일가<br>개당 단가 합계는 참고용이며, 결제 금액은 수량을 반영한 공급액 합계입니다.</p>
+<div class="unit-summary"><span>개당 단가 합계</span><strong id="customerUnitPriceTotal">-</strong></div>
   <div class="total-box">
 
     <div class="total-label">
-      총 견적금액
+      공급액 합계
     </div>
 
     <div
@@ -643,10 +666,10 @@
 
 
     const supabaseClient =
-      window.supabase.createClient(
+      (window.supabase ? window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
-      );
+      ) : null);
 
 
     /* =====================================
@@ -775,6 +798,13 @@ function renderEstimate(data) {
 
   const estimate =
     data.estimate;
+ let unitTotal=0,hasUnitData=false;
+ ['cpu','main_board','ram','ssd','gpu','power','case','cooler','monitor','etc','labor'].forEach(function(part){
+  const raw=estimate[part+'_price'];const qty=Number(estimate[part+'_qty']);const unit=Number(raw);
+  if(raw!==null&&raw!==undefined&&raw!==''&&Number.isFinite(unit)&&unit>=0&&qty>0){unitTotal+=unit;hasUnitData=true;}
+ });
+ setText('customerUnitPriceTotal',hasUnitData?formatPrice(unitTotal):'개당 단가 미입력');
+
 
 
   /* =====================================
@@ -1052,6 +1082,8 @@ function renderEstimate(data) {
 
     async function lookupQuote(publicCode) {
 
+      if(document.getElementById("lookupButton").disabled) return;
+
       const button =
         document.getElementById(
           "lookupButton"
@@ -1165,5 +1197,11 @@ function renderEstimate(data) {
 
   </script>
 
+<script>
+(function(){
+ const code=String(new URLSearchParams(window.location.search).get('code')||'').trim().toUpperCase();
+ if(code && code.length<=100){document.getElementById('quoteNumber').value=code;lookupQuote(code);}
+})();
+</script>
 </body>
 </html>

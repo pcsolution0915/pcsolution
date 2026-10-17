@@ -10,7 +10,7 @@
   content="width=device-width, initial-scale=1.0"
 >
 
-<title>PC SOLUTION - PC 컨설팅 신청</title>
+<title>PC SOLUTION | 상담 신청</title>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -26,10 +26,10 @@ const SUPABASE_KEY =
 
 
 const supabaseClient =
-  window.supabase.createClient(
+  (window.supabase ? window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-  );
+  ) : null);
 
 </script>
 
@@ -534,6 +534,77 @@ button {
 
 }
 
+
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .form-input,.form-select,.form-textarea,.submit-button { transition:none; } }
+
+/* Revision 8: consultation form */
+body { background:#f4f8ff; }
+.page-header { text-align:left; padding:19px max(20px,calc((100% - 960px)/2)); background:#fff; box-shadow:0 3px 18px #153b6c05; }
+.logo { font-size:25px; font-weight:900; font-style:italic; letter-spacing:-1px; }
+.logo a { color:inherit; text-decoration:none; }
+.logo-sub { font-size:10px; margin-top:3px; }
+.container { max-width:860px; padding:40px 22px 60px; }
+.intro { margin-bottom:28px; }
+.intro-badge { background:#e6f0ff; font-size:12px; letter-spacing:.3px; }
+.intro h1 { font-size:32px; letter-spacing:-1px; line-height:1.45; margin:17px 0 12px; word-break:keep-all; }
+.intro p { font-size:14px; line-height:1.85; }
+.form-box { padding:34px; border:1px solid #e2eafa; border-radius:22px; box-shadow:0 14px 40px #153b6c08; }
+.form-title { font-size:23px; }
+.form-description { font-size:12px; margin-bottom:28px; }
+.form-description strong { color:#8a5c4a; font-weight:400; }
+.form-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:23px 18px; }
+.form-grid>.form-group,.form-grid>.submit-button { grid-column:1/-1; min-width:0; }
+.form-grid>.compact-field { grid-column:auto; }
+.form-label { font-size:14px; line-height:1.6; margin-bottom:8px; }
+.form-input,.form-select,.form-textarea { background:#fbfcff; border-color:#dce5f2; border-radius:11px; padding:13px 14px; font-size:15px; line-height:1.5; }
+.form-textarea { min-height:124px; }
+.field-help { font-size:12px; line-height:1.8; margin:8px 0 0; }
+.part-box { margin-top:12px; padding:16px; background:#f5f8fd; border-color:#e4ebf6; }
+.submit-button { border-radius:12px; padding:17px; background:linear-gradient(100deg,#086bfa,#0756cc); font-size:16px; margin-top:3px; box-shadow:0 6px 15px #086bfa20; }
+.message { font-size:14px; overflow-wrap:anywhere; }
+.message:empty { margin:0; }
+.info-box { margin-top:24px; font-size:12px; background:#f5f8fd; line-height:1.9; }
+.back-button { background:white; color:#3a5577; border:1px solid #dce6f4; border-radius:11px; }
+.receipt-box { margin-top:20px; padding:20px; border:1px solid #bdd8ff; border-radius:14px; background:#f0f6ff; text-align:center; }
+.receipt-box[hidden] { display:none; }
+.receipt-label { display:block; font-size:12px; color:#607b9c; }
+#receiptValue { display:block; margin:9px 0 15px; color:#0756cc; font-size:23px; letter-spacing:1px; overflow-wrap:anywhere; user-select:all; }
+#copyReceiptButton { border:0; border-radius:8px; background:#086bfa; color:#fff; padding:11px 18px; font-size:13px; font-weight:700; }
+#receiptCopyStatus { display:block; font-size:12px; color:#4f6788; margin-top:10px; }
+:where(a,button):focus-visible { outline:3px solid #087aff; outline-offset:4px; }
+.page-footer { background:#06162d; padding:27px 20px; font-size:12px; }
+@media(max-width:600px) {
+ .page-header { padding:16px 18px; }
+ .container { padding:26px 15px 40px; }
+ .intro h1 { font-size:25px; letter-spacing:-.8px; }
+ .intro p { font-size:12px; }
+ .form-box { padding:24px 18px; border-radius:18px; }
+ .form-grid { grid-template-columns:1fr; gap:20px; }
+ .form-grid>.compact-field { grid-column:1/-1; }
+ .form-input,.form-select,.form-textarea { font-size:16px; }
+ .form-label { font-size:13px; }
+ .form-title { font-size:21px; }
+ #receiptValue { font-size:20px; }
+}
+
+
+/* Revision 10: shared service navigation and mobile contact */
+.pcs-footer-services { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 23px; padding:0 18px 23px; max-width:1200px; margin:auto; font-size:12px; line-height:1.8; }
+.pcs-footer-services a { color:#c2d3eb; text-decoration:none; }
+.pcs-footer-services a:hover { color:#67d3ff; }
+.pcs-footer-services a:focus-visible,.pcs-quick-contact a:focus-visible { outline:3px solid #42cfff; outline-offset:3px; border-radius:5px; }
+.pcs-quick-contact { display:none; }
+@media(max-width:760px) {
+ body { padding-bottom:calc(76px + env(safe-area-inset-bottom,0px)); }
+ .pcs-quick-contact { display:grid; position:fixed; z-index:110; bottom:0; left:0; right:0; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px)); background:#fffffff5; border-top:1px solid #dce6f4; box-shadow:0 -4px 20px #1234580c; }
+ .pcs-quick-contact a { display:flex; align-items:center; justify-content:center; min-height:44px; padding:9px 5px; border-radius:9px; text-decoration:none; font-size:12px; font-weight:700; line-height:1.4; }
+ .pcs-quick-kakao { background:#fee500; color:#211b00; }
+ .pcs-quick-phone { background:#edf4ff; color:#20559b; }
+ .pcs-quick-form { background:#086bfa; color:white; }
+ .pcs-footer-services { gap:9px 16px; font-size:11px; }
+}
+@media print { .pcs-quick-contact { display:none; } body { padding-bottom:0; } }
+
 </style>
 
 </head>
@@ -548,9 +619,9 @@ button {
 
 <header class="page-header">
 
-  <h2 class="logo">
+  <h2 class="logo"><a href="index-v2.html" aria-label="PC SOLUTION 홈페이지">
     PC SOLUTION
-  </h2>
+  </a></h2>
 
   <p class="logo-sub">
     피씨솔루션
@@ -569,12 +640,12 @@ button {
 
   <div class="intro">
 
-    <div class="intro-badge">
+    <div class="intro-badge" id="serviceIntroBadge">
       💻 맞춤 PC 컨설팅
     </div>
 
 
-    <h1>
+    <h1 id="serviceIntroTitle">
 
       나에게 맞는 PC를<br>
 
@@ -585,7 +656,7 @@ button {
     </h1>
 
 
-    <p>
+    <p id="serviceIntroDescription">
 
       부품을 직접 고르실 필요 없습니다.<br>
 
@@ -603,11 +674,11 @@ button {
        신청서
   ================================================== -->
 
-  <div class="form-box">
+  <div class="form-box" id="consultationForm">
 
 
     <h2 class="form-title">
-      📋 PC 컨설팅 신청서
+      📋 상담 신청서
     </h2>
 
 
@@ -626,7 +697,7 @@ button {
 
       <!-- 이름 -->
 
-      <div class="form-group">
+      <div class="form-group compact-field">
 
         <label
           for="quoteCustomerName"
@@ -639,6 +710,7 @@ button {
         <input
           type="text"
           id="quoteCustomerName"
+          aria-required="true"
           maxlength="100"
           autocomplete="name"
           placeholder="이름을 입력해주세요"
@@ -651,7 +723,7 @@ button {
 
       <!-- 연락처 -->
 
-      <div class="form-group">
+      <div class="form-group compact-field">
 
         <label
           for="quotePhone"
@@ -664,6 +736,8 @@ button {
         <input
           type="tel"
           id="quotePhone"
+          inputmode="tel"
+          aria-required="true"
           maxlength="20"
           autocomplete="tel"
           placeholder="010-0000-0000"
@@ -674,6 +748,19 @@ button {
 
 
 
+      
+      <!-- 상담 분야: 기존 상담 신청서에 항목 추가 -->
+      <div class="form-group">
+        <label for="quoteServiceType" class="form-label">상담 분야 <span class="required">*</span></label>
+        <select id="quoteServiceType"
+          aria-required="true" class="form-select">
+          <option value="pc">맞춤 PC 상담</option>
+          <option value="repair">PC/노트북 수리·업그레이드 상담</option>
+          <option value="media">홈페이지 및 영상제작 상담</option>
+        </select>
+        <p class="field-help">수리 증상이나 제작 목적은 아래 상담 내용에 적어주세요.</p>
+      </div>
+
       <!-- 사용 목적 -->
 
       <div class="form-group">
@@ -682,19 +769,21 @@ button {
           for="quotePurpose"
           class="form-label"
         >
-          PC 사용 목적 <span class="required">*</span>
+          PC 사용 목적 / 상담 내용 <span class="required">*</span>
         </label>
 
 
         <textarea
           id="quotePurpose"
+          aria-describedby="servicePurposeHint"
+          aria-required="true"
           maxlength="3000"
-          placeholder="예: 배그, 롤, 영상편집, 사무용, 인터넷 등"
+          placeholder="예: 게임·사무용 PC / 노트북 고장 증상 / 홈페이지·영상 제작 목적"
           class="form-textarea"
         ></textarea>
 
 
-        <p class="field-help">
+        <p class="field-help" id="servicePurposeHint">
 
           사용하실 게임이나 프로그램,
           작업 용도를 자세하게 적어주시면
@@ -721,6 +810,7 @@ button {
         <input
           type="text"
           id="quoteBudget"
+          aria-required="true"
           maxlength="30"
           placeholder="예: 150만원"
           class="form-input"
@@ -872,7 +962,7 @@ button {
         class="submit-button"
       >
 
-        💻 PC 컨설팅 신청하기
+        상담 신청하기
 
       </button>
 
@@ -885,6 +975,7 @@ button {
 
     <p
       id="quoteMessage"
+      tabindex="-1"
       role="status"
       aria-live="polite"
       class="message"
@@ -892,11 +983,20 @@ button {
 
 
 
+    
+    <div class="receipt-box" id="quoteReceipt" hidden>
+      <span class="receipt-label">접수된 상담번호</span>
+      <strong id="receiptValue"></strong>
+      <button type="button" id="copyReceiptButton">상담번호 복사</button>
+      <a id="receiptLookupLink" href="estimate.html" style="display:inline-block;margin:10px;color:#0756cc;">견적 조회하기 →</a>
+      <span id="receiptCopyStatus" role="status" aria-live="polite"></span>
+    </div>
+
     <!-- 안내 -->
 
     <div class="info-box">
 
-      🔒 입력하신 내용은 PC 상담을 위한 목적으로 사용됩니다.<br>
+      🔒 입력하신 내용은 신청하신 상담을 위한 목적으로 사용됩니다.<br>
 
       상담 접수가 완료되면 <strong>상담번호</strong>가 표시됩니다.<br>
 
@@ -907,7 +1007,7 @@ button {
 
 
     <a
-      href="index.html"
+      href="index-v2.html"
       class="back-button"
     >
       ← 홈페이지로 돌아가기
@@ -925,6 +1025,14 @@ button {
 ================================================== -->
 
 <footer class="page-footer">
+
+ <nav class="pcs-footer-services" aria-label="서비스 상담 바로가기">
+  <a href="consulting.html">맞춤 PC 상담</a>
+  <a href="consulting.html?service=repair">PC/노트북 수리·업그레이드</a>
+  <a href="consulting.html?service=media">홈페이지·영상제작</a>
+  <a href="index-v2.html#faq">자주 묻는 질문</a>
+ </nav>
+
 
   <strong>
     피씨솔루션
@@ -1019,10 +1127,18 @@ async function submitQuoteRequest() {
 
 
 
-  const purpose =
-    getValue(
-      "quotePurpose"
-    );
+  const purposeInput = getValue("quotePurpose");
+  const serviceTypes = {
+    pc: "맞춤 PC 상담",
+    repair: "PC/노트북 수리·업그레이드 상담",
+    media: "홈페이지 및 영상제작 상담"
+  };
+  const serviceType = getValue("quoteServiceType");
+  const serviceLabel = serviceTypes[serviceType] || serviceTypes.pc;
+  // Reuse the existing purpose column so no database change is needed.
+  const purpose = purposeInput
+    ? (serviceType === "repair" || serviceType === "media" ? "[" + serviceLabel + "] " : "") + purposeInput
+    : "";
 
 
 
@@ -1081,6 +1197,7 @@ async function submitQuoteRequest() {
 
 
   message.textContent = "";
+  document.getElementById("quoteReceipt").hidden = true;
 
   message.style.color =
     "#d92d20";
@@ -1150,7 +1267,7 @@ async function submitQuoteRequest() {
   if (!purpose) {
 
     message.textContent =
-      "PC 사용 목적을 입력해주세요.";
+      "PC 사용 목적 또는 상담 내용을 입력해주세요.";
 
 
     document
@@ -1314,66 +1431,35 @@ async function submitQuoteRequest() {
        Supabase 저장
     ================================================== */
 
-   const {
-  data,
-  error
-} = await supabaseClient
-  .rpc(
-    "create_public_quote_request",
-    {
-      p_customer_name:
-        customerName,
+    // PCSOLUTION-23: receive only the new receipt through the public creation RPC.
+    const {data: savedRows,error} = await supabaseClient.rpc(
+      "create_public_quote_request", {
+        p_customer_name: customerName,
+        p_phone: phone,
+        p_purpose: purpose,
+        p_budget: budget,
+        p_preferred_cpu: preferredCpu,
+        p_preferred_gpu: preferredGpu,
+        p_preferred_ram: preferredRam,
+        p_preferred_ssd: preferredSsd,
+        p_monitor_needed: monitorNeeded,
+        p_additional_request: additionalRequest
+      }
+    );
+    const savedQuote = Array.isArray(savedRows) ? savedRows[0] : null;
 
-      p_phone:
-        phone,
+    if (error) {
 
-      p_purpose:
-        purpose,
+      throw error;
 
-      p_budget:
-        budget,
-
-      p_preferred_cpu:
-        preferredCpu,
-
-      p_preferred_gpu:
-        preferredGpu,
-
-      p_preferred_ram:
-        preferredRam,
-
-      p_preferred_ssd:
-        preferredSsd,
-
-      p_monitor_needed:
-        monitorNeeded,
-
-      p_additional_request:
-        additionalRequest
     }
-  );
 
 
-if (error) {
-  throw error;
-}
 
+    if (!savedQuote || !savedQuote.id || !savedQuote.public_code) {
+      throw new Error("접수 확인 정보를 받지 못했습니다. 중복 신청 전에 관리자에게 접수 여부를 확인해 주세요.");
+    }
 
-if (
-  !data ||
-  data.length === 0
-) {
-
-  throw new Error(
-    "상담 신청 결과를 받지 못했습니다."
-  );
-
-}
-
-
-const savedQuote =
-  data[0]; 
-  
     const quoteRequestId =
       savedQuote.id;
 
@@ -1490,7 +1576,7 @@ const savedQuote =
 
     message.innerHTML =
 
-      "✅ PC 컨설팅 신청이 정상적으로 접수되었습니다.<br>" +
+      "✅ 상담 신청이 정상적으로 접수되었습니다.<br>" +
 
       (
 
@@ -1516,33 +1602,39 @@ escapeHTML(
 
 
 
+    /* Store the confirmed receipt before clearing inputs. */
+    const receiptCode = String(publicCode || "").trim();
+    document.getElementById("receiptValue").textContent = receiptCode;
+    document.getElementById("quoteReceipt").hidden = !receiptCode;
+    document.getElementById("receiptLookupLink").href = "estimate.html?code=" + encodeURIComponent(receiptCode);
+    document.getElementById("receiptCopyStatus").textContent = "";
+
     /* 폼 초기화 */
 
     clearQuoteForm();
+    updateServiceGuide();
+    message.focus();
 
 
   }
 
- catch (error) {
+  catch (error) {
 
-  console.error(
-    "견적 신청 오류:",
-    error
-  );
 
-  message.style.color =
-    "#d92d20";
-
-  message.textContent =
-    "신청 저장 실패: " +
-    (
-      error?.message ||
-      error?.details ||
-      error?.hint ||
-      JSON.stringify(error)
+    console.error(
+      "견적 신청 오류:",
+      error
     );
 
-}
+
+    message.style.color =
+      "#d92d20";
+
+
+    message.textContent =
+      "신청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.";
+
+  }
 
   finally {
 
@@ -1553,7 +1645,7 @@ escapeHTML(
       "1";
 
     button.textContent =
-      "💻 PC 컨설팅 신청하기";
+      "상담 신청하기";
 
   }
 
@@ -1569,6 +1661,8 @@ function clearQuoteForm() {
 
 
   const ids = [
+
+    "quoteServiceType",
 
     "quoteCustomerName",
 
@@ -1602,7 +1696,7 @@ function clearQuoteForm() {
 
     if (element) {
 
-      element.value = "";
+      element.value = id === "quoteServiceType" ? "pc" : "";
 
     }
 
@@ -1673,6 +1767,66 @@ document.addEventListener(
 </script>
 
 
+<script>
+(function(){
+ const service = new URLSearchParams(window.location.search).get('service');
+ if(service === 'repair' || service === 'media') document.getElementById('quoteServiceType').value = service;
+})();
+</script>
+
+<script>
+function updateServiceGuide() {
+ const service=document.getElementById('quoteServiceType').value;
+ const guides={
+  pc:{badge:'맞춤 PC 상담',title:'나에게 맞는 PC를<br><span>전문가와 함께 찾아보세요</span>',description:'예산과 사용 목적을 알려주시면<br>용도에 맞는 PC 구성을 상담해드립니다.',hint:'사용할 게임·프로그램과 작업 용도를 자세히 적어주세요.',placeholder:'예: 배그·롤 게임용 PC, 사무용 PC, 영상편집용 PC'},
+  repair:{badge:'PC/노트북 수리·업그레이드 상담',title:'PC와 노트북의 불편함을<br><span>함께 해결해 드립니다</span>',description:'사용 중인 기기와 증상, 원하는 업그레이드를 알려주세요.<br>아래 기존 신청서로 상담을 접수하실 수 있습니다.',hint:'기기 모델, 현재 사양, 고장 증상이나 바꾸고 싶은 부품을 적어주세요.',placeholder:'예: 노트북 모델명 / 전원이 안 켜짐 / RAM·SSD 업그레이드 희망'},
+  media:{badge:'홈페이지 및 영상제작 상담',title:'홈페이지부터 영상 콘텐츠까지<br><span>필요한 제작을 상담하세요</span>',description:'제작 목적과 원하는 내용을 알려주세요.<br>아래 기존 신청서로 상담을 접수하실 수 있습니다.',hint:'홈페이지 또는 영상의 용도, 필요한 기능·분량, 희망 일정을 적어주세요.',placeholder:'예: 회사 소개 홈페이지 5페이지 / 제품 홍보 영상 1분 / 희망 일정'}
+ };
+ const info=guides[service]||guides.pc;
+ document.getElementById('serviceIntroBadge').textContent=info.badge;
+ document.getElementById('serviceIntroTitle').innerHTML=info.title;
+ document.getElementById('serviceIntroDescription').innerHTML=info.description;
+ document.getElementById('servicePurposeHint').textContent=info.hint;
+ document.getElementById('quotePurpose').placeholder=info.placeholder;
+}
+document.getElementById('quoteServiceType').addEventListener('change',updateServiceGuide);
+updateServiceGuide();
+document.getElementById('copyReceiptButton').addEventListener('click',async function(){
+ const code=document.getElementById('receiptValue').textContent.trim();
+ const status=document.getElementById('receiptCopyStatus');
+ if(!code) return;
+ try { await navigator.clipboard.writeText(code); status.textContent='상담번호가 복사되었습니다.'; }
+ catch (_) {
+  const textarea=document.createElement('textarea'); textarea.value=code;
+  textarea.style.position='fixed';textarea.style.opacity='0';
+  document.body.appendChild(textarea);textarea.select();
+  let copied=false;
+  try {copied=document.execCommand('copy');} catch (_) {}
+  textarea.remove();document.getElementById('copyReceiptButton').focus();
+  status.textContent=copied?'상담번호가 복사되었습니다.':'복사하지 못했습니다. 위 상담번호를 길게 누르거나 드래그해 복사해 주세요.';
+ }
+});
+</script>
+
+<script>
+(function(){
+ const params=new URLSearchParams(window.location.search);
+ const raw=params.get('product');
+ const id=Number(raw);
+ if(!raw || !/^\d+$/.test(raw) || !Number.isSafeInteger(id) || id<=0)return;
+ const name=String(params.get('name') || '관심 상품').slice(0,120).replace(/[\r\n]/g,' ');
+ const field=document.getElementById('quoteAdditionalRequest');
+ if(!field.value.trim())field.value='관심 상품: '+name+' (상품번호 '+id+')';
+})();
+</script>
+
+<nav class="pcs-quick-contact" aria-label="빠른 상담">
+ <a class="pcs-quick-kakao" href="https://open.kakao.com/o/gYVLkHNi" target="_blank" rel="noopener noreferrer">카카오톡 상담</a>
+ <a class="pcs-quick-phone" href="tel:01095547365">전화 상담</a>
+ <a class="pcs-quick-form" href="#consultationForm">신청서로 이동</a>
+</nav>
+
 </body>
 
 </html>
+

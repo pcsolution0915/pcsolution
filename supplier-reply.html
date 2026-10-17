@@ -292,7 +292,213 @@
 
     }
 
-  </style>
+/* =====================================
+   택배비 수량 입력
+===================================== */
+
+.shipping-qty-input {
+  width: 70px;
+  padding: 9px 5px;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.shipping-qty-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+.shipping-qty-input:disabled {
+  background: #f1f5f9;
+  color: #64748b;
+  border-color: #cbd5e1;
+}
+
+/* =====================================
+   컴오아시스 견적 합계
+===================================== */
+
+.quote-total-box {
+  margin: 20px;
+  padding: 24px;
+  background: #eff6ff;
+  border: 2px solid #bfdbfe;
+  border-radius: 14px;
+  text-align: right;
+}
+
+.quote-total-title {
+  color: #334155;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.quote-total-amount {
+  color: #1769e0;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.quote-total-guide {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+@media(max-width: 700px) {
+
+  .quote-total-box {
+    margin: 12px;
+    padding: 18px;
+  }
+
+  .quote-total-amount {
+    font-size: 26px;
+  }
+
+}
+
+/* =====================================
+   PDF 출력 버튼
+===================================== */
+
+.actions {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.print-button {
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 9px;
+  background: #059669;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background: #047857;
+}
+
+/* =====================================
+   PDF 출력 전용 화면
+===================================== */
+
+#printQuoteSheet {
+  display: none;
+}
+
+/* =====================================
+   V2.0 컴오아시스 회신서
+   A4 세로 PDF 출력
+===================================== */
+
+@page {
+  size: A4 portrait;
+  margin: 7mm;
+}
+
+@media print {
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  .page-wrap {
+    display: none !important;
+  }
+
+  #printQuoteSheet {
+    display: block !important;
+    color: #111827;
+    font-size: 11px;
+  }
+
+  #printQuoteSheet h1 {
+    text-align: center;
+    font-size: 23px;
+    margin-bottom: 20px;
+  }
+
+  #printQuoteSheet table {
+    width: 100%;
+    min-width: 0 !important;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+
+ /* =====================================
+   V2.0 회신서 PDF 표 간격 최적화
+===================================== */
+
+#printQuoteSheet th,
+#printQuoteSheet td {
+  border: 1px solid #cbd5e1;
+  padding: 3px 3px;
+  font-size: 9px;
+  line-height: 1.2;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-line;
+}
+
+  #printQuoteSheet thead th {
+    background: #e2e8f0 !important;
+  }
+
+  #printQuoteSheet tr {
+    break-inside: avoid;
+  }
+
+  #printQuoteSheet .print-total {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #334155;
+    text-align: right;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  #printQuoteSheet .print-note {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+}
+
+  
+.unit-summary { display:flex; justify-content:space-between; gap:15px; padding:12px 16px; margin-top:16px; border:1px solid #d5e0ee; background:#f4f8fd; font-size:13px; line-height:1.6; }
+.supplier-line-amount,.line-amount { text-align:right; font-weight:700; white-space:nowrap; }
+.pending-price { color:#718198; font-size:12px; text-align:center; }
+@media print { .unit-summary { padding:2mm; margin-top:2mm; font-size:8pt; break-inside:avoid; } }
+
+@media print { #printQuoteSheet { box-sizing:border-box; width:100%; padding:0 8mm; } }
+</style>
+<style>
+
+/* Revision 21: real page summary styles, shared by screen and print. */
+.unit-summary { box-sizing:border-box; width:100%; display:grid; grid-template-columns:minmax(100px,1fr) minmax(0,1fr); gap:0; padding:0; margin:12px 0 0; border:1px solid #172033; background:#fff; color:#172033; font-size:13px; line-height:1.5; break-inside:avoid; }
+.unit-summary > span,.unit-summary > strong { padding:9px 12px; min-width:0; }
+.unit-summary > span { border-right:1px solid #172033; background:#f4f8fd; font-weight:700; }
+.unit-summary > strong { text-align:right; overflow-wrap:anywhere; }
+@media print {
+ .unit-summary { margin-top:2mm; font-size:8pt; border:1px solid #172033; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+ .unit-summary > span,.unit-summary > strong { padding:1.5mm 2mm; }
+}
+
+</style>
 </head>
 
 
@@ -308,7 +514,7 @@
 
       <p>
         컴오아시스 담당자 전용 페이지입니다.<br>
-        요청된 품목을 확인한 후 각 품목의 공급금액 또는
+        요청된 품목을 확인한 후 각 품목의 개당 단가 또는
         재고 상태를 입력해 주세요.
       </p>
 
@@ -363,19 +569,47 @@
               <th>모델명</th>
               <th>세부사양</th>
               <th>수량</th>
-              <th>컴오아시스 회신</th>
+              <th>개당 단가 / 재고 상태</th>
+              <th>공급액</th>
             </tr>
 
           </thead>
 
           <tbody id="quoteItems"></tbody>
 
-        </table>
+              </table>
 
+    </div>
+
+    <!-- =====================================
+         견적 합계금액
+    ===================================== -->
+
+    <div class="quote-total-box">
+
+      <div class="quote-total-title">
+        💰 공급액 합계
       </div>
 
+      <div class="unit-summary"><span>개당 단가 합계</span><strong id="quoteUnitPriceTotal">0원</strong></div>
+<div
+        id="quoteTotalAmount"
+        class="quote-total-amount"
+      >
+        0원
+      </div>
 
-      <div class="bottom-box">
+      <div
+        id="quoteTotalGuide"
+        class="quote-total-guide"
+      >
+        수량 × 개당 단가로 공급액이 자동 계산됩니다.
+      </div>
+
+    </div>
+
+
+    <div class="bottom-box">
 
         <label for="supplierMessage">
           📝 추가 회신 내용
@@ -386,10 +620,29 @@
           placeholder="필요한 경우 추가 전달사항을 입력해 주세요."
         ></textarea>
 
-        <div class="guide">
-          각 품목의 회신란에는 공급금액뿐 아니라
-          ‘품절’, ‘단종’, ‘대체품 문의’ 등의 내용도 입력할 수 있습니다.
-        </div>
+       <div class="guide"
+     style="line-height:1.9;">
+
+  💰 <strong>공급금액 입력 안내</strong><br>
+
+  각 품목의 공급금액은 반드시
+  <strong style="color:#dc2626;">
+    제품 1개당 공급단가
+  </strong>
+  를 입력해 주세요.<br>
+
+  📦 택배비는 박스 1개당 배송비를 입력해 주세요.<br>
+
+  🧮 총 공급금액은
+  <strong>개당 공급단가 × 수량</strong>
+  으로 자동 계산됩니다.<br>
+
+  ⚠️ 수량 전체의 합계금액을 입력하지 마세요.<br>
+
+  품절, 단종, 대체품 문의 등의 내용도
+  입력할 수 있습니다.
+
+</div>
 
         <div class="actions">
 
@@ -401,6 +654,17 @@
           >
             📤 PC SOLUTION에 회신하기
           </button>
+
+           <!-- PDF 출력 버튼 -->
+
+<button
+  id="printButton"
+  type="button"
+  class="print-button"
+  onclick="printSupplierQuote()"
+>
+  🖨️ PDF 출력
+</button>
 
         </div>
 
@@ -424,10 +688,10 @@ const SUPABASE_KEY =
   "sb_publishable_ckUWAvKMJbe5xgGBIQUMIg_f7D1fcGI";
 
 const supabaseClient =
-  window.supabase.createClient(
+  (window.supabase ? window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-  );
+  ) : null);
 
 
 /* =====================================
@@ -509,6 +773,8 @@ function getReplyToken() {
 ===================================== */
 
 async function initSupplierReplyPage() {
+  try {
+
 
   replyToken = getReplyToken();
 
@@ -566,8 +832,36 @@ async function initSupplierReplyPage() {
 
   renderQuote(data);
 
+
+  } catch(error) {
+    console.error('회신 페이지 연결 오류:',error);
+    showPageMessage('견적 정보를 불러오지 못했습니다. 연결 상태를 확인하고 새로고침해 주세요.','error');
+  }
 }
 
+/* =====================================
+   컴오아시스 택배비 판별
+
+   기존 공임과 택배비 구분
+===================================== */
+
+function isShippingItem(row) {
+
+  return (
+
+    ["공임", "Labor"].includes(
+      row.part_type
+    )
+
+    &&
+
+    String(
+      row.model_name || ""
+    ).trim() === "택배비"
+
+  );
+
+}
 
 /* =====================================
    견적 화면 출력
@@ -628,7 +922,7 @@ function renderQuote(rows) {
     tbody.innerHTML = `
       <tr>
         <td
-          colspan="6"
+          colspan="7"
           style="
             padding:30px;
             text-align:center;
@@ -651,9 +945,9 @@ function renderQuote(rows) {
 
               <th>
                 ${escapeHtml(
-                  getPartName(
-                    row.part_type
-                  )
+                  isShippingItem(row)
+  ? "🚚 택배비"
+  : getPartName(row.part_type)
                 )}
               </th>
 
@@ -675,11 +969,27 @@ function renderQuote(rows) {
                 )}
               </td>
 
-              <td class="qty-cell">
-                ${escapeHtml(
-                  row.quantity ?? 1
-                )}
-              </td>
+               <td class="qty-cell">
+
+  ${
+    isShippingItem(row)
+
+    ? `
+      <input
+        type="number"
+        class="shipping-qty-input"
+        data-item-id="${Number(row.item_id)}"
+        min="1"
+        step="1"
+        value="${Math.max(1, Number(row.quantity) || 1)}"
+        ${isCompleted ? "disabled" : ""}
+      >
+    `
+
+    : escapeHtml(row.quantity ?? 1)
+  }
+
+</td>              
 
               <td class="reply-cell">
 
@@ -690,14 +1000,14 @@ function renderQuote(rows) {
                   value="${escapeHtml(
                     row.supplier_price || ""
                   )}"
-                  placeholder="금액 / 품절 / 단종"
+                  placeholder="개당 단가 / 품절 / 단종"
                   ${isCompleted
                     ? "disabled"
                     : ""}
                 >
 
               </td>
-
+              <td class="line-amount">-</td>
             </tr>
           `;
 
@@ -751,12 +1061,41 @@ function renderQuote(rows) {
     "quoteInfo"
   ).style.display = "block";
 
-  document.getElementById(
+    document.getElementById(
     "quoteContent"
   ).style.display = "block";
 
+
+  /* =====================================
+     단가 및 택배비 수량 변경 시 자동계산
+  ===================================== */
+
+  tbody.oninput = updateQuoteTotal;
+
+  updateQuoteTotal();
+
 }
 
+/* =====================================
+   컴오아시스 견적 합계 자동 계산
+===================================== */
+
+function updateQuoteTotal(){
+ let total=0,units=0,excludedCount=0;
+ document.querySelectorAll('#quoteItems tr').forEach(function(row){
+  const input=row.querySelector('.reply-input');if(!input)return;
+  const cell=row.querySelector('.line-amount');if(cell)cell.textContent='-';
+  const raw=input.value.replace(/[,원\s]/g,'');
+  const unit=Number(raw);const shipping=row.querySelector('.shipping-qty-input');
+  const qty=Number(shipping?shipping.value:row.querySelector('.qty-cell').textContent.trim());
+  if(!/^\d+$/.test(raw)||!Number.isSafeInteger(unit)||unit<0||!Number.isSafeInteger(qty)||qty<1||!Number.isSafeInteger(unit*qty)||!Number.isSafeInteger(total+unit*qty)||!Number.isSafeInteger(units+unit)){excludedCount++;return;}
+  const amount=unit*qty;units+=unit;total+=amount;
+  if(cell)cell.textContent=amount.toLocaleString('ko-KR')+'원';
+ });
+ document.getElementById('quoteUnitPriceTotal').textContent=units.toLocaleString('ko-KR')+'원';
+ document.getElementById('quoteTotalAmount').textContent=total.toLocaleString('ko-KR')+'원';
+ document.getElementById('quoteTotalGuide').textContent=excludedCount?'계산 제외 '+excludedCount+'개 품목이 있습니다.':'수량 × 개당 단가 기준이며 택배비를 포함합니다.';
+}
 
 /* =====================================
    품목명 표시
@@ -775,7 +1114,9 @@ function getPartName(partType) {
     Cooler: "쿨러",
     Monitor: "모니터",
     Etc: "기타",
-    Labor: "공임"
+
+   Labor: "공임",
+"공임": "공임"
   };
 
   return (
@@ -792,12 +1133,16 @@ function getPartName(partType) {
 ===================================== */
 
 async function submitReply() {
+  try {
+
 
   const submitButton =
     document.getElementById(
       "submitButton"
     );
 
+
+  if(submitButton.disabled) return;
 
   const inputs =
     Array.from(
@@ -816,23 +1161,75 @@ async function submitReply() {
     return;
   }
 
+/* =====================================
+   회신 품목 데이터 만들기
+   택배비 수량만 추가 전송
+===================================== */
+
+  let invalidShippingQuantity = false;
 
   const items =
     inputs.map(function(input) {
 
-      return {
+      const item = {
+
         item_id:
-          Number(
-            input.dataset.itemId
-          ),
+          Number(input.dataset.itemId),
 
         supplier_price:
           input.value.trim()
+
       };
+
+      // 해당 품목의 행 찾기
+      const row = input.closest("tr");
+
+      // 택배비 수량 입력칸 찾기
+      const shippingInput =
+        row.querySelector(
+          ".shipping-qty-input"
+        );
+
+      // 택배비 항목에만 수량 추가
+      if (shippingInput) {
+
+        const rawQuantity =
+          shippingInput.value.trim();
+
+        const quantity =
+          Number(rawQuantity);
+
+        if (
+          !/^[1-9]\d*$/.test(rawQuantity) ||
+          !Number.isSafeInteger(quantity)
+        ) {
+
+          invalidShippingQuantity = true;
+
+        } else {
+
+          item.quantity = quantity;
+
+        }
+
+      }
+
+      return item;
 
     });
 
 
+  // 택배비 수량 검사
+  if (invalidShippingQuantity) {
+
+    alert(
+      "택배비 박스 수는 1 이상의 정수로 입력해 주세요."
+    );
+
+    return;
+
+  }
+  
   const hasAnyReply =
     items.some(
       item =>
@@ -880,7 +1277,7 @@ async function submitReply() {
 
   const { error } =
     await supabaseClient.rpc(
-      "submit_supplier_quote_reply",
+      "submit_supplier_quote_reply_v101",
       {
         p_reply_token:
           replyToken,
@@ -920,8 +1317,205 @@ async function submitReply() {
 
   await initSupplierReplyPage();
 
+
+  } catch(error) {
+    console.error('회신 연결 오류:',error);
+    alert('회신 전송 결과를 확인하지 못했습니다. 새로고침해 접수 상태를 확인한 뒤 다시 시도해 주세요.');
+    const button=document.getElementById('submitButton');
+    button.disabled=false;
+    button.textContent='📤 PC SOLUTION에 회신하기';
+  }
 }
 
+/* =====================================
+   컴오아시스 견적 PDF 출력
+===================================== */
+
+function printSupplierQuote() {
+
+  const rows = document.querySelectorAll(
+    "#quoteItems tr"
+  );
+
+  let tableRows = "";
+  let total = 0;
+  let unitTotal = 0;
+  let excludedCount = 0;
+
+  rows.forEach(function(row) {
+
+    const input = row.querySelector(
+      ".reply-input"
+    );
+
+    if (!input) return;
+
+    const cells = row.querySelectorAll("td");
+
+    const part =
+      row.querySelector("th")?.textContent.trim() || "-";
+
+    const maker =
+      cells[0]?.textContent.trim() || "-";
+
+    const model =
+      cells[1]?.textContent.trim() || "-";
+
+    const spec =
+      cells[2]?.textContent.trim() || "-";
+
+    const shippingInput = row.querySelector(
+      ".shipping-qty-input"
+    );
+
+    const quantityText = shippingInput
+      ? shippingInput.value.trim()
+      : row.querySelector(".qty-cell")?.textContent.trim() || "";
+
+    const quantity = Number(quantityText);
+
+    const priceText = input.value.trim();
+
+    const numericText = priceText
+      .replaceAll(",", "")
+      .replaceAll("원", "")
+      .trim();
+
+    const price = Number(numericText);
+
+    const valid =
+      /^\d+$/.test(numericText) &&
+      /^[1-9]\d*$/.test(quantityText) &&
+      Number.isSafeInteger(price) &&
+      Number.isSafeInteger(quantity) &&
+      Number.isSafeInteger(price * quantity);
+
+    const amount = valid
+      ? price * quantity
+      : null;
+
+    if (valid) {
+      total += amount;
+      unitTotal += price;
+    } else {
+      excludedCount++;
+    }
+
+    tableRows += `
+      <tr>
+        <td>${escapeHtml(part)}</td>
+        <td>${escapeHtml(maker)}</td>
+        <td>${escapeHtml(model)}</td>
+        <td>${escapeHtml(spec)}</td>
+        <td>${escapeHtml(quantityText)}</td>
+        <td>${escapeHtml(priceText || "-")}</td>
+        <td>
+          ${amount === null
+            ? "-"
+            : amount.toLocaleString("ko-KR") + "원"}
+        </td>
+      </tr>
+    `;
+
+  });
+
+  if (!tableRows) {
+    alert("출력할 견적 품목이 없습니다.");
+    return;
+  }
+
+  if (!Number.isSafeInteger(total)) {
+    alert("합계금액이 너무 큽니다. 입력값을 확인해 주세요.");
+    return;
+  }
+
+  const code = document.getElementById(
+    "publicCode"
+  ).textContent;
+
+  const status = document.getElementById(
+    "replyStatus"
+  ).textContent;
+
+  const message = document.getElementById(
+    "supplierMessage"
+  ).value.trim();
+
+  const today = new Date().toLocaleDateString(
+    "ko-KR"
+  );
+
+  let printArea = document.getElementById(
+    "printQuoteSheet"
+  );
+
+  if (!printArea) {
+    printArea = document.createElement("section");
+    printArea.id = "printQuoteSheet";
+    document.body.appendChild(printArea);
+  }
+
+  printArea.innerHTML = `
+    <h1>컴오아시스 견적 회신서</h1>
+
+    <p><strong>수신 :</strong> PC SOLUTION</p>
+    <p><strong>발신 :</strong> 컴오아시스</p>
+    <p><strong>상담번호 :</strong> ${escapeHtml(code)}</p>
+    <p><strong>회신 상태 :</strong> ${escapeHtml(status)}</p>
+    <p><strong>출력일 :</strong> ${escapeHtml(today)}</p>
+
+        <table>
+
+      <colgroup>
+        <col style="width:11%">
+        <col style="width:12%">
+        <col style="width:18%">
+        <col style="width:30%">
+        <col style="width:5%">
+        <col style="width:13%">
+        <col style="width:11%">
+      </colgroup>
+
+      <thead>
+        <tr>
+          <th>품목</th>
+          <th>제조사</th>
+          <th>모델명</th>
+          <th>세부사양</th>
+          <th>수량</th>
+          <th>개당 단가 / 상태</th>
+          <th>공급액</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${tableRows}
+      </tbody>
+    </table>
+
+    <div class="unit-summary"><span>개당 단가 합계</span><strong>${unitTotal.toLocaleString("ko-KR")}원</strong></div>
+    <div class="print-total">
+      공급액 합계 :
+      ${total.toLocaleString("ko-KR")}원
+    </div>
+
+    ${
+      excludedCount > 0
+        ? `<p>※ 금액 미입력 또는 계산 제외 품목
+           ${excludedCount}개가 있습니다.
+           표시된 합계는 일부 품목 기준입니다.</p>`
+        : ""
+    }
+
+    <div class="print-note">
+      <strong>추가 회신 내용</strong>
+      <p>${escapeHtml(message || "없음")}</p>
+    </div>
+  `;
+
+  window.print();
+
+}
 
 /* =====================================
    시작
