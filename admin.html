@@ -2159,6 +2159,28 @@ body.printing-customer-quote #quoteModal .danawa-area {
 }
 
 </style>
+<style>
+.registered-part-trigger { border:0; background:#eaf2ff; color:#145bcc; padding:7px 5px; border-radius:6px; cursor:pointer; font:inherit; font-weight:800; }
+.registered-external-search { display:block; margin-top:6px; font-size:10px; font-weight:400; }
+.registered-part-guide { font-size:13px; line-height:1.6; color:#475569; margin:12px 0; }
+#registeredPartPicker[hidden] { display:none !important; }
+#registeredPartPicker { position:fixed; inset:0; z-index:11000; background:rgba(15,23,42,.55); display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box; }
+.registered-picker-panel { background:#fff; border-radius:16px; width:min(640px,100%); max-height:85vh; display:flex; flex-direction:column; padding:22px; box-sizing:border-box; box-shadow:0 20px 70px #0f172a55; }
+.registered-picker-header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.registered-picker-header h2 { margin:0; font-size:20px; }
+.registered-picker-panel button { cursor:pointer; }
+#registeredPickerClose,#registeredPickerBack { border:1px solid #cbd5e1; border-radius:7px; padding:8px 12px; background:#fff; color:#172033; }
+#registeredPickerBack { align-self:flex-start; margin:12px 0 0; }
+#registeredPickerStage { font-size:14px; line-height:1.6; margin:14px 0; }
+#registeredPickerSearch { box-sizing:border-box; width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:8px; margin-bottom:12px; }
+#registeredPickerList { overflow-y:auto; min-height:70px; overscroll-behavior:contain; }
+.registered-picker-option { display:flex; width:100%; text-align:left; justify-content:space-between; gap:12px; padding:16px; border:1px solid #dbe4f0; border-radius:10px; background:#f8fbff; color:#172033; margin:0 0 10px; box-sizing:border-box; }
+.registered-picker-option:hover,.registered-picker-option:focus-visible { border-color:#1769e0; background:#eef5ff; }
+.registered-picker-model { flex-direction:column; gap:7px; }
+.registered-picker-spec { white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; line-height:1.6; }
+.registered-picker-model small { color:#64748b; }
+@media print { #registeredPartPicker,#quoteModal .registered-external-search,#quoteModal .registered-part-guide { display:none !important; } #quoteModal .registered-part-trigger { background:none !important; padding:0 !important; color:#172033 !important; border:0 !important; } }
+</style>
 </head>
 
 <body>
@@ -3382,7 +3404,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
       id="estimateQuoteRequestId"
     >
 
-    <div class="estimate-table-wrap">
+    <p id="registeredPartFeedback" class="registered-part-guide" role="status">품목명을 누르면 제조사 → 모델 순으로 등록 부품을 선택할 수 있습니다.</p><div class="estimate-table-wrap">
 
       <table class="estimate-table">
 
@@ -3401,16 +3423,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
         <tbody>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Cpu" aria-haspopup="dialog">CPU ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=CPU"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                CPU 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateCpuMaker" placeholder="AMD"></td>
             <td><textarea  id="estimateCpuModel"  class="estimate-model"  placeholder="Ryzen 5 7600" ></textarea></td>
@@ -3421,16 +3439,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="MainBoard" aria-haspopup="dialog">메인보드 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=메인보드"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                메인보드 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateMainBoardMaker" placeholder="MSI"></td>
                 <td>
@@ -3447,16 +3461,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Ram" aria-haspopup="dialog">메모리 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=RAM"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                메모리 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateRamMaker" placeholder="삼성전자"></td>
             <td>
@@ -3473,16 +3483,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Ssd" aria-haspopup="dialog">SSD ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=SSD"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                SSD 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateSsdMaker" placeholder="삼성전자"></td>
             <td>
@@ -3499,16 +3505,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Gpu" aria-haspopup="dialog">그래픽카드 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=그래픽카드"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                그래픽카드 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateGpuMaker" placeholder="MSI"></td>
               <td>
@@ -3525,16 +3527,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Power" aria-haspopup="dialog">파워 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=PC파워"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                파워 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimatePowerMaker" placeholder="제조사"></td>
             <td>
@@ -3551,16 +3549,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Case" aria-haspopup="dialog">케이스 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=PC케이스"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                케이스 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateCaseMaker" placeholder="제조사"></td>
             <td>
@@ -3577,16 +3571,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Cooler" aria-haspopup="dialog">쿨러 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=CPU쿨러"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                쿨러 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateCoolerMaker" placeholder="제조사"></td>
              <td>
@@ -3603,16 +3593,12 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>
-              <a
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Monitor" aria-haspopup="dialog">모니터 ▾</button><a
                 href="https://search.danawa.com/dsearch.php?query=모니터"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="part-search-link"
-              >
-                모니터 🔍
-              </a>
-            </th>
+                class="part-search-link registered-external-search"
+              >가격 검색 ↗</a></th>
 
             <td><input id="estimateMonitorMaker" placeholder="제조사"></td>
             <td>
@@ -3629,7 +3615,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
           </tr>
 
           <tr>
-            <th>기타</th>
+            <th><button type="button" class="registered-part-trigger" data-registered-part="Etc" aria-haspopup="dialog">기타 ▾</button></th>
 
             <td><input id="estimateEtcMaker" placeholder="제조사"></td>
             <td><input id="estimateEtcModel" placeholder="기타 부품"></td>
@@ -3952,6 +3938,7 @@ async function login() {
 ===================================== */
 
 async function logout() {
+  if(typeof closeRegisteredPartPicker==="function")closeRegisteredPartPicker();
 
   try {
 
@@ -7743,6 +7730,7 @@ requestAnimationFrame(function() {
 ===================================== */
 
 function closeQuoteEditor() {
+  if(typeof closeRegisteredPartPicker==="function")closeRegisteredPartPicker();
 
   clearAdminView();
 
@@ -10261,5 +10249,118 @@ ${bodyRows}
 
 </script>
 
+<div id="registeredPartPicker" role="dialog" aria-modal="true" aria-labelledby="registeredPickerTitle" hidden>
+ <div class="registered-picker-panel"><div class="registered-picker-header"><h2 id="registeredPickerTitle">등록 부품 선택</h2><button id="registeredPickerClose" type="button">닫기</button></div>
+ <button id="registeredPickerBack" type="button" hidden>← 제조사 다시 선택</button><p id="registeredPickerStage" role="status"></p>
+ <input id="registeredPickerSearch" type="search" aria-label="모델명 또는 세부스펙 검색" placeholder="모델명 · 세부스펙 검색" hidden>
+ <div id="registeredPickerList"></div></div></div>
+<script>// PCSOLUTION-27: registered part -> manufacturer -> model -> quote fields.
+const registeredPartLabels={Cpu:'CPU',MainBoard:'메인보드',Ram:'메모리',Ssd:'SSD',Gpu:'그래픽카드',Power:'파워',Case:'케이스',Cooler:'쿨러',Monitor:'모니터',Etc:'기타'};
+let registeredPickerState={sequence:0,part:'',requestId:'',items:[],manufacturer:null,opener:null};
+function registeredMakerKey(value){
+ const key=String(value||'').trim().replace(/\s+/g,' ').toLowerCase();
+ return ['intel','인텔'].includes(key)?'intel':['amd','에이엠디'].includes(key)?'amd':key;
+}
+function registeredMakerLabel(value){const key=registeredMakerKey(value);return key==='intel'?'Intel':key==='amd'?'AMD':String(value||'').trim()||'제조사 미입력';}
+function registeredPickerIsCurrent(){
+ return !document.getElementById('quoteModal').classList.contains('hidden')&&
+  String(document.getElementById('estimateQuoteRequestId').value)===registeredPickerState.requestId;
+}
+function closeRegisteredPartPicker(){
+ const modal=document.getElementById('registeredPartPicker');if(!modal)return;
+ modal.hidden=true;registeredPickerState.sequence++;registeredPickerState.items=[];
+ const opener=registeredPickerState.opener;if(opener?.isConnected&&registeredPickerIsCurrent())opener.focus();
+}
+async function openRegisteredPartPicker(part,opener){
+ if(!Object.hasOwn(registeredPartLabels,part))return;
+ const modal=document.getElementById('registeredPartPicker');
+ const requestId=String(document.getElementById('estimateQuoteRequestId').value||'');
+ if(!requestId||document.getElementById('quoteModal').classList.contains('hidden'))return;
+ const sequence=registeredPickerState.sequence+1;
+ registeredPickerState={sequence,part,requestId,items:[],manufacturer:null,opener:opener||document.activeElement};
+ modal.hidden=false;
+ document.getElementById('registeredPickerTitle').textContent=registeredPartLabels[part]+' 등록 부품 선택';
+ document.getElementById('registeredPickerBack').hidden=true;
+ document.getElementById('registeredPickerSearch').value='';
+ document.getElementById('registeredPickerSearch').hidden=true;
+ document.getElementById('registeredPickerStage').textContent='등록된 부품을 불러오는 중입니다.';
+ document.getElementById('registeredPickerList').innerHTML='';
+ document.getElementById('registeredPickerClose').focus();
+ try{
+  let items=[];let offset=0;
+  while(true){
+   const {data,error}=await supabaseClient.from('product_master')
+    .select('id,part_type,manufacturer,model_name,specification,stock_status,supplier_name')
+    .eq('part_type',part).order('id',{ascending:true}).range(offset,offset+499);
+   if(sequence!==registeredPickerState.sequence||modal.hidden)return;
+   if(!registeredPickerIsCurrent()){closeRegisteredPartPicker();return;}
+   if(error)throw error;
+   const page=Array.isArray(data)?data:[];items.push(...page);
+   if(page.length<500)break;offset+=500;
+  }
+  registeredPickerState.items=items.filter(item=>item&&String(item.model_name||'').trim());
+  renderRegisteredPartPicker();
+ }catch(error){
+  if(sequence!==registeredPickerState.sequence||modal.hidden)return;
+  document.getElementById('registeredPickerStage').textContent='부품 목록을 불러오지 못했습니다. 닫은 뒤 다시 선택해 주세요.';
+  document.getElementById('registeredPickerList').textContent=error.message||'통신 오류';
+ }
+}
+function renderRegisteredPartPicker(){
+ const state=registeredPickerState;
+ const list=document.getElementById('registeredPickerList');
+ const back=document.getElementById('registeredPickerBack'),search=document.getElementById('registeredPickerSearch');
+ const stage=document.getElementById('registeredPickerStage');
+ if(!state.items.length){stage.textContent='등록된 '+registeredPartLabels[state.part]+' 부품이 없습니다. PC 부품 등록에서 먼저 등록해 주세요.';list.innerHTML='';return;}
+ if(state.manufacturer===null){
+  stage.textContent='1. 제조사를 선택하세요.';back.hidden=true;search.hidden=true;
+  const groups=new Map();for(const item of state.items){const key=registeredMakerKey(item.manufacturer);if(!groups.has(key))groups.set(key,{label:registeredMakerLabel(item.manufacturer),count:0});groups.get(key).count++;}
+  const makers=[...groups].sort((a,b)=>a[1].label.localeCompare(b[1].label,'ko'));
+  list.innerHTML=makers.map(([key,group],index)=>'<button type="button" class="registered-picker-option" data-maker-index="'+index+'"><strong>'+escapeHTML(group.label)+'</strong><span>'+group.count+'개 모델 →</span></button>').join('');
+  list.querySelectorAll('[data-maker-index]').forEach(button=>button.addEventListener('click',()=>{
+   state.manufacturer=makers[Number(button.dataset.makerIndex)][0];search.value='';renderRegisteredPartPicker();search.focus();
+  }));
+  return;
+ }
+ back.hidden=false;search.hidden=false;
+ const maker=state.items.find(item=>registeredMakerKey(item.manufacturer)===state.manufacturer);
+ stage.textContent='2. '+registeredMakerLabel(maker?.manufacturer)+' 모델을 선택하세요. 모델명과 세부스펙이 함께 입력됩니다.';
+ const query=search.value.trim().toLowerCase();
+ const models=state.items.map((item,index)=>({item,index})).filter(({item})=>registeredMakerKey(item.manufacturer)===state.manufacturer&&
+  [item.model_name,item.specification,item.supplier_name].some(v=>String(v||'').toLowerCase().includes(query)))
+  .sort((a,b)=>String(a.item.model_name).localeCompare(String(b.item.model_name),'ko',{numeric:true}));
+ if(!models.length){list.textContent='검색 결과가 없습니다.';return;}
+ list.innerHTML=models.map(({item,index})=>'<button type="button" class="registered-picker-option registered-picker-model" data-model-index="'+index+'"><strong>'+escapeHTML(String(item.model_name))+'</strong><span class="registered-picker-spec">'+escapeHTML(String(item.specification||'세부스펙 미등록'))+'</span><small>'+escapeHTML([item.stock_status,item.supplier_name].filter(Boolean).join(' · '))+'</small></button>').join('');
+ list.querySelectorAll('[data-model-index]').forEach(button=>button.addEventListener('click',()=>applyRegisteredPart(Number(button.dataset.modelIndex))));
+}
+function applyRegisteredPart(index){
+ const state=registeredPickerState,item=state.items[index];
+ if(!item||!Number.isInteger(index)||!registeredPickerIsCurrent()) {closeRegisteredPartPicker();return;}
+ if(registeredMakerKey(item.manufacturer)!==state.manufacturer)return;
+ const fields=['Maker','Model','Spec'].map(s=>document.getElementById('estimate'+state.part+s));
+ if(fields.some(field=>!field))return;
+ fields[0].value=String(item.manufacturer||'');
+ fields[1].value=String(item.model_name||'');
+ fields[2].value=String(item.specification||'');
+ saveEstimateDraft();resizeAllEstimateTextareas();
+ document.getElementById('registeredPartFeedback').textContent=registeredPartLabels[state.part]+' 모델명과 세부스펙을 입력했습니다. 고객 견적 저장을 누르면 반영됩니다.';
+ closeRegisteredPartPicker();fields[1].focus();
+}
+document.querySelectorAll('#quoteModal [data-registered-part]').forEach(button=>button.addEventListener('click',()=>openRegisteredPartPicker(button.dataset.registeredPart,button)));
+document.getElementById('registeredPickerClose').addEventListener('click',closeRegisteredPartPicker);
+document.getElementById('registeredPickerBack').addEventListener('click',()=>{registeredPickerState.manufacturer=null;renderRegisteredPartPicker();document.querySelector('#registeredPickerList button')?.focus();});
+document.getElementById('registeredPickerSearch').addEventListener('input',renderRegisteredPartPicker);
+document.getElementById('registeredPartPicker').addEventListener('click',event=>{if(event.target===event.currentTarget)closeRegisteredPartPicker();});
+document.addEventListener('keydown',event=>{
+ const modal=document.getElementById('registeredPartPicker');if(modal.hidden)return;
+ if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();closeRegisteredPartPicker();return;}
+ if(event.key==='Tab'){
+  const buttons=[...modal.querySelectorAll('button,input')].filter(el=>!el.hidden&&!el.disabled);
+  const first=buttons[0],last=buttons[buttons.length-1];
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+ }
+},true);
+</script>
 </body>
 </html>
