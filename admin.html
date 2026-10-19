@@ -2238,7 +2238,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
 </style>
 <script src="catalog-live.js"></script>
 <link rel="stylesheet" href="reviews.css">
-<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style></head>
+<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style><style>.pcs-part-description-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:4px 0 8px}.pcs-part-description-tools button{border:1px solid #bad2f3;background:#edf4ff;color:#174e9c;font:inherit;font-size:12px;border-radius:7px;padding:7px 10px;cursor:pointer}.pcs-part-description-tools small{color:#60748e;font-size:11px}#partCatalogDialog{z-index:11050}</style></head>
 
 <body data-reviews="admin">
 
@@ -2330,31 +2330,31 @@ body.printing-customer-quote #quoteModal .danawa-area {
       <label for="price">가격</label>
       <input type="text" id="price" placeholder="예: 1299000">
 
-      <label for="cpu"><button type="button" class="product-registered-part" data-product-part-field="cpu" aria-haspopup="dialog">CPU · 등록 부품 선택 ▾</button></label>
+      <label for="cpu"><button type="button" class="product-registered-part" data-product-part-field="cpu" aria-haspopup="dialog">CPU · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="cpu">CPU 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="cpu" placeholder="예: Ryzen 5 7600">
 
-      <label for="gpu"><button type="button" class="product-registered-part" data-product-part-field="gpu" aria-haspopup="dialog">그래픽카드 · 등록 부품 선택 ▾</button></label>
+      <label for="gpu"><button type="button" class="product-registered-part" data-product-part-field="gpu" aria-haspopup="dialog">그래픽카드 · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="gpu">그래픽카드 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="gpu" placeholder="예: RTX 5060">
 
-      <label for="ram"><button type="button" class="product-registered-part" data-product-part-field="ram" aria-haspopup="dialog">메모리 · 등록 부품 선택 ▾</button></label>
+      <label for="ram"><button type="button" class="product-registered-part" data-product-part-field="ram" aria-haspopup="dialog">메모리 · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="ram">메모리 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="ram" placeholder="예: DDR5 32GB">
 
-      <label for="ssd"><button type="button" class="product-registered-part" data-product-part-field="ssd" aria-haspopup="dialog">SSD · 등록 부품 선택 ▾</button></label>
+      <label for="ssd"><button type="button" class="product-registered-part" data-product-part-field="ssd" aria-haspopup="dialog">SSD · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="ssd">SSD 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="ssd" placeholder="예: NVMe 1TB">
 
-      <label for="main_board"><button type="button" class="product-registered-part" data-product-part-field="main_board" aria-haspopup="dialog">메인보드 · 등록 부품 선택 ▾</button></label>
+      <label for="main_board"><button type="button" class="product-registered-part" data-product-part-field="main_board" aria-haspopup="dialog">메인보드 · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="main_board">메인보드 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="main_board" placeholder="예: B650M">
 
-      <label for="power"><button type="button" class="product-registered-part" data-product-part-field="power" aria-haspopup="dialog">파워 · 등록 부품 선택 ▾</button></label>
+      <label for="power"><button type="button" class="product-registered-part" data-product-part-field="power" aria-haspopup="dialog">파워 · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="power">파워 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="power" placeholder="예: 750W">
 
-      <label for="monitor"><button type="button" class="product-registered-part" data-product-part-field="monitor" aria-haspopup="dialog">모니터 · 등록 부품 선택 ▾</button></label>
+      <label for="monitor"><button type="button" class="product-registered-part" data-product-part-field="monitor" aria-haspopup="dialog">모니터 · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="monitor">모니터 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="monitor" placeholder="예: 27인치 QHD">
 
-      <label for="hdd"><button type="button" class="product-registered-part" data-product-part-field="hdd" aria-haspopup="dialog">HDD · 등록 부품 선택 ▾</button></label>
+      <label for="hdd"><button type="button" class="product-registered-part" data-product-part-field="hdd" aria-haspopup="dialog">HDD · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="hdd">HDD 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
       <input type="text" id="hdd" placeholder="선택사항">
 
-      <label for="keyboard_mouse"><button type="button" class="product-registered-part" data-product-part-field="keyboard_mouse" aria-haspopup="dialog">키보드 / 마우스 · 등록 부품 선택 ▾</button></label>
+      <label for="keyboard_mouse"><button type="button" class="product-registered-part" data-product-part-field="keyboard_mouse" aria-haspopup="dialog">키보드 / 마우스 · 등록 부품 선택 ▾</button></label><div class="pcs-part-description-tools"><button type="button" data-part-description36="keyboard_mouse">키보드/마우스 설명·이미지 등록</button><small>선택한 부품의 팝업에만 표시됩니다.</small></div>
 
       <input
         type="text"
@@ -2367,9 +2367,9 @@ body.printing-customer-quote #quoteModal .danawa-area {
       <textarea
         id="description"
         placeholder="상품의 특징이나 추천 용도를 입력하세요."
-      ></textarea><section class="pcs-detail-editor"><h3>상세 설명 이미지 (선택)</h3><p class="part-catalog-summary">메인 사진과 별도로 긴 제품 설명 이미지를 넣을 수 있습니다. 글만·이미지만·둘 다 등록할 수 있어요. JPG·PNG·WEBP·GIF, 10MB 이하.</p><div id="productDetailSaved"></div><label for="productDetailImage">상세 이미지 등록·교체</label><input id="productDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><img id="productDetailImagePreview" class="pcs-detail-image" alt="새 상품 상세 이미지 미리보기" hidden><label><input id="productDetailImageRemove" type="checkbox"> 저장된 상세 이미지 제거</label></section>
+      ></textarea><section class="pcs-detail-editor"><h3>완성 PC 전체 상세 이미지 (선택)</h3><p class="part-catalog-summary">CPU 등 부품 설명은 위 항목 옆 「설명·이미지 등록」을 눌러주세요. 이 칸은 완성 PC 전체 설명용입니다. 글만·이미지만·둘 다 등록할 수 있어요. JPG·PNG·WEBP·GIF, 10MB 이하.</p><div id="productDetailSaved"></div><label for="productDetailImage">상세 이미지 등록·교체</label><input id="productDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><img id="productDetailImagePreview" class="pcs-detail-image" alt="새 상품 상세 이미지 미리보기" hidden><label><input id="productDetailImageRemove" type="checkbox"> 저장된 상세 이미지 제거</label></section>
 
-      <label for="image">메인 상품 이미지</label>
+      <label for="image">완성 PC 대표 사진 (메인 상품 카드용)</label>
 
       <input
         type="file"
@@ -10236,5 +10236,24 @@ bindDetailImageRemoval35('productDetailImage','productDetailImagePreview','produ
 bindCatalogPreview('partMasterDetailImage','partMasterDetailImagePreview');
 Object.keys(productPartFieldTypes).forEach(key=>document.getElementById(key).addEventListener('input',()=>{delete productPartLinks35[key];}));
 
+</script><script>async function openProductPartDescription36(key,button){
+ if(!Object.hasOwn(productPartFieldTypes,key)||productCatalogState.busy||partCatalog.busy)return;
+ const editId=String(document.getElementById('editId').value||''),revision=productPartFormRevision,value=document.getElementById(key).value;
+ button.disabled=true;
+ try{
+  if(!await loadPartCatalog())throw Error('등록 부품 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
+  if(editId!==String(document.getElementById('editId').value||'')||revision!==productPartFormRevision||value!==document.getElementById(key).value)return;
+  let item=partCatalog.items.find(p=>String(p.id)===String(productPartLinks35[key])&&p.part_type===productPartFieldTypes[key]);
+  if(!item&&!productPartLinks35[key]){
+   const found=partCatalog.items.filter(p=>p.part_type===productPartFieldTypes[key]&&[String(p.manufacturer||'').trim(),String(p.model_name||'').trim()].filter(Boolean).join(' ')+(String(p.specification||'').trim()?' / '+String(p.specification).trim().replace(/\r?\n\s*/g,' · '):'')===value.trim());
+   if(found.length===1){item=found[0];productPartLinks35[key]=item.id;}
+  }
+  if(!item){alert('먼저 해당 항목의 「등록 부품 선택」에서 제조사와 모델을 선택해 주세요.');return;}
+  partCatalog.opener=button;partCatalog.category=partCatalogCategory(item);partCatalog.selected={...item};partCatalog.editing=true;
+  document.getElementById('partCatalogDialog').hidden=false;renderPartCatalogDetail();document.getElementById('partEditDetailText').focus();document.getElementById('partEditDetailText').scrollIntoView({block:'center'});
+  document.getElementById('partCatalogMessage').textContent='이 부품의 설명 글과 이미지를 등록하고 「수정 저장」을 눌러주세요. 상품의 부품 선택을 바꿨다면 상품 저장도 눌러주세요.';
+ }catch(e){alert(e.message||'부품 설명을 열지 못했습니다.');}finally{button.disabled=false;}
+}
+document.querySelectorAll('[data-part-description36]').forEach(b=>b.addEventListener('click',()=>openProductPartDescription36(b.dataset.partDescription36,b)));
 </script></body>
 </html>
