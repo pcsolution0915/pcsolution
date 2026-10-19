@@ -1390,7 +1390,7 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
 </style>
 <script src="catalog-live.js"></script>
 <link rel="stylesheet" href="reviews.css">
-</head>
+<link rel="stylesheet" href="parts-popup.css"><style>#products .product-image-box:after{display:none}#products .product-photo-link{display:flex;width:100%;height:100%;align-items:center;justify-content:center}#products .product-image-zoom{position:absolute;right:9px;bottom:9px;z-index:1;border:1px solid #cad9ee;border-radius:6px;background:#fffffff2;color:#3d597b;font:inherit;font-size:11px;padding:7px 10px;cursor:pointer}#products .product-specs .pcs-main-part-link{display:inline-block;max-width:100%;overflow-wrap:anywhere;border:1px solid #d4e2f6;background:#f0f5ff;color:#205baf;border-radius:6px;font:inherit;font-size:11px;padding:5px 8px;line-height:1.6;text-align:left;cursor:pointer}#products .product-specs .pcs-main-part-link:hover{background:#dfeaff;text-decoration:underline}#products .pcs-main-part-link small{font-size:10px;white-space:nowrap}#products .product-price a{color:inherit;text-decoration:none}#products .product-price a:hover{text-decoration:underline}#products button:focus-visible{outline:3px solid #087aff;outline-offset:3px}</style></head>
 
 <body>
 
@@ -2159,15 +2159,7 @@ function renderProducts(products) {
           ? price.toLocaleString("ko-KR") + "원"
           : "가격 문의";
 
-      const specs = [
-
-        product.cpu,
-        product.gpu,
-        product.ram,
-        product.ssd,
-        product.power
-
-      ].filter(Boolean);
+      const specs=[['CPU',product.cpu,'cpu'],['GPU',product.gpu,'gpu'],['RAM',product.ram,'ram'],['SSD',product.ssd,'ssd'],['파워',product.power,'power']].filter(([,value])=>value);
 
       const detailUrl =
         Number.isSafeInteger(id) && id > 0
@@ -2179,28 +2171,10 @@ function renderProducts(products) {
         <article class="product-card">
 
           <div class="product-image-box">
-
-            ${
-              image
-                ? `
-                  <img
-                    src="${escapeHTML(image)}"
-                    alt="${name}"
-                    class="product-image"
-                    role="button"
-                    tabindex="0"
-                    aria-label="${name} 이미지 확대"
-                    data-image="${escapeHTML(image)}"
-                    loading="lazy"
-                  >
-                `
-                : `
-                  <div class="product-placeholder">
-                    🖥️
-                  </div>
-                `
-            }
-
+            <a class="product-photo-link" href="${detailUrl}" aria-label="${name} 상품 상세 보기">
+              ${image?`<img src="${escapeHTML(image)}" alt="${name}" class="product-image" loading="lazy">`:'<div class="product-placeholder">🖥️</div>'}
+            </a>
+            ${image?`<button type="button" class="product-image-zoom" data-image="${escapeHTML(image)}" data-image-alt="${name}" aria-label="${name} 사진 확대">확대 +</button>`:''}
           </div>
 
           ${product.badge==='hot'?'<span class="pcs-product-badge pcs-product-badge-hot">HOT</span>':product.badge==='recommend'?'<span class="pcs-product-badge pcs-product-badge-recommend">추천</span>':''}
@@ -2212,18 +2186,14 @@ function renderProducts(products) {
 
           <div class="product-specs">
 
-            ${specs.map(function(spec) {
-
-              return `
-                <span>${escapeHTML(spec)}</span>
-              `;
-
-            }).join("")}
+            ${specs.map(function([label,value,field]){
+              return `<button type="button" class="pcs-main-part-link" data-part-detail="${field}" data-product-id="${id}" aria-label="${label} ${escapeHTML(value)} 상세 보기">${escapeHTML(value)} <small>상세 ↗</small></button>`;
+            }).join('')}
 
           </div>
 
           <div class="product-price">
-            ${escapeHTML(priceText)}
+            <a href="${detailUrl}" aria-label="${name} 상품 상세 보기">${escapeHTML(priceText)}</a>
           </div>
 
         </article>
@@ -2336,7 +2306,7 @@ function openProductImage(image) {
  imageOpener = image;
  previousPageOverflow = document.body.style.overflow;
  modalImage.src = url;
- modalImage.alt = image.alt || "확대된 상품 이미지";
+ modalImage.alt = image.dataset.imageAlt || image.alt || "확대된 상품 이미지";
  imageModal.classList.add("open");
  document.body.style.overflow = "hidden";
  imageClose.focus();
@@ -2365,6 +2335,7 @@ productList.addEventListener("error",function(event){
  fallback.className="product-placeholder";
  fallback.setAttribute("role","img");
  fallback.setAttribute("aria-label","상품 이미지 준비 중");
+ failed.closest(".product-image-box")?.querySelector(".product-image-zoom")?.remove();
  failed.replaceWith(fallback);
 },true);
 imageClose.addEventListener("click",closeImage);
@@ -2730,5 +2701,5 @@ document.addEventListener(
 
 <script>document.querySelectorAll('[data-preparing]').forEach(button=>button.addEventListener('click',()=>{alert('준비중 입니다.');document.getElementById('mainNav').classList.remove('open');document.getElementById('menuButton').setAttribute('aria-expanded','false');}));</script>
 <dialog class="pcs-review-dialog" id="reviewReadDialog" aria-labelledby="reviewReadTitle"><div class="pcs-review-heading"><h3 id="reviewReadTitle">고객후기</h3><button type="button" data-review-close aria-label="후기 닫기">닫기</button></div><p class="pcs-review-full" data-review-full></p></dialog><dialog class="pcs-review-dialog" id="reviewWriteDialog" aria-labelledby="reviewWriteTitle"><div class="pcs-review-heading"><h3 id="reviewWriteTitle">고객후기 작성</h3><button type="button" data-review-close>닫기</button></div><p class="pcs-review-message">PC 구매나 수리·업그레이드 경험을 남겨주세요. 후기는 관리자 확인 후 공개됩니다. 전화번호·주소 등 개인정보는 적지 마세요.</p><form id="reviewForm"><label>닉네임<input name="nickname" required maxlength="20" autocomplete="nickname" placeholder="공개할 닉네임"></label><label>이용 서비스<select name="category"><option value="gaming">게이밍 PC</option><option value="office">사무용 PC</option><option value="repair">수리·업그레이드</option><option value="other">기타</option></select></label><label>별점<select name="rating"><option value="5">★★★★★ 5점</option><option value="4">★★★★ 4점</option><option value="3">★★★ 3점</option><option value="2">★★ 2점</option><option value="1">★ 1점</option></select></label><label>후기 내용<textarea name="body" required minlength="10" maxlength="2000" placeholder="10~2,000자로 작성해주세요."></textarea></label><label class="pcs-review-honey" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><label class="pcs-review-consent"><input type="checkbox" name="consent" required><span>닉네임·별점·후기 내용이 홈페이지에 공개되는 것에 동의합니다. 수정·삭제 요청은 전화 또는 카카오톡 상담으로 문의해주세요.</span></label><p class="pcs-review-message" id="reviewFormMessage" role="status" aria-live="polite"></p><button class="pcs-review-primary" type="submit" id="reviewSubmit">후기 접수하기</button></form></dialog><script src="customer-reviews.js"></script>
-</body>
+<script src="parts-popup.js"></script></body>
 </html>
