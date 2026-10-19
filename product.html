@@ -569,6 +569,7 @@ a:focus-visible,button:focus-visible { outline:3px solid #087aff; outline-offset
 
 </style>
 
+<link rel="stylesheet" href="reviews.css">
 </head>
 
 
@@ -870,6 +871,7 @@ function renderProduct(product) {
       </div>
 
 
+      ${product.badge==='hot'?'<span class="pcs-product-badge pcs-product-badge-hot">HOT</span>':product.badge==='recommend'?'<span class="pcs-product-badge pcs-product-badge-recommend">추천</span>':''}
       <h1 class="product-name">
 
         ${escapeHTML(

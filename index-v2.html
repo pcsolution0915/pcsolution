@@ -1389,6 +1389,7 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
 @media(min-width:1001px) and (max-width:1220px){.header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;}.menu-button{display:block;}.nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:12px 3%;background:#fff;border-top:1px solid #edf1f7;box-shadow:0 15px 25px #10213b12;max-height:calc(100dvh - 72px);overflow-y:auto;}.nav.open{display:flex;}}
 </style>
 <script src="catalog-live.js"></script>
+<link rel="stylesheet" href="reviews.css">
 </head>
 
 <body>
@@ -1875,41 +1876,7 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
 
     </div>
 
-    <div class="review-area" id="reviews">
-
-      <h3>
-        고객님들의 생생한 후기
-      </h3>
-
-      <div class="review-grid">
-
-        <div class="review-card">
-          <strong>🎮 게이밍 PC 후기</strong>
-          <p>
-            실제 고객 후기를 연결할 예정입니다.
-          </p>
-          <small>후기 기능 준비 중</small>
-        </div>
-
-        <div class="review-card">
-          <strong>💻 사무용 PC 후기</strong>
-          <p>
-            실제 고객 후기를 연결할 예정입니다.
-          </p>
-          <small>후기 기능 준비 중</small>
-        </div>
-
-        <div class="review-card">
-          <strong>🎥 영상편집 PC 후기</strong>
-          <p>
-            실제 고객 후기를 연결할 예정입니다.
-          </p>
-          <small>후기 기능 준비 중</small>
-        </div>
-
-      </div>
-
-    </div>
+    <div class="review-area pcs-reviews" id="reviews"><div class="pcs-review-heading"><h3>고객님들의 생생한 후기</h3><button type="button" id="reviewWrite" class="pcs-review-primary">후기 작성</button></div><div class="review-grid" id="reviewList"><p class="pcs-review-empty">후기를 불러오고 있습니다.</p></div><div class="pcs-review-controls"><button type="button" id="reviewPrevious" disabled>이전</button><span id="reviewPage">1 페이지</span><button type="button" id="reviewNext" disabled>다음</button><button type="button" id="reviewRefresh">새로고침</button></div><p class="pcs-review-message" id="reviewMessage" role="status" aria-live="polite"></p></div>
 
   </div>
 
@@ -2236,6 +2203,7 @@ function renderProducts(products) {
 
           </div>
 
+          ${product.badge==='hot'?'<span class="pcs-product-badge pcs-product-badge-hot">HOT</span>':product.badge==='recommend'?'<span class="pcs-product-badge pcs-product-badge-recommend">추천</span>':''}
           <h3>
             <a href="${detailUrl}">
               ${name}
@@ -2761,5 +2729,6 @@ document.addEventListener(
 </script>
 
 <script>document.querySelectorAll('[data-preparing]').forEach(button=>button.addEventListener('click',()=>{alert('준비중 입니다.');document.getElementById('mainNav').classList.remove('open');document.getElementById('menuButton').setAttribute('aria-expanded','false');}));</script>
+<dialog class="pcs-review-dialog" id="reviewReadDialog" aria-labelledby="reviewReadTitle"><div class="pcs-review-heading"><h3 id="reviewReadTitle">고객후기</h3><button type="button" data-review-close aria-label="후기 닫기">닫기</button></div><p class="pcs-review-full" data-review-full></p></dialog><dialog class="pcs-review-dialog" id="reviewWriteDialog" aria-labelledby="reviewWriteTitle"><div class="pcs-review-heading"><h3 id="reviewWriteTitle">고객후기 작성</h3><button type="button" data-review-close>닫기</button></div><p class="pcs-review-message">PC 구매나 수리·업그레이드 경험을 남겨주세요. 후기는 관리자 확인 후 공개됩니다. 전화번호·주소 등 개인정보는 적지 마세요.</p><form id="reviewForm"><label>닉네임<input name="nickname" required maxlength="20" autocomplete="nickname" placeholder="공개할 닉네임"></label><label>이용 서비스<select name="category"><option value="gaming">게이밍 PC</option><option value="office">사무용 PC</option><option value="repair">수리·업그레이드</option><option value="other">기타</option></select></label><label>별점<select name="rating"><option value="5">★★★★★ 5점</option><option value="4">★★★★ 4점</option><option value="3">★★★ 3점</option><option value="2">★★ 2점</option><option value="1">★ 1점</option></select></label><label>후기 내용<textarea name="body" required minlength="10" maxlength="2000" placeholder="10~2,000자로 작성해주세요."></textarea></label><label class="pcs-review-honey" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><label class="pcs-review-consent"><input type="checkbox" name="consent" required><span>닉네임·별점·후기 내용이 홈페이지에 공개되는 것에 동의합니다. 수정·삭제 요청은 전화 또는 카카오톡 상담으로 문의해주세요.</span></label><p class="pcs-review-message" id="reviewFormMessage" role="status" aria-live="polite"></p><button class="pcs-review-primary" type="submit" id="reviewSubmit">후기 접수하기</button></form></dialog><script src="customer-reviews.js"></script>
 </body>
 </html>

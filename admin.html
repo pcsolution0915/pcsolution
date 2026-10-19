@@ -2237,9 +2237,10 @@ body.printing-customer-quote #quoteModal .danawa-area {
 .product-registered-part:hover{background:#deebff;}#registeredPartPicker{z-index:11040;}
 </style>
 <script src="catalog-live.js"></script>
+<link rel="stylesheet" href="reviews.css">
 </head>
 
-<body>
+<body data-reviews="admin">
 
 <div class="container">
 
@@ -2280,7 +2281,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
     <div id="loginMessage" class="message"></div>
   </div>
 
-  <div id="adminSection" class="hidden">
+  <div id="adminSection" class="hidden"><section class="card pcs-reviews" id="reviewAdmin"><div class="pcs-review-heading"><h2>고객후기 관리</h2><label>후기 상태 <select id="reviewFilter"><option value="pending">확인 대기</option><option value="approved">공개</option><option value="hidden">숨김</option></select></label></div><p class="pcs-review-message">확인 대기 후기는 홈페이지에 보이지 않습니다. 내용을 확인하고 공개해 주세요.</p><div id="reviewList" class="pcs-review-admin-grid"></div><div class="pcs-review-controls"><button type="button" id="reviewPrevious" disabled>이전</button><span id="reviewPage">1 페이지</span><button type="button" id="reviewNext" disabled>다음</button><button type="button" id="reviewRefresh">새로고침</button></div><p class="pcs-review-message" id="reviewMessage" role="status" aria-live="polite"></p></section>
 
     <div class="card">
       <div class="admin-header">
@@ -2319,6 +2320,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
       <h2 id="formTitle">➕ 상품 등록</h2>
 
       <input type="hidden" id="editId">
+<label for="productBadge">상품 배지</label><select id="productBadge"><option value="">표시 없음</option><option value="hot">HOT</option><option value="recommend">추천</option></select>
 <label for="productCategory">상품 분류</label><select id="productCategory"><option value="gaming">게이밍</option><option value="office">사무용</option><option value="other" selected>기타</option></select><p class="part-catalog-summary">분류가 없던 기존 상품은 기타에서 확인하고 수정할 수 있습니다.</p>
 
       <p id="productPartFeedback" class="part-catalog-summary" role="status">부품 항목을 누르면 등록한 제조사 → 모델 순서로 선택할 수 있습니다.</p>
@@ -4016,6 +4018,7 @@ function getFormData() {
 
   return {
     category: document.getElementById('productCategory').value,
+    badge: document.getElementById('productBadge').value,
 
     name:
       document.getElementById("name").value.trim(),
@@ -4078,6 +4081,7 @@ function makeProductData(
 
     name: form.name,
     category: form.category,
+    badge: form.badge,
     price: form.price,
     cpu: form.cpu,
     gpu: form.gpu,
@@ -4302,6 +4306,7 @@ function editProduct(id) {
 
   editingProduct = product;
   document.getElementById("productCategory").value=productCategory(product);
+  document.getElementById("productBadge").value=["hot","recommend"].includes(product.badge)?product.badge:"";
 
   document.getElementById("editId").value =
     product.id;
@@ -4430,6 +4435,7 @@ function cancelEdit() {
 function resetForm() {
  if(typeof invalidateProductPartPicker==='function')invalidateProductPartPicker();
   document.getElementById('productCategory').value='other';
+  document.getElementById('productBadge').value='';
   clearCatalogPreview('image','productNewImagePreview');
 
   const ids = [
@@ -10118,7 +10124,7 @@ function showProductCatalogDetail(id){
  if(productCatalogState.busy)return;
  const p=allProducts.find(item=>String(item.id)===String(id));if(!p)return;restoreProductForm();productCatalogState.view='detail';productCatalogState.selectedId=p.id;
  document.getElementById('productCatalogTitle').textContent='상품 상세 확인';
- const fields=[['분류',productCategoryLabels[productCategory(p)]],['가격',partCatalogMoney(p.price)],['CPU',p.cpu],['그래픽카드',p.gpu],['메모리',p.ram],['SSD',p.ssd],['메인보드',p['main board']],['파워',p.power],['모니터',p.monitor],['HDD',p.hdd],['키보드/마우스',p['keyboard mouse']],['상품 설명',p.description]];
+ const fields=[['배지',p.badge==='hot'?'HOT':p.badge==='recommend'?'추천':'표시 없음'],['분류',productCategoryLabels[productCategory(p)]],['가격',partCatalogMoney(p.price)],['CPU',p.cpu],['그래픽카드',p.gpu],['메모리',p.ram],['SSD',p.ssd],['메인보드',p['main board']],['파워',p.power],['모니터',p.monitor],['HDD',p.hdd],['키보드/마우스',p['keyboard mouse']],['상품 설명',p.description]];
  const content=document.getElementById('productCatalogContent');content.innerHTML='<button type="button" id="productCatalogBack">← 목록으로</button><h3>'+escapeHTML(p.name||'-')+'</h3>'+catalogThumbnail(p.image_url,p.name,'catalog-detail-image')+'<dl class="product-catalog-details">'+fields.map(([label,value])=>'<div><dt>'+label+'</dt><dd>'+escapeHTML(String(value??'-'))+'</dd></div>').join('')+'</dl><div class="part-catalog-actions"><button type="button" id="productCatalogEdit">수정 · 이미지 교체</button><button type="button" id="productCatalogDelete" class="part-catalog-danger">삭제</button></div>';
  document.getElementById('productCatalogBack').addEventListener('click',renderProductCatalogList);document.getElementById('productCatalogEdit').addEventListener('click',()=>editProductInCatalog(p.id));document.getElementById('productCatalogDelete').addEventListener('click',()=>runProductCatalogAction(()=>deleteProduct(p.id)));bindCatalogImageFallback(content);
 }
@@ -10169,5 +10175,6 @@ function openProductRegisteredPart(fieldId,opener){
 }
 document.querySelectorAll('[data-product-part-field]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();openProductRegisteredPart(button.dataset.productPartField,button);}));
 </script>
+<dialog class="pcs-review-dialog" id="reviewReadDialog" aria-labelledby="reviewReadTitle"><div class="pcs-review-heading"><h3 id="reviewReadTitle">고객후기</h3><button type="button" data-review-close aria-label="후기 닫기">닫기</button></div><p class="pcs-review-full" data-review-full></p></dialog><script src="customer-reviews.js"></script>
 </body>
 </html>
