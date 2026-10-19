@@ -570,6 +570,7 @@ a:focus-visible,button:focus-visible { outline:3px solid #087aff; outline-offset
 </style>
 
 <link rel="stylesheet" href="reviews.css">
+<style>.pcs-product-description{grid-column:1/-1;padding:32px 0;border-top:1px solid #dce5f1;min-width:0}.pcs-product-description h2{font-size:22px;margin:0 0 24px}.pcs-product-description .product-description{white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.9;margin-bottom:25px}.pcs-description-image{display:block;max-width:100%;width:auto;height:auto;margin:0 auto}</style>
 </head>
 
 
@@ -762,7 +763,7 @@ function specRow(
       </div>
 
       <div class="spec-value">
-        ${escapeHTML(displayValue)}
+        ${displayValue!=="-"?`<button type="button" class="pcs-part-detail-link" data-part-detail="${escapeHTML(({CPU:"cpu","그래픽카드":"gpu",RAM:"ram",SSD:"ssd","메인보드":"main_board","파워":"power","모니터":"monitor",HDD:"hdd","키보드/마우스":"keyboard_mouse"})[label]||'')}">${escapeHTML(displayValue)} <span>상세 보기 ↗</span></button>`:escapeHTML(displayValue)}
       </div>
 
     </div>
@@ -777,6 +778,7 @@ function specRow(
 ========================================== */
 
 function renderProduct(product) {
+ window.pcsDisplayedProduct35=Number(product.id);
   const id = Number(product.id);
   const consultParams = new URLSearchParams();
   if (Number.isSafeInteger(id) && id > 0) {
@@ -882,7 +884,6 @@ function renderProduct(product) {
       </h1>
 
 
-      ${description}
 
 
       <div class="price-box">
@@ -998,6 +999,8 @@ function renderProduct(product) {
       </div>
 
     </div>
+
+    ${product.description||safeImageUrl(product.description_image_url)?`<section class="pcs-product-description" aria-labelledby="productDescriptionTitle"><h2 id="productDescriptionTitle">상품 상세 설명</h2>${description}${safeImageUrl(product.description_image_url)?`<img class="pcs-description-image" src="${escapeHTML(safeImageUrl(product.description_image_url))}" alt="${escapeHTML(product.name||'상품')} 상세 설명 이미지" loading="lazy" decoding="async">`:''}</section>`:''}
 
   `;
 
@@ -1186,6 +1189,7 @@ document.addEventListener(
 <script>
 document.getElementById('productDetail').addEventListener('error',function(event){
  const image=event.target;
+ if(image.matches('img.pcs-description-image')){const notice=document.createElement('p');notice.textContent='상세 설명 이미지를 불러오지 못했습니다.';image.replaceWith(notice);return;}
  if(!image.matches('img.product-image'))return;
  const placeholder=document.createElement('div');
  placeholder.className='no-image';placeholder.textContent='상품 이미지 준비 중';
@@ -1199,5 +1203,27 @@ document.getElementById('productDetail').addEventListener('error',function(event
  <a class="pcs-quick-form" href="consulting.html">상담 신청</a>
 </nav>
 
+<style>.pcs-part-detail-link{font:inherit;color:#1256b3;text-align:left;background:none;border:0;cursor:pointer;padding:2px 0;line-height:1.7;overflow-wrap:anywhere}.pcs-part-detail-link:hover{text-decoration:underline}.pcs-part-detail-link span{display:inline-block;font-size:11px;border:1px solid #c7daf5;background:#edf4ff;border-radius:5px;padding:1px 6px;margin-left:5px;white-space:nowrap}.pcs-part-detail-link:focus-visible{outline:3px solid #1769ee;outline-offset:3px}.pcs-part-dialog{box-sizing:border-box;width:min(940px,calc(100% - 24px));max-height:90dvh;border:0;border-radius:16px;padding:24px;color:#102447;box-shadow:0 20px 70px #071e4945}.pcs-part-dialog::backdrop{background:#06182d99}.pcs-part-dialog header{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;border-bottom:1px solid #dce6f2;padding-bottom:16px}.pcs-part-dialog h2{font-size:21px;line-height:1.6;overflow-wrap:anywhere;margin:0}.pcs-part-dialog header button{flex-shrink:0;border:1px solid #cadaef;border-radius:8px;background:#fff;padding:9px 14px;cursor:pointer;font:inherit}.pcs-part-dialog h3{font-size:16px;margin:25px 0 12px}.pcs-part-dialog p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;color:#415674}.pcs-part-dialog img{display:block;max-width:100%;width:auto;height:auto;margin:20px auto}.pcs-part-dialog .pcs-part-photo{max-height:260px;object-fit:contain}</style>
+<dialog class="pcs-part-dialog" id="pcsPartDialog35" aria-labelledby="pcsPartTitle35"><header><h2 id="pcsPartTitle35">부품 상세 설명</h2><button type="button" id="pcsPartClose35">닫기</button></header><div id="pcsPartContent35" aria-live="polite"></div></dialog>
+<script>
+(function(){
+ const dialog=document.getElementById('pcsPartDialog35'),content=document.getElementById('pcsPartContent35'),title=document.getElementById('pcsPartTitle35');let request=0;
+ document.getElementById('pcsPartClose35').addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('close',()=>{++request;});
+ function img(url,alt,cls=''){const safe=safeImageUrl(url);return safe?'<img class="'+cls+'" src="'+escapeHTML(safe)+'" alt="'+escapeHTML(alt)+'" loading="lazy" decoding="async">':'';}
+ document.getElementById('productDetail').addEventListener('click',async event=>{
+  const button=event.target.closest('[data-part-detail]');if(!button||!button.dataset.partDetail)return;
+  const current=++request;title.textContent='부품 상세 설명';content.textContent='등록된 부품 설명을 불러오고 있습니다.';dialog.showModal();dialog.scrollTop=0;
+  try{
+   const{data,error}=await supabaseClient.rpc('get_product_part_detail_v35',{p_product_id:window.pcsDisplayedProduct35,p_field:button.dataset.partDetail});
+   if(current!==request)return;if(error)throw error;
+   if(!data){content.textContent='이 부품의 상세 설명을 준비하고 있습니다. 궁금한 내용은 상담으로 문의해주세요.';return;}
+   title.textContent=[data.manufacturer,data.model_name].filter(Boolean).join(' ')||'부품 상세 설명';
+   content.innerHTML=img(data.image_url,title.textContent+' 대표 사진','pcs-part-photo')+(data.specification?'<h3>주요 사양</h3><p>'+escapeHTML(data.specification)+'</p>':'')+'<h3>상세 설명</h3>'+(data.detail_description?'<p>'+escapeHTML(data.detail_description)+'</p>':'')+img(data.description_image_url,title.textContent+' 상세 설명')+(!data.detail_description&&!safeImageUrl(data.description_image_url)?'<p>상세 설명을 준비하고 있습니다.</p>':'');
+   content.querySelectorAll('img').forEach(image=>image.addEventListener('error',()=>{const p=document.createElement('p');p.textContent='이미지를 불러오지 못했습니다.';image.replaceWith(p);}));
+  }catch(error){if(current===request)content.textContent='상세 설명을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.';}
+ });
+})();
+</script>
 </body>
 </html>

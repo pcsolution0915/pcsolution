@@ -2238,7 +2238,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
 </style>
 <script src="catalog-live.js"></script>
 <link rel="stylesheet" href="reviews.css">
-</head>
+<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style></head>
 
 <body data-reviews="admin">
 
@@ -2367,7 +2367,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
       <textarea
         id="description"
         placeholder="상품의 특징이나 추천 용도를 입력하세요."
-      ></textarea>
+      ></textarea><section class="pcs-detail-editor"><h3>상세 설명 이미지 (선택)</h3><p class="part-catalog-summary">메인 사진과 별도로 긴 제품 설명 이미지를 넣을 수 있습니다. 글만·이미지만·둘 다 등록할 수 있어요. JPG·PNG·WEBP·GIF, 10MB 이하.</p><div id="productDetailSaved"></div><label for="productDetailImage">상세 이미지 등록·교체</label><input id="productDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><img id="productDetailImagePreview" class="pcs-detail-image" alt="새 상품 상세 이미지 미리보기" hidden><label><input id="productDetailImageRemove" type="checkbox"> 저장된 상세 이미지 제거</label></section>
 
       <label for="image">메인 상품 이미지</label>
 
@@ -2631,6 +2631,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
   </div>
 
 
+<section class="pcs-detail-editor"><h3>부품 상세 설명 (선택)</h3><label for="partMasterDetailText">상세 설명 글</label><textarea id="partMasterDetailText" maxlength="20000" placeholder="제품의 특징과 자세한 설명을 입력하세요."></textarea><label for="partMasterDetailImage">상세 설명 이미지</label><input id="partMasterDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="part-catalog-summary">부품 대표 사진과 별도로 긴 상세 이미지를 등록할 수 있어요. JPG·PNG·WEBP·GIF, 10MB 이하.</p><img id="partMasterDetailImagePreview" class="pcs-detail-image" alt="새 부품 상세 이미지 미리보기" hidden></section>
 <div class="catalog-part-image"><label for="partMasterImage">부품 이미지 (선택)</label><input id="partMasterImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="part-catalog-summary">모든 부품에 등록 가능 · 10MB 이하</p><img id="partMasterImagePreview" class="catalog-detail-image" alt="새 부품 이미지 미리보기" hidden></div>
   <div style="
     display:flex;
@@ -3738,6 +3739,7 @@ const supabaseClient =
 
 let allProducts = [];
 let editingProduct = null;
+let productPartLinks35={};
 let allQuoteRequests = [];
 let quoteRequestLoadError = false;
 let allSupplierReplies = [];
@@ -4018,6 +4020,7 @@ function getFormData() {
 
   return {
     category: document.getElementById('productCategory').value,
+    registered_parts: {...productPartLinks35},
     badge: document.getElementById('productBadge').value,
 
     name:
@@ -4074,13 +4077,15 @@ async function uploadImage(file){return uploadCatalogImage(file,'product');}
 
 function makeProductData(
   form,
-  imageUrl
+  imageUrl,
+  detailImageUrl
 ) {
 
   return {
 
     name: form.name,
     category: form.category,
+    registered_parts: form.registered_parts,
     badge: form.badge,
     price: form.price,
     cpu: form.cpu,
@@ -4093,7 +4098,8 @@ function makeProductData(
     hdd: form.hdd,
     "keyboard mouse": form.keyboardMouse,
     description: form.description,
-    image_url: imageUrl
+    image_url: imageUrl,
+    description_image_url: detailImageUrl
 
   };
 
@@ -4126,6 +4132,9 @@ async function insertProduct() {
       .getElementById("image")
       .files[0];
 
+  const detailFile=document.getElementById('productDetailImage').files[0];
+  const detailOriginal=null;
+  const detailRemove=document.getElementById('productDetailImageRemove').checked;
   try {
 
     let imageUrl = null;
@@ -4135,6 +4144,7 @@ async function insertProduct() {
         await uploadImage(imageFile);
     }
 
+    const detailImageUrl=detailFile?await uploadCatalogImage(detailFile,'product-detail'):detailRemove?null:detailOriginal;
     const {
       error
     } =
@@ -4143,7 +4153,8 @@ async function insertProduct() {
         .insert(
           makeProductData(
             form,
-            imageUrl
+            imageUrl,
+            detailImageUrl
           )
         );
 
@@ -4211,6 +4222,9 @@ async function updateProduct() {
       .getElementById("image")
       .files[0];
 
+  const detailFile=document.getElementById('productDetailImage').files[0];
+  const detailOriginal=editingProduct.description_image_url||null;
+  const detailRemove=document.getElementById('productDetailImageRemove').checked;
   try {
 
     let imageUrl =
@@ -4221,6 +4235,7 @@ async function updateProduct() {
         await uploadImage(imageFile);
     }
 
+    const detailImageUrl=detailFile?await uploadCatalogImage(detailFile,'product-detail'):detailRemove?null:detailOriginal;
     const {
       error
     } =
@@ -4229,7 +4244,8 @@ async function updateProduct() {
         .update(
           makeProductData(
             form,
-            imageUrl
+            imageUrl,
+            detailImageUrl
           )
         )
         .eq(
@@ -4305,7 +4321,9 @@ function editProduct(id) {
   }
 
   editingProduct = product;
+  productPartLinks35=product.registered_parts&&typeof product.registered_parts==='object'?{...product.registered_parts}:{};
   document.getElementById("productCategory").value=productCategory(product);
+  resetProductDetailEditor(product.description_image_url);
   document.getElementById("productBadge").value=["hot","recommend"].includes(product.badge)?product.badge:"";
 
   document.getElementById("editId").value =
@@ -4433,6 +4451,8 @@ function cancelEdit() {
 ===================================== */
 
 function resetForm() {
+ productPartLinks35={};
+ resetProductDetailEditor(null);
  if(typeof invalidateProductPartPicker==='function')invalidateProductPartPicker();
   document.getElementById('productCategory').value='other';
   document.getElementById('productBadge').value='';
@@ -8872,7 +8892,7 @@ function calculatePartSalePrice() {
    V2.0 PC 부품 등록
 ===================================== */
 
-async function savePartMaster() {
+async function savePartMasterCore35() {
 
   const partType =
     document
@@ -8980,7 +9000,10 @@ async function savePartMaster() {
 
 
   try {
+    const detailText=document.getElementById('partMasterDetailText').value.trim();
+    const detailFile=document.getElementById('partMasterDetailImage').files[0];
     const imageUrl=await uploadCatalogImage(document.getElementById('partMasterImage').files[0],'part');
+    const detailImageUrl=await uploadCatalogImage(detailFile,'part-detail');
 
     const {
       error
@@ -8989,6 +9012,8 @@ async function savePartMaster() {
         .from("product_master")
         .insert({
           image_url: imageUrl,
+          detail_description: detailText,
+          description_image_url: detailImageUrl,
           part_type:
             partType,
 
@@ -9068,6 +9093,8 @@ async function savePartMaster() {
 
 
     clearCatalogPreview('partMasterImage','partMasterImagePreview');
+    clearCatalogPreview('partMasterDetailImage','partMasterDetailImagePreview');
+    document.getElementById('partMasterDetailText').value='';
     await loadPartMaster();
 
 
@@ -9931,7 +9958,8 @@ function applyRegisteredPart(index){
   const spec=String(item.specification||'').trim().replace(/\r?\n\s*/g,' · ');
   field.value=model+(spec?' / '+spec:'');
   field.dispatchEvent(new Event('input',{bubbles:true}));
-  document.getElementById('productPartFeedback').textContent=registeredPartLabels[state.part]+' 제조사·모델·스펙을 입력했습니다. 상품 저장을 누르면 반영됩니다.';
+  productPartLinks35[state.fieldId]=item.id;
+  document.getElementById('productPartFeedback').textContent=registeredPartLabels[state.part]+' 제조사·모델·스펙과 상세 설명 링크를 연결했습니다. 상품 저장을 누르면 반영됩니다.';
   closeRegisteredPartPicker();field.focus();return;
  }
  const targets=['Maker','Model','Spec'].map(s=>document.getElementById('estimate'+state.part+s));
@@ -9990,14 +10018,14 @@ function openPartCatalog(category,opener){
  document.getElementById('partCatalogDialog').hidden=false;renderPartCatalogList();document.getElementById('partCatalogClose').focus();
 }
 function closePartCatalog(){
- if(!partCatalog.busy&&typeof clearCatalogPreview==='function')clearCatalogPreview('partEditImage','partEditImagePreview');
+ if(!partCatalog.busy&&typeof clearCatalogPreview==='function'){clearCatalogPreview('partEditImage','partEditImagePreview');clearCatalogPreview('partEditDetailImage','partEditDetailImagePreview');}
  if(partCatalog.busy)return;
  document.getElementById('partCatalogDialog').hidden=true;
  if(partCatalog.opener?.isConnected)partCatalog.opener.focus();partCatalog.selected=null;
 }
 function setPartCatalogBusy(busy){partCatalog.busy=busy;document.getElementById('partCatalogClose').disabled=busy;document.querySelectorAll('#partCatalogContent button').forEach(button=>{if(busy){button.dataset.catalogWasDisabled=String(button.disabled);button.disabled=true;}else if(Object.hasOwn(button.dataset,'catalogWasDisabled')){button.disabled=button.dataset.catalogWasDisabled==='true';delete button.dataset.catalogWasDisabled;}});const fields=document.getElementById('partCatalogFields');if(fields)fields.disabled=busy||!partCatalog.editing;}
 function renderPartCatalogList(){
- if(typeof clearCatalogPreview==='function')clearCatalogPreview('partEditImage','partEditImagePreview');
+ if(typeof clearCatalogPreview==='function'){clearCatalogPreview('partEditImage','partEditImagePreview');clearCatalogPreview('partEditDetailImage','partEditDetailImagePreview');}
  const state=partCatalog;state.selected=null;state.editing=false;
  document.getElementById('partCatalogTitle').textContent=partCatalogLabels[state.category]+' 부품 목록';
  const found=state.items.filter(item=>partCatalogCategory(item)===state.category&&[item.manufacturer,item.model_name,item.specification,item.supplier_name].some(v=>String(v||'').toLowerCase().includes(state.query.toLowerCase().trim())));
@@ -10020,6 +10048,7 @@ function showPartCatalogDetail(id){
  partCatalog.selected={...item};partCatalog.editing=false;renderPartCatalogDetail();
 }
 function renderPartCatalogDetail(){
+ clearCatalogPreview('partEditDetailImage','partEditDetailImagePreview');
  const item=partCatalog.selected;if(!item)return;
  const editable=partCatalog.editing;
  document.getElementById('partCatalogTitle').textContent=editable?'등록 부품 수정':'등록 부품 상세';
@@ -10038,6 +10067,7 @@ function renderPartCatalogDetail(){
   document.getElementById('partCatalogDelete').addEventListener('click',deletePartCatalogItem);
  }
  renderPartCatalogImage(item,editable);
+ renderPartDetailDescription35(item,editable);
 }
 function partCatalogMutationQuery(query,item){return item.updated_at?query.eq('updated_at',item.updated_at):query.is('updated_at',null);}
 async function savePartCatalogEdit(){
@@ -10051,7 +10081,11 @@ async function savePartCatalogEdit(){
  setPartCatalogBusy(true);message.textContent='수정 내용을 저장하는 중입니다.';
  try{
   const imageInput=document.getElementById('partEditImage'),removeImage=document.getElementById('partEditImageRemove');
+  const detailFile=document.getElementById('partEditDetailImage').files[0];
+  const detailRemove=document.getElementById('partEditDetailRemove').checked;
+  payload.detail_description=document.getElementById('partEditDetailText').value.trim();
   payload.image_url=imageInput?.files[0]?await uploadCatalogImage(imageInput.files[0],'part'):removeImage?.checked?null:item.image_url||null;
+  payload.description_image_url=detailFile?await uploadCatalogImage(detailFile,'part-detail'):detailRemove?null:item.description_image_url||null;
   const {data,error}=await partCatalogMutationQuery(supabaseClient.from('product_master').update(payload).eq('id',item.id),item).select('*');
   if(error)throw error;if(!data||data.length!==1)throw Error('다른 화면에서 변경됐거나 수정 권한이 없습니다. 목록을 새로고침한 뒤 확인해 주세요.');
   partCatalog.items=partCatalog.items.map(row=>String(row.id)===String(item.id)?data[0]:row);
@@ -10126,11 +10160,11 @@ function showProductCatalogDetail(id){
  document.getElementById('productCatalogTitle').textContent='상품 상세 확인';
  const fields=[['배지',p.badge==='hot'?'HOT':p.badge==='recommend'?'추천':'표시 없음'],['분류',productCategoryLabels[productCategory(p)]],['가격',partCatalogMoney(p.price)],['CPU',p.cpu],['그래픽카드',p.gpu],['메모리',p.ram],['SSD',p.ssd],['메인보드',p['main board']],['파워',p.power],['모니터',p.monitor],['HDD',p.hdd],['키보드/마우스',p['keyboard mouse']],['상품 설명',p.description]];
  const content=document.getElementById('productCatalogContent');content.innerHTML='<button type="button" id="productCatalogBack">← 목록으로</button><h3>'+escapeHTML(p.name||'-')+'</h3>'+catalogThumbnail(p.image_url,p.name,'catalog-detail-image')+'<dl class="product-catalog-details">'+fields.map(([label,value])=>'<div><dt>'+label+'</dt><dd>'+escapeHTML(String(value??'-'))+'</dd></div>').join('')+'</dl><div class="part-catalog-actions"><button type="button" id="productCatalogEdit">수정 · 이미지 교체</button><button type="button" id="productCatalogDelete" class="part-catalog-danger">삭제</button></div>';
- document.getElementById('productCatalogBack').addEventListener('click',renderProductCatalogList);document.getElementById('productCatalogEdit').addEventListener('click',()=>editProductInCatalog(p.id));document.getElementById('productCatalogDelete').addEventListener('click',()=>runProductCatalogAction(()=>deleteProduct(p.id)));bindCatalogImageFallback(content);
+ document.getElementById('productCatalogBack').addEventListener('click',renderProductCatalogList);document.getElementById('productCatalogEdit').addEventListener('click',()=>editProductInCatalog(p.id));document.getElementById('productCatalogDelete').addEventListener('click',()=>runProductCatalogAction(()=>deleteProduct(p.id)));content.querySelector('.part-catalog-actions').insertAdjacentHTML('beforebegin',detailImageHTML35(p.description_image_url,p.name));bindCatalogImageFallback(content);
 }
 function editProductInCatalog(id){
  if(productCatalogState.busy)return;
- const dirty=['name','price','cpu','gpu','ram','ssd','main_board','power','monitor','hdd','keyboard_mouse','description'].some(key=>document.getElementById(key)?.value.trim())||document.getElementById('image').files.length>0;
+ const dirty=['name','price','cpu','gpu','ram','ssd','main_board','power','monitor','hdd','keyboard_mouse','description'].some(key=>document.getElementById(key)?.value.trim())||document.getElementById('image').files.length>0||document.getElementById('productDetailImage').files.length>0;
  if(dirty&&!confirm('상품 입력폼의 작성 중인 내용을 선택한 상품으로 바꿀까요?'))return;
  productCatalogState.view='edit';productCatalogState.selectedId=id;
  document.getElementById('productCatalogTitle').textContent='상품 수정 · 메인 이미지';
@@ -10176,5 +10210,31 @@ function openProductRegisteredPart(fieldId,opener){
 document.querySelectorAll('[data-product-part-field]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();openProductRegisteredPart(button.dataset.productPartField,button);}));
 </script>
 <dialog class="pcs-review-dialog" id="reviewReadDialog" aria-labelledby="reviewReadTitle"><div class="pcs-review-heading"><h3 id="reviewReadTitle">고객후기</h3><button type="button" data-review-close aria-label="후기 닫기">닫기</button></div><p class="pcs-review-full" data-review-full></p></dialog><script src="customer-reviews.js"></script>
-</body>
+<script>
+function detailImageHTML35(url,name){const safe=catalogImageUrl(url);return safe?'<img class="pcs-detail-image" src="'+escapeHTML(safe)+'" alt="'+escapeHTML(name||'제품')+' 상세 설명 이미지" loading="lazy" decoding="async">':'';}
+function resetProductDetailEditor(url){
+ clearCatalogPreview('productDetailImage','productDetailImagePreview');
+ document.getElementById('productDetailImageRemove').checked=false;
+ const area=document.getElementById('productDetailSaved');area.innerHTML=detailImageHTML35(url,'저장된 상품');bindCatalogImageFallback(area);
+}
+function bindDetailImageRemoval35(inputId,previewId,removeId){
+ bindCatalogPreview(inputId,previewId);
+ document.getElementById(inputId).addEventListener('change',()=>{if(document.getElementById(inputId).files.length)document.getElementById(removeId).checked=false;});
+ document.getElementById(removeId).addEventListener('change',()=>{if(document.getElementById(removeId).checked)clearCatalogPreview(inputId,previewId);});
+}
+function renderPartDetailDescription35(item,editable){
+ const fields=document.getElementById('partCatalogFields');
+ fields.insertAdjacentHTML('beforeend','<section class="pcs-detail-editor"><h3>부품 상세 설명</h3>'+(editable?'<label for="partEditDetailText">상세 설명 글</label><textarea id="partEditDetailText" maxlength="20000">'+escapeHTML(item.detail_description||'')+'</textarea>':'<p class="pcs-detail-description">'+escapeHTML(item.detail_description||'상세 설명 글이 없습니다.')+'</p>')+detailImageHTML35(item.description_image_url,item.model_name)+(editable?'<label for="partEditDetailImage">상세 이미지 등록·교체</label><input id="partEditDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="part-catalog-summary">JPG·PNG·WEBP·GIF, 10MB 이하. 글만·이미지만·둘 다 등록할 수 있어요.</p><img id="partEditDetailImagePreview" class="pcs-detail-image" alt="새 부품 상세 이미지 미리보기" hidden><label><input id="partEditDetailRemove" type="checkbox"> 저장된 상세 이미지 제거</label>':'')+'</section>');
+ if(editable)bindDetailImageRemoval35('partEditDetailImage','partEditDetailImagePreview','partEditDetailRemove');bindCatalogImageFallback(fields);
+}
+async function savePartMaster(){
+ const button=document.getElementById('partMasterSaveButton');if(button.disabled)return;
+ const card=button.closest('.card');button.disabled=true;if(card)card.inert=true;
+ try{await savePartMasterCore35();}finally{button.disabled=false;if(card)card.inert=false;}
+}
+bindDetailImageRemoval35('productDetailImage','productDetailImagePreview','productDetailImageRemove');
+bindCatalogPreview('partMasterDetailImage','partMasterDetailImagePreview');
+Object.keys(productPartFieldTypes).forEach(key=>document.getElementById(key).addEventListener('input',()=>{delete productPartLinks35[key];}));
+
+</script></body>
 </html>
