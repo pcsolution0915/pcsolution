@@ -1382,6 +1382,13 @@ section {
 
 </style>
 
+<style>
+.nav{gap:17px;}.nav a,.nav button{font-size:12px;}.nav button{border:0;background:none;cursor:pointer;color:inherit;font-family:inherit;font-weight:700;padding:12px 0;text-align:left;}.nav button:hover{color:#1769ee;}.nav button:focus-visible{outline:3px solid #087aff;outline-offset:4px;border-radius:5px;}
+button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:pointer;}button.category-card:focus-visible{outline:3px solid #087aff;outline-offset:4px;}
+.catalog-update-status{font-size:11px;color:#7d8da3;text-align:right;margin:-7px 0 15px;min-height:16px;}
+@media(min-width:1001px) and (max-width:1220px){.header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:16px;}.menu-button{display:block;}.nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:12px 3%;background:#fff;border-top:1px solid #edf1f7;box-shadow:0 15px 25px #10213b12;max-height:calc(100dvh - 72px);overflow-y:auto;}.nav.open{display:flex;}}
+</style>
+<script src="catalog-live.js"></script>
 </head>
 
 <body>
@@ -1394,7 +1401,7 @@ section {
 
   <div class="container header-inner">
 
-    <a href="index-v2.html" class="logo">
+    <a href="index.html" class="logo">
 
       <strong>
         <span>PC</span> SOLUTION
@@ -1409,10 +1416,13 @@ section {
     <nav class="nav" id="mainNav" aria-label="주요 메뉴">
 
       <a href="#products">추천 PC</a>
+<a href="gaming.html">게이밍 PC</a>
+<a href="office.html">사무용 PC</a>
 
       <a href="consulting.html">맞춤 PC</a>
 
-      <a href="#categories">PC 부품</a>
+      <button type="button" data-preparing>PC 부품</button>
+<button type="button" data-preparing>주변기기</button>
 
       <a href="#reviews">커뮤니티</a>
 
@@ -1551,13 +1561,13 @@ section {
 
   <div class="container category-grid">
 
-    <a href="#products" class="category-card">
+    <a href="gaming.html" class="category-card">
       <strong>게이밍 PC</strong>
       <small>최고의 퍼포먼스</small>
       <img class="category-image" src="images/category-gaming-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
     </a>
 
-    <a href="#products" class="category-card">
+    <a href="office.html" class="category-card">
       <strong>사무용 PC</strong>
       <small>업무에 최적화</small>
       <img class="category-image" src="images/category-office-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
@@ -1575,17 +1585,17 @@ section {
       <img class="category-image" src="images/category-creator-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
     </a>
 
-    <a href="#products" class="category-card">
+    <button type="button" class="category-card" data-preparing>
       <strong>PC 부품</strong>
       <small>다양한 부품 쇼핑</small>
       <img class="category-image" src="images/category-parts-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
-    </a>
+    </button>
 
-    <a href="#products" class="category-card">
+    <button type="button" class="category-card" data-preparing>
       <strong>주변기기</strong>
       <small>모니터·키보드·마우스</small>
       <img class="category-image" src="images/category-accessories-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
-    </a>
+    </button>
 
   </div>
 
@@ -1655,7 +1665,8 @@ section {
 
     </div>
 
-    <div class="product-grid" id="productList">
+    <p id="catalogUpdateStatus" class="catalog-update-status" role="status">상품 정보를 확인하고 있습니다.</p>
+<div class="product-grid" id="productList">
 
       <div class="empty-message">
         상품을 불러오는 중입니다...
@@ -1940,7 +1951,7 @@ section {
   <a href="consulting.html">맞춤 PC 상담</a>
   <a href="consulting.html?service=repair">PC/노트북 수리·업그레이드</a>
   <a href="consulting.html?service=media">홈페이지·영상제작</a>
-  <a href="index-v2.html#faq">자주 묻는 질문</a>
+  <a href="index.html#faq">자주 묻는 질문</a>
  </nav>
 
 
@@ -2144,6 +2155,7 @@ mainNav.querySelectorAll("a").forEach(
 ========================================== */
 
 let allProducts = [];
+let productLiveController=null;
 
 function renderProducts(products) {
 
@@ -2320,33 +2332,19 @@ function filterProducts() {
 
 }
 
-async function loadProducts() {
-
-  const container =
-    document.getElementById("productList");
-
-  try {
-
-    const {data,error} =
-      await supabaseClient
-        .from("pcsolution")
-        .select("*");
-
-    if (error) throw error;
-
-    allProducts = data || [];
-
-    filterProducts();
-
-  } catch (error) {
-
-    console.error(error);
-
-    container.innerHTML =
-      '<div class="empty-message">상품을 불러오지 못했습니다.</div>';
-
-  }
-
+async function loadProducts(){
+ const container=document.getElementById('productList'),status=document.getElementById('catalogUpdateStatus');
+ if(!supabaseClient||!window.PCSCatalogLive){container.innerHTML='<div class="empty-message">상품을 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.</div>';return;}
+ if(!productLiveController){
+  productLiveController=window.PCSCatalogLive.create({client:supabaseClient,
+   onData(rows){allProducts=rows;filterProducts();},
+   onState(value){status.textContent=value==='ready'?'상품이 바뀌면 자동으로 업데이트됩니다.':'연결을 다시 확인하고 있습니다. 기존 목록은 계속 볼 수 있어요.';},
+   onError(error,{hasData}){if(!hasData)container.innerHTML='<div class="empty-message">상품을 불러오지 못했습니다. 잠시 후 자동으로 다시 확인합니다.</div>';}
+  });
+  window.addEventListener('pagehide',()=>productLiveController.stop());
+  window.addEventListener('pageshow',event=>{if(event.persisted)productLiveController.start();});
+ }
+ return productLiveController.start();
 }
 
 document.getElementById("productSearch")
@@ -2762,5 +2760,6 @@ document.addEventListener(
 })();
 </script>
 
+<script>document.querySelectorAll('[data-preparing]').forEach(button=>button.addEventListener('click',()=>{alert('준비중 입니다.');document.getElementById('mainNav').classList.remove('open');document.getElementById('menuButton').setAttribute('aria-expanded','false');}));</script>
 </body>
 </html>

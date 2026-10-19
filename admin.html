@@ -2236,6 +2236,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
 .product-registered-part{border:1px solid #cfe0ff;background:#edf4ff;color:#145bcc;border-radius:8px;padding:9px 12px;font:inherit;font-weight:700;cursor:pointer;text-align:left;}
 .product-registered-part:hover{background:#deebff;}#registeredPartPicker{z-index:11040;}
 </style>
+<script src="catalog-live.js"></script>
 </head>
 
 <body>
@@ -4145,6 +4146,7 @@ async function insertProduct() {
     if (error) {
       throw error;
     }
+    if(window.PCSCatalogLive)window.PCSCatalogLive.notify();
 
     showMessage(
       "formMessage",
@@ -4234,6 +4236,7 @@ async function updateProduct() {
     if (error) {
       throw error;
     }
+    if(window.PCSCatalogLive)window.PCSCatalogLive.notify();
 
     editingProduct = null;
 
@@ -4530,6 +4533,7 @@ async function deleteProduct(id) {
     if (error) {
       throw error;
     }
+    if(window.PCSCatalogLive)window.PCSCatalogLive.notify();
 
     if (
       editingProduct &&
@@ -4617,6 +4621,7 @@ async function deleteSelectedProducts() {
     if (error) {
       throw error;
     }
+    if(window.PCSCatalogLive)window.PCSCatalogLive.notify();
 
     await loadProducts();
 
