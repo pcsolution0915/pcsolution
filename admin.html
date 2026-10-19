@@ -2238,7 +2238,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
 </style>
 <script src="catalog-live.js"></script>
 <link rel="stylesheet" href="reviews.css">
-<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style><style>.pcs-part-description-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:4px 0 8px}.pcs-part-description-tools button{border:1px solid #bad2f3;background:#edf4ff;color:#174e9c;font:inherit;font-size:12px;border-radius:7px;padding:7px 10px;cursor:pointer}.pcs-part-description-tools small{color:#60748e;font-size:11px}#partCatalogDialog{z-index:11050}</style></head>
+<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style><style>.pcs-part-description-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:4px 0 8px}.pcs-part-description-tools button{border:1px solid #bad2f3;background:#edf4ff;color:#174e9c;font:inherit;font-size:12px;border-radius:7px;padding:7px 10px;cursor:pointer}.pcs-part-description-tools small{color:#60748e;font-size:11px}#partCatalogDialog{z-index:11050}</style><style>.pcs-saved-detail-preview{border:1px solid #d9e4f2;border-radius:10px;background:#fff;padding:12px;margin:12px 0}.pcs-saved-detail-preview p{font-size:12px;color:#3b5b83;margin:0 0 10px;line-height:1.7}.pcs-saved-detail-preview .pcs-edit-detail-preview{max-height:280px;max-width:100%;width:auto;height:auto;object-fit:contain;margin:0 auto}.pcs-saved-detail-preview img[hidden]{display:none}</style></head>
 
 <body data-reviews="admin">
 
@@ -10224,9 +10224,26 @@ function bindDetailImageRemoval35(inputId,previewId,removeId){
 }
 function renderPartDetailDescription35(item,editable){
  const fields=document.getElementById('partCatalogFields');
- fields.insertAdjacentHTML('beforeend','<section class="pcs-detail-editor"><h3>부품 상세 설명</h3>'+(editable?'<label for="partEditDetailText">상세 설명 글</label><textarea id="partEditDetailText" maxlength="20000">'+escapeHTML(item.detail_description||'')+'</textarea>':'<p class="pcs-detail-description">'+escapeHTML(item.detail_description||'상세 설명 글이 없습니다.')+'</p>')+detailImageHTML35(item.description_image_url,item.model_name)+(editable?'<label for="partEditDetailImage">상세 이미지 등록·교체</label><input id="partEditDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="part-catalog-summary">JPG·PNG·WEBP·GIF, 10MB 이하. 글만·이미지만·둘 다 등록할 수 있어요.</p><img id="partEditDetailImagePreview" class="pcs-detail-image" alt="새 부품 상세 이미지 미리보기" hidden><label><input id="partEditDetailRemove" type="checkbox"> 저장된 상세 이미지 제거</label>':'')+'</section>');
- if(editable)bindDetailImageRemoval35('partEditDetailImage','partEditDetailImagePreview','partEditDetailRemove');bindCatalogImageFallback(fields);
+ const text=editable?'<label for="partEditDetailText">상세 설명 글</label><textarea id="partEditDetailText" maxlength="20000">'+escapeHTML(item.detail_description||'')+'</textarea>':'<p class="pcs-detail-description">'+escapeHTML(item.detail_description||'상세 설명 글이 없습니다.')+'</p>';
+ const image=editable?'<label for="partEditDetailImage">상세 이미지 등록·교체</label><input id="partEditDetailImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><p class="part-catalog-summary">새 이미지를 선택하고 「수정 저장」을 누르면 기존 상세 이미지를 교체합니다. JPG·PNG·WEBP·GIF, 10MB 이하.</p><div class="pcs-saved-detail-preview"><p id="partEditDetailImageState" role="status" aria-live="polite"></p><img id="partEditDetailImagePreview" class="pcs-detail-image pcs-edit-detail-preview" alt="등록된 부품 상세 이미지 미리보기" hidden></div><label><input id="partEditDetailRemove" type="checkbox"> 저장된 상세 이미지 제거</label>':detailImageHTML35(item.description_image_url,item.model_name);
+ fields.insertAdjacentHTML('beforeend','<section class="pcs-detail-editor"><h3>부품 상세 설명</h3>'+text+image+'</section>');
+ if(editable)bindSavedPartDetailPreview37(item.description_image_url);bindCatalogImageFallback(fields);
 }
+function bindSavedPartDetailPreview37(value){
+ const saved=catalogImageUrl(value),input=document.getElementById('partEditDetailImage'),preview=document.getElementById('partEditDetailImagePreview'),remove=document.getElementById('partEditDetailRemove'),state=document.getElementById('partEditDetailImageState');
+ bindDetailImageRemoval35('partEditDetailImage','partEditDetailImagePreview','partEditDetailRemove');
+ function update(){
+  if(remove.checked){preview.hidden=true;state.textContent='수정 저장하면 상세 이미지가 제거됩니다.';return;}
+  if(input.files.length){preview.hidden=false;preview.alt='교체할 부품 상세 이미지 미리보기';state.textContent='교체할 새 이미지 · 수정 저장하면 이 이미지로 바뀝니다.';return;}
+  preview.alt='현재 등록된 부품 상세 이미지';
+  if(saved){preview.src=saved;preview.hidden=false;state.textContent='현재 등록된 상세 이미지';}
+  else{preview.removeAttribute('src');preview.hidden=true;state.textContent='등록된 상세 이미지가 없습니다.';}
+ }
+ input.addEventListener('change',update);remove.addEventListener('change',update);
+ preview.addEventListener('error',()=>{state.textContent='이미지를 불러오지 못했습니다. 새 이미지를 선택해 교체할 수 있습니다.';});
+ update();
+}
+
 async function savePartMaster(){
  const button=document.getElementById('partMasterSaveButton');if(button.disabled)return;
  const card=button.closest('.card');button.disabled=true;if(card)card.inert=true;

@@ -13,7 +13,7 @@
  async function open(productId,field,button){
   const id=Number(productId);if(!Number.isSafeInteger(id)||id<=0||!allowed.includes(field))return;
   const request=++sequence;opener=button||document.activeElement;title.textContent='부품 상세 설명';content.textContent='등록된 부품 설명을 불러오고 있습니다.';
-  if(!dialog.open)dialog.showModal();dialog.scrollTop=0;
+  if(!dialog.open)dialog.showModal();dialog.scrollTop=0;content.scrollTop=0;
   try{
    if(!client)throw Error('연결 확인 필요');
    const{data,error}=await client.rpc('get_product_part_detail_v35',{p_product_id:id,p_field:field});if(request!==sequence)return;if(error)throw error;
