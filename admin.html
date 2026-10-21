@@ -4027,6 +4027,7 @@ function getFormData() {
   return {
     category: document.getElementById('productCategory').value,
     registered_parts: {...productPartLinks35},
+    labor_fee: labor45(),
     part_quantities: Object.fromEntries(Object.keys(productPartFieldTypes).map(key=>[key,qty42('productQty42_'+key)])),
     case: document.getElementById('case').value.trim(),
     cooler: document.getElementById('cooler').value.trim(),
@@ -4097,6 +4098,7 @@ function makeProductData(
     category: form.category,
     registered_parts: form.registered_parts,
     part_quantities: form.part_quantities,
+    labor_fee: form.labor_fee,
     case: form.case,
     cooler: form.cooler,
     etc: form.etc,
@@ -4307,7 +4309,7 @@ async function updateProduct() {
    상품 저장
 ===================================== */
 
-async function saveProduct(){if(productCatalogState.busy)return;if(Object.keys(productPartFieldTypes).some(key=>document.getElementById(key).value.trim()&&qty42('productQty42_'+key)===null)){showMessage('formMessage','수량은 1~999 정수로 입력해 주세요.');return;}hideMessage('formMessage');await runProductCatalogAction(async()=>{if(editingProduct)await updateProduct();else await insertProduct();productCatalogSaved();});}
+async function saveProduct(){if(productCatalogState.busy)return;if(labor45()===null){showMessage('formMessage','공임은 0~2,147,483,647원 정수로 입력해 주세요.');return;}if(Object.keys(productPartFieldTypes).some(key=>document.getElementById(key).value.trim()&&qty42('productQty42_'+key)===null)){showMessage('formMessage','수량은 1~999 정수로 입력해 주세요.');return;}hideMessage('formMessage');await runProductCatalogAction(async()=>{if(editingProduct)await updateProduct();else await insertProduct();productCatalogSaved();});}
 
 
 /* =====================================
@@ -10337,6 +10339,8 @@ const oldRenderPartDetailDescription39=renderPartDetailDescription35;
 renderPartDetailDescription35=function(...args){oldRenderPartDetailDescription39(...args);addImageDeleteButtons39();};
 addImageDeleteButtons39();
 </script><script>const productPrices42={},simulationRows42={};let priceRequest42=0;
+function labor45(){const raw=document.getElementById('productLabor45')?.value??'0';const n=raw.trim()===''?0:Number(raw);return Number.isInteger(n)&&n>=0&&n<=2147483647?n:null;}
+
 const price42=v=>v!==null&&v!==undefined&&String(v).trim()!==''&&Number.isFinite(Number(v))&&Number(v)>=0?Number(v):null;
 const money42=v=>Number(v).toLocaleString('ko-KR')+'원';
 function qty42(id){const raw=document.getElementById(id).value;const n=Number(raw);return raw.trim()!==''&&Number.isInteger(n)&&n>=1&&n<=999?n:null;}
@@ -10351,11 +10355,13 @@ function updateProductPrices42(){
   if(unit===null){line.textContent='판매가 확인 필요 · 등록 부품을 선택하거나 판매가를 등록해 주세요.';missing++;continue;}
   total+=unit*qty;line.textContent='개당 판매가 '+money42(unit)+' / '+qty+'개 합계 '+money42(unit*qty);
  }
+ const labor=labor45();if(labor===null)invalid++;const grandTotal=total+(labor??0);
+ document.getElementById('productGrandTotal45').value=money42(grandTotal);
  document.getElementById('productPartsTotal42').value=money42(total);
- document.getElementById('productPriceStatus42').textContent=invalid?'수량을 확인해 주세요. 합계가 완성되지 않았습니다.':missing?'가격 확인이 필요한 부품 '+missing+'개 · 표시 합계는 확인된 부품만 포함합니다.':'선택한 부품의 등록 판매가를 수량에 맞춰 합산했습니다.';
+ document.getElementById('productPriceStatus42').textContent=invalid?'수량과 공임을 확인해 주세요. 합계가 완성되지 않았습니다.':missing?'가격 확인이 필요한 부품 '+missing+'개 · 표시 합계는 확인된 부품만 포함합니다.':'선택한 부품의 등록 판매가를 수량에 맞춰 합산했습니다.';
  const final=price42(String(document.getElementById('price').value).replaceAll(',',''));
- document.getElementById('productPriceDifference42').textContent=final===null?'최종 상품 판매가격은 위 가격 칸에 입력하세요.':missing||invalid?'모든 부품의 가격과 수량을 확인하면 판매가격과 합계의 차이를 표시합니다.':'상품 판매가격과 부품 합계 차이 '+money42(final-total);
- return {total,missing,invalid};
+ document.getElementById('productPriceDifference42').textContent=final===null?'최종 상품 판매가격은 위 가격 칸에 입력하세요.':missing||invalid?'모든 부품의 가격과 수량을 확인하면 판매가격과 합계의 차이를 표시합니다.':'상품 판매가격과 부품·공임 합계 차이 '+money42(final-grandTotal);
+ return {total,labor,grandTotal,missing,invalid};
 }
 function setProductPrice42(key,item){productPrices42[key]=price42(item.sale_price);updateProductPrices42();}
 async function refreshProductPrices42(){
@@ -10382,23 +10388,25 @@ function updateSimulation42(){
 }
 function selectSimulation42(key,item){simulationRows42[key]={id:item.id,model:partModelText42(item),unit:price42(item.sale_price)};renderSimulationRow42(key);updateSimulation42();}
 function resetSimulation42(){for(const key of Object.keys(productPartFieldTypes)){delete simulationRows42[key];document.getElementById('simQty42_'+key).value='1';renderSimulationRow42(key);}document.getElementById('simExtra42').value='0';document.getElementById('simTarget42').value='';updateSimulation42();}
-async function copyProductToSimulation42(){await refreshProductPrices42();resetSimulation42();for(const key of Object.keys(productPartFieldTypes)){const model=document.getElementById(key).value.trim();if(model){simulationRows42[key]={id:productPartLinks35[key]||null,model,unit:productPrices42[key]??null};document.getElementById('simQty42_'+key).value=document.getElementById('productQty42_'+key).value;renderSimulationRow42(key);}}document.getElementById('simTarget42').value=String(document.getElementById('price').value).replaceAll(',','');updateSimulation42();}
+async function copyProductToSimulation42(){await refreshProductPrices42();resetSimulation42();for(const key of Object.keys(productPartFieldTypes)){const model=document.getElementById(key).value.trim();if(model){simulationRows42[key]={id:productPartLinks35[key]||null,model,unit:productPrices42[key]??null};document.getElementById('simQty42_'+key).value=document.getElementById('productQty42_'+key).value;renderSimulationRow42(key);}}document.getElementById('simExtra42').value=document.getElementById('productLabor45').value;document.getElementById('simTarget42').value=String(document.getElementById('price').value).replaceAll(',','');updateSimulation42();}
 function applySimulation42(){
- const result=updateSimulation42();if(result.missing||result.invalid||!Object.keys(simulationRows42).length){document.getElementById('simStatus42').textContent='부품을 선택하고 미등록 판매가와 수량을 확인한 뒤 적용해 주세요.';return;}
+ const result=updateSimulation42();if(!Number.isInteger(result.extra)||result.extra<0||result.extra>2147483647){document.getElementById('simStatus42').textContent='공임은 0~2,147,483,647원 정수로 입력해 주세요.';return;}if(result.missing||result.invalid||!Object.keys(simulationRows42).length){document.getElementById('simStatus42').textContent='부품을 선택하고 미등록 판매가와 수량을 확인한 뒤 적용해 주세요.';return;}
  for(const key of Object.keys(productPartFieldTypes)){const row=simulationRows42[key],field=document.getElementById(key);field.value=row?.model||'';field.dispatchEvent(new Event('input',{bubbles:true}));if(row?.id)productPartLinks35[key]=row.id;productPrices42[key]=row?.unit??null;document.getElementById('productQty42_'+key).value=row?document.getElementById('simQty42_'+key).value:'1';}
+ document.getElementById('productLabor45').value=String(result.extra);
  document.getElementById('price').value=String(result.target??(result.total+result.extra));updateProductPrices42();document.getElementById('simStatus42').textContent='상품 등록 입력칸에 적용했습니다. 상품명과 내용을 확인하고 상품 저장을 눌러주세요.';document.getElementById('formTitle').scrollIntoView({block:'start',behavior:'smooth'});
 }
 function setupPricing42(){
  const form=document.getElementById('formTitle').closest('.card');
- form.insertAdjacentHTML('beforebegin','<section class="card pricing42"><details id="simulation42"><summary>🧮 모의 견적서 열기 · 상품 등록 전 판매가격 계산</summary><p>등록 부품의 판매가와 수량으로 계산합니다. 상품과 고객 견적에는 저장되지 않습니다.</p><div class="pricing42-actions"><button type="button" id="simImport42">작성 중인 상품 가져오기</button><button type="button" id="simReset42">모의 견적 초기화</button></div><div class="pricing42-scroll"><table><thead><tr><th>부품</th><th>선택한 모델</th><th>등록 판매가</th><th>수량</th><th>합계</th><th>취소</th></tr></thead><tbody>'+Object.entries(productPartFieldTypes).map(([key,type])=>'<tr><th><button type="button" data-sim-select42="'+key+'">'+registeredPartLabels[type]+' 선택 ▾</button></th><td id="simModel42_'+key+'">부품 미선택</td><td id="simUnit42_'+key+'">—</td><td><input aria-label="'+registeredPartLabels[type]+' 모의 수량" id="simQty42_'+key+'" type="number" min="1" max="999" step="1" value="1"></td><td id="simLine42_'+key+'">—</td><td><button type="button" data-sim-clear42="'+key+'">삭제</button></td></tr>').join('')+'</tbody></table></div><label for="simPartsTotal42">부품 판매가 합계</label><input id="simPartsTotal42" readonly><label for="simExtra42">추가금액 (조립비 등)</label><input id="simExtra42" type="number" min="0" step="1" value="0"><label for="simSuggested42">부품 합계 + 추가금액</label><input id="simSuggested42" readonly><label for="simTarget42">판매 예정가 (선택 · 직접 조정)</label><input id="simTarget42" type="number" min="0" step="1"><p id="simDifference42"></p><p id="simStatus42" role="status"></p><button type="button" id="simApply42">이 구성과 판매 예정가를 상품 등록에 적용</button></details></section>');
+ form.insertAdjacentHTML('beforebegin','<section class="card pricing42"><details id="simulation42"><summary>🧮 모의 견적서 열기 · 상품 등록 전 판매가격 계산</summary><p>등록 부품의 판매가와 수량으로 계산합니다. 상품과 고객 견적에는 저장되지 않습니다.</p><div class="pricing42-actions"><button type="button" id="simImport42">작성 중인 상품 가져오기</button><button type="button" id="simReset42">모의 견적 초기화</button></div><div class="pricing42-scroll"><table><thead><tr><th>부품</th><th>선택한 모델</th><th>등록 판매가</th><th>수량</th><th>합계</th><th>취소</th></tr></thead><tbody>'+Object.entries(productPartFieldTypes).map(([key,type])=>'<tr><th><button type="button" data-sim-select42="'+key+'">'+registeredPartLabels[type]+' 선택 ▾</button></th><td id="simModel42_'+key+'">부품 미선택</td><td id="simUnit42_'+key+'">—</td><td><input aria-label="'+registeredPartLabels[type]+' 모의 수량" id="simQty42_'+key+'" type="number" min="1" max="999" step="1" value="1"></td><td id="simLine42_'+key+'">—</td><td><button type="button" data-sim-clear42="'+key+'">삭제</button></td></tr>').join('')+'</tbody></table></div><label for="simPartsTotal42">부품 판매가 합계</label><input id="simPartsTotal42" readonly><label for="simExtra42">공임 (조립·세팅 등)</label><input id="simExtra42" type="number" min="0" step="1" value="0"><label for="simSuggested42">부품 합계 + 추가금액</label><input id="simSuggested42" readonly><label for="simTarget42">판매 예정가 (선택 · 직접 조정)</label><input id="simTarget42" type="number" min="0" step="1"><p id="simDifference42"></p><p id="simStatus42" role="status"></p><button type="button" id="simApply42">이 구성과 판매 예정가를 상품 등록에 적용</button></details></section>');
  for(const [key,type] of Object.entries(productPartFieldTypes)){
   document.getElementById(key).insertAdjacentHTML('afterend','<div class="pricing42-part"><label for="productUnit42_'+key+'">개당 판매가</label><input id="productUnit42_'+key+'" readonly aria-label="'+registeredPartLabels[type]+' 개당 판매가"><label for="productQty42_'+key+'">수량</label><input id="productQty42_'+key+'" aria-label="'+registeredPartLabels[type]+' 상품 수량" type="number" min="1" max="999" step="1" value="1"><output id="productLine42_'+key+'" role="status"></output></div>');
   document.getElementById(key).addEventListener('input',()=>{productPrices42[key]=null;updateProductPrices42();});document.getElementById('productQty42_'+key).addEventListener('input',updateProductPrices42);
   document.getElementById('simQty42_'+key).addEventListener('input',updateSimulation42);
  }
- document.querySelector('label[for="description"]').insertAdjacentHTML('beforebegin','<section class="pricing42-summary"><label for="productPartsTotal42">부품 판매가 총합계</label><input id="productPartsTotal42" readonly><p id="productPriceStatus42" role="status"></p><p id="productPriceDifference42"></p><div class="pricing42-actions"><button type="button" id="refreshPrices42">판매가 새로 확인</button><button type="button" id="usePartsTotal42">부품 합계를 상품 판매가격에 넣기</button></div></section>');
+ document.querySelector('label[for="description"]').insertAdjacentHTML('beforebegin','<section class="pricing42-summary"><label for="productPartsTotal42">부품 판매가 총합계</label><input id="productPartsTotal42" readonly><label for="productLabor45">공임 (조립·세팅 등)</label><input id="productLabor45" type="number" min="0" max="2147483647" step="1" value="0"><label for="productGrandTotal45">부품 판매가 + 공임 총합계</label><input id="productGrandTotal45" readonly><p id="productPriceStatus42" role="status"></p><p id="productPriceDifference42"></p><div class="pricing42-actions"><button type="button" id="refreshPrices42">판매가 새로 확인</button><button type="button" id="usePartsTotal42">부품 합계+공임을 상품 판매가격에 넣기</button></div></section>');
+ document.getElementById('productLabor45').addEventListener('input',updateProductPrices42);
  document.getElementById('price').addEventListener('input',updateProductPrices42);document.getElementById('refreshPrices42').addEventListener('click',refreshProductPrices42);
- document.getElementById('usePartsTotal42').addEventListener('click',()=>{const r=updateProductPrices42();if(r.missing||r.invalid){document.getElementById('productPriceStatus42').textContent='미등록 판매가와 수량을 먼저 확인해 주세요.';return;}document.getElementById('price').value=String(r.total);updateProductPrices42();});
+ document.getElementById('usePartsTotal42').addEventListener('click',()=>{const r=updateProductPrices42();if(r.missing||r.invalid){document.getElementById('productPriceStatus42').textContent='미등록 판매가와 수량을 먼저 확인해 주세요.';return;}document.getElementById('price').value=String(r.grandTotal);updateProductPrices42();});
  document.querySelectorAll('[data-sim-select42]').forEach(b=>b.addEventListener('click',()=>{const key=b.dataset.simSelect42;openRegisteredPartPicker(productPartFieldTypes[key],b,{target:'simulation',fieldId:key});}));
  document.querySelectorAll('[data-sim-clear42]').forEach(b=>b.addEventListener('click',()=>{delete simulationRows42[b.dataset.simClear42];renderSimulationRow42(b.dataset.simClear42);updateSimulation42();}));
  for(const id of ['simExtra42','simTarget42'])document.getElementById(id).addEventListener('input',updateSimulation42);
@@ -10406,8 +10414,8 @@ function setupPricing42(){
  updateProductPrices42();updateSimulation42();
 }
 setupPricing42();
-const originalEdit42=editProduct;editProduct=function(id){const result=originalEdit42(id);const product=allProducts.find(p=>String(p.id)===String(id));for(const key of Object.keys(productPartFieldTypes)){const q=Number(product?.part_quantities?.[key]);document.getElementById('productQty42_'+key).value=Number.isInteger(q)&&q>=1&&q<=999?String(q):'1';productPrices42[key]=null;}updateProductPrices42();return refreshProductPrices42();};
-const originalReset42=resetForm;resetForm=function(){++priceRequest42;originalReset42();for(const key of Object.keys(productPartFieldTypes)){productPrices42[key]=null;document.getElementById('productQty42_'+key).value='1';}updateProductPrices42();};
+const originalEdit42=editProduct;editProduct=function(id){const result=originalEdit42(id);const product=allProducts.find(p=>String(p.id)===String(id));document.getElementById('productLabor45').value=String(product?.labor_fee??0);for(const key of Object.keys(productPartFieldTypes)){const q=Number(product?.part_quantities?.[key]);document.getElementById('productQty42_'+key).value=Number.isInteger(q)&&q>=1&&q<=999?String(q):'1';productPrices42[key]=null;}updateProductPrices42();return refreshProductPrices42();};
+const originalReset42=resetForm;resetForm=function(){++priceRequest42;originalReset42();document.getElementById('productLabor45').value='0';for(const key of Object.keys(productPartFieldTypes)){productPrices42[key]=null;document.getElementById('productQty42_'+key).value='1';}updateProductPrices42();};
 </script><script>function clearProductPart43(key){
  if(!Object.hasOwn(productPartFieldTypes,key)||productCatalogState.busy)return;
  document.getElementById('productQty42_'+key).value='1';
