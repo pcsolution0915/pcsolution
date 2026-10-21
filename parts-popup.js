@@ -1,6 +1,6 @@
 (function(){
  'use strict';
- const allowed=['cpu','gpu','ram','ssd','main_board','power','monitor','hdd','keyboard_mouse'];
+ const allowed=['cpu','gpu','ram','ssd','main_board','power','monitor','hdd','keyboard_mouse','case','cooler','etc'];
  const client=typeof supabaseClient!=='undefined'?supabaseClient:window.supabase?.createClient(document.body.dataset.server,document.body.dataset.key);
  const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
  function safe(s){try{const u=new URL(String(s||''),location.href);return s&&['https:','http:'].includes(u.protocol)?u.href:'';}catch{return '';}}

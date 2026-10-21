@@ -763,7 +763,7 @@ function specRow(
       </div>
 
       <div class="spec-value">
-        ${displayValue!=="-"?`<button type="button" class="pcs-part-detail-link" data-part-detail="${escapeHTML(({CPU:"cpu","그래픽카드":"gpu",RAM:"ram",SSD:"ssd","메인보드":"main_board","파워":"power","모니터":"monitor",HDD:"hdd","키보드/마우스":"keyboard_mouse"})[label]||'')}">${escapeHTML(displayValue)} <span>상세 보기 ↗</span></button>`:escapeHTML(displayValue)}
+        ${displayValue!=="-"?`<button type="button" class="pcs-part-detail-link" data-part-detail="${escapeHTML(({CPU:"cpu","그래픽카드":"gpu",RAM:"ram",SSD:"ssd","메인보드":"main_board","파워":"power","케이스":"case","쿨러":"cooler","기타":"etc","모니터":"monitor",HDD:"hdd","키보드/마우스":"keyboard_mouse"})[label]||'')}">${escapeHTML(displayValue)} <span>상세 보기 ↗</span></button>`:escapeHTML(displayValue)}
       </div>
 
     </div>
@@ -942,6 +942,9 @@ function renderProduct(product) {
           product.power
         )}
 
+        ${specRow("케이스", product.case)}
+        ${specRow("쿨러", product.cooler)}
+        ${specRow("기타", product.etc)}
         ${specRow(
           "모니터",
           product.monitor
