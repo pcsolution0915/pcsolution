@@ -778,6 +778,8 @@ function specRow(
 ========================================== */
 
 function renderProduct(product) {
+ product={...product};for(const key of ['cpu','main_board','ram','ssd','gpu','power','case','cooler','monitor','hdd','keyboard_mouse','etc']){const qty=Number(product.part_quantities?.[key]),column=key==='main_board'?'main board':key==='keyboard_mouse'?'keyboard mouse':key;if(product[column]&&Number.isInteger(qty)&&qty>1&&qty<=999)product[column]=String(product[column])+' × '+qty+'개';}
+
  window.pcsDisplayedProduct35=Number(product.id);
   const id = Number(product.id);
   const consultParams = new URLSearchParams();
