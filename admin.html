@@ -2238,7 +2238,103 @@ body.printing-customer-quote #quoteModal .danawa-area {
 </style>
 <script src="catalog-live.js"></script>
 <link rel="stylesheet" href="reviews.css">
-<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style><style>.pcs-part-description-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:4px 0 8px}.pcs-part-description-tools button{border:1px solid #bad2f3;background:#edf4ff;color:#174e9c;font:inherit;font-size:12px;border-radius:7px;padding:7px 10px;cursor:pointer}.pcs-part-description-tools small{color:#60748e;font-size:11px}#partCatalogDialog{z-index:11050}</style><style>.pcs-saved-detail-preview{border:1px solid #d9e4f2;border-radius:10px;background:#fff;padding:12px;margin:12px 0}.pcs-saved-detail-preview p{font-size:12px;color:#3b5b83;margin:0 0 10px;line-height:1.7}.pcs-saved-detail-preview .pcs-edit-detail-preview{max-height:280px;max-width:100%;width:auto;height:auto;object-fit:contain;margin:0 auto}.pcs-saved-detail-preview img[hidden]{display:none}</style><style>.pcs-image-delete39{margin:6px 0 6px 10px;padding:8px 12px;border:1px solid #e5b8b8;border-radius:7px;background:#fff5f5;color:#a52a2a;cursor:pointer;font:inherit;font-size:12px}input[type=file]{max-width:calc(100% - 120px)}</style><style>.pricing42 summary{cursor:pointer;font-size:20px;font-weight:700;color:#174e9c}.pricing42 p,.pricing42-summary p{font-size:13px;line-height:1.7}.pricing42-scroll{overflow-x:auto}.pricing42 table{width:100%;min-width:780px;border-collapse:collapse}.pricing42 th,.pricing42 td{border:1px solid #dae5f3;padding:10px;text-align:left;font-size:13px}.pricing42 th{background:#f1f6ff}.pricing42 td input{width:80px;margin:0}.pricing42 button,.pricing42-summary button{padding:9px 12px;border:1px solid #bed3ef;background:#f1f6ff;border-radius:7px;color:#174e9c;cursor:pointer}.pricing42-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.pricing42-part{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:4px 0 18px;padding:10px;background:#f4f8ff;border-radius:8px}.pricing42-part label{margin:0}.pricing42-part input{width:75px;margin:0}.pricing42-part input[readonly]{width:145px;background:#fff;color:#174e9c;font-weight:700}.pricing42-part output{font-size:13px;color:#174e9c}.pricing42-summary{margin:20px 0;padding:18px;border:1px solid #bed3ef;border-radius:10px;background:#f4f8ff}.pricing42-summary input[readonly],.pricing42 input[readonly]{font-weight:700;color:#174e9c;background:#fff}</style><style>button.pcs-part-delete43{border:1px solid #e3baba;background:#fff5f5;color:#a62a2a;border-radius:7px;font:inherit;font-size:12px;padding:8px 12px;cursor:pointer}.pcs-part-description-tools button.pcs-part-delete43{margin-left:auto}button.pcs-part-delete43:disabled{opacity:.5;cursor:wait}</style></head>
+<style>.pcs-detail-editor{margin:20px 0;padding:18px;border:1px solid #d6e2f2;border-radius:12px;background:#f9fbff}.pcs-detail-editor h3{margin:0 0 12px}.pcs-detail-image{display:block;max-width:100%;width:auto;height:auto;margin:14px auto;border-radius:6px}.pcs-detail-image[hidden]{display:none}.pcs-detail-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;color:#344b6b}.pcs-detail-editor textarea{min-height:130px}.pcs-detail-editor input[type=checkbox]{width:auto;margin-right:6px}</style><style>.pcs-part-description-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:4px 0 8px}.pcs-part-description-tools button{border:1px solid #bad2f3;background:#edf4ff;color:#174e9c;font:inherit;font-size:12px;border-radius:7px;padding:7px 10px;cursor:pointer}.pcs-part-description-tools small{color:#60748e;font-size:11px}#partCatalogDialog{z-index:11050}</style><style>.pcs-saved-detail-preview{border:1px solid #d9e4f2;border-radius:10px;background:#fff;padding:12px;margin:12px 0}.pcs-saved-detail-preview p{font-size:12px;color:#3b5b83;margin:0 0 10px;line-height:1.7}.pcs-saved-detail-preview .pcs-edit-detail-preview{max-height:280px;max-width:100%;width:auto;height:auto;object-fit:contain;margin:0 auto}.pcs-saved-detail-preview img[hidden]{display:none}</style><style>.pcs-image-delete39{margin:6px 0 6px 10px;padding:8px 12px;border:1px solid #e5b8b8;border-radius:7px;background:#fff5f5;color:#a52a2a;cursor:pointer;font:inherit;font-size:12px}input[type=file]{max-width:calc(100% - 120px)}</style><style>.pricing42 summary{cursor:pointer;font-size:20px;font-weight:700;color:#174e9c}.pricing42 p,.pricing42-summary p{font-size:13px;line-height:1.7}.pricing42-scroll{overflow-x:auto}.pricing42 table{width:100%;min-width:780px;border-collapse:collapse}.pricing42 th,.pricing42 td{border:1px solid #dae5f3;padding:10px;text-align:left;font-size:13px}.pricing42 th{background:#f1f6ff}.pricing42 td input{width:80px;margin:0}.pricing42 button,.pricing42-summary button{padding:9px 12px;border:1px solid #bed3ef;background:#f1f6ff;border-radius:7px;color:#174e9c;cursor:pointer}.pricing42-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.pricing42-part{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:4px 0 18px;padding:10px;background:#f4f8ff;border-radius:8px}.pricing42-part label{margin:0}.pricing42-part input{width:75px;margin:0}.pricing42-part input[readonly]{width:145px;background:#fff;color:#174e9c;font-weight:700}.pricing42-part output{font-size:13px;color:#174e9c}.pricing42-summary{margin:20px 0;padding:18px;border:1px solid #bed3ef;border-radius:10px;background:#f4f8ff}.pricing42-summary input[readonly],.pricing42 input[readonly]{font-weight:700;color:#174e9c;background:#fff}</style><style>button.pcs-part-delete43{border:1px solid #e3baba;background:#fff5f5;color:#a62a2a;border-radius:7px;font:inherit;font-size:12px;padding:8px 12px;cursor:pointer}.pcs-part-description-tools button.pcs-part-delete43{margin-left:auto}button.pcs-part-delete43:disabled{opacity:.5;cursor:wait}</style><style>
+#adminSection .pcs-workspace46[hidden], #pcsAdminMenu46[hidden], #pcsAdminBar46[hidden], #pcsFeeEditor46[hidden] { display: none !important; }
+.pcs-admin-menu46 { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 13px; }
+.pcs-admin-tile46 {
+  --tile-hue: 215;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-content: start;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 137px;
+  padding: 15px;
+  text-align: left;
+  border: 1px solid hsl(var(--tile-hue) 52% 84%);
+  border-radius: 15px;
+  background: linear-gradient(150deg,#fff,hsl(var(--tile-hue) 70% 95%));
+  color: #172b48;
+  box-shadow: 0 4px 14px #18395d09;
+}
+.pcs-admin-tile46[data-admin-view="products"], .pcs-admin-tile46[data-admin-view="reviews"] { --tile-hue: 265; }
+.pcs-admin-tile46[data-admin-view="parts"], .pcs-admin-tile46[data-admin-view="supplier"] { --tile-hue: 165; }
+.pcs-admin-tile46[data-admin-view="simulation"], .pcs-admin-tile46[data-admin-view="service"] { --tile-hue: 36; }
+.pcs-admin-tile46:hover { border-color: hsl(var(--tile-hue) 48% 63%); box-shadow: 0 7px 19px #18395d16; }
+.pcs-admin-tile46:focus-visible, .pcs-admin-bar46 button:focus-visible, .pcs-admin-rates46 button:focus-visible { outline: 3px solid #2369d7; outline-offset: 2px; }
+.pcs-admin-tile46 strong { grid-column: 1 / -1; font-size: 16px; line-height: 1.4; word-break: keep-all; }
+.pcs-admin-tile46 small { grid-column: 1 / -1; font-size: 12px; line-height: 1.5; font-weight: 400; color: #455976; }
+.pcs-admin-tile46 .pcs-admin-tile-icon46 {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: hsl(var(--tile-hue) 59% 90%);
+  font-size: 18px;
+}
+.pcs-admin-tile46 .pcs-admin-tile-arrow46 { color: #45658e; font-size: 18px; }
+.pcs-admin-bar46 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  position: sticky;
+  top: 7px;
+  z-index: 5;
+  margin: 0 0 13px;
+  padding: 9px;
+  border: 1px solid #d5e1f0;
+  border-radius: 13px;
+  background: #f8fbff;
+  box-shadow: 0 4px 13px #1e376810;
+}
+.pcs-admin-bar46 h2 { font-size: 17px; margin: 0; }
+.pcs-admin-bar46 button { background: #1d4f92; color: #fff; }
+#adminSection .pcs-workspace46 { scroll-margin-top: 75px; }
+#formTitle { scroll-margin-top: 77px; }
+.pcs-admin-rates46 fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.pcs-admin-rates46 label { margin: 0; min-width: 0; font-size: 13px; color: #2d4260; }
+.pcs-admin-rates46 input, .pcs-admin-rates46 select { padding: 9px; margin-top: 5px; font: inherit; background: white; }
+.pcs-admin-rates46 input[type="checkbox"] { width: 18px; height: 18px; padding: 0; margin: 0; accent-color: #1769e0; }
+.pcs-admin-rates46 button { min-height: 40px; }
+.pcs-fee-actions46 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pcs-fee-actions46 [aria-pressed="true"] { background: #1d4f92; color: #fff; }
+.pcs-fee-total46 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eaf3ff;
+  color: #153d73;
+  margin: 16px 0;
+}
+.pcs-fee-total46 output { font-size: 19px; font-weight: 800; margin-left: 12px; }
+.pcs-fee-group46 { margin: 18px 0 26px; }
+.pcs-fee-group46 h3 { margin: 0 0 8px; font-size: 16px; }
+.pcs-fee-grid46 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.pcs-fee-row46 { padding: 12px; border: 1px solid #d8e3f0; border-radius: 11px; background: #fafcff; }
+.pcs-fee-row46.pcs-fee-selected46 { border-color: #6298e6; background: #f1f7ff; }
+.pcs-fee-row-head46 { display: flex; align-items: center; justify-content: space-between; gap: 7px; margin-bottom: 8px; }
+.pcs-fee-row-head46 label { display: flex; align-items: center; gap: 7px; }
+.pcs-fee-remove46 { background: #fbecec; color: #a02431; padding: 6px 10px; }
+.pcs-fee-fields46 { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+.pcs-fee-field-wide46 { grid-column: 1 / -1; }
+.pcs-fee-add46 { margin-top: 9px; background: #e8f1ff; color: #194b91; }
+#pcsFeeStatus46 { min-height: 1.4em; font-size: 13px; color: #425b7a; }
+@media (max-width: 800px) { .pcs-admin-menu46 { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 650px) {
+  .pcs-fee-grid46 { grid-template-columns: minmax(0,1fr); }
+  .pcs-admin-rates46 { padding: 15px; }
+}
+@media (max-width: 355px) { .pcs-admin-tile46 { padding: 11px; } }
+@media print { #pcsAdminMenu46, #pcsAdminBar46, #pcsAdminRates46 { display: none !important; } }
+</style>
+</head>
 
 <body data-reviews="admin">
 
@@ -2281,7 +2377,7 @@ body.printing-customer-quote #quoteModal .danawa-area {
     <div id="loginMessage" class="message"></div>
   </div>
 
-  <div id="adminSection" class="hidden"><section class="card pcs-reviews" id="reviewAdmin"><div class="pcs-review-heading"><h2>고객후기 관리</h2><label>후기 상태 <select id="reviewFilter"><option value="pending">확인 대기</option><option value="approved">공개</option><option value="hidden">숨김</option></select></label></div><p class="pcs-review-message">확인 대기 후기는 홈페이지에 보이지 않습니다. 내용을 확인하고 공개해 주세요.</p><div id="reviewList" class="pcs-review-admin-grid"></div><div class="pcs-review-controls"><button type="button" id="reviewPrevious" disabled>이전</button><span id="reviewPage">1 페이지</span><button type="button" id="reviewNext" disabled>다음</button><button type="button" id="reviewRefresh">새로고침</button></div><p class="pcs-review-message" id="reviewMessage" role="status" aria-live="polite"></p></section>
+  <div id="adminSection" class="hidden">
 
     <div class="card">
       <div class="admin-header">
@@ -2290,19 +2386,11 @@ body.printing-customer-quote #quoteModal .danawa-area {
           <h1 class="admin-title">🖥️ PC SOLUTION 관리자</h1>
 
           <p class="admin-subtitle">
-            상품 · PC 컨설팅 신청을 관리합니다.
+            작업할 메뉴를 선택하세요.
           </p>
         </div>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button
-            class="save-button"
-            type="button"
-            onclick="openSupplierQuote()"
-          >
-            📋 컴오아시스 견적 요청서
-          </button>
-
           <button
             class="logout-button"
             type="button"
@@ -2314,6 +2402,81 @@ body.printing-customer-quote #quoteModal .danawa-area {
 
       </div>
     </div>
+
+<nav id="pcsAdminMenu46" class="pcs-admin-menu46" aria-label="관리자 작업 메뉴">
+  <button type="button" class="pcs-admin-tile46" data-admin-view="product">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">🖥️</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>상품 등록</strong>
+    <small>PC 구성·판매가·사진 입력</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="products">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">📦</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>등록 상품 관리</strong>
+    <small>등록된 상품 확인·수정·삭제</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="parts">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">🧩</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>PC 부품 관리</strong>
+    <small>부품 등록·수정·삭제</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="simulation">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">🧮</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>모의 견적서</strong>
+    <small>등록 부품으로 판매가 계산</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="quotes">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">📋</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>고객 상담·견적</strong>
+    <small>상담 접수 확인·고객 견적 작성</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="supplier" aria-controls="supplierQuoteModal">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">📝</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>컴오아시스 견적 요청서</strong>
+    <small>거래처 견적 요청서 작성</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="reviews">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">💬</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>고객후기 관리</strong>
+    <small>고객후기 확인·공개</small>
+  </button>
+  <button type="button" class="pcs-admin-tile46" data-admin-view="service">
+    <span class="pcs-admin-tile-icon46" aria-hidden="true">🛠️</span>
+    <span class="pcs-admin-tile-arrow46" aria-hidden="true">→</span>
+    <strong>서비스 공임 관리</strong>
+    <small>고객용 공임표 수정·저장</small>
+  </button>
+</nav>
+<div id="pcsAdminBar46" class="pcs-admin-bar46" hidden>
+  <button type="button" id="pcsAdminBack46">← 관리자 메뉴</button>
+  <h2 id="pcsAdminCurrent46" tabindex="-1"></h2>
+</div>
+<section id="pcsAdminRates46" class="card pcs-workspace46 pcs-admin-rates46" aria-label="서비스 공임 관리" hidden>
+  <div class="pcs-fee-actions46">
+    <button id="pcsFeeLoad46" type="button">공임표 다시 불러오기</button>
+    <button id="pcsFeeSave46" class="save-button" type="button" disabled>고객용 공임표에 저장</button>
+  </div>
+  <p id="pcsFeeStatus46" role="status"></p>
+  <fieldset id="pcsFeeEditor46" aria-label="공임 수정과 모의 계산" hidden>
+    <div id="pcsFeeTabs46" class="pcs-fee-actions46" role="group" aria-label="서비스 종류">
+      <button type="button" data-fee-page="pc" aria-pressed="true">PC 공임</button>
+      <button type="button" data-fee-page="web" aria-pressed="false">홈페이지 제작</button>
+      <button type="button" data-fee-page="video" aria-pressed="false">영상 제작</button>
+    </div>
+    <div class="pcs-fee-total46">
+      <div><span>선택한 작업 견적</span><output id="pcsFeeTotal46" aria-live="polite">0원</output></div>
+      <button id="pcsFeeClear46" type="button">견적 선택 초기화</button>
+    </div>
+    <div id="pcsFeeGroups46"></div>
+  </fieldset>
+</section>
+<section class="card pcs-reviews" id="reviewAdmin"><div class="pcs-review-heading"><h2>고객후기 관리</h2><label>후기 상태 <select id="reviewFilter"><option value="pending">확인 대기</option><option value="approved">공개</option><option value="hidden">숨김</option></select></label></div><p class="pcs-review-message">확인 대기 후기는 홈페이지에 보이지 않습니다. 내용을 확인하고 공개해 주세요.</p><div id="reviewList" class="pcs-review-admin-grid"></div><div class="pcs-review-controls"><button type="button" id="reviewPrevious" disabled>이전</button><span id="reviewPage">1 페이지</span><button type="button" id="reviewNext" disabled>다음</button><button type="button" id="reviewRefresh">새로고침</button></div><p class="pcs-review-message" id="reviewMessage" role="status" aria-live="polite"></p></section>
 
     <div class="card">
 
@@ -10393,7 +10556,7 @@ function applySimulation42(){
  const result=updateSimulation42();if(!Number.isInteger(result.extra)||result.extra<0||result.extra>2147483647){document.getElementById('simStatus42').textContent='공임은 0~2,147,483,647원 정수로 입력해 주세요.';return;}if(result.missing||result.invalid||!Object.keys(simulationRows42).length){document.getElementById('simStatus42').textContent='부품을 선택하고 미등록 판매가와 수량을 확인한 뒤 적용해 주세요.';return;}
  for(const key of Object.keys(productPartFieldTypes)){const row=simulationRows42[key],field=document.getElementById(key);field.value=row?.model||'';field.dispatchEvent(new Event('input',{bubbles:true}));if(row?.id)productPartLinks35[key]=row.id;productPrices42[key]=row?.unit??null;document.getElementById('productQty42_'+key).value=row?document.getElementById('simQty42_'+key).value:'1';}
  document.getElementById('productLabor45').value=String(result.extra);
- document.getElementById('price').value=String(result.target??(result.total+result.extra));updateProductPrices42();document.getElementById('simStatus42').textContent='상품 등록 입력칸에 적용했습니다. 상품명과 내용을 확인하고 상품 저장을 눌러주세요.';document.getElementById('formTitle').scrollIntoView({block:'start',behavior:'smooth'});
+ document.getElementById('price').value=String(result.target??(result.total+result.extra));updateProductPrices42();document.getElementById('simStatus42').textContent='상품 등록 입력칸에 적용했습니다. 상품명과 내용을 확인하고 상품 저장을 눌러주세요.';document.dispatchEvent(new Event('pcs:show-product46'));document.getElementById('formTitle').scrollIntoView({block:'start',behavior:'smooth'});
 }
 function setupPricing42(){
  const form=document.getElementById('formTitle').closest('.card');
@@ -10454,4 +10617,330 @@ const oldPartDelete43=deletePartCatalogItem;deletePartCatalogItem=async function
  }
  updateProductPrices42();updateSimulation42();
 };
-</script></body></html>
+</script>
+<script>
+(() => {
+  const loadButton = document.getElementById('pcsFeeLoad46');
+  const saveButton = document.getElementById('pcsFeeSave46');
+  const status = document.getElementById('pcsFeeStatus46');
+  const editor = document.getElementById('pcsFeeEditor46');
+  const tabs = document.getElementById('pcsFeeTabs46');
+  const groups = document.getElementById('pcsFeeGroups46');
+  const total = document.getElementById('pcsFeeTotal46');
+  const labels = {
+    desktop: '데스크톱 PC', laptop: '노트북', tablet: '태블릿',
+    web: '홈페이지 제작', video: '영상 제작'
+  };
+  const kinds = { fixed: '기본 공임', cooler: '쿨러 옵션', parts: '부품비 별도', quantity: '개당 공임' };
+  const coolerLabels = { air: '공냉 쿨러', water: '수냉 쿨러' };
+  const maxPrice = 2147483647;
+  const selections = new Map();
+  const money = new Intl.NumberFormat('ko-KR');
+  const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+  let catalog;
+  let revision;
+  let page = 'pc';
+  let dirty = false;
+  let busy = false;
+  let conflict = false;
+
+  function refreshButtons() {
+    loadButton.disabled = busy;
+    saveButton.disabled = !dirty || busy || conflict;
+    editor.disabled = busy;
+  }
+
+  function estimate() {
+    let amount = 0;
+    for (const item of catalog.items) {
+      const selection = selections.get(item.id);
+      if (!selection?.checked) continue;
+      const price = item.price ?? 0;
+      if (item.kind === 'cooler') amount += price + (catalog.coolers[selection.cooler] ?? 0);
+      else if (item.kind === 'parts') amount += price + selection.parts;
+      else if (item.kind === 'quantity') amount += price * selection.quantity;
+      else amount += price;
+    }
+    total.textContent = `${money.format(amount)}원`;
+  }
+
+  function coolerOptions(selected) {
+    return '<option value="base">기본 쿨러</option>' + Object.entries(coolerLabels).map(([key, label]) =>
+      `<option value="${key}" ${selected === key ? 'selected' : ''}>${label} + ${money.format(catalog.coolers[key] ?? 0)}원</option>`
+    ).join('');
+  }
+
+  function renderItem(item) {
+    const selection = selections.get(item.id);
+    const options = Object.entries(kinds).map(([key, label]) =>
+      `<option value="${key}" ${key === item.kind ? 'selected' : ''}>${label}</option>`
+    ).join('');
+    let extra = '';
+    if (item.kind === 'cooler') {
+      extra = `<label class="pcs-fee-field-wide46">견적 쿨러 옵션<select data-estimate="cooler">${coolerOptions(selection?.cooler)}</select></label>`;
+    } else if (item.kind === 'parts') {
+      extra = `<label class="pcs-fee-field-wide46">견적 부품비(원)<input data-estimate="parts" type="number" min="0" max="${maxPrice}" step="1" value="${selection?.parts ?? 0}"></label>`;
+    } else if (item.kind === 'quantity') {
+      extra = `<label class="pcs-fee-field-wide46">견적 수량<input data-estimate="quantity" type="number" min="1" max="999" step="1" value="${selection?.quantity ?? 1}"></label>`;
+    }
+    return `<article class="pcs-fee-row46${selection?.checked ? ' pcs-fee-selected46' : ''}" data-fee-id="${escape(item.id)}">
+      <div class="pcs-fee-row-head46">
+        <label><input type="checkbox" data-estimate="checked" ${selection?.checked ? 'checked' : ''}>견적에 담기</label>
+        <button type="button" class="pcs-fee-remove46" data-fee-remove>항목 삭제</button>
+      </div>
+      <div class="pcs-fee-fields46">
+        <label class="pcs-fee-field-wide46">서비스 이름<input data-fee-field="name" maxlength="180" value="${escape(item.name)}"></label>
+        <label>공임(원)<input data-fee-field="price" type="number" min="0" max="${maxPrice}" step="1" value="${escape(item.price)}"></label>
+        <label>계산 방식<select data-fee-field="kind">${options}</select></label>
+        <label class="pcs-fee-field-wide46">고객 안내<input data-fee-field="description" maxlength="300" value="${escape(item.description)}"></label>
+        ${extra}
+      </div>
+    </article>`;
+  }
+
+  function render() {
+    for (const button of tabs.querySelectorAll('button')) {
+      button.setAttribute('aria-pressed', String(button.dataset.feePage === page));
+    }
+    groups.innerHTML = (page === 'pc' ? ['desktop', 'laptop', 'tablet'] : [page]).map(group => `
+      <section class="pcs-fee-group46">
+        <h3>${labels[group]}</h3>
+        <div class="pcs-fee-grid46">${catalog.items.filter(item => item.group === group).map(renderItem).join('')}</div>
+        <button type="button" class="pcs-fee-add46" data-fee-add="${group}">+ ${labels[group]} 항목 추가</button>
+      </section>`).join('');
+    if (page === 'pc') {
+      groups.insertAdjacentHTML('afterbegin', `<section class="pcs-fee-group46">
+        <h3>쿨러 장착 추가 공임</h3>
+        <div class="pcs-fee-fields46">${Object.entries(coolerLabels).map(([key, label]) =>
+          `<label>${label}(원)<input data-fee-cooler="${key}" type="number" min="0" max="${maxPrice}" step="1" value="${escape(catalog.coolers[key])}"></label>`
+        ).join('')}</div>
+      </section>`);
+    }
+    estimate();
+  }
+
+  function markDirty() {
+    dirty = true;
+    if (!conflict) status.textContent = '아직 저장하지 않은 변경이 있어요.';
+    refreshButtons();
+  }
+
+  async function load() {
+    if (busy || (dirty && !confirm('저장하지 않은 변경을 지우고 고객용 공임표를 다시 불러올까요?'))) return;
+    busy = true;
+    refreshButtons();
+    status.textContent = '공임표를 불러오는 중입니다.';
+    try {
+      const { data: allowed, error: accessError } = await supabaseClient.rpc('pcsolution_is_service_editor');
+      if (accessError) throw accessError;
+      if (!allowed) {
+        status.textContent = '공임 수정 권한이 있는 관리자 계정으로 로그인해 주세요.';
+        return;
+      }
+      const { data, error } = await supabaseClient.from('pcsolution_service_rates')
+        .select('catalog,revision').eq('id', 1).single();
+      if (error) throw error;
+      if (!Array.isArray(data?.catalog?.items) || !data.catalog.coolers) throw new Error('Catalog unavailable');
+      catalog = data.catalog;
+      revision = data.revision;
+      selections.clear();
+      conflict = false;
+      dirty = false;
+      render();
+      editor.hidden = false;
+      status.textContent = '공임을 수정하고 저장하면 고객용 공임표에 반영돼요.';
+    } catch (error) {
+      status.textContent = ['PGRST202', 'PGRST205', '42883', '42P01'].includes(error?.code)
+        ? '46번 서비스 공임 SQL을 적용한 뒤 다시 불러와 주세요.'
+        : '공임표를 불러오지 못했어요. 다시 불러오기를 눌러 주세요.';
+    } finally {
+      busy = false;
+      refreshButtons();
+    }
+  }
+
+  function validPrice(price) {
+    return Number.isInteger(price) && price >= 0 && price <= maxPrice;
+  }
+
+  async function save() {
+    if (!dirty || busy || conflict) return;
+    const next = {
+      items: catalog.items.map(item => ({ ...item, name: item.name.trim(), description: item.description.trim() })),
+      coolers: { ...catalog.coolers }
+    };
+    const invalid = next.items.find(item => !item.name || !validPrice(item.price));
+    if (invalid) {
+      status.textContent = `${labels[invalid.group]} 탭의 서비스 이름과 공임을 확인해 주세요. 공임은 0원 이상 정수로 입력해요.`;
+      return;
+    }
+    if (!Object.values(next.coolers).every(validPrice)) {
+      status.textContent = 'PC 공임 탭에서 쿨러 추가 공임을 0원 이상 정수로 입력해 주세요.';
+      return;
+    }
+    busy = true;
+    refreshButtons();
+    status.textContent = '고객용 공임표에 저장하는 중입니다.';
+    try {
+      const { data, error } = await supabaseClient.from('pcsolution_service_rates').update({ catalog: next })
+        .eq('id', 1).eq('revision', revision).select('revision').maybeSingle();
+      if (error) throw error;
+      if (!data) {
+        conflict = true;
+        status.textContent = '공임표가 다른 창에서 변경됐거나 권한이 바뀌었어요. 다시 불러온 뒤 확인해 주세요.';
+        return;
+      }
+      catalog = next;
+      revision = data.revision;
+      dirty = false;
+      render();
+      status.textContent = '저장했어요. 고객이 공임표를 열면 새 금액이 표시돼요.';
+    } catch {
+      status.textContent = '저장하지 못했어요. 입력 내용은 그대로 있으니 잠시 후 다시 저장해 주세요.';
+    } finally {
+      busy = false;
+      refreshButtons();
+    }
+  }
+
+  document.addEventListener('pcs:open-service46', () => { if (!catalog && !busy) load(); });
+  loadButton.addEventListener('click', load);
+  saveButton.addEventListener('click', save);
+  document.getElementById('pcsFeeClear46').addEventListener('click', () => {
+    selections.clear();
+    render();
+  });
+  tabs.addEventListener('click', event => {
+    const button = event.target.closest('[data-fee-page]');
+    if (!button) return;
+    page = button.dataset.feePage;
+    render();
+  });
+
+  groups.addEventListener('input', event => {
+    const input = event.target;
+    const row = input.closest('[data-fee-id]');
+    const cooler = input.dataset.feeCooler;
+    if (cooler) {
+      catalog.coolers[cooler] = input.value === '' ? null : Number(input.value);
+      for (const select of groups.querySelectorAll('[data-estimate="cooler"]')) {
+        const selected = select.value;
+        select.innerHTML = coolerOptions(selected);
+      }
+      markDirty();
+    } else if (row && input.dataset.feeField) {
+      const item = catalog.items.find(entry => entry.id === row.dataset.feeId);
+      const field = input.dataset.feeField;
+      item[field] = field === 'price' ? (input.value === '' ? null : Number(input.value)) : input.value;
+      markDirty();
+      if (field === 'kind') {
+        render();
+        groups.querySelector(`[data-fee-id="${item.id}"] [data-fee-field="kind"]`).focus();
+      }
+    } else if (row && input.dataset.estimate) {
+      const id = row.dataset.feeId;
+      const field = input.dataset.estimate;
+      const selection = selections.get(id) || { checked: false, parts: 0, quantity: 1, cooler: 'base' };
+      if (field === 'checked') selection.checked = input.checked;
+      else if (field === 'cooler') selection.cooler = input.value;
+      else if (field === 'parts') selection.parts = validPrice(Number(input.value)) ? Number(input.value) : 0;
+      else {
+        const quantity = Number(input.value);
+        selection.quantity = Number.isInteger(quantity) && quantity >= 1 && quantity <= 999 ? quantity : 1;
+      }
+      selections.set(id, selection);
+      row.classList.toggle('pcs-fee-selected46', selection.checked);
+    }
+    estimate();
+  });
+
+  groups.addEventListener('click', event => {
+    const add = event.target.closest('[data-fee-add]');
+    const remove = event.target.closest('[data-fee-remove]');
+    if (add) {
+      if (catalog.items.length >= 150) {
+        status.textContent = '공임표에는 항목을 최대 150개 등록할 수 있어요.';
+        return;
+      }
+      const id = `custom-${crypto.randomUUID()}`;
+      catalog.items.push({ id, group: add.dataset.feeAdd, name: '', price: 0, kind: 'fixed', description: '' });
+      render();
+      groups.querySelector(`[data-fee-id="${id}"] [data-fee-field="name"]`).focus();
+      markDirty();
+    } else if (remove) {
+      const id = remove.closest('[data-fee-id]').dataset.feeId;
+      const removed = catalog.items.find(item => item.id === id);
+      catalog.items = catalog.items.filter(item => item.id !== id);
+      selections.delete(id);
+      render();
+      groups.querySelector(`[data-fee-add="${removed.group}"]`).focus();
+      markDirty();
+    }
+  });
+})();
+(() => {
+  const menu = document.getElementById('pcsAdminMenu46');
+  const bar = document.getElementById('pcsAdminBar46');
+  const current = document.getElementById('pcsAdminCurrent46');
+  const admin = document.getElementById('adminSection');
+  const form = document.getElementById('formTitle').closest('.card');
+  const formHome = document.getElementById('productFormHome');
+  const product = document.createElement('section');
+  formHome.before(product);
+  product.append(formHome, form);
+  const simulation = document.getElementById('simulation42');
+  const panels = {
+    product,
+    products: document.getElementById('productList').closest('.card'),
+    parts: document.getElementById('partMasterSaveButton').closest('.card'),
+    simulation: simulation.closest('.card'),
+    quotes: document.getElementById('quoteRequestList').closest('.card'),
+    reviews: document.getElementById('reviewAdmin'),
+    service: document.getElementById('pcsAdminRates46')
+  };
+  let lastButton;
+
+  for (const [key, panel] of Object.entries(panels)) {
+    if (!panel.id) panel.id = `pcsAdminPanel46-${key}`;
+    panel.classList.add('pcs-workspace46');
+    panel.hidden = true;
+    menu.querySelector(`[data-admin-view="${key}"]`).setAttribute('aria-controls', panel.id);
+  }
+
+  function show(key) {
+    if (admin.classList.contains('hidden') || !Object.hasOwn(panels, key)) return;
+    for (const [name, panel] of Object.entries(panels)) panel.hidden = name !== key;
+    lastButton = menu.querySelector(`[data-admin-view="${key}"]`);
+    current.textContent = lastButton.querySelector('strong').textContent;
+    menu.hidden = true;
+    bar.hidden = false;
+    if (key === 'simulation') simulation.setAttribute('open', '');
+    current.focus({ preventScroll: true });
+    panels[key].scrollIntoView({ block: 'start' });
+    if (key === 'service') document.dispatchEvent(new Event('pcs:open-service46'));
+  }
+
+  menu.addEventListener('click', event => {
+    const button = event.target.closest('[data-admin-view]');
+    if (!button || admin.classList.contains('hidden')) return;
+    const key = button.dataset.adminView;
+    if (key === 'supplier') {
+      openSupplierQuote();
+    } else {
+      show(key);
+    }
+  });
+
+  document.getElementById('pcsAdminBack46').addEventListener('click', () => {
+    for (const panel of Object.values(panels)) panel.hidden = true;
+    bar.hidden = true;
+    menu.hidden = false;
+    lastButton?.focus({ preventScroll: true });
+    menu.scrollIntoView({ block: 'nearest' });
+  });
+  document.addEventListener('pcs:show-product46', () => show('product'));
+})();
+</script>
+</body></html>

@@ -338,7 +338,7 @@ section {
 
 .category-grid {
   display:grid;
-  grid-template-columns:repeat(6,1fr);
+  grid-template-columns:repeat(5,minmax(0,1fr));
   gap:12px;
 }
 
@@ -1390,7 +1390,71 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
 </style>
 <script src="catalog-live.js"></script>
 <link rel="stylesheet" href="reviews.css">
-<link rel="stylesheet" href="parts-popup.css"><style>#products .product-image-box:after{display:none}#products .product-photo-link{display:flex;width:100%;height:100%;align-items:center;justify-content:center}#products .product-image-zoom{position:absolute;right:9px;bottom:9px;z-index:1;border:1px solid #cad9ee;border-radius:6px;background:#fffffff2;color:#3d597b;font:inherit;font-size:11px;padding:7px 10px;cursor:pointer}#products .product-specs .pcs-main-part-link{display:inline-block;max-width:100%;overflow-wrap:anywhere;border:1px solid #d4e2f6;background:#f0f5ff;color:#205baf;border-radius:6px;font:inherit;font-size:11px;padding:5px 8px;line-height:1.6;text-align:left;cursor:pointer}#products .product-specs .pcs-main-part-link:hover{background:#dfeaff;text-decoration:underline}#products .pcs-main-part-link small{font-size:10px;white-space:nowrap}#products .product-price a{color:inherit;text-decoration:none}#products .product-price a:hover{text-decoration:underline}#products button:focus-visible{outline:3px solid #087aff;outline-offset:3px}</style><style>/* Compact home cards: photo, title and price. */#products .product-photo-link{position:relative}#products .product-detail44{position:absolute;left:12px;right:12px;bottom:12px;z-index:1;display:block;padding:11px 14px;border:1px solid #ffffffb3;border-radius:9px;background:#075ad5;color:#fff;text-align:center;font-size:15px;font-weight:800;line-height:1.4;box-shadow:0 3px 12px #003c9140;pointer-events:none}#products .product-photo-link:hover .product-detail44,#products .product-photo-link:focus-visible .product-detail44{background:#0045a8}#products .product-card h3{margin:12px 6px 10px;min-height:3.1em}#products .product-card h3 a{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#products .product-price{padding-top:12px}@media(max-width:500px){#products .product-detail44{left:7px;right:7px;bottom:7px;padding:9px 7px;font-size:13px}}</style></head>
+<link rel="stylesheet" href="parts-popup.css"><style>#products .product-image-box:after{display:none}#products .product-photo-link{display:flex;width:100%;height:100%;align-items:center;justify-content:center}#products .product-image-zoom{position:absolute;right:9px;bottom:9px;z-index:1;border:1px solid #cad9ee;border-radius:6px;background:#fffffff2;color:#3d597b;font:inherit;font-size:11px;padding:7px 10px;cursor:pointer}#products .product-specs .pcs-main-part-link{display:inline-block;max-width:100%;overflow-wrap:anywhere;border:1px solid #d4e2f6;background:#f0f5ff;color:#205baf;border-radius:6px;font:inherit;font-size:11px;padding:5px 8px;line-height:1.6;text-align:left;cursor:pointer}#products .product-specs .pcs-main-part-link:hover{background:#dfeaff;text-decoration:underline}#products .pcs-main-part-link small{font-size:10px;white-space:nowrap}#products .product-price a{color:inherit;text-decoration:none}#products .product-price a:hover{text-decoration:underline}#products button:focus-visible{outline:3px solid #087aff;outline-offset:3px}</style><style>/* Compact home cards: photo, title and price. */#products .product-photo-link{position:relative}#products .product-detail44{position:absolute;left:12px;right:12px;bottom:12px;z-index:1;display:block;padding:11px 14px;border:1px solid #ffffffb3;border-radius:9px;background:#075ad5;color:#fff;text-align:center;font-size:15px;font-weight:800;line-height:1.4;box-shadow:0 3px 12px #003c9140;pointer-events:none}#products .product-photo-link:hover .product-detail44,#products .product-photo-link:focus-visible .product-detail44{background:#0045a8}#products .product-card h3{margin:12px 6px 10px;min-height:3.1em}#products .product-card h3 a{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}#products .product-price{padding-top:12px}@media(max-width:500px){#products .product-detail44{left:7px;right:7px;bottom:7px;padding:9px 7px;font-size:13px}}</style>
+<style>
+.category-card.category-service-card {
+  background: linear-gradient(150deg, #fff 18%, #e8f2ff);
+  border-color: #cbdcf4;
+}
+.category-service-card strong { color: #163661; }
+.category-service-card .category-service-icon { width: 128px; height: 104px; right: 10px; bottom: 8px; }
+.pcs-rates-dialog46 {
+  width: min(680px, calc(100% - 26px));
+  max-height: 88vh;
+  max-height: 88dvh;
+  padding: clamp(16px, 4vw, 26px);
+  overflow: auto;
+  border: 1px solid #d8e3f2;
+  border-radius: 19px;
+  background: #fff;
+  color: #182640;
+  box-shadow: 0 20px 80px #15284b42;
+}
+.pcs-rates-dialog46::backdrop { background: #111f3a99; }
+.pcs-rates-heading46 { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pcs-rates-heading46 h2 { margin: 0; font-size: clamp(18px, 4vw, 24px); letter-spacing: -.03em; }
+.pcs-rates-tabs46 { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 20px; }
+.pcs-rates-dialog46 button {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 40px;
+  padding: 6px 11px;
+  border: 1px solid #d2dff0;
+  border-radius: 9px;
+  background: #f2f7ff;
+  color: #193d70;
+  cursor: pointer;
+}
+.pcs-rates-dialog46 button:focus-visible { outline: 3px solid #2373de; outline-offset: 2px; }
+.pcs-rates-tabs46 button[aria-pressed="true"] { background: #1557a8; border-color: #1557a8; color: white; }
+.pcs-rates-group46 { margin: 0 0 18px; }
+.pcs-rates-group46 h3 { font-size: 15px; margin: 0 0 6px; color: #1b4d8e; }
+.pcs-rates-group46 dl { margin: 0; border-top: 1px solid #e2ebf6; }
+.pcs-rates-row46 {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-items: start;
+  gap: 4px 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid #e2ebf6;
+  font-size: 14px;
+}
+.pcs-rates-row46 dt { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.pcs-rates-row46 dd { margin: 0; }
+.pcs-rates-row46 .pcs-rates-price46 { color: #1855a1; font-weight: 800; white-space: nowrap; }
+.pcs-rates-row46 .pcs-rates-description46 { grid-column: 1 / -1; font-size: 12px; color: #53647d; overflow-wrap: anywhere; }
+.pcs-rates-note46, #pcsRatesStatus46 { font-size: 13px; color: #4e607c; margin: 10px 0 0; }
+#pcsRatesStatus46:empty { display: none; }
+@media (max-width: 1000px) {
+  .category-service-card { grid-column: span 2; }
+  .category-service-card .category-service-icon { width: 144px; right: 16px; }
+}
+@media (max-width: 380px) {
+  .pcs-rates-row46 { grid-template-columns: minmax(0,1fr); }
+}
+</style>
+</head>
 
 <body>
 
@@ -1586,16 +1650,19 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
       <img class="category-image" src="images/category-creator-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
     </a>
 
-    <button type="button" class="category-card" data-preparing>
-      <strong>PC 부품</strong>
-      <small>다양한 부품 쇼핑</small>
-      <img class="category-image" src="images/category-parts-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
-    </button>
-
-    <button type="button" class="category-card" data-preparing>
-      <strong>주변기기</strong>
-      <small>모니터·키보드·마우스</small>
-      <img class="category-image" src="images/category-accessories-watermarked.png" alt="" loading="lazy" decoding="async" width="360" height="360">
+    <button id="pcsRatesOpen46" type="button" class="category-card category-service-card" aria-haspopup="dialog" aria-controls="pcsRatesDialog46">
+      <strong>피씨솔루션 서비스 공임</strong>
+      <small>PC 수리·홈페이지·영상 제작</small>
+      <svg class="category-image category-service-icon" viewBox="0 0 144 110" aria-hidden="true" focusable="false">
+        <ellipse cx="79" cy="100" rx="50" ry="7" fill="#d7e5f9"/>
+        <rect x="30" y="15" width="71" height="82" rx="12" fill="#bdd5f6" transform="rotate(-10 65 56)"/>
+        <rect x="38" y="12" width="67" height="83" rx="10" fill="#f8fbff" stroke="#426cac" stroke-width="2"/>
+        <path d="M55 13v-2a4 4 0 0 1 4-4h25a4 4 0 0 1 4 4v6H55z" fill="#3a67a5"/>
+        <path d="M51 36h35M51 48h30M51 60h24M51 72h20" stroke="#89a8d4" stroke-width="3" stroke-linecap="round"/>
+        <rect x="83" y="45" width="45" height="53" rx="8" fill="#2159a5"/>
+        <rect x="90" y="52" width="31" height="11" rx="3" fill="#ecf5ff"/>
+        <path d="M93 72h3m9 0h3m9 0h1m-25 8h3m9 0h3m9 0h1m-25 8h3m9 0h3m9 0h1" stroke="#cee4ff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
     </button>
 
   </div>
@@ -2692,5 +2759,135 @@ document.addEventListener(
 
 <script>document.querySelectorAll('[data-preparing]').forEach(button=>button.addEventListener('click',()=>{alert('준비중 입니다.');document.getElementById('mainNav').classList.remove('open');document.getElementById('menuButton').setAttribute('aria-expanded','false');}));</script>
 <dialog class="pcs-review-dialog" id="reviewReadDialog" aria-labelledby="reviewReadTitle"><div class="pcs-review-heading"><h3 id="reviewReadTitle">고객후기</h3><button type="button" data-review-close aria-label="후기 닫기">닫기</button></div><p class="pcs-review-full" data-review-full></p></dialog><dialog class="pcs-review-dialog" id="reviewWriteDialog" aria-labelledby="reviewWriteTitle"><div class="pcs-review-heading"><h3 id="reviewWriteTitle">고객후기 작성</h3><button type="button" data-review-close>닫기</button></div><p class="pcs-review-message">PC 구매나 수리·업그레이드 경험을 남겨주세요. 후기는 관리자 확인 후 공개됩니다. 전화번호·주소 등 개인정보는 적지 마세요.</p><form id="reviewForm"><label>닉네임<input name="nickname" required maxlength="20" autocomplete="nickname" placeholder="공개할 닉네임"></label><label>이용 서비스<select name="category"><option value="gaming">게이밍 PC</option><option value="office">사무용 PC</option><option value="repair">수리·업그레이드</option><option value="other">기타</option></select></label><label>별점<select name="rating"><option value="5">★★★★★ 5점</option><option value="4">★★★★ 4점</option><option value="3">★★★ 3점</option><option value="2">★★ 2점</option><option value="1">★ 1점</option></select></label><label>후기 내용<textarea name="body" required minlength="10" maxlength="2000" placeholder="10~2,000자로 작성해주세요."></textarea></label><label class="pcs-review-honey" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><label class="pcs-review-consent"><input type="checkbox" name="consent" required><span>닉네임·별점·후기 내용이 홈페이지에 공개되는 것에 동의합니다. 수정·삭제 요청은 전화 또는 카카오톡 상담으로 문의해주세요.</span></label><p class="pcs-review-message" id="reviewFormMessage" role="status" aria-live="polite"></p><button class="pcs-review-primary" type="submit" id="reviewSubmit">후기 접수하기</button></form></dialog><script src="customer-reviews.js"></script>
-<script src="parts-popup.js"></script></body>
+<script src="parts-popup.js"></script>
+<dialog id="pcsRatesDialog46" class="pcs-rates-dialog46" aria-labelledby="pcsRatesTitle46">
+  <header class="pcs-rates-heading46">
+    <h2 id="pcsRatesTitle46">피씨솔루션 서비스 공임</h2>
+    <button id="pcsRatesClose46" type="button" autofocus>닫기</button>
+  </header>
+  <div class="pcs-rates-tabs46" id="pcsRatesTabs46" role="group" aria-label="서비스 종류">
+    <button type="button" data-rates-page="pc" aria-pressed="true">PC 공임</button>
+    <button type="button" data-rates-page="web" aria-pressed="false">홈페이지 제작</button>
+    <button type="button" data-rates-page="video" aria-pressed="false">영상 제작</button>
+  </div>
+  <div id="pcsRatesContent46"></div>
+  <p id="pcsRatesStatus46" role="status"></p>
+  <p class="pcs-rates-note46">부품비는 별도입니다. 작업 범위에 따라 최종 금액이 달라질 수 있습니다.</p>
+</dialog>
+<script>
+(() => {
+  const dialog = document.getElementById('pcsRatesDialog46');
+  const opener = document.getElementById('pcsRatesOpen46');
+  const tabs = document.getElementById('pcsRatesTabs46');
+  const content = document.getElementById('pcsRatesContent46');
+  const status = document.getElementById('pcsRatesStatus46');
+  const labels = {
+    desktop: '데스크톱 PC', laptop: '노트북', tablet: '태블릿',
+    web: '홈페이지 제작', video: '영상 제작'
+  };
+  const money = new Intl.NumberFormat('ko-KR');
+  let catalog;
+  let page = 'pc';
+  let request = 0;
+
+  function addGroup(label, items) {
+    const section = document.createElement('section');
+    section.className = 'pcs-rates-group46';
+    const heading = document.createElement('h3');
+    heading.textContent = label;
+    section.append(heading);
+    if (!items.length) {
+      const empty = document.createElement('p');
+      empty.textContent = '등록된 공임이 없습니다.';
+      section.append(empty);
+    } else {
+      const list = document.createElement('dl');
+      for (const item of items) {
+        const row = document.createElement('div');
+        row.className = 'pcs-rates-row46';
+        const name = document.createElement('dt');
+        name.textContent = item.name;
+        const price = document.createElement('dd');
+        price.className = 'pcs-rates-price46';
+        price.textContent = `${money.format(item.price)}원${item.kind === 'quantity' ? ' / 개' : ''}`;
+        row.append(name, price);
+        if (item.description) {
+          const description = document.createElement('dd');
+          description.className = 'pcs-rates-description46';
+          description.textContent = item.description;
+          row.append(description);
+        }
+        list.append(row);
+      }
+      section.append(list);
+    }
+    content.append(section);
+  }
+
+  function render() {
+    content.replaceChildren();
+    for (const button of tabs.querySelectorAll('button')) {
+      button.setAttribute('aria-pressed', String(button.dataset.ratesPage === page));
+    }
+    if (!catalog) return;
+    const pageGroups = page === 'pc' ? ['desktop', 'laptop', 'tablet'] : [page];
+    for (const group of pageGroups) {
+      const items = catalog.items.filter(item => item.group === group);
+      addGroup(labels[group], items);
+    }
+    if (catalog.items.some(item => pageGroups.includes(item.group) && item.kind === 'cooler')) {
+      addGroup('쿨러 장착 추가 공임', [
+        { name: '공냉 쿨러', price: catalog.coolers.air },
+        { name: '수냉 쿨러', price: catalog.coolers.water }
+      ]);
+    }
+  }
+
+  async function load() {
+    const current = ++request;
+    catalog = undefined;
+    render();
+    if (location.protocol === 'file:') {
+      catalog = {"items":[{"id":"pc-basic","group":"desktop","name":"기본 공임 · PC 조립 / 재조립·업그레이드 / Windows 셋팅 / 최적화 / 기본 쿨러","price":80000,"kind":"cooler","description":"기본 쿨러 포함 · 수냉 또는 공냉 쿨러 선택 시 추가 공임"},{"id":"pc-case","group":"desktop","name":"케이스 교체","price":80000,"kind":"cooler","description":"기본 쿨러 포함 · 공냉·수냉 장착 시 추가 공임"},{"id":"pc-board","group":"desktop","name":"메인보드 교체","price":80000,"kind":"cooler","description":"기본 쿨러 포함 · 공냉·수냉 장착 시 추가 공임"},{"id":"pc-drive","group":"desktop","name":"SSD / HDD 부품 교체","price":30000,"kind":"parts","description":"교체 작업 공임 · 부품비 별도"},{"id":"pc-win11","group":"desktop","name":"Windows 11 설치","price":80000,"kind":"fixed","description":"운영체제 설치 공임"},{"id":"pc-psu","group":"desktop","name":"파워 교체","price":40000,"kind":"parts","description":"교체 작업 공임 · 부품비 별도"},{"id":"pc-fan","group":"desktop","name":"케이스 FAN 교체","price":10000,"kind":"quantity","description":"개당 공임"},{"id":"lap-screen","group":"laptop","name":"액정 / 키보드 / 터치패드 / 배터리 교체","price":100000,"kind":"parts","description":"작업 공임 + 부품 비용 실비 청구"},{"id":"lap-open","group":"laptop","name":"메모리 / SSD / HDD 교체·추가 · 뒷판을 여는 경우","price":100000,"kind":"parts","description":"작업 공임 + 부품 비용 실비 청구"},{"id":"lap-easy","group":"laptop","name":"메모리 / SSD / HDD 교체·추가 · 뒷판을 열지 않는 경우","price":30000,"kind":"parts","description":"작업 공임 + 부품 비용 실비 청구"},{"id":"lap-board","group":"laptop","name":"노트북 메인보드 교체","price":150000,"kind":"parts","description":"작업 공임 + 부품 비용 실비 청구"},{"id":"tab-battery","group":"tablet","name":"태블릿 배터리 교체","price":80000,"kind":"parts","description":"작업 공임 + 부품 비용 실비 청구"},{"id":"tab-screen","group":"tablet","name":"태블릿 액정 교체","price":150000,"kind":"parts","description":"작업 공임 + 부품 비용 실비 청구"},{"id":"tab-root","group":"tablet","name":"안드로이드 루팅 / 버전 업데이트","price":200000,"kind":"fixed","description":"디바이스 정책보다 높은 최신 버전으로 업데이트"},{"id":"web-landing","group":"web","name":"랜딩 페이지 · 1페이지","price":1000000,"kind":"fixed","description":"기본 디자인과 반응형 구성 기준"},{"id":"web-basic","group":"web","name":"기본형 홈페이지 · 약 5페이지","price":2250000,"kind":"fixed","description":"소개·서비스·문의 등 기본 페이지 구성"},{"id":"web-mid","group":"web","name":"중형 홈페이지 · 약 10페이지","price":4500000,"kind":"fixed","description":"페이지 확장 및 맞춤형 디자인 기준"},{"id":"web-custom","group":"web","name":"기능형 맞춤 홈페이지","price":10500000,"kind":"fixed","description":"예약·회원·관리 기능 등 범위 협의"},{"id":"vid-basic","group":"video","name":"기본 홍보 영상 · 약 2분","price":4750000,"kind":"fixed","description":"기획 + 1일 촬영 기준"},{"id":"vid-standard","group":"video","name":"인터뷰·현장 영상 · 약 3분","price":7000000,"kind":"fixed","description":"표준 인터뷰 및 장소 촬영 기준"},{"id":"vid-premium","group":"video","name":"프리미엄 영상 · 3~5분","price":12000000,"kind":"fixed","description":"멀티데이 촬영·드론·모션그래픽 포함 기준"},{"id":"vid-short3","group":"video","name":"숏폼 영상 3편 패키지","price":2750000,"kind":"fixed","description":"기획·촬영·편집 범위에 따라 조정"},{"id":"vid-short5","group":"video","name":"숏폼 영상 5편 패키지","price":4500000,"kind":"fixed","description":"시리즈형 콘텐츠 제작 기준"}],"coolers":{"air":30000,"water":50000}};
+      status.textContent = '파일 미리보기 · 처음 등록되는 금액입니다.';
+      render();
+      return;
+    }
+    status.textContent = '공임표를 불러오는 중입니다.';
+    try {
+      if (!supabaseClient) throw new Error('Data client unavailable');
+      const { data, error } = await supabaseClient.from('pcsolution_service_rates')
+        .select('catalog').eq('id', 1).single();
+      if (current !== request) return;
+      if (error || !Array.isArray(data?.catalog?.items) || !data.catalog.coolers) {
+        throw error || new Error('Catalog unavailable');
+      }
+      catalog = data.catalog;
+      status.textContent = '';
+      render();
+    } catch {
+      if (current === request) status.textContent = '공임표를 불러오지 못했어요. 닫았다가 다시 열어 주세요.';
+    }
+  }
+
+  opener.addEventListener('click', () => {
+    if (dialog.open) return;
+    page = 'pc';
+    dialog.showModal();
+    dialog.scrollTop = 0;
+    load();
+  });
+  document.getElementById('pcsRatesClose46').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', () => {
+    if (!dialog.open) opener.focus();
+  });
+  tabs.addEventListener('click', event => {
+    const button = event.target.closest('button[data-rates-page]');
+    if (!button) return;
+    page = button.dataset.ratesPage;
+    render();
+  });
+})();
+</script>
+</body>
 </html>
