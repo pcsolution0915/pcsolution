@@ -2773,7 +2773,11 @@ document.addEventListener(
   </div>
   <div id="pcsRatesContent46"></div>
   <p id="pcsRatesStatus46" role="status"></p>
-  <p class="pcs-rates-note46">부품비는 별도입니다. 작업 범위에 따라 최종 금액이 달라질 수 있습니다.</p>
+  <p class="pcs-rates-note46"><span data-rates-pc-only>부품비는 별도입니다.</span> 작업 범위에 따라 최종 금액이 달라질 수 있습니다.</p>
+  <p class="pcs-rates-note46" data-rates-pc-only>
+    노트북과 태블릿 PC의 뒷판을 열 때 스크래치가 발생하며, A/S 및 원상 복구는 불가능합니다.<br>
+    노트북에 SSD나 HDD를 추가로 장착하는 작업은 CD-ROM이 장착된 모델에서만 가능합니다.
+  </p>
 </dialog>
 <script>
 (() => {
@@ -2782,6 +2786,7 @@ document.addEventListener(
   const tabs = document.getElementById('pcsRatesTabs46');
   const content = document.getElementById('pcsRatesContent46');
   const status = document.getElementById('pcsRatesStatus46');
+  const pcNotes = dialog.querySelectorAll('[data-rates-pc-only]');
   const labels = {
     desktop: '데스크톱 PC', laptop: '노트북', tablet: '태블릿',
     web: '홈페이지 제작', video: '영상 제작'
@@ -2860,6 +2865,7 @@ document.addEventListener(
 
   function render() {
     content.replaceChildren();
+    for (const note of pcNotes) note.hidden = page !== 'pc';
     for (const button of tabs.querySelectorAll('button')) {
       button.setAttribute('aria-pressed', String(button.dataset.ratesPage === page));
     }
