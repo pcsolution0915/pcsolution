@@ -1432,7 +1432,7 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
 .pcs-rates-tabs46 button[aria-pressed="true"] { background: #1557a8; border-color: #1557a8; color: white; }
 .pcs-rates-group46 { margin: 0 0 18px; }
 .pcs-rates-group46 h3 { font-size: 15px; margin: 0 0 6px; color: #1b4d8e; }
-.pcs-rates-group46 dl { margin: 0; border-top: 1px solid #e2ebf6; }
+.pcs-rates-group46 > dl { margin: 0; border-top: 1px solid #e2ebf6; }
 .pcs-rates-row46 {
   display: grid;
   grid-template-columns: minmax(0,1fr) auto;
@@ -1445,7 +1445,18 @@ button.category-card{font-family:inherit;text-align:left;color:inherit;cursor:po
 .pcs-rates-row46 dt { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
 .pcs-rates-row46 dd { margin: 0; }
 .pcs-rates-row46 .pcs-rates-price46 { color: #1855a1; font-weight: 800; white-space: nowrap; }
+.pcs-rates-price-label46 { margin-inline-end: 3px; color: #53647d; font-size: 11px; font-weight: 700; }
 .pcs-rates-row46 .pcs-rates-description46 { grid-column: 1 / -1; font-size: 12px; color: #53647d; overflow-wrap: anywhere; }
+.pcs-rates-cooler-options46 {
+  grid-column: 1 / -1;
+  padding: 1px 10px;
+  border: 1px solid #e2ebf6;
+  border-radius: 8px;
+  background: #f6f9fd;
+}
+.pcs-rates-cooler-options46 > dl { margin: 0; }
+.pcs-rates-cooler-options46 .pcs-rates-row46 { padding: 7px 0; font-size: 13px; }
+.pcs-rates-cooler-options46 .pcs-rates-row46:last-child { border-bottom: 0; }
 .pcs-rates-note46, #pcsRatesStatus46 { font-size: 13px; color: #4e607c; margin: 10px 0 0; }
 #pcsRatesStatus46:empty { display: none; }
 @media (max-width: 1000px) {
@@ -2792,36 +2803,68 @@ document.addEventListener(
   let page = 'pc';
   let request = 0;
 
-  function addGroup(label, items) {
+  function rateRow(item, prefix = '') {
+    const row = document.createElement('div');
+    row.className = 'pcs-rates-row46';
+    const name = document.createElement('dt');
+    name.textContent = item.name;
+    const price = document.createElement('dd');
+    price.className = 'pcs-rates-price46';
+    const priceLabel = document.createElement('span');
+    priceLabel.className = 'pcs-rates-price-label46';
+    priceLabel.textContent = '작업공임';
+    price.append(priceLabel, ` ${prefix}${money.format(item.price)}원${item.kind === 'quantity' ? ' / 개' : ''}`);
+    row.append(name, price);
+    if (item.description) {
+      const description = document.createElement('dd');
+      description.className = 'pcs-rates-description46';
+      description.textContent = item.description;
+      row.append(description);
+    }
+    return row;
+  }
+
+  function coolerFees(prefix) {
+    const details = document.createElement('dd');
+    details.className = 'pcs-rates-cooler-options46';
+    const list = document.createElement('dl');
+    list.append(
+      rateRow({ name: '수냉 쿨러', price: catalog.coolers.water }, prefix),
+      rateRow({ name: '공냉 쿨러', price: catalog.coolers.air }, prefix)
+    );
+    details.append(list);
+    return details;
+  }
+
+  function addGroup(group, items) {
     const section = document.createElement('section');
     section.className = 'pcs-rates-group46';
     const heading = document.createElement('h3');
-    heading.textContent = label;
+    heading.textContent = labels[group];
     section.append(heading);
-    if (!items.length) {
+    const list = document.createElement('dl');
+    let fanRow;
+    for (const item of items) {
+      const row = rateRow(item);
+      if (item.kind === 'cooler') row.append(coolerFees('+'));
+      if (item.id === 'pc-fan') fanRow = row;
+      list.append(row);
+    }
+    if (group === 'desktop') {
+      const row = document.createElement('div');
+      row.className = 'pcs-rates-row46';
+      const name = document.createElement('dt');
+      name.textContent = '쿨러 공임';
+      row.append(name, coolerFees(''));
+      if (fanRow) fanRow.after(row);
+      else list.append(row);
+    }
+    if (list.childElementCount) {
+      section.append(list);
+    } else {
       const empty = document.createElement('p');
       empty.textContent = '등록된 공임이 없습니다.';
       section.append(empty);
-    } else {
-      const list = document.createElement('dl');
-      for (const item of items) {
-        const row = document.createElement('div');
-        row.className = 'pcs-rates-row46';
-        const name = document.createElement('dt');
-        name.textContent = item.name;
-        const price = document.createElement('dd');
-        price.className = 'pcs-rates-price46';
-        price.textContent = `${money.format(item.price)}원${item.kind === 'quantity' ? ' / 개' : ''}`;
-        row.append(name, price);
-        if (item.description) {
-          const description = document.createElement('dd');
-          description.className = 'pcs-rates-description46';
-          description.textContent = item.description;
-          row.append(description);
-        }
-        list.append(row);
-      }
-      section.append(list);
     }
     content.append(section);
   }
@@ -2835,13 +2878,7 @@ document.addEventListener(
     const pageGroups = page === 'pc' ? ['desktop', 'laptop', 'tablet'] : [page];
     for (const group of pageGroups) {
       const items = catalog.items.filter(item => item.group === group);
-      addGroup(labels[group], items);
-    }
-    if (catalog.items.some(item => pageGroups.includes(item.group) && item.kind === 'cooler')) {
-      addGroup('쿨러 장착 추가 공임', [
-        { name: '공냉 쿨러', price: catalog.coolers.air },
-        { name: '수냉 쿨러', price: catalog.coolers.water }
-      ]);
+      addGroup(group, items);
     }
   }
 
