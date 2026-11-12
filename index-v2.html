@@ -2928,5 +2928,12 @@ document.addEventListener(
   });
 })();
 </script>
+<script>
+document.addEventListener('contextmenu', event => {
+  if (event.button === 2 && (!event.pointerType || event.pointerType === 'mouse')) {
+    event.preventDefault();
+  }
+});
+</script>
 </body>
 </html>
