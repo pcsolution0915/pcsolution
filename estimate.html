@@ -1203,5 +1203,12 @@ function renderEstimate(data) {
  if(code && code.length<=100){document.getElementById('quoteNumber').value=code;lookupQuote(code);}
 })();
 </script>
+<script>
+document.addEventListener('contextmenu', event => {
+  if (event.button === 2 && (!event.pointerType || event.pointerType === 'mouse')) {
+    event.preventDefault();
+  }
+});
+</script>
 </body>
 </html>
