@@ -2410,7 +2410,6 @@ document.addEventListener("keydown",function(event){
    CONSULTATION STATUS
 ========================================== */
 
-let consultationChannel = null;
 let consultationTimer = null;
 
 function maskCustomerName(name) {
@@ -2529,7 +2528,7 @@ function renderConsultationStatus(list) {
         <div class="consultation-row">
 
           <div class="consultation-name">
-            ${escapeHTML(maskCustomerName(item.customer_name))}
+            ${escapeHTML(item.customer_name === "-" ? "-" : maskCustomerName(item.customer_name))}
           </div>
 
           <div class="consultation-date">
@@ -2560,12 +2559,7 @@ async function loadConsultationStatus() {
  const container=document.getElementById('consultationStatusList');
  try {
   if(!supabaseClient)throw Error('Data client unavailable');
-  let result=await supabaseClient.rpc('get_public_consultation_status');
-  // Match the original read path only if the newer public RPC is not installed.
-  if(result.error && ['PGRST202','42883'].includes(result.error.code)){
-   result=await supabaseClient.from('quote_requests')
-    .select('id, customer_name, created_at, status').order('created_at',{ascending:false}).limit(50);
-  }
+  const result=await supabaseClient.rpc('get_public_consultation_status');
   if(result.error)throw result.error;
   renderConsultationStatus(result.data||[]);
  } catch(error) {
@@ -2574,32 +2568,6 @@ async function loadConsultationStatus() {
   stopConsultationAutoScroll();
   container.innerHTML='<div class="empty-message">상담 현황을 불러오지 못했습니다.</div>';
  }
-}
-
-function startConsultationRealtime() {
-
-  if (!supabaseClient) return;
-
-  if(consultationChannel) supabaseClient.removeChannel(consultationChannel);
-
-  consultationChannel =
-    supabaseClient
-      .channel("v2-consultation-status")
-      .on(
-        "postgres_changes",
-        {
-          event:"*",
-          schema:"public",
-          table:"quote_requests"
-        },
-        function() {
-
-          loadConsultationStatus();
-
-        }
-      )
-      .subscribe();
-
 }
 
 function startConsultationFallback() {
@@ -2690,8 +2658,6 @@ document.addEventListener(
     loadProducts();
 
     loadConsultationStatus();
-
-    startConsultationRealtime();
 
     startConsultationFallback();
 
